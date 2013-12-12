@@ -328,7 +328,32 @@
 					<packagingExcludes>WEB-INF/web.xml</packagingExcludes>
 				</configuration>
 			</plugin>
-
+			
+			 <plugin>  
+                <groupId>org.apache.maven.plugins</groupId>  
+                <artifactId>maven-antrun-plugin</artifactId>  
+                <version>1.2</version>  
+                <executions>  
+                    <execution>  
+                        <id>prepare-dependencies-repackage-copy</id>  
+                        <phase>generate-resources</phase>  
+                        <goals>  
+                            <goal>run</goal>  
+                        </goals>  
+                        <configuration>  
+                            <tasks>  
+                                <copy  
+                                    todir="target/classes/entity" overwrite="true">  
+                                    <fileset  
+                                        dir="src/main/java/entity">  
+                                        <include name="**/*.hbm.xml" />  
+                                    </fileset>  
+                                </copy>  
+                            </tasks>  
+                        </configuration>  
+                    </execution>  
+                </executions>  
+            </plugin>  
 		</plugins>
 		<finalName>${project.artifactId}</finalName>
 	</build>

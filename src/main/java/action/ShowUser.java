@@ -1,5 +1,7 @@
 package action;
 
-public class ShowUser {
+import com.opensymphony.xwork2.ActionSupport;
 
+public class ShowUser extends ActionSupport{
+	
 }

@@ -10,7 +10,8 @@ public class test {
 	BeanFactory factory=new ClassPathXmlApplicationContext("applicationContext.xml");
 	C  test1=new C(11,"再找找","张韬");
 	C  test2=new C(12,"cc","dd");
-	CDAO  tiger=(CDAO)factory.getBean("CDAO");
-	tiger.save(test1);
+	CDAO  cDao=(CDAO)factory.getBean("CDAO");
+	//cDao.save(test1);
+	cDao.save(test2);
 	}
 }
