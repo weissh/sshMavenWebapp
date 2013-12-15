@@ -1,0 +1,2 @@
+[WARN ] 2013-12-15 16:01:02,975(687) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.initCheck(DruidDataSource.java:582): Your dbType is mysql, recommend set testWhileIdle is true  
+[WARN ] 2013-12-15 16:16:09,741(641) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.initCheck(DruidDataSource.java:582): Your dbType is mysql, recommend set testWhileIdle is true  
