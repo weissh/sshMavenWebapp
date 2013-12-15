@@ -101,9 +101,7 @@
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<!-- 指定刚才配置好的sessionFactory -->
-		<property name="sessionFactory">
-			<ref local="sessionFactory" />
-		</property>
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
 	<bean id="CDAO" class="dao.CDAO">
