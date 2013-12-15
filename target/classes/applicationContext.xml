@@ -23,7 +23,6 @@
 		<property name="password">
 			<value></value>
 		</property>
-
 		<!--连接池中保留的最小连接数。 -->
 		<property name="minPoolSize">
 			<value>5</value>
