@@ -100,7 +100,7 @@
 	
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<!-- 指定刚才配置好的sessionFactory -->
+		<!-- 指定刚才配置好的sessionFactory 11-->
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
