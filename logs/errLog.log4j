@@ -98,3 +98,6 @@ Caused by: org.springframework.beans.NotWritablePropertyException: Invalid prope
 	at org.springframework.beans.AbstractPropertyAccessor.setPropertyValues(AbstractPropertyAccessor.java:57)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1450)
 	... 23 more
+[WARN ] 2013-12-15 17:45:50,886(672) --> [main] com.alibaba.druid.pool.DruidDataSource.initCheck(DruidDataSource.java:582): Your dbType is mysql, recommend set testWhileIdle is true  
+[WARN ] 2013-12-15 21:52:21,375(844) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.initCheck(DruidDataSource.java:582): Your dbType is mysql, recommend set testWhileIdle is true  
+[WARN ] 2013-12-15 21:54:44,468(812) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.initCheck(DruidDataSource.java:582): Your dbType is mysql, recommend set testWhileIdle is true  
