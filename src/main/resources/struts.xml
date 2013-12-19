@@ -2,5 +2,17 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
 	<constant name="struts.objectFactory" value="spring" /> 
-	
+	<package name="admin" namespace="/admin" extends="struts-default">
+		<action name="showUser" method="showUser" class="showUser">
+    		<result name="SUCCESS">/pages.jsp</result>
+		</action>
+    </package>
+    
+    <package name="json" namespace="/" extends="struts-default,json-default" >  
+        <action name="json" class="showUser" method="showUser">  
+            <result name="SUCCESS" type="json">  
+                <param name="root">pageBean</param>  
+            </result>  
+        </action>  
+    </package>  
 </struts>    

@@ -1,17 +1,22 @@
+
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import dao.CDAO;
-import entity.C;
+import common.PageBean;
+import service.StudentService;
+import dao.StudentDAO;
+import entity.Student;
+ 
 
 
 public class test {
 	public static void main(String args[]){
 	BeanFactory factory=new ClassPathXmlApplicationContext("applicationContext.xml");
-	C  test1=new C(11,"再找找","张韬");
-	C  test2=new C(12,"cc","dd");
-	CDAO  cDao=(CDAO)factory.getBean("CDAO");
-	//cDao.save(test1);
-	cDao.save(test2);
+	Student  test1=new Student(11,"再找找","张韬");
+	Student  test2=new Student(12,"cc","dd");
+	StudentDAO  cDao=(StudentDAO)factory.getBean("studentDAO");
+	StudentService cService=(StudentService)factory.getBean("studentService");
+	PageBean pageBean=cService.getPages(10);
+	System.out.print(pageBean.getCurrentPage());
 	}
 }

@@ -1,10 +1,10 @@
 package entity;
 
 /**
- * C entity. @author MyEclipse Persistence Tools
+ * Student entity. @author MyEclipse Persistence Tools
  */
 
-public class C implements java.io.Serializable {
+public class Student implements java.io.Serializable {
 
 	// Fields
 
@@ -16,11 +16,11 @@ public class C implements java.io.Serializable {
 	// Constructors
 
 	/** default constructor */
-	public C() {
+	public Student() {
 	}
 
 	/** full constructor */
-	public C(Integer cno, String cname, String cteacher) {
+	public Student(Integer cno, String cname, String cteacher) {
 		this.cno = cno;
 		this.cname = cname;
 		this.cteacher = cteacher;
