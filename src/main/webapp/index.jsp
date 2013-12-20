@@ -8,6 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <body>
 <h2>欢迎！</h2>
+error
 <s:debug></s:debug>
 </body>
 </html>

@@ -10,10 +10,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <body>
+${cname}
+${cteacher}
 <h2>欢迎！</h2>
  <s:debug></s:debug>
  ${pageBean.list.size()}
- a<table>
+ right<table>
   <s:property value="pageBean.pageSize"/>
 <div id="page">
 	<s:iterator value="pageBean.list" var="list">

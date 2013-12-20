@@ -5,6 +5,20 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 	<display-name />
+	<!-- struts2 filter -->
+	<filter>
+		<filter-name>encodeFilter</filter-name>
+		<filter-class>common.EncodeFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodeFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- struts2 filter end -->
 	<!-- spring config -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -32,7 +46,6 @@
 		<filter-name>lazyLoadingFilter</filter-name>
 		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
 	</filter>
-	
 	<!-- struts2 -->
 	<filter>
 		<filter-name>struts2</filter-name>
@@ -43,27 +56,13 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<!-- struts2 end -->
-	<!-- struts2 filter -->
-	<filter>
-		<filter-name>encodeFilter</filter-name>
-		<filter-class>common.EncodeFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>encodeFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	<!-- struts2 filter end -->
 	<!-- Spring Encoding filter -->
 	<filter>
 		<filter-name>Spring character encoding filter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
+			<param-value>utf-8</param-value>
 		</init-param>
 		<init-param>
 			<param-name>forceEncoding</param-name>
@@ -74,7 +73,7 @@
 		<filter-name>Spring character encoding filter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<!-- Spring Encoding filter  end-->
+	
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>

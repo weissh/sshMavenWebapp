@@ -1,1 +1,565 @@
 [ERROR] 2013-12-20 22:40:08,187(898) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[ERROR] 2013-12-20 22:43:15,443(662) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[ERROR] 2013-12-20 23:06:12,444(674) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-20 23:06:19,889(8119) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:06:20,441(8671) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:07:16,639(64869) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:60): Could not find action or result  
+There is no Action mapped for namespace [/] and action name [login] associated with context path [/ssh]. - [unknown location]
+	at com.opensymphony.xwork2.DefaultActionProxy.prepare(DefaultActionProxy.java:185)
+	at org.apache.struts2.impl.StrutsActionProxy.prepare(StrutsActionProxy.java:63)
+	at org.apache.struts2.impl.StrutsActionProxyFactory.createActionProxy(StrutsActionProxyFactory.java:39)
+	at com.opensymphony.xwork2.DefaultActionProxyFactory.createActionProxy(DefaultActionProxyFactory.java:58)
+	at org.apache.struts2.dispatcher.Dispatcher.serviceAction(Dispatcher.java:534)
+	at org.apache.struts2.dispatcher.ng.ExecuteOperations.executeAction(ExecuteOperations.java:77)
+	at org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.doFilter(StrutsPrepareAndExecuteFilter.java:91)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:100)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1041)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:603)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:312)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:619)
+[ERROR] 2013-12-20 23:07:16,640(64870) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.error(CommonsLogger.java:38): Exception occurred during processing request: There is no Action mapped for namespace [/] and action name [login] associated with context path [/ssh].  
+There is no Action mapped for namespace [/] and action name [login] associated with context path [/ssh]. - [unknown location]
+	at com.opensymphony.xwork2.DefaultActionProxy.prepare(DefaultActionProxy.java:185)
+	at org.apache.struts2.impl.StrutsActionProxy.prepare(StrutsActionProxy.java:63)
+	at org.apache.struts2.impl.StrutsActionProxyFactory.createActionProxy(StrutsActionProxyFactory.java:39)
+	at com.opensymphony.xwork2.DefaultActionProxyFactory.createActionProxy(DefaultActionProxyFactory.java:58)
+	at org.apache.struts2.dispatcher.Dispatcher.serviceAction(Dispatcher.java:534)
+	at org.apache.struts2.dispatcher.ng.ExecuteOperations.executeAction(ExecuteOperations.java:77)
+	at org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.doFilter(StrutsPrepareAndExecuteFilter.java:91)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:100)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1041)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:603)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:312)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:619)
+[ERROR] 2013-12-20 23:08:02,453(651) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-20 23:08:08,578(6776) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:60): Could not find action or result  
+There is no Action mapped for namespace [/] and action name [login] associated with context path [/ssh]. - [unknown location]
+	at com.opensymphony.xwork2.DefaultActionProxy.prepare(DefaultActionProxy.java:185)
+	at org.apache.struts2.impl.StrutsActionProxy.prepare(StrutsActionProxy.java:63)
+	at org.apache.struts2.impl.StrutsActionProxyFactory.createActionProxy(StrutsActionProxyFactory.java:39)
+	at com.opensymphony.xwork2.DefaultActionProxyFactory.createActionProxy(DefaultActionProxyFactory.java:58)
+	at org.apache.struts2.dispatcher.Dispatcher.serviceAction(Dispatcher.java:534)
+	at org.apache.struts2.dispatcher.ng.ExecuteOperations.executeAction(ExecuteOperations.java:77)
+	at org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.doFilter(StrutsPrepareAndExecuteFilter.java:91)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:100)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1041)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:603)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:619)
+[ERROR] 2013-12-20 23:08:08,580(6778) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.error(CommonsLogger.java:38): Exception occurred during processing request: There is no Action mapped for namespace [/] and action name [login] associated with context path [/ssh].  
+There is no Action mapped for namespace [/] and action name [login] associated with context path [/ssh]. - [unknown location]
+	at com.opensymphony.xwork2.DefaultActionProxy.prepare(DefaultActionProxy.java:185)
+	at org.apache.struts2.impl.StrutsActionProxy.prepare(StrutsActionProxy.java:63)
+	at org.apache.struts2.impl.StrutsActionProxyFactory.createActionProxy(StrutsActionProxyFactory.java:39)
+	at com.opensymphony.xwork2.DefaultActionProxyFactory.createActionProxy(DefaultActionProxyFactory.java:58)
+	at org.apache.struts2.dispatcher.Dispatcher.serviceAction(Dispatcher.java:534)
+	at org.apache.struts2.dispatcher.ng.ExecuteOperations.executeAction(ExecuteOperations.java:77)
+	at org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.doFilter(StrutsPrepareAndExecuteFilter.java:91)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:100)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1041)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:603)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:619)
+[ERROR] 2013-12-20 23:08:47,425(641) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-20 23:08:54,716(7932) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:60): Could not find action or result  
+There is no Action mapped for namespace [/] and action name [login] associated with context path [/ssh]. - [unknown location]
+	at com.opensymphony.xwork2.DefaultActionProxy.prepare(DefaultActionProxy.java:185)
+	at org.apache.struts2.impl.StrutsActionProxy.prepare(StrutsActionProxy.java:63)
+	at org.apache.struts2.impl.StrutsActionProxyFactory.createActionProxy(StrutsActionProxyFactory.java:39)
+	at com.opensymphony.xwork2.DefaultActionProxyFactory.createActionProxy(DefaultActionProxyFactory.java:58)
+	at org.apache.struts2.dispatcher.Dispatcher.serviceAction(Dispatcher.java:534)
+	at org.apache.struts2.dispatcher.ng.ExecuteOperations.executeAction(ExecuteOperations.java:77)
+	at org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.doFilter(StrutsPrepareAndExecuteFilter.java:91)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:100)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1041)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:603)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:619)
+[ERROR] 2013-12-20 23:08:54,718(7934) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.error(CommonsLogger.java:38): Exception occurred during processing request: There is no Action mapped for namespace [/] and action name [login] associated with context path [/ssh].  
+There is no Action mapped for namespace [/] and action name [login] associated with context path [/ssh]. - [unknown location]
+	at com.opensymphony.xwork2.DefaultActionProxy.prepare(DefaultActionProxy.java:185)
+	at org.apache.struts2.impl.StrutsActionProxy.prepare(StrutsActionProxy.java:63)
+	at org.apache.struts2.impl.StrutsActionProxyFactory.createActionProxy(StrutsActionProxyFactory.java:39)
+	at com.opensymphony.xwork2.DefaultActionProxyFactory.createActionProxy(DefaultActionProxyFactory.java:58)
+	at org.apache.struts2.dispatcher.Dispatcher.serviceAction(Dispatcher.java:534)
+	at org.apache.struts2.dispatcher.ng.ExecuteOperations.executeAction(ExecuteOperations.java:77)
+	at org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.doFilter(StrutsPrepareAndExecuteFilter.java:91)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:100)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1041)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:603)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:619)
+[ERROR] 2013-12-20 23:10:25,217(618) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-20 23:10:32,215(7616) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:60): Error setting expression 'student.cname' with value '[Ljava.lang.String;@1654886'  
+ognl.OgnlException: target is null for setProperty(null, "cname", [Ljava.lang.String;@1654886)
+	at ognl.OgnlRuntime.setProperty(OgnlRuntime.java:2326)
+	at ognl.ASTProperty.setValueBody(ASTProperty.java:127)
+	at ognl.SimpleNode.evaluateSetValueBody(SimpleNode.java:220)
+	at ognl.SimpleNode.setValue(SimpleNode.java:301)
+	at ognl.ASTChain.setValueBody(ASTChain.java:227)
+	at ognl.SimpleNode.evaluateSetValueBody(SimpleNode.java:220)
+	at ognl.SimpleNode.setValue(SimpleNode.java:301)
+	at ognl.Ognl.setValue(Ognl.java:737)
+	at com.opensymphony.xwork2.ognl.OgnlUtil.setValue(OgnlUtil.java:218)
+	at com.opensymphony.xwork2.ognl.OgnlValueStack.trySetValue(OgnlValueStack.java:187)
+	at com.opensymphony.xwork2.ognl.OgnlValueStack.setValue(OgnlValueStack.java:174)
+	at com.opensymphony.xwork2.ognl.OgnlValueStack.setParameter(OgnlValueStack.java:152)
+	at com.opensymphony.xwork2.interceptor.ParametersInterceptor.setParameters(ParametersInterceptor.java:318)
+	at com.opensymphony.xwork2.interceptor.ParametersInterceptor.doIntercept(ParametersInterceptor.java:230)
+	at com.opensymphony.xwork2.interceptor.MethodFilterInterceptor.intercept(MethodFilterInterceptor.java:98)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ParametersInterceptor.doIntercept(ParametersInterceptor.java:238)
+	at com.opensymphony.xwork2.interceptor.MethodFilterInterceptor.intercept(MethodFilterInterceptor.java:98)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.StaticParametersInterceptor.intercept(StaticParametersInterceptor.java:191)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at org.apache.struts2.interceptor.MultiselectInterceptor.intercept(MultiselectInterceptor.java:73)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at org.apache.struts2.interceptor.CheckboxInterceptor.intercept(CheckboxInterceptor.java:91)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at org.apache.struts2.interceptor.FileUploadInterceptor.intercept(FileUploadInterceptor.java:252)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ModelDrivenInterceptor.intercept(ModelDrivenInterceptor.java:100)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ScopedModelDrivenInterceptor.intercept(ScopedModelDrivenInterceptor.java:141)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ChainingInterceptor.intercept(ChainingInterceptor.java:145)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.PrepareInterceptor.doIntercept(PrepareInterceptor.java:171)
+	at com.opensymphony.xwork2.interceptor.MethodFilterInterceptor.intercept(MethodFilterInterceptor.java:98)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.I18nInterceptor.intercept(I18nInterceptor.java:176)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at org.apache.struts2.interceptor.ServletConfigInterceptor.intercept(ServletConfigInterceptor.java:164)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.AliasInterceptor.intercept(AliasInterceptor.java:193)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ExceptionMappingInterceptor.intercept(ExceptionMappingInterceptor.java:187)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at org.apache.struts2.impl.StrutsActionProxy.execute(StrutsActionProxy.java:54)
+	at org.apache.struts2.dispatcher.Dispatcher.serviceAction(Dispatcher.java:544)
+	at org.apache.struts2.dispatcher.ng.ExecuteOperations.executeAction(ExecuteOperations.java:77)
+	at org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.doFilter(StrutsPrepareAndExecuteFilter.java:91)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:100)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1041)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:603)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:619)
+[WARN ] 2013-12-20 23:10:32,217(7618) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:60): Error setting expression 'student.cteacher' with value '[Ljava.lang.String;@1dea651'  
+ognl.OgnlException: target is null for setProperty(null, "cteacher", [Ljava.lang.String;@1dea651)
+	at ognl.OgnlRuntime.setProperty(OgnlRuntime.java:2326)
+	at ognl.ASTProperty.setValueBody(ASTProperty.java:127)
+	at ognl.SimpleNode.evaluateSetValueBody(SimpleNode.java:220)
+	at ognl.SimpleNode.setValue(SimpleNode.java:301)
+	at ognl.ASTChain.setValueBody(ASTChain.java:227)
+	at ognl.SimpleNode.evaluateSetValueBody(SimpleNode.java:220)
+	at ognl.SimpleNode.setValue(SimpleNode.java:301)
+	at ognl.Ognl.setValue(Ognl.java:737)
+	at com.opensymphony.xwork2.ognl.OgnlUtil.setValue(OgnlUtil.java:218)
+	at com.opensymphony.xwork2.ognl.OgnlValueStack.trySetValue(OgnlValueStack.java:187)
+	at com.opensymphony.xwork2.ognl.OgnlValueStack.setValue(OgnlValueStack.java:174)
+	at com.opensymphony.xwork2.ognl.OgnlValueStack.setParameter(OgnlValueStack.java:152)
+	at com.opensymphony.xwork2.interceptor.ParametersInterceptor.setParameters(ParametersInterceptor.java:318)
+	at com.opensymphony.xwork2.interceptor.ParametersInterceptor.doIntercept(ParametersInterceptor.java:230)
+	at com.opensymphony.xwork2.interceptor.MethodFilterInterceptor.intercept(MethodFilterInterceptor.java:98)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ParametersInterceptor.doIntercept(ParametersInterceptor.java:238)
+	at com.opensymphony.xwork2.interceptor.MethodFilterInterceptor.intercept(MethodFilterInterceptor.java:98)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.StaticParametersInterceptor.intercept(StaticParametersInterceptor.java:191)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at org.apache.struts2.interceptor.MultiselectInterceptor.intercept(MultiselectInterceptor.java:73)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at org.apache.struts2.interceptor.CheckboxInterceptor.intercept(CheckboxInterceptor.java:91)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at org.apache.struts2.interceptor.FileUploadInterceptor.intercept(FileUploadInterceptor.java:252)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ModelDrivenInterceptor.intercept(ModelDrivenInterceptor.java:100)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ScopedModelDrivenInterceptor.intercept(ScopedModelDrivenInterceptor.java:141)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ChainingInterceptor.intercept(ChainingInterceptor.java:145)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.PrepareInterceptor.doIntercept(PrepareInterceptor.java:171)
+	at com.opensymphony.xwork2.interceptor.MethodFilterInterceptor.intercept(MethodFilterInterceptor.java:98)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.I18nInterceptor.intercept(I18nInterceptor.java:176)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at org.apache.struts2.interceptor.ServletConfigInterceptor.intercept(ServletConfigInterceptor.java:164)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.AliasInterceptor.intercept(AliasInterceptor.java:193)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ExceptionMappingInterceptor.intercept(ExceptionMappingInterceptor.java:187)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at org.apache.struts2.impl.StrutsActionProxy.execute(StrutsActionProxy.java:54)
+	at org.apache.struts2.dispatcher.Dispatcher.serviceAction(Dispatcher.java:544)
+	at org.apache.struts2.dispatcher.ng.ExecuteOperations.executeAction(ExecuteOperations.java:77)
+	at org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.doFilter(StrutsPrepareAndExecuteFilter.java:91)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:100)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1041)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:603)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:619)
+[ERROR] 2013-12-20 23:14:04,656(665) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-20 23:14:13,454(9463) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:14:14,158(10167) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:15:52,611(108620) --> [http-bio-8080-exec-5] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:15:53,413(109422) --> [http-bio-8080-exec-5] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-20 23:18:16,968(615) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-20 23:18:23,953(7600) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:60): Could not find action or result  
+There is no Action mapped for namespace [/] and action name [loginjsp] associated with context path [/ssh]. - [unknown location]
+	at com.opensymphony.xwork2.DefaultActionProxy.prepare(DefaultActionProxy.java:185)
+	at org.apache.struts2.impl.StrutsActionProxy.prepare(StrutsActionProxy.java:63)
+	at org.apache.struts2.impl.StrutsActionProxyFactory.createActionProxy(StrutsActionProxyFactory.java:39)
+	at com.opensymphony.xwork2.DefaultActionProxyFactory.createActionProxy(DefaultActionProxyFactory.java:58)
+	at org.apache.struts2.dispatcher.Dispatcher.serviceAction(Dispatcher.java:534)
+	at org.apache.struts2.dispatcher.ng.ExecuteOperations.executeAction(ExecuteOperations.java:77)
+	at org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.doFilter(StrutsPrepareAndExecuteFilter.java:91)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:100)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1041)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:603)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:619)
+[ERROR] 2013-12-20 23:18:23,954(7601) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.error(CommonsLogger.java:38): Exception occurred during processing request: There is no Action mapped for namespace [/] and action name [loginjsp] associated with context path [/ssh].  
+There is no Action mapped for namespace [/] and action name [loginjsp] associated with context path [/ssh]. - [unknown location]
+	at com.opensymphony.xwork2.DefaultActionProxy.prepare(DefaultActionProxy.java:185)
+	at org.apache.struts2.impl.StrutsActionProxy.prepare(StrutsActionProxy.java:63)
+	at org.apache.struts2.impl.StrutsActionProxyFactory.createActionProxy(StrutsActionProxyFactory.java:39)
+	at com.opensymphony.xwork2.DefaultActionProxyFactory.createActionProxy(DefaultActionProxyFactory.java:58)
+	at org.apache.struts2.dispatcher.Dispatcher.serviceAction(Dispatcher.java:534)
+	at org.apache.struts2.dispatcher.ng.ExecuteOperations.executeAction(ExecuteOperations.java:77)
+	at org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.doFilter(StrutsPrepareAndExecuteFilter.java:91)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:100)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1041)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:603)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:619)
+[WARN ] 2013-12-20 23:18:30,389(14036) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:18:30,948(14595) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-20 23:19:29,116(629) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[ERROR] 2013-12-20 23:26:17,430(671) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[ERROR] 2013-12-20 23:28:18,091(636) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-20 23:28:37,613(20158) --> [http-bio-8080-exec-2] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:28:38,298(20843) --> [http-bio-8080-exec-2] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-20 23:30:44,456(638) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-20 23:31:06,798(22980) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:31:07,269(23451) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-20 23:32:53,930(619) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[ERROR] 2013-12-20 23:50:04,074(579) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[ERROR] 2013-12-20 23:50:37,544(603) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[ERROR] 2013-12-20 23:50:52,874(646) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-20 23:51:03,208(10980) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:51:04,190(11962) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:51:12,246(20018) --> [http-bio-8080-exec-2] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:51:13,217(20989) --> [http-bio-8080-exec-2] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:51:28,468(36240) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:51:29,315(37087) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-20 23:55:09,252(575) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-20 23:55:19,537(10860) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:55:20,544(11867) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:55:27,390(18713) --> [http-bio-8080-exec-2] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:55:28,119(19442) --> [http-bio-8080-exec-2] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-20 23:58:03,779(587) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-20 23:58:15,781(12589) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:58:16,840(13648) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-20 23:59:18,195(631) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-20 23:59:24,865(7301) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:59:25,983(8419) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:59:27,855(10291) --> [http-bio-8080-exec-2] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:59:28,497(10933) --> [http-bio-8080-exec-2] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:59:29,417(11853) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:59:30,253(12689) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:59:36,316(18752) --> [http-bio-8080-exec-4] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:59:37,338(19774) --> [http-bio-8080-exec-4] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:59:50,022(32458) --> [http-bio-8080-exec-6] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-20 23:59:50,786(33222) --> [http-bio-8080-exec-6] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:00:00,437(42873) --> [http-bio-8080-exec-7] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:00:01,351(43787) --> [http-bio-8080-exec-7] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-21 00:04:18,948(590) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-21 00:04:25,732(7374) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:04:26,804(8446) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-21 00:05:03,676(613) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-21 00:05:10,093(7030) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:05:11,080(8017) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:05:14,045(10982) --> [http-bio-8080-exec-2] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:05:14,858(11795) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:05:14,877(11814) --> [http-bio-8080-exec-2] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:05:15,959(12896) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:05:21,279(18216) --> [http-bio-8080-exec-5] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:05:22,247(19184) --> [http-bio-8080-exec-5] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:05:31,692(28629) --> [http-bio-8080-exec-6] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:05:32,547(29484) --> [http-bio-8080-exec-6] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:05:36,403(33340) --> [http-bio-8080-exec-7] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:05:37,233(34170) --> [http-bio-8080-exec-7] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-21 00:06:49,502(577) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-21 00:06:57,466(8541) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:06:58,451(9526) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:07:03,839(14914) --> [http-bio-8080-exec-2] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:07:04,654(15729) --> [http-bio-8080-exec-2] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-21 00:09:32,541(586) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-21 00:09:41,277(9322) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:09:41,595(9640) --> [http-bio-8080-exec-2] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:09:43,620(11665) --> [http-bio-8080-exec-2] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:09:43,680(11725) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:09:48,484(16529) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:09:49,230(17275) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: '/'. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-21 00:10:17,209(583) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[ERROR] 2013-12-21 00:17:13,476(676) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[ERROR] 2013-12-21 00:27:00,343(580) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-21 00:27:11,543(11780) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:27:12,362(12599) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-21 00:33:01,637(583) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-21 00:33:38,235(37181) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:60): Could not find action or result  
+There is no Action mapped for namespace [/admin] and action name [json] associated with context path [/ssh]. - [unknown location]
+	at com.opensymphony.xwork2.DefaultActionProxy.prepare(DefaultActionProxy.java:185)
+	at org.apache.struts2.impl.StrutsActionProxy.prepare(StrutsActionProxy.java:63)
+	at org.apache.struts2.impl.StrutsActionProxyFactory.createActionProxy(StrutsActionProxyFactory.java:39)
+	at com.opensymphony.xwork2.DefaultActionProxyFactory.createActionProxy(DefaultActionProxyFactory.java:58)
+	at org.apache.struts2.dispatcher.Dispatcher.serviceAction(Dispatcher.java:534)
+	at org.apache.struts2.dispatcher.ng.ExecuteOperations.executeAction(ExecuteOperations.java:77)
+	at org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.doFilter(StrutsPrepareAndExecuteFilter.java:91)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at common.EncodeFilter.doFilter(EncodeFilter.java:28)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:100)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1041)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:603)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:312)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:744)
+[ERROR] 2013-12-21 00:33:38,235(37181) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.error(CommonsLogger.java:38): Exception occurred during processing request: There is no Action mapped for namespace [/admin] and action name [json] associated with context path [/ssh].  
+There is no Action mapped for namespace [/admin] and action name [json] associated with context path [/ssh]. - [unknown location]
+	at com.opensymphony.xwork2.DefaultActionProxy.prepare(DefaultActionProxy.java:185)
+	at org.apache.struts2.impl.StrutsActionProxy.prepare(StrutsActionProxy.java:63)
+	at org.apache.struts2.impl.StrutsActionProxyFactory.createActionProxy(StrutsActionProxyFactory.java:39)
+	at com.opensymphony.xwork2.DefaultActionProxyFactory.createActionProxy(DefaultActionProxyFactory.java:58)
+	at org.apache.struts2.dispatcher.Dispatcher.serviceAction(Dispatcher.java:534)
+	at org.apache.struts2.dispatcher.ng.ExecuteOperations.executeAction(ExecuteOperations.java:77)
+	at org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.doFilter(StrutsPrepareAndExecuteFilter.java:91)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at common.EncodeFilter.doFilter(EncodeFilter.java:28)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:100)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1041)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:603)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:312)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:744)
+[WARN ] 2013-12-21 00:33:50,312(49258) --> [http-bio-8080-exec-5] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:33:51,097(50043) --> [http-bio-8080-exec-6] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:33:51,123(50069) --> [http-bio-8080-exec-5] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:33:51,658(50604) --> [http-bio-8080-exec-6] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-21 00:36:06,687(601) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-21 00:36:17,097(11011) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:36:18,277(12191) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-21 00:36:51,616(612) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[ERROR] 2013-12-21 00:36:57,810(6806) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.error(CommonsLogger.java:38): Exception occurred during processing request: null  
+java.lang.NullPointerException
+	at action.ShowUser.findUser(ShowUser.java:59)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invokeAction(DefaultActionInvocation.java:446)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invokeActionOnly(DefaultActionInvocation.java:285)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:248)
+	at org.apache.struts2.interceptor.debugging.DebuggingInterceptor.intercept(DebuggingInterceptor.java:256)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.DefaultWorkflowInterceptor.doIntercept(DefaultWorkflowInterceptor.java:176)
+	at com.opensymphony.xwork2.interceptor.MethodFilterInterceptor.intercept(MethodFilterInterceptor.java:98)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.validator.ValidationInterceptor.doIntercept(ValidationInterceptor.java:265)
+	at org.apache.struts2.interceptor.validation.AnnotationValidationInterceptor.doIntercept(AnnotationValidationInterceptor.java:68)
+	at com.opensymphony.xwork2.interceptor.MethodFilterInterceptor.intercept(MethodFilterInterceptor.java:98)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ConversionErrorInterceptor.intercept(ConversionErrorInterceptor.java:138)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ParametersInterceptor.doIntercept(ParametersInterceptor.java:238)
+	at com.opensymphony.xwork2.interceptor.MethodFilterInterceptor.intercept(MethodFilterInterceptor.java:98)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ParametersInterceptor.doIntercept(ParametersInterceptor.java:238)
+	at com.opensymphony.xwork2.interceptor.MethodFilterInterceptor.intercept(MethodFilterInterceptor.java:98)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.StaticParametersInterceptor.intercept(StaticParametersInterceptor.java:191)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at org.apache.struts2.interceptor.MultiselectInterceptor.intercept(MultiselectInterceptor.java:73)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at org.apache.struts2.interceptor.CheckboxInterceptor.intercept(CheckboxInterceptor.java:91)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at org.apache.struts2.interceptor.FileUploadInterceptor.intercept(FileUploadInterceptor.java:252)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ModelDrivenInterceptor.intercept(ModelDrivenInterceptor.java:100)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ScopedModelDrivenInterceptor.intercept(ScopedModelDrivenInterceptor.java:141)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ChainingInterceptor.intercept(ChainingInterceptor.java:145)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.PrepareInterceptor.doIntercept(PrepareInterceptor.java:171)
+	at com.opensymphony.xwork2.interceptor.MethodFilterInterceptor.intercept(MethodFilterInterceptor.java:98)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.I18nInterceptor.intercept(I18nInterceptor.java:176)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at org.apache.struts2.interceptor.ServletConfigInterceptor.intercept(ServletConfigInterceptor.java:164)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.AliasInterceptor.intercept(AliasInterceptor.java:193)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at com.opensymphony.xwork2.interceptor.ExceptionMappingInterceptor.intercept(ExceptionMappingInterceptor.java:187)
+	at com.opensymphony.xwork2.DefaultActionInvocation.invoke(DefaultActionInvocation.java:242)
+	at org.apache.struts2.impl.StrutsActionProxy.execute(StrutsActionProxy.java:54)
+	at org.apache.struts2.dispatcher.Dispatcher.serviceAction(Dispatcher.java:544)
+	at org.apache.struts2.dispatcher.ng.ExecuteOperations.executeAction(ExecuteOperations.java:77)
+	at org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.doFilter(StrutsPrepareAndExecuteFilter.java:91)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at common.EncodeFilter.doFilter(EncodeFilter.java:28)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:100)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1041)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:603)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:744)
+[WARN ] 2013-12-21 00:37:11,008(20004) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:37:11,637(20633) --> [http-bio-8080-exec-3] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[ERROR] 2013-12-21 00:37:32,988(634) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[WARN ] 2013-12-21 00:37:37,381(5027) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
+[WARN ] 2013-12-21 00:37:38,423(6069) --> [http-bio-8080-exec-1] com.opensymphony.xwork2.util.logging.commons.CommonsLogger.warn(CommonsLogger.java:56): No configuration found for the specified action: 'login.action' in namespace: ''. Form action defaulting to 'action' attribute's literal value.  
