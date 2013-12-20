@@ -1,0 +1,1 @@
+[ERROR] 2013-12-20 22:40:08,187(898) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
