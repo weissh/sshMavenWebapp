@@ -58,7 +58,7 @@
 		</property>
 		<property name="mappingResources">
 			<list>
-
+				<!-- 需要继续添加需要的hbm.xml -->
 				<value>entity/Student.hbm.xml</value>
 			</list>
 		</property>
@@ -70,7 +70,7 @@
 		<!-- 指定刚才配置好的sessionFactory 11 -->
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-
+	<!-- transactionProxy 父类 -->
 	<bean id="transactionBase"
 		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
 		lazy-init="true" abstract="true">
@@ -96,6 +96,8 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
+	
+	
 	<bean id="studentService" class="service.StudentService">
 		<property name="studentDAO">
 			<ref local="studentDAO" />
@@ -107,7 +109,7 @@
 			<ref bean="studentService" />
 		</property>
 	</bean>
-
+	<!-- action -->
 	<bean id="showUser" class="action.ShowUser">
 		<property name="studentService">
 			<ref bean="studentServiceDAOProxy" />
