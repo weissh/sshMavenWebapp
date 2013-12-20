@@ -194,10 +194,12 @@
 		<!-- log4j over -->
 
 		<!-- servlet -->
+		<!-- <dependency> <groupId>tomcat</groupId> <artifactId>servlet</artifactId> 
+			<version>4.1.34</version> <scope>provided</scope> </dependency> -->
 		<dependency>
-			<groupId>tomcat</groupId>
-			<artifactId>servlet</artifactId>
-			<version>4.1.34</version>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-servlet-api</artifactId>
+			<version>7.0.21</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- servlet over -->
@@ -356,21 +358,21 @@
 			</plugins>
 		</pluginManagement>
 		<finalName>${project.artifactId}</finalName>
-		<resources>  
-            <resource>  
-                <directory>src/main/java</directory>  
-                <includes>  
-                    <include>**/*.hbm.xml</include>  
-                </includes>  
-            </resource>  
-            <resource>  
-                <directory>src/main/resources</directory>  
-                <includes>  
-                    <include>**/*.xml</include>  
-                    <include>**/*.properties</include>  
-                </includes>  
-            </resource>  
-        </resources> 
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.hbm.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+		</resources>
 	</build>
 </project>
  
