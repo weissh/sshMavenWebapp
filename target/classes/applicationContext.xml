@@ -7,41 +7,40 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd">
 	<!--com.mchange.v2.c3p0.ComboPooledDataSource -->
-	<bean id="propertyConfigurer"  
-        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
-        <property name="locations">  
-            <list>  
-                <value>classpath*:**/druid-pool.properties</value>  
-            </list>  
-        </property>  
-    </bean>  
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"  
-        destroy-method="close">  
-        <property name="url" value="${url}" />  
-        <property name="username" value="${username}" />  
-        <property name="password" value="${password}" />  
-        <property name="driverClassName" value="${driverClassName}" />  
-        <property name="filters" value="${filters}" />  
-  
-        <property name="maxActive" value="${maxActive}" />  
-        <property name="initialSize" value="${initialSize}" />  
-        <property name="maxWait" value="${maxWait}" />  
-        <property name="minIdle" value="${minIdle}" />  
-  
-        <property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}" />  
-        <property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}" />  
-  
-        <property name="validationQuery" value="${validationQuery}" />  
-        <property name="testWhileIdle" value="${testWhileIdle}" />  
-        <property name="testOnBorrow" value="${testOnBorrow}" />  
-        <property name="testOnReturn" value="${testOnReturn}" />  
-        <property name="maxOpenPreparedStatements"  
-            value="${maxOpenPreparedStatements}" />  
-        <property name="removeAbandoned" value="${removeAbandoned}" /> <!-- 打开removeAbandoned功能 -->  
-        <property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}" /> <!-- 1800秒，也就是30分钟 -->  
-        <property name="logAbandoned" value="${logAbandoned}" /> <!-- 关闭abanded连接时输出错误日志 -->  
-    </bean>  
-	
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:**/druid-pool.properties</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		destroy-method="close">
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+		<property name="driverClassName" value="${driverClassName}" />
+		<property name="filters" value="${filters}" />
+
+		<property name="maxActive" value="${maxActive}" />
+		<property name="initialSize" value="${initialSize}" />
+		<property name="maxWait" value="${maxWait}" />
+		<property name="minIdle" value="${minIdle}" />
+
+		<property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}" />
+		<property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}" />
+
+		<property name="validationQuery" value="${validationQuery}" />
+		<property name="testWhileIdle" value="${testWhileIdle}" />
+		<property name="testOnBorrow" value="${testOnBorrow}" />
+		<property name="testOnReturn" value="${testOnReturn}" />
+		<property name="maxOpenPreparedStatements" value="${maxOpenPreparedStatements}" />
+		<property name="removeAbandoned" value="${removeAbandoned}" /> <!-- 打开removeAbandoned功能 -->
+		<property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}" /> <!-- 1800秒，也就是30分钟 -->
+		<property name="logAbandoned" value="${logAbandoned}" /> <!-- 关闭abanded连接时输出错误日志 -->
+	</bean>
+
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
 		<property name="dataSource">
@@ -72,23 +71,46 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
+	<bean id="transactionBase"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+		lazy-init="true" abstract="true">
+		<!-- 配置事务管理器 -->
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<!-- 配置事务属性 -->
+		<property name="transactionAttributes">
+			<props>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="save*">PROPAGATION_REQUIRED</prop>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="list*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
 	<bean id="studentDAO" class="dao.StudentDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-
-
 	<bean id="studentService" class="service.StudentService">
 		<property name="studentDAO">
 			<ref local="studentDAO" />
 		</property>
 	</bean>
 
+	<bean id="studentServiceDAOProxy" parent="transactionBase">
+		<property name="target">
+			<ref bean="studentService" />
+		</property>
+	</bean>
 
 	<bean id="showUser" class="action.ShowUser">
 		<property name="studentService">
-			<ref bean="studentService" />
+			<ref bean="studentServiceDAOProxy" />
 		</property>
 	</bean>
 </beans>

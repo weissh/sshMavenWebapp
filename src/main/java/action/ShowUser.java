@@ -5,6 +5,7 @@ import service.StudentService;
 import com.opensymphony.xwork2.ActionSupport;
 import common.PageBean;
 
+
 @SuppressWarnings("serial")
 public class ShowUser extends ActionSupport{
 	private int pagenum=0;
