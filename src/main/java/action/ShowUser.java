@@ -9,7 +9,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import common.PageBean;
 import entity.Student;
 
-
+//test
 @SuppressWarnings("serial")
 public class ShowUser extends ActionSupport{
 	private int pagenum=0;
