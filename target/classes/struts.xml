@@ -5,6 +5,7 @@
 
 	 <package name="default" extends="struts-default">  
         	<action name="login" method="findUser" class="showUser">
+        	<interceptor-ref name="defaultStack" />
     		<result name="SUCCESS">/pages.jsp</result>
     		<result name="FAIL">/index.jsp</result>
 		</action> 
@@ -19,6 +20,7 @@
     <package name="json" namespace="/" extends="struts-default,json-default" >  
         <action name="json" class="showUser" method="showUser">  
             <result name="SUCCESS" type="json">  
+            	<param name="defaultEncoding">UTF-8</param> 
                 <param name="root">pageBean</param>  
             </result>  
         </action>  

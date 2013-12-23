@@ -118,7 +118,7 @@ ${list.cteacher}
 	<script charset="utf-8" type="text/javascript" language="javascript">
 		function turnToUrl(pagenum){
 			if(pagenum!=0 && pagenum!=undefined){
-				window.location.href="<%=basePath%><%=method%>?<%=parameter%>&pagenum="+pagenum;
+				window.location.href="<%=basePath%>admin/showUser?<%=parameter%>&pagenum="+pagenum;
 			}
 		}
 	</script>

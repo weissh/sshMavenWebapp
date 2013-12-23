@@ -17,7 +17,6 @@ public class test {
 	Student  test1=new Student(11,"再找找","张韬");
 	Student  test2=new Student(12,"abc","abcd");
 	StudentDAO  cDao=(StudentDAO)factory.getBean("studentDAO");
-	@SuppressWarnings({ "unused", "unchecked" })
 	List<Student>list=cDao.findByCteacher("张韬");
 	System.out.println(list.get(0).getCteacher());
 	}
