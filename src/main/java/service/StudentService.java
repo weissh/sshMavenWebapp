@@ -4,18 +4,18 @@ import java.util.List;
 
 import common.PageBean;
 
-import dao.StudentDAO;
+import dao.daoImpl.StudentDaoImpl;
 
 
 public class StudentService {
-	private StudentDAO studentDAO;
+	private StudentDaoImpl studentDAO;
 
 
-	public StudentDAO getStudentDAO() {
+	public StudentDaoImpl getStudentDAO() {
 		return studentDAO;
 	}
 
-	public void setStudentDAO(StudentDAO studentDAO) {
+	public void setStudentDAO(StudentDaoImpl studentDAO) {
 		this.studentDAO = studentDAO;
 	}
 
@@ -25,7 +25,7 @@ public class StudentService {
 	/**
 	 * @param categoryDAO
 	 */
-	public StudentService(StudentDAO studentDAO) {
+	public StudentService(StudentDaoImpl studentDAO) {
 		this.studentDAO = studentDAO;
 	}
 	

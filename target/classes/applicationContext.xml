@@ -91,7 +91,7 @@
 		</property>
 	</bean>
 
-	<bean id="studentDAO" class="dao.StudentDAO">
+	<bean id="studentDAO" class="dao.daoImpl.StudentDaoImpl">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
