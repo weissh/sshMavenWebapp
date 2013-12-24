@@ -7,7 +7,7 @@ import dao.impl.GenericDaoImpl;
 import entity.Student;
 import dao.StudentDao;
 
-public class StudentDaoImpl extends GenericDaoImpl<Student, Integer> implements
+public class StudentDaoImpl extends GenericDaoImpl<Student> implements
 		StudentDao {
 
 	public StudentDaoImpl() {

@@ -82,6 +82,7 @@
 		<property name="transactionAttributes">
 			<props>
 				<prop key="delete*">PROPAGATION_REQUIRED</prop>
+				<prop key="remove*">PROPAGATION_REQUIRED</prop>
 				<prop key="add*">PROPAGATION_REQUIRED</prop>
 				<prop key="update*">PROPAGATION_REQUIRED</prop>
 				<prop key="save*">PROPAGATION_REQUIRED</prop>
@@ -90,14 +91,25 @@
 			</props>
 		</property>
 	</bean>
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 
-	<bean id="studentDAO" class="dao.daoImpl.StudentDaoImpl">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
+	<bean id="genericDao" class="dao.impl.GenericDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+
+	<bean id="genericService" class="service.impl.GenericServiceImpl">
+		<property name="genericDao" ref="genericDao"></property>
+	</bean>
+
+	<bean id="studentDAO" class="dao.impl.entity.StudentDaoImpl">
+		<property name="hibernateTemplate">
+			<ref bean="hibernateTemplate" />
 		</property>
 	</bean>
-	
-	
+
+
 	<bean id="studentService" class="service.StudentService">
 		<property name="studentDAO">
 			<ref local="studentDAO" />

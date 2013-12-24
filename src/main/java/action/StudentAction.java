@@ -11,14 +11,24 @@ import com.opensymphony.xwork2.ActionSupport;
 
 @SuppressWarnings("serial")
 public class StudentAction extends ActionSupport {   
-    private Student p;   
-    private StudentService service;   
-    public Student getP() {   
-        return p;   
-    }   
-    public void setP(Student p) {   
-        this.p = p;   
-    }   
+	String propertyName;
+	String value;
+	
+    public String getPropertyName() {
+		return propertyName;
+	}
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
+	}
+	public String getValue() {
+		return value;
+	}
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	private StudentService service;   
+ 
     public StudentService getService() {   
         return service;   
     }   
@@ -28,12 +38,12 @@ public class StudentAction extends ActionSupport {
        
     @SuppressWarnings("static-access")
 	public String execute() throws Exception {   
-    	this.service.findById(34);   
+    	this.service.findByProperty(propertyName,value);   
         return this.SUCCESS;   
     }   
        
     public void validate() {   
-        if(p.getCname()==null||"".equals(p.getCname())){   
+        if(getPropertyName()==null||"".equals(getPropertyName())){   
             this.addFieldError("p.name", "name is not null");   
         }   
     }   

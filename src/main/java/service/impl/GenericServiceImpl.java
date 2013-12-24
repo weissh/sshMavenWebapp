@@ -11,16 +11,14 @@ import service.GenericService;
  * @param <T>
  * @param <ID>
  */
-public class GenericServiceImpl<T, ID extends Serializable> implements
-		GenericService<T, ID> {
-	private GenericDao<T,ID> genericDao;
+public class GenericServiceImpl<T> implements
+		GenericService<T> {
+	private GenericDao<T> genericDao;
 	
 	public List<T> findAll() {		
 		return genericDao.findAll();
 	}
-	public T findById(ID id) {		
-		return genericDao.findById(id);
-	}
+
 	public List<T> findByPage(int page, int size) {		
 		return genericDao.findByPage(page, size);
 	}
@@ -40,10 +38,50 @@ public class GenericServiceImpl<T, ID extends Serializable> implements
 		genericDao.removeAll(entities);		
 	}
 	
-	public ID save(T entity) {		
+	public T save(T entity) {		
 		return genericDao.save(entity);
 	}
-	public void setGenericDao(GenericDao<T, ID> genericDao) {
+	public void setGenericDao(GenericDao<T> genericDao) {
 		this.genericDao = genericDao;
+	}
+	@Override
+	public List findByProperty(String propertyName, Object value) {
+		// TODO Auto-generated method stub
+		return this.genericDao.findByProperty(propertyName, value);
+	}
+	@Override
+	public List findBysql(String sql) {
+		// TODO Auto-generated method stub
+		return this.genericDao.findBySql(sql);
+	}
+	@Override
+	public List findByExample(T instance) {
+		// TODO Auto-generated method stub
+		return this.genericDao.findByExample(instance);
+	}
+	@Override
+	public List<T> findByPage(int page, int size, String sql) {
+		// TODO Auto-generated method stub
+		return this.genericDao.findByPage(page, size, sql);
+	}
+	@Override
+	public int getTotalRows(String propertyName, Object value) {
+		// TODO Auto-generated method stub
+		return this.genericDao.getTotalRows(propertyName, value);
+	}
+	@Override
+	public void attachDirty(T instance) {
+		// TODO Auto-generated method stub
+		this.genericDao.attachDirty(instance);
+	}
+	@Override
+	public void attachClean(T instance) {
+		// TODO Auto-generated method stub
+		this.genericDao.attachClean(instance);
+	}
+	@Override
+	public T merge(T detachedInstance) {
+		// TODO Auto-generated method stub
+		return this.genericDao.merge(detachedInstance);
 	}	
 }

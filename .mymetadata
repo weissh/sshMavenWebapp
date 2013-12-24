@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-module
   type="WEB"
-  name="sshMavenWebappCSS"
+  name="ztssh"
   id="myeclipse.1386653619926"
   context-root="/ssh"
   j2ee-spec="6.0"
-  archive="sshMavenWebappCSS.war">
+  archive="ztssh.war">
   <attributes>
     <attribute name="webrootdir" value="src/main/webapp" />
   </attributes>

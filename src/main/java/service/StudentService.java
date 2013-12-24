@@ -6,6 +6,6 @@ import service.GenericService;
 
 import entity.*;;
 
-public interface StudentService  extends GenericService<Student, Integer>{
+public interface StudentService  extends GenericService<Student>{
 
 }

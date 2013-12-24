@@ -5,7 +5,7 @@ import dao.GenericDao;
 
 import entity.*;
 
-public interface StudentDao extends GenericDao<Student, Integer>{
+public interface StudentDao extends GenericDao<Student>{
 	/**
 	 * <p>
      * 根据用户名精确查找
