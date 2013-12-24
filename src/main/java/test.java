@@ -6,7 +6,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import common.PageBean;
 import service.StudentService;
-import dao.impl.StudentDaoImpl1;
+import dao.daoImpl.StudentDaoImpl;
 import entity.Student;
  
 
@@ -16,7 +16,7 @@ public class test {
 	BeanFactory factory=new ClassPathXmlApplicationContext("applicationContext.xml");
 	Student  test1=new Student(11,"再找找","张韬");
 	Student  test2=new Student(12,"abc","abcd");
-	StudentDaoImpl1  cDao=(StudentDaoImpl1)factory.getBean("studentDAO");
+	StudentDaoImpl  cDao=(StudentDaoImpl)factory.getBean("studentDAO");
 	List<Student>list=cDao.findByCteacher("张韬");
 	System.out.println(list.get(0).getCteacher());
 	}

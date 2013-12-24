@@ -1,4 +1,4 @@
-package dao.impl;
+package dao.daoImpl;
 
 import java.util.List;
 import org.hibernate.LockMode;
@@ -22,8 +22,8 @@ import entity.Student;
  * @author MyEclipse Persistence Tools
  */
 
-public class StudentDaoImpl1 extends HibernateDaoSupport {
-	private static final Logger log = LoggerFactory.getLogger(StudentDaoImpl1.class);
+public class StudentDaoImpl extends HibernateDaoSupport {
+	private static final Logger log = LoggerFactory.getLogger(StudentDaoImpl.class);
 	// property constants
 	public static final String CNO = "cno";
 	public static final String CNAME = "cname";
@@ -151,8 +151,8 @@ public class StudentDaoImpl1 extends HibernateDaoSupport {
 		}
 	}
 
-	public static StudentDaoImpl1 getFromApplicationContext(ApplicationContext ctx) {
-		return (StudentDaoImpl1) ctx.getBean("StudentDAO");
+	public static StudentDaoImpl getFromApplicationContext(ApplicationContext ctx) {
+		return (StudentDaoImpl) ctx.getBean("StudentDAO");
 	}
 	
 	@SuppressWarnings("rawtypes")
