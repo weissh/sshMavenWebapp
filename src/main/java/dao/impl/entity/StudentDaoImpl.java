@@ -21,5 +21,8 @@ public class StudentDaoImpl extends GenericDaoImpl<Student> implements
 				.find("from Student u where u.cname = ?", uname).get(0);
 		return (!list.isEmpty() && list.size() == 1) ? null : list.get(0);
 	}
+	public static void main(String args[]){
+		 
+	}
 
 }

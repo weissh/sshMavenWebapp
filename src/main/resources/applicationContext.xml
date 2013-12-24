@@ -95,14 +95,6 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
-	<bean id="genericDao" class="dao.impl.GenericDaoImpl">
-		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
-	</bean>
-
-	<bean id="genericService" class="service.impl.GenericServiceImpl">
-		<property name="genericDao" ref="genericDao"></property>
-	</bean>
-
 	<bean id="studentDAO" class="dao.impl.entity.StudentDaoImpl">
 		<property name="hibernateTemplate">
 			<ref bean="hibernateTemplate" />
@@ -110,7 +102,7 @@
 	</bean>
 
 
-	<bean id="studentService" class="service.StudentService">
+<!-- 	<bean id="studentService" class="service.impl.StudentServiceImpl">
 		<property name="studentDAO">
 			<ref local="studentDAO" />
 		</property>
@@ -120,11 +112,6 @@
 		<property name="target">
 			<ref bean="studentService" />
 		</property>
-	</bean>
-	<!-- action -->
-	<bean id="showUser" class="action.ShowUser">
-		<property name="studentService">
-			<ref bean="studentServiceDAOProxy" />
-		</property>
-	</bean>
+	</bean> -->
+	
 </beans>
