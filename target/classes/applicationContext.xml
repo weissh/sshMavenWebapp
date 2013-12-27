@@ -95,7 +95,8 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
-	<bean id="studentDAO" class="dao.impl.entity.StudentDaoImpl">
+	<!--struts2 是要求 每次次访问 都对应不同的Action scope="prototype" 可以保证 当有请求的时候 都创建一个Action对象-->
+	<bean id="studentDAO" class="dao.impl.entity.StudentDaoImpl" scope="prototype">
 		<property name="hibernateTemplate">
 			<ref bean="hibernateTemplate" />
 		</property>
