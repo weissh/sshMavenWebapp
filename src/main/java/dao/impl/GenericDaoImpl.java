@@ -2,6 +2,7 @@ package dao.impl;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
@@ -9,6 +10,8 @@ import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
+
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import dao.GenericDao;
 /**
@@ -18,13 +21,12 @@ import dao.GenericDao;
  * @param <T>
  * @param <ID>
  */
-public class GenericDaoImpl<T> implements
+public class GenericDaoImpl<T> extends HibernateDaoSupport implements
 		GenericDao<T> {
 	// 具体的实体类型
 	//	private static final Logger log = LoggerFactory.getLogger(StudentDaoImpl.class);
 	private Class<T> type;
 	// Spring提供的Hibernate工具类
-	private HibernateTemplate hibernateTemplate;
 	// 查询条件
 	private String hql;
 	
@@ -47,22 +49,18 @@ public class GenericDaoImpl<T> implements
 	 * 
 	 * @param hibernateTemplate :Spring提供的Hibernate工具类
 	 */
-	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
-		this.hibernateTemplate = hibernateTemplate;
-	}
+
 	public void setHql(String hql) {
 		this.hql = hql;
 	}
-	public HibernateTemplate getHibernateTemplate() {
-		return hibernateTemplate;
-	}
+
 	public String getHql() {
 		return hql;
 	}
 	@SuppressWarnings("unchecked")
 	public List<T> findAll() {
 		String hql = "from " + type.getName();
-		return (List<T>) hibernateTemplate.find(hql);
+		return (List<T>) getHibernateTemplate().find(hql);
 	}
     
 	
@@ -70,34 +68,34 @@ public class GenericDaoImpl<T> implements
 	public List findByProperty(String propertyName, Object value) {
 		// TODO Auto-generated method stub
 		String hql = "from " + type.getName()+" as model where model."+propertyName + "= ?";
-		return this.hibernateTemplate.find(hql, value);
+		return (List<T>) getHibernateTemplate().find(hql, value);
 	}
 	
 	@Override
 	public List findByExample(T instance) {
 		// TODO Auto-generated method stub
-		List results = hibernateTemplate.findByExample(instance);
+		List results = getHibernateTemplate().findByExample(instance);
 		return results;
 	}
 	
 	public void modify(T entity) {
-		hibernateTemplate.update(entity);
+		getHibernateTemplate().update(entity);
 	}
 	public void remove(T entity) {
-		hibernateTemplate.delete(entity);
+		getHibernateTemplate().delete(entity);
 	}
 	
 	public void removeAll(Collection<T> entities) {
-		hibernateTemplate.deleteAll(entities);		
+		getHibernateTemplate().deleteAll(entities);		
 	}
 	@SuppressWarnings("unchecked")
 	public T save(T entity) {
-		return (T) hibernateTemplate.save(entity);
+		return (T) getHibernateTemplate().save(entity);
 	}
 	public int getTotalRows() {
 		String actualHql = "select count(*) "
 				+ hql.substring(hql.indexOf("from"));
-		return ((Long) this.hibernateTemplate.find(actualHql).get(0))
+		return ((Long) this.getHibernateTemplate().find(actualHql).get(0))
 				.intValue();
 	}
 	
@@ -109,7 +107,7 @@ public class GenericDaoImpl<T> implements
 	public int getTotalRows(String propertyName,Object value) {
 		String actualHql = "select count(*) "
 				+ hql.substring(hql.indexOf("from"))+" where "+ propertyName + " like %"+value+"%";
-		return ((Long) this.hibernateTemplate.find(actualHql).get(0))
+		return ((Long) this.getHibernateTemplate().find(actualHql).get(0))
 				.intValue();
 	}
 	
@@ -134,7 +132,7 @@ public class GenericDaoImpl<T> implements
 	public List<T> findByPage(final int page, final int size) {
 		final int pageSize = this.getPageSize(size);
 		final int totalRows = this.getTotalRows();
-		return hibernateTemplate.executeFind(new HibernateCallback() {
+		return getHibernateTemplate().executeFind(new HibernateCallback() {
 			public List<T> doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				// 实际页码
@@ -159,7 +157,7 @@ public class GenericDaoImpl<T> implements
 		// TODO Auto-generated method stub
 		final int pageSize = this.getPageSize(size);
 		final int totalRows = this.getTotalRows();
-		return hibernateTemplate.executeFind(new HibernateCallback() {
+		return getHibernateTemplate().executeFind(new HibernateCallback() {
 			public List<T> doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				// 实际页码
@@ -179,7 +177,7 @@ public class GenericDaoImpl<T> implements
 	@Override
 	public List findBySql(final String sql) {
 		// TODO Auto-generated method stub
-		return hibernateTemplate.executeFind(new HibernateCallback() {
+		return getHibernateTemplate().executeFind(new HibernateCallback() {
 			@SuppressWarnings("unchecked")
 			public List<T> doInHibernate(Session session)
 					throws HibernateException, SQLException {

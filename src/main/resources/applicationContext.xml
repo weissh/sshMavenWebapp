@@ -42,10 +42,13 @@
 	</bean>
 
 	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource">
 			<ref bean="dataSource" />
 		</property>
+		<property name="schemaUpdate" value="true"/>
+        <!-- Scan packages for JPA annotations -->
+        <property name="packagesToScan" value="entity"/>
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">
@@ -60,8 +63,20 @@
 			<list>
 				<!-- 需要继续添加需要的hbm.xml -->
 				<value>entity/Student.hbm.xml</value>
+ 				<!-- <value>entity/TblPermission.hbm.xml</value>
+    			<value>entity/TblUser.hbm.xml</value>
+				<value>entity/TblRole.hbm.xml</value>
+				<value>entity/TblPermissionRole.hbm.xml</value>
+				<value>entity/TblUserRole.hbm.xml</value> -->
 			</list>
 		</property>
+		<property name="eventListeners">
+            <map>
+                <entry key="merge">
+                    <bean class="org.springframework.orm.hibernate3.support.IdTransferringMergeEventListener"/>
+                </entry>
+            </map>
+        </property>
 	</bean>
 
 
@@ -91,28 +106,48 @@
 			</props>
 		</property>
 	</bean>
-	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
-		<property name="sessionFactory" ref="sessionFactory"></property>
+
+	<!--struts2 是要求 每次次访问 都对应不同的Action scope="prototype" 可以保证 当有请求的时候 都创建一个Action对象 -->
+	<bean id="studentDAO" class="dao.impl.entity.StudentDaoImpl"
+		scope="prototype">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
 	</bean>
 
-	<!--struts2 是要求 每次次访问 都对应不同的Action scope="prototype" 可以保证 当有请求的时候 都创建一个Action对象-->
-	<bean id="studentDAO" class="dao.impl.entity.StudentDaoImpl" scope="prototype">
-		<property name="hibernateTemplate">
-			<ref bean="hibernateTemplate" />
+	<bean id="userDAO" class="dao.impl.entity.UserDaoImpl" scope="prototype">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="roleDAO" class="dao.impl.entity.RoleDaoImpl" scope="prototype">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
 		</property>
 	</bean>
 
 
-<!-- 	<bean id="studentService" class="service.impl.StudentServiceImpl">
-		<property name="studentDAO">
-			<ref local="studentDAO" />
-		</property>
-	</bean>
-
-	<bean id="studentServiceDAOProxy" parent="transactionBase">
-		<property name="target">
-			<ref bean="studentService" />
-		</property>
-	</bean> -->
+	<bean id="studentService" class="service.impl.StudentServiceImpl"> 
+		<property name="genericDao"> <ref local="studentDAO" /> 
+		</property> 
+	</bean> 
 	
+    <bean id="userService" class="service.impl.UserServiceImpl"> 
+		<property name="genericDao"> <ref local="userDAO" /> 
+		</property> 
+	</bean>
+
+	<bean id="userServiceDAOProxy" parent="transactionBase"> 
+		<property name="target"> 
+			<ref bean="userService" />
+		</property> 
+	</bean>
+	
+	<bean id="userAction" class="action.UserAction">
+		<property name="genericService">
+			<ref bean="userServiceDAOProxy"/>
+		</property>
+	</bean>
+
 </beans>

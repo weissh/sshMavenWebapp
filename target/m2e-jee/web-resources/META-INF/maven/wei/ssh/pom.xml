@@ -98,6 +98,31 @@
 			<version>0.9.1</version>
 			<scope>runtime</scope>
 		</dependency>
+		 <dependency>
+       <groupId>org.hibernate</groupId>
+       <artifactId>hibernate-annotations</artifactId>
+       <version>3.4.0.GA</version>
+    </dependency>
+    <dependency>
+       <groupId>org.hibernate</groupId>
+       <artifactId>hibernate-commons-annotations</artifactId>
+       <version>3.3.0.ga</version>
+       <exclusions>
+       	<exclusion>
+       		<artifactId>asm</artifactId>
+       		<groupId>asm</groupId>
+       	</exclusion>
+       	<exclusion>
+       		<artifactId>asm-attrs</artifactId>
+       		<groupId>asm</groupId>
+       	</exclusion>
+       </exclusions>
+    </dependency>
+    <dependency>
+       <groupId>org.hibernate</groupId>
+       <artifactId>hibernate-entitymanager</artifactId>
+       <version>3.4.0.GA</version>
+    </dependency>
 		<!-- hibernate over -->
 
 		<!-- struts -->

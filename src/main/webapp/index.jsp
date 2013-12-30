@@ -9,6 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <h2>欢迎！</h2>
 error
+${tblUser.userUsername}
 <s:debug></s:debug>
 </body>
 </html>

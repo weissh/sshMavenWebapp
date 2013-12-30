@@ -2,6 +2,7 @@ package service.impl;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+
 import dao.GenericDao;
 import service.GenericService;
 /**
@@ -14,7 +15,6 @@ import service.GenericService;
 public class GenericServiceImpl<T> implements
 		GenericService<T> {
 	private GenericDao<T> genericDao;
-	
 	public List<T> findAll() {		
 		return genericDao.findAll();
 	}
@@ -41,9 +41,15 @@ public class GenericServiceImpl<T> implements
 	public T save(T entity) {		
 		return genericDao.save(entity);
 	}
+	
+	public GenericDao<T> getGenericDao() {
+		return genericDao;
+	}
+
 	public void setGenericDao(GenericDao<T> genericDao) {
 		this.genericDao = genericDao;
 	}
+
 	@Override
 	public List findByProperty(String propertyName, Object value) {
 		// TODO Auto-generated method stub
