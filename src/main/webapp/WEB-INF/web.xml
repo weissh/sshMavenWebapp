@@ -52,7 +52,8 @@
         <filter-name>OpenSessionInViewFilter</filter-name>
         <url-pattern>*.action</url-pattern>
     </filter-mapping>  
-	<!-- struts2 -->
+    
+    <!-- struts2 -->
 	<filter>
 		<filter-name>struts2</filter-name>
 		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
@@ -60,8 +61,22 @@
 	<filter-mapping>
 		<filter-name>struts2</filter-name>
 		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>  
+        <dispatcher>FORWARD</dispatcher>  
+        <dispatcher>INCLUDE</dispatcher>  
 	</filter-mapping>
 	<!-- struts2 end -->
+        
+    <filter>
+    	<filter-name>UrlRewriteFilter</filter-name>
+    	<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+	</filter>
+	<filter-mapping>
+    	<filter-name>UrlRewriteFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+	</filter-mapping>
+    
+
 	<!-- Spring Encoding filter -->
 	<filter>
 		<filter-name>Spring character encoding filter</filter-name>

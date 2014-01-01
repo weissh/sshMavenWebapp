@@ -17,8 +17,8 @@ public class test {
 	Student  test1=new Student(11,"再找找","张韬");
 	Student  test2=new Student(12,"abc","abcd");
 	UserDaoImpl   ss=(UserDaoImpl)factory.getBean("userDAO");
-	List list=ss.findAll();
-	System.out.println(list.size());
+	TblUser tblUser= ss.findUser("yingzhuo");
+	System.out.println(11);
 	
 	}
 	

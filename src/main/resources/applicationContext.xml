@@ -129,13 +129,13 @@
 
 
 	<bean id="studentService" class="service.impl.StudentServiceImpl"> 
-		<property name="genericDao"> <ref local="studentDAO" /> 
+		<property name="genericDao"> <ref bean="studentDAO" /> 
 		</property> 
 	</bean> 
 	
     <bean id="userService" class="service.impl.UserServiceImpl"> 
-		<property name="genericDao"> <ref local="userDAO" /> 
-		</property> 
+		<property name="genericDao"> <ref bean="userDAO" />  </property>
+		<property name="userDaoImpl"> <ref bean="userDAO" />  </property>
 	</bean>
 
 	<bean id="userServiceDAOProxy" parent="transactionBase"> 
@@ -145,7 +145,7 @@
 	</bean>
 	
 	<bean id="userAction" class="action.UserAction">
-		<property name="genericService">
+		<property name="userService">
 			<ref bean="userServiceDAOProxy"/>
 		</property>
 	</bean>

@@ -1,8 +1,12 @@
 package action;
 
 import java.util.List;
+import java.util.Map;
+
+import org.apache.struts2.json.annotations.JSON;
 
 import service.GenericService;
+import service.UserService;
 import service.impl.UserServiceImpl;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -15,29 +19,29 @@ public class UserAction extends ActionSupport {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private UserServiceImpl genericService;
+	private UserService  userService;
 	
-	private List<TblUser> tblUser;
+	private TblUser tblUsers;
 	
-	public UserServiceImpl getGenericService() {
-		return genericService;
+	
+
+	public TblUser getTblUsers() {
+		return tblUsers;
+	}
+	public void setTblUsers(TblUser tblUsers) {
+		this.tblUsers = tblUsers;
+	}
+	@JSON(serialize=false)
+	public UserService getUserService() {
+		return userService;
+	}
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
-	public void setGenericService(UserServiceImpl genericService) {
-		this.genericService = genericService;
-	}
-
-
-	public List<TblUser> getTblUser() {
-		return tblUser;
-	}
-
-	public void setTblUser(List<TblUser> tblUser) {
-		this.tblUser = tblUser;
-	}
 
 	public String test(){
-		tblUser=(genericService.findByProperty("userId", 1));
+		tblUsers=(userService.findUser("yingzhuo"));
 		return "SUCCESS";
 	}
 }

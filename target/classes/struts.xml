@@ -31,7 +31,7 @@
         <action name="test" class="userAction" method="test" >  
             <result name="SUCCESS" type="json">  
             	<param name="defaultEncoding">UTF-8</param> 
-                <param name="root">tblUser</param>  
+                <!-- <param name="root">tblUsers</param>   -->
             </result>  
         </action> 
     </package>  
