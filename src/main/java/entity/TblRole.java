@@ -24,7 +24,7 @@ public class TblRole extends AbstractTblRole implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public TblRole(Integer roleId, String roleName,Set<TblPermission> tblPermissions) {
+	public TblRole(Integer roleId, String roleName,Set<String> tblPermissions) {
 		super(roleId, roleName,tblPermissions);
 	}
 

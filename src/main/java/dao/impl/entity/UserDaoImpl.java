@@ -25,4 +25,10 @@ public class UserDaoImpl extends GenericDaoImpl<TblUser> implements UserDao {
         String query = "from TblUser u where u.userUsername = :username";
         return (TblUser) getSession().createQuery(query).setString("username", username).uniqueResult();
     }
+	
+	public TblUser getUser(Integer userId){
+        String query = "from TblUser u where u.userId = :userId";
+        return (TblUser) getSession().createQuery(query).setInteger("userId", userId).uniqueResult();
+	}
+	
 }
