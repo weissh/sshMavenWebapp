@@ -44,4 +44,13 @@ public class UserAction extends ActionSupport {
 		tblUsers=(userService.findUser("yingzhuo"));
 		return "SUCCESS";
 	}
+	
+	
+	public String save(){
+		TblUser tblUsers=new TblUser();
+		tblUsers.setUserUsername("zhangtao");
+		tblUsers.setUserPassword("aaaa");
+		userService.save(tblUsers);
+		return "SUCCESS";
+	}
 }

@@ -6,12 +6,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * AbstractTblUser entity provides the base persistence definition of the
@@ -22,7 +22,7 @@ public abstract class AbstractTblUser implements java.io.Serializable {
 
 	// Fields
 
-	private Integer userId;
+	private String userId;
 	private String userUsername;
 	private String userPassword;
 	private Set<TblRole> tblRoles = new HashSet<TblRole>(0);
@@ -48,14 +48,15 @@ public abstract class AbstractTblUser implements java.io.Serializable {
 	}
 
 	// Property accessors
+	@GenericGenerator(name = "generator", strategy = "uuid.hex")
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "USER_ID", unique = true, nullable = false)
-	public Integer getUserId() {
+	@GeneratedValue(generator = "generator")
+	@Column(name = "USER_ID", unique = true, nullable = false, length = 32)
+	public String getUserId() {
 		return this.userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

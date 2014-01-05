@@ -4,5 +4,5 @@ import entity.TblUser;
 
 public interface UserDao  extends GenericDao <TblUser>{
 	public TblUser findUser(String userName);
-	public TblUser getUser(Integer userId);
+	public TblUser findById(long userId);
 }
