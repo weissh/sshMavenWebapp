@@ -27,9 +27,9 @@ public class UserDaoImpl extends GenericDaoImpl<TblUser> implements UserDao {
     }
 	
 	
-	public TblUser findById(long userId) {
+	public TblUser findById(java.lang.String id) {
 		try {
-			TblUser instance = (TblUser) getSession().get("entity.TblUser", userId);
+			TblUser instance = (TblUser) getSession().get("entity.TblUser", id);
 			return instance;
 		} catch (RuntimeException re) {
 			throw re;

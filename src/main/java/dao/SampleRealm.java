@@ -46,7 +46,7 @@ public class SampleRealm extends AuthorizingRealm {
 
 
 	    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-	        long userId = (Long) principals.fromRealm(getName()).iterator().next();
+	        String userId = (java.lang.String) principals.fromRealm(getName()).iterator().next();
 	        TblUser user = userDao.findById(userId);
 	        if( user != null ) {
 	            SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
