@@ -100,7 +100,7 @@
 	
 	<bean id="studentService" class="service.StudentService">
 		<property name="studentDAO">
-			<ref local="studentDAO" />
+			<ref bean="studentDAO" />
 		</property>
 	</bean>
 
