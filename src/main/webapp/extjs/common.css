@@ -1,0 +1,51 @@
+.user_add {
+    background-image: url( icons/user_add.gif ) !important;
+}
+.user_edit {
+    background-image: url( icons/user_edit.png ) !important;
+}
+.user_delete {
+    background-image: url( icons/user_delete.gif ) !important;
+}
+.file_export {
+    background-image: url( icons/file_export.png ) !important;
+}
+.file_in {
+    background-image: url( icons/file_in.png ) !important;
+}
+.search {
+    background-image: url( icons/search.png ) !important;
+}
+.journal_add {
+    background-image: url( icons/journal_add.png ) !important;
+}
+.journal_edit {
+    background-image: url( icons/journal_edit.png ) !important;
+}
+.journal_delete {
+    background-image: url( icons/journal_delete.png ) !important;
+}
+.cost_add {
+    background-image: url( icons/cost_add.png ) !important;
+}
+.cost_edit {
+    background-image: url( icons/cost_edit.png ) !important;
+}
+.cost_delete {
+    background-image: url( icons/cost_delete.png ) !important;
+}
+.role_add {
+    background-image: url( icons/role_add.png ) !important;
+}
+.role_edit {
+    background-image: url( icons/role_edit.png ) !important;
+}
+.role_delete {
+    background-image: url( icons/role_delete.png ) !important;
+}
+.image_add {
+	background-image: url(icons/image_add.png ) !important;
+}
+.save {
+	background-image: url(icons/save.png ) !important;
+}
