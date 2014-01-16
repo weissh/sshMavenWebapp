@@ -137,12 +137,12 @@
 		<!-- sitemesh over -->
 
 		<!-- mysql -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.10</version>
 			<scope>runtime</scope>
-		</dependency>
+		</dependency> -->
 		<!-- mysql over -->
 
 		<!-- testng -->

@@ -3792,3 +3792,4 @@ java.lang.NullPointerException
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
 	at java.lang.Thread.run(Thread.java:619)
 [ERROR] 2014-01-15 11:14:33,299(2082) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
+[ERROR] 2014-01-16 15:05:03,953(1922) --> [localhost-startStop-1] com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:401): mysql should not use 'PoolPreparedStatements'  
