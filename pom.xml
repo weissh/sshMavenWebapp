@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>wei</groupId>
-	<artifactId>ssh</artifactId>
+	<artifactId>byjx</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ssh Maven Webapp</name>
+	<name>byjx Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<struts-version>2.3.8</struts-version>
