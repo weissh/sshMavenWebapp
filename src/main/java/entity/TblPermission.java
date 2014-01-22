@@ -19,12 +19,12 @@ public class TblPermission extends AbstractTblPermission implements
 	}
 
 	/** minimal constructor */
-	public TblPermission(Integer permissionId) {
+	public TblPermission(String permissionId) {
 		super(permissionId);
 	}
 
 	/** full constructor */
-	public TblPermission(Integer permissionId, String permissionName) {
+	public TblPermission(String permissionId, String permissionName) {
 		super(permissionId, permissionName);
 	}
 

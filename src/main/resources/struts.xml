@@ -9,7 +9,9 @@
     		<result name="SUCCESS">/pages.jsp</result>
     		<result name="FAIL">/index.jsp</result>
 		</action> 
-		
+		<action name="b" class="dssQuestionAction" method="save">
+    		<result name="SUCCESS">/index.jsp</result>
+		</action>
 		<action name="a" class="userAction" method="save">
     		<result name="SUCCESS">/index.jsp</result>
 		</action>

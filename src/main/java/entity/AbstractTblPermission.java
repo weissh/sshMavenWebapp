@@ -18,7 +18,7 @@ public abstract class AbstractTblPermission implements java.io.Serializable {
 
 	// Fields
 
-	private Integer permissionId;
+	private String permissionId;
 	private String permissionName;
 
 	// Constructors
@@ -28,12 +28,12 @@ public abstract class AbstractTblPermission implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public AbstractTblPermission(Integer permissionId) {
+	public AbstractTblPermission(String permissionId) {
 		this.permissionId = permissionId;
 	}
 
 	/** full constructor */
-	public AbstractTblPermission(Integer permissionId, String permissionName) {
+	public AbstractTblPermission(String permissionId, String permissionName) {
 		this.permissionId = permissionId;
 		this.permissionName = permissionName;
 	}
@@ -41,11 +41,11 @@ public abstract class AbstractTblPermission implements java.io.Serializable {
 	// Property accessors
 	@Id
 	@Column(name = "PERMISSION_ID", unique = true, nullable = false)
-	public Integer getPermissionId() {
+	public String getPermissionId() {
 		return this.permissionId;
 	}
 
-	public void setPermissionId(Integer permissionId) {
+	public void setPermissionId(String permissionId) {
 		this.permissionId = permissionId;
 	}
 

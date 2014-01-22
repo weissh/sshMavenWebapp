@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4.1
+-- version 4.0.9
 -- http://www.phpmyadmin.net
 --
 -- 主机: 127.0.0.1
--- 生成日期: 2014 年 01 月 11 日 05:40
--- 服务器版本: 5.5.32
--- PHP 版本: 5.4.19
+-- 生成日期: 2014-01-22 11:33:32
+-- 服务器版本: 5.5.34
+-- PHP 版本: 5.4.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,8 +19,28 @@ SET time_zone = "+00:00";
 --
 -- 数据库: `test1`
 --
-CREATE DATABASE IF NOT EXISTS `test1` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
-USE `test1`;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `dss_question`
+--
+
+CREATE TABLE IF NOT EXISTS `dss_question` (
+  `question_id` int(11) NOT NULL AUTO_INCREMENT,
+  `data_date` varchar(20) COLLATE utf8_bin NOT NULL,
+  `ques_prov` varchar(10) COLLATE utf8_bin NOT NULL,
+  `ques_content` varchar(200) COLLATE utf8_bin NOT NULL,
+  `ques_reply` varchar(200) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`question_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=3 ;
+
+--
+-- 转存表中的数据 `dss_question`
+--
+
+INSERT INTO `dss_question` (`question_id`, `data_date`, `ques_prov`, `ques_content`, `ques_reply`) VALUES
+(1, '201401122', '安徽', 'tes', 'no');
 
 -- --------------------------------------------------------
 
@@ -143,7 +163,7 @@ INSERT INTO `student` (`unicode`, `cno`, `cname`, `cteacher`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `tbl_permission` (
-  `PERMISSION_ID` int(11) NOT NULL,
+  `PERMISSION_ID` varchar(25) COLLATE utf8_bin NOT NULL,
   `PERMISSION_NAME` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`PERMISSION_ID`),
   UNIQUE KEY `PERMISSION_NAME_UNIQUE` (`PERMISSION_NAME`)
@@ -154,10 +174,10 @@ CREATE TABLE IF NOT EXISTS `tbl_permission` (
 --
 
 INSERT INTO `tbl_permission` (`PERMISSION_ID`, `PERMISSION_NAME`) VALUES
-(1, 'CREATE'),
-(3, 'DELETE'),
-(2, 'QUERY'),
-(4, 'UPDATE');
+('user:*', 'CREATE'),
+('3', 'DELETE'),
+('2', 'QUERY'),
+('4', 'UPDATE');
 
 -- --------------------------------------------------------
 
@@ -167,10 +187,9 @@ INSERT INTO `tbl_permission` (`PERMISSION_ID`, `PERMISSION_NAME`) VALUES
 
 CREATE TABLE IF NOT EXISTS `tbl_permission_role` (
   `ROLE_ID` int(11) NOT NULL,
-  `PERMISSION_ID` int(11) NOT NULL,
-  PRIMARY KEY (`ROLE_ID`,`PERMISSION_ID`),
-  KEY `fk_TBL_ROLE_has_TBL_PERMISSION_TBL_PERMISSION1_idx` (`PERMISSION_ID`),
-  KEY `fk_TBL_ROLE_has_TBL_PERMISSION_TBL_ROLE1_idx` (`ROLE_ID`)
+  `PERMISSION_ID` varchar(45) COLLATE utf8_bin NOT NULL,
+  KEY `fk_TBL_ROLE_has_TBL_PERMISSION_TBL_ROLE1_idx` (`ROLE_ID`),
+  KEY `fk_TBL_ROLE_has_TBL_PERMISSION_TBL_ROLE2` (`PERMISSION_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -178,10 +197,10 @@ CREATE TABLE IF NOT EXISTS `tbl_permission_role` (
 --
 
 INSERT INTO `tbl_permission_role` (`ROLE_ID`, `PERMISSION_ID`) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(1, 4);
+(1, 'user:*'),
+(1, '2'),
+(1, '3'),
+(1, '4');
 
 -- --------------------------------------------------------
 
@@ -255,7 +274,7 @@ INSERT INTO `tbl_user_role` (`USER_ID`, `ROLE_ID`) VALUES
 -- 限制表 `tbl_permission_role`
 --
 ALTER TABLE `tbl_permission_role`
-  ADD CONSTRAINT `fk_TBL_ROLE_has_TBL_PERMISSION_TBL_PERMISSION1` FOREIGN KEY (`PERMISSION_ID`) REFERENCES `tbl_permission` (`PERMISSION_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_TBL_ROLE_has_TBL_PERMISSION_TBL_ROLE2` FOREIGN KEY (`PERMISSION_ID`) REFERENCES `tbl_permission` (`PERMISSION_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_TBL_ROLE_has_TBL_PERMISSION_TBL_ROLE1` FOREIGN KEY (`ROLE_ID`) REFERENCES `tbl_role` (`ROLE_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --

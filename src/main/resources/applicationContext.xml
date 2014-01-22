@@ -126,7 +126,12 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-
+	
+	<bean id="dssQuestionDAO" class="dao.impl.entity.DssQuestionDaoImpl" scope="prototype">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
 
 	<bean id="studentService" class="service.impl.StudentServiceImpl"> 
 		<property name="genericDao"> <ref bean="studentDAO" /> 
@@ -137,10 +142,21 @@
 		<property name="genericDao"> <ref bean="userDAO" />  </property>
 		<property name="userDaoImpl"> <ref bean="userDAO" />  </property>
 	</bean>
+	
+	<bean id="dssQuestionService" class="service.impl.DssQuestionServiceImpl"> 
+		<property name="genericDao"> <ref bean="userDAO" />  </property>
+		<property name="dssQuestionDao"> <ref bean="dssQuestionDAO" />  </property>
+	</bean>
 
 	<bean id="userServiceDAOProxy" parent="transactionBase"> 
 		<property name="target"> 
 			<ref bean="userService" />
+		</property> 
+	</bean>
+	
+	<bean id="dssQuestionServiceDAOProxy" parent="transactionBase"> 
+		<property name="target"> 
+			<ref bean="dssQuestionService" />
 		</property> 
 	</bean>
 	
@@ -150,4 +166,9 @@
 		</property>
 	</bean>
 
+	<bean id="dssQuestionAction" class="action.DssQuestionAction">
+		<property name="dssQuestionService">
+			<ref bean="dssQuestionServiceDAOProxy"/>
+		</property>
+	</bean>
 </beans>

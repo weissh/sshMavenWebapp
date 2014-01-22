@@ -1,7 +1,9 @@
 package action;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.struts2.json.annotations.JSON;
 
@@ -42,13 +44,15 @@ public class UserAction extends ActionSupport {
 
 	public String test(){
 		tblUsers=(userService.findUser("yingzhuo"));
+		Set rolleSet=tblUsers.getTblRoles();
+		
 		return "SUCCESS";
 	}
 	
 	
 	public String save(){
 		TblUser tblUsers=new TblUser();
-		tblUsers.setUserUsername("zhangtao");
+		tblUsers.setUserUsername("test");
 		tblUsers.setUserPassword("aaaa");
 		userService.save(tblUsers);
 		return "SUCCESS";
