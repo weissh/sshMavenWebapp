@@ -149,12 +149,6 @@
 			<version>${struts-version}</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.struts</groupId>
-			<artifactId>struts2-convention-plugin</artifactId>
-			<version>${struts-version}</version>
-			<scope>compile</scope>
-		</dependency>
 		<!-- struts over -->
 
 		<!-- sitemesh -->

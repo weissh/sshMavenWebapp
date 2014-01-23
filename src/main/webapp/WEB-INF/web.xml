@@ -46,7 +46,23 @@
         <filter-name>OpenSessionInViewFilter</filter-name> 
         <filter-class> 
         org.springframework.orm.hibernate3.support.OpenSessionInViewFilter  
-        </filter-class>    
+        </filter-class>
+        
+        <!-- 修改：添加初始化参数 作者：cai  start-->
+		<init-param>
+			<param-name>sessionFactoryBeanName</param-name>
+		    <param-value>sessionFactory</param-value>
+		</init-param>
+		<init-param>
+            <param-name>singleSession</param-name>
+            <param-value>true</param-value>           
+        </init-param>
+        <init-param>
+        	<param-name> flushMode</param-name>
+			<param-value>AUTO</param-value>        
+        </init-param> 
+        <!-- 修改：添加初始化参数 作者：cai end-->
+            
     </filter>
     <filter-mapping>
         <filter-name>OpenSessionInViewFilter</filter-name>

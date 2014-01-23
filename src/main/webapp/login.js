@@ -67,7 +67,7 @@ Ext.onReady(function() {
 						'本地自定义属性：',options.customer];
 						alert(msg.join(''));
 					}
-//					params : params
+//					params : params,
 //					success : function(response,o) {
 //						// 处理返回信息
 //						var responseObj = Ext.decode(response.responseText);

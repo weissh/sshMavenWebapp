@@ -39,7 +39,7 @@
 			<value>com.mysql.jdbc.Driver</value>
 		</property>
 		<property name="jdbcUrl">
-			<value>jdbc:mysql://127.0.0.1:3306/test1?useUnicode=true&amp;characterEncoding=UTF-8
+			<value>jdbc:mysql://127.0.0.1:3306/byjx?useUnicode=true&amp;characterEncoding=UTF-8
 			</value>
 		</property>
 		<property name="user">

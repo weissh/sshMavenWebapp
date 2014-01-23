@@ -51,9 +51,16 @@
         <property name="packagesToScan" value="entity"/>
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">
-					org.hibernate.dialect.MySQLDialect
-				</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				
+				<!-- 添加新的hibernate配置（开始），cai -->
+				<prop key="connection.url">jdbc:mysql://localhost:3306/byjx</prop>
+				<prop key="connection.username">root</prop>
+				<prop key="connection.password">root</prop>
+				<prop key="connection.driver_class">com.mysql.jdbc.Driver</prop>
+				<prop key="myeclipse.connection.profile">byjx</prop>
+				<!-- 添加新的hibernate配置（结束），cai -->
+				
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">true</prop>
 				<prop key="hibernate.use_sql_comments">true</prop>
@@ -62,12 +69,12 @@
 		<property name="mappingResources">
 			<list>
 				<!-- 需要继续添加需要的hbm.xml -->
-				<value>entity/Student.hbm.xml</value>
- 				<!-- <value>entity/TblPermission.hbm.xml</value>
-    			<value>entity/TblUser.hbm.xml</value>
-				<value>entity/TblRole.hbm.xml</value>
-				<value>entity/TblPermissionRole.hbm.xml</value>
-				<value>entity/TblUserRole.hbm.xml</value> -->
+ 				<value>pojos/Staff.hbm.xml</value>
+ 				<value>pojos/Department.hbm.xml</value>
+ 				<value>pojos/Journal.hbm.xml</value>
+ 				<value>pojos/Cost.hbm.xml</value>
+ 				<value>pojos/Role.hbm.xml</value>
+ 				<value>pojos/Right.hbm.xml</value>
 			</list>
 		</property>
 		<property name="eventListeners">
@@ -107,47 +114,90 @@
 		</property>
 	</bean>
 
-	<!--struts2 是要求 每次次访问 都对应不同的Action scope="prototype" 可以保证 当有请求的时候 都创建一个Action对象 -->
-	<bean id="studentDAO" class="dao.impl.entity.StudentDaoImpl"
-		scope="prototype">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-
-	<bean id="userDAO" class="dao.impl.entity.UserDaoImpl" scope="prototype">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-
-	<bean id="roleDAO" class="dao.impl.entity.RoleDaoImpl" scope="prototype">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-
-
-	<bean id="studentService" class="service.impl.StudentServiceImpl"> 
-		<property name="genericDao"> <ref bean="studentDAO" /> 
-		</property> 
-	</bean> 
+	<!-- 配置所有的**DaoHib 作者：cai ——start -->
 	
-    <bean id="userService" class="service.impl.UserServiceImpl"> 
-		<property name="genericDao"> <ref bean="userDAO" />  </property>
-		<property name="userDaoImpl"> <ref bean="userDAO" />  </property>
-	</bean>
-
-	<bean id="userServiceDAOProxy" parent="transactionBase"> 
-		<property name="target"> 
-			<ref bean="userService" />
-		</property> 
+	<!-- 配置StaffDaoHib -->
+	<bean id="staffDao" class="dao.hibernate.StaffDaoHib">
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	
-	<bean id="userAction" class="action.UserAction">
-		<property name="userService">
-			<ref bean="userServiceDAOProxy"/>
-		</property>
+	<!-- 配置DepartmentDaoHib -->
+	<bean id="departmentDao" class="dao.hibernate.DepartmentDaoHib ">
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
-
+	
+	<!-- 配置JournalDaoHib -->
+	<bean id="journalDao" class="dao.hibernate.JournalDaoHib ">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<!-- 配置CostDaoHib -->
+	<bean id="costDao" class="dao.hibernate.CostDaoHib ">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<!-- 配置所有的**DaoHib 作者：cai ——end -->
+	
+	
+	<!-- 配置所有的**Service 作者：cai ——start -->
+		
+	<!-- 配置staffService -->
+	<bean id="staffService" class="service.impl.StaffServiceImpl">
+	<property name="staffDao" ref="staffDao"/>
+	</bean>
+	 
+	<!-- 配置departmentService -->
+	<bean id="departmentService" class="service.impl.DepartmentServiceImpl">
+		<property name="genericDao" ref="departmentDao"/>
+		<property name="departmentDao" ref="departmentDao"/>
+	</bean>
+	
+	<!-- 配置JournalService -->
+	<bean id="journalService" class="service.impl.JournalServiceImpl">
+		<property name="genericDao" ref="journalDao"/>
+		<property name="journalDao" ref="journalDao"/>
+	</bean>
+	
+	<!-- 配置CostService -->
+	<bean id="costService" class="service.impl.CostServiceImpl">
+		<property name="genericDao" ref="costDao"/>
+		<property name="costDao" ref="costDao"/>
+	</bean>
+	
+	<!-- 配置所有的**Service 作者：cai ——end -->
+	
+	
+	<!-- 配置所有的**ServiceDaoProxy 作者：cai ——start -->
+	
+	<!-- 配置staffServiceDaoProxy -->
+	<bean id="staffServiceDaoProxy" parent="transactionBase">
+		<property name="target" ref="staffService"/>
+	</bean>
+	
+	<!-- 配置departmentServiceDaoProxy -->
+	<bean id="departmentServiceDaoProxy" parent="transactionBase">
+		<property name="target" ref="departmentService"/>
+	</bean>
+	
+	<!-- 配置journalServiceDaoProxy -->
+	<bean id="journalServiceDaoProxy" parent="transactionBase">
+		<property name="target" ref="journalService"/>
+	</bean>
+	
+	<!-- 配置departmentServiceDaoProxy -->
+	<bean id="costServiceDaoProxy" parent="transactionBase">
+		<property name="target" ref="costService"/>
+	</bean>
+	
+	<!-- 配置所有的**ServiceDaoProxy 作者：cai ——end -->
+	
+	
+	<!-- 配置所有的**Action 作者：cai ——start -->
+	
+	<!-- 配置departmentAction -->
+	<bean id="departmentAction" class="web.action.DepartmentAction" scope="prototype">
+		<property name="departmentService" ref="departmentServiceDaoProxy"/>
+	</bean>
+	
+	<!-- 配置所有的**Action 作者：cai ——end -->
 </beans>
