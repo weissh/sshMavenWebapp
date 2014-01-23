@@ -1,10 +1,7 @@
 package dao;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-
-import entity.Student;
 
 /**
  * <p/>
@@ -36,7 +33,6 @@ public interface GenericDao<T> {
 	 */
 	public T save(T entity);
 
-	
 	public List<T> findByProperty(String propertyName, Object value);
 	/**
 	 * <p>
@@ -48,7 +44,7 @@ public interface GenericDao<T> {
 	public void remove(T entity);
 	
 	
-	public List findBySql(String sql);
+	public List<T> findBySql(String sql);
 
 	/**
 	 * <p>
@@ -94,15 +90,14 @@ public interface GenericDao<T> {
 	 */
 	public int getTotalRows();
 	
-	
-	public List findByExample(T instance) ;
+	public List<T> findByExample(T instance) ;
 
-	
 	public void attachDirty(T instance);
 	
 	public void attachClean(T instance);
 	
 	public int getTotalRows(String propertyName,Object value);
+	
 	/**
 	 * <p>
 	 * 根据每页记录的数量,计算出总的分页数

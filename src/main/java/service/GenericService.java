@@ -1,7 +1,8 @@
 package service;
-import java.io.Serializable;
+
 import java.util.Collection;
 import java.util.List;
+
 /**
  * <p>
  * 基本上与泛型DAO的通用接口一致,请参见GenericDao
@@ -12,6 +13,7 @@ import java.util.List;
  * @param <T> :持久化的实体Bean
  * @param <ID> :实体Bean的id
  */
+
 public interface GenericService<T> {
 	/**
 	 * 保存实体
@@ -28,9 +30,9 @@ public interface GenericService<T> {
 	 */
 	public void remove(T entity);
 	
-	public List findByProperty(String propertyName,Object value);
-	public List findBysql(String sql);
-	public List findByExample(T instance);
+	public List<T> findByProperty(String propertyName,Object value);
+	public List<T> findBysql(String sql);
+	public List<T> findByExample(T instance);
 	/**
 	 * <p>
 	 * 删除实体集合

@@ -1,7 +1,7 @@
 package dao;
 
-import entity.TblRole;
+import pojos.Role;
 
-public interface RoleDao extends GenericDao<TblRole> {
+public interface RoleDao extends GenericDao<Role> {
 
 }
