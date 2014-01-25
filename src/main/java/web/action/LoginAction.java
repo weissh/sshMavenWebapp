@@ -1,8 +1,11 @@
 package web.action;
 
-import pojos.Staff;
-
 import com.opensymphony.xwork2.ActionContext;
+
+import pojos.Staff;
+import service.RightService;
+import service.RoleService;
+import service.StaffService;
 
 public class LoginAction extends BaseAction{
 	/**
@@ -10,14 +13,45 @@ public class LoginAction extends BaseAction{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int userName;
+	private StaffService staffService;
+	
+	private RoleService roleService;
+	
+	private RightService rightService;
+	
+	private String userName;
+	
 	private String password;
 	
-	public int getUserName() {
+	public StaffService getStaffService() {
+		return staffService;
+	}
+
+	public void setStaffService(StaffService staffService) {
+		this.staffService = staffService;
+	}
+
+	public RoleService getRoleService() {
+		return roleService;
+	}
+
+	public void setRoleService(RoleService roleService) {
+		this.roleService = roleService;
+	}
+
+	public RightService getRightService() {
+		return rightService;
+	}
+
+	public void setRightService(RightService rightService) {
+		this.rightService = rightService;
+	}
+
+	public String getUserName() {
 		return userName;
 	}
 	
-	public void setUserName(int userName) {
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 	
@@ -30,17 +64,16 @@ public class LoginAction extends BaseAction{
 	}
 	
 	public String login(){
-		if("admin".equals(userName)&&"123456".equals(password)){
+		System.out.println(userName);
+		Staff staff=this.staffService.getStaffByUserNamePwd(this.userName,this.password);
+		if(staff!=null){
 			ActionContext context=ActionContext.getContext();
-			context.getSession().put("staff",new Staff(userName,password));
-			return "SUCCESS";
+			context.getSession().put("staff",new Staff(userName, password));
+			this.printString(true, "index.jsp");
+		}else{
+			this.printString(false, "用户或密码错误，请重新登录！");
 		}
-		return "INPUT";
+		return null;
 	}
 	
-	public String logout(){
-		ActionContext context=ActionContext.getContext();
-		context.getSession().remove("staff");
-		return "INPUT";
-	}
 }
