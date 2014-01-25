@@ -12,6 +12,11 @@ public class Staff implements java.io.Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Integer staffId;
 	private Department department;
 	private String staffName;
@@ -55,8 +60,8 @@ public class Staff implements java.io.Serializable {
 	public Staff() {
 	}
 
-	public Staff(int userName,String password){
-		this.staffId=userName;
+	public Staff(String userName,String password){
+		this.userName=userName;
 		this.password=password;
 	}
 	
