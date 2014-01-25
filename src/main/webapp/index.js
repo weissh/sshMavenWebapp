@@ -120,6 +120,10 @@
             root : {
                 expanded : true,
                 children : [{
+                    text : '部门管理',
+                    hrefTarget : 'pages/system/department.html',
+                    leaf : true
+                },{
                     text : '用户管理',
                     hrefTarget : 'pages/system/user.html',
                     leaf : true

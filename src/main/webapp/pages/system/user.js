@@ -170,8 +170,8 @@ Ext.onReady(function(){
         bodyStyle: 'background:#dfe9f5',
         defaults: {
             anchor: '100%',
-            allowBlank:false,
-            blankText:'不允许为空',
+//            allowBlank:false,
+//            blankText:'不允许为空',
             msgTarget:'qtip'
         },
         items: [{
@@ -353,7 +353,8 @@ Ext.onReady(function(){
             }]
         }],
         buttons:[{
-			text:'提交'
+			text:'提交',
+			handler:submitForm
 		},{
 			text:'取消',
 			handler:function(){
@@ -450,6 +451,34 @@ Ext.onReady(function(){
     };
     
     function submitForm(){
-    	
+    	if(form.isAdd){
+    		form.form.submit({
+    			waitMsg:'正在提交数据，请稍后...',
+    			waitTitle:'提示',
+    			url:'staff_add.action',
+    			method:'POST',
+    			success:function(form,action){
+    				win.hide();
+    				Ext.Msg.alert('提示','新增员工成功！');
+    			},
+    			failure:function(form,action){
+    				Ext.Msg.alert('提示','新增员工失败！')	
+    			}
+    		});
+    	}else{
+    		form.form.submit({
+	    		waitMsg:'正在提交数据，请稍后...',
+				waitTitle:'提示',
+				url:'staff_update.action',
+				method:'POST',
+				success:function(form,action){
+					win.hide();
+					Ext.Msg.alert('提示','修改员工成功！');
+				},
+				failure:function(form,action){
+					Ext.Msg.alert('提示','修改员工失败！');	
+				}
+    		});
+    	}
     };
-})
+});

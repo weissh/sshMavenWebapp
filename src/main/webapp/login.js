@@ -40,7 +40,7 @@ Ext.onReady(function() {
     	listeners:{
     		click:function(){
     			var params={
-    				username:userName.getValue(),
+    				userName:userName.getValue(),
     				password:pwd.getValue()
 				};
 				
@@ -61,24 +61,24 @@ Ext.onReady(function() {
 					url : 'login.action',
 					method : 'POST',
 					customer:'自定义属性',
+					params : params,
 					callback:function(options,success,response){
 						var msg=['请求是否成功：',success,"\n",
 						'服务器返回值：',response.responseText,
 						'本地自定义属性：',options.customer];
 						alert(msg.join(''));
+					},
+					success : function(response,o) {
+						// 处理返回信息
+						var responseObj = Ext.decode(response.responseText);
+						if (responseObj.success) {
+							window.top.location = responseObj.msg;
+						} else {
+							Ext.example.msg('登录失败',responseObj.msg);
+							//隐藏mask
+							loginMask.hide();
+						}
 					}
-//					params : params,
-//					success : function(response,o) {
-//						// 处理返回信息
-//						var responseObj = Ext.decode(response.responseText);
-//						if (responseObj.success) {
-//							window.top.location = responseObj.msg;
-//						} else {
-//							Ext.example.msg('登录失败',responseObj.msg);
-//							//隐藏mask
-//							loginMask.hide();
-//						}
-//					},
 //					failure : function() {
 //						//隐藏mask
 //						loginMask.hide();
