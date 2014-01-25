@@ -8,14 +8,10 @@
 			<result name="SUCCESS">index.jsp</result>
 			<result name="INPUT">login.jsp</result>
 		</action>
-		
-		<action name="logout" method="logout" class="web.action.LoginAction">
-			<result name="INPUT">login.jsp</result>
-		</action>
 	</package>
 
-	<package name="department" extends="struts-default">
-		<action name="dept_add" method="save" class="web.action.DepartmentAction">
+	<package name="department" extends="struts-default" >
+		<action name="dept_add" method="save" class="web.action.DepartmentAction" >
 			<result name="SUCCESS">index.jsp</result>
 			<result name="INPUT">login.jsp</result>
 		</action>
