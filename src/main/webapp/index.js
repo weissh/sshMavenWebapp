@@ -32,11 +32,11 @@
                 expanded : true,
                 children : [{
                     text : '个人信息',
-                    hrefTarget : 'pages/basicinfo/personalInfo.html',
+                    hrefTarget : 'pages/basicinfo/personalInfo.jsp',
                     leaf : true
                 }, {
                     text : '部门信息',
-                    hrefTarget : 'pages/basicinfo/departmentInfo.html',
+                    hrefTarget : 'pages/basicinfo/departmentInfo.jsp',
                     leaf : true
                 }]
             },
@@ -61,11 +61,11 @@
                 expanded : true,
                 children : [{
                     text : '个人日志',
-                    hrefTarget : 'pages/journal/personalJournal.html',
+                    hrefTarget : 'pages/journal/personalJournal.jsp',
                     leaf : true
                 }, {
                     text : '部门日志',
-                    hrefTarget : 'pages/journal/departmentJournal.html',
+                    hrefTarget : 'pages/journal/departmentJournal.jsp',
                     leaf : true
                 }]
             },
@@ -91,11 +91,11 @@
                 expanded : true,
                 children : [{
                     text : '个人支出',
-                    hrefTarget : 'pages/cost/personalCost.html',
+                    hrefTarget : 'pages/cost/personalCost.jsp',
                     leaf : true
                 }, {
                     text : '部门支出',
-                    hrefTarget : 'pages/cost/departmentCost.html',
+                    hrefTarget : 'pages/cost/departmentCost.jsp',
                     leaf : true
                 }]
             },
@@ -121,15 +121,15 @@
                 expanded : true,
                 children : [{
                     text : '部门管理',
-                    hrefTarget : 'pages/system/department.html',
+                    hrefTarget : 'pages/system/department.jsp',
                     leaf : true
                 },{
                     text : '用户管理',
-                    hrefTarget : 'pages/system/user.html',
+                    hrefTarget : 'pages/system/user.jsp',
                     leaf : true
                 }, {
                     text : '角色管理',
-                    hrefTarget : 'pages/system/role.html',
+                    hrefTarget : 'pages/system/role.jsp',
                     leaf : true
                 }]
             },

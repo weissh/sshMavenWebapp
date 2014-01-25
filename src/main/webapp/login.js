@@ -55,19 +55,19 @@ Ext.onReady(function() {
 					pwd.focus();
 					return;
 				}
-				//loginMask.show();
+				loginMask.show();
 				
 				Ext.Ajax.request({
 					url : 'login.action',
 					method : 'POST',
 					customer:'自定义属性',
 					params : params,
-					callback:function(options,success,response){
-						var msg=['请求是否成功：',success,"\n",
-						'服务器返回值：',response.responseText,
-						'本地自定义属性：',options.customer];
-						alert(msg.join(''));
-					},
+//					callback:function(options,success,response){
+//						var msg=['请求是否成功：',success,"\n",
+//						'服务器返回值：',response.responseText,
+//						'本地自定义属性：',options.customer];
+//						alert(msg.join(''));
+//					},
 					success : function(response,o) {
 						// 处理返回信息
 						var responseObj = Ext.decode(response.responseText);
@@ -78,13 +78,13 @@ Ext.onReady(function() {
 							//隐藏mask
 							loginMask.hide();
 						}
+					},
+					failure : function() {
+						//隐藏mask
+						loginMask.hide();
+						//显示错误信息
+						Ext.example.msg('登录失败','网络故障');
 					}
-//					failure : function() {
-//						//隐藏mask
-//						loginMask.hide();
-//						//显示错误信息
-//						Ext.example.msg('登录失败','网络故障');
-//					}
 				});
     		}
     	}

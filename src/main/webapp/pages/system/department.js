@@ -1,5 +1,5 @@
 Ext.Loader.setConfig({enabled: true});
-Ext.Loader.setPath('Ext.ux','../../extjs/ux');
+Ext.Loader.setPath('Ext.ux','extjs/ux');
 Ext.require([
     'Ext.form.Panel',
     'Ext.ux.form.MultiSelect',
@@ -90,11 +90,12 @@ Ext.onReady(function () {
     Ext.define('department', {
         extend: 'Ext.data.Model',
         fields: [
-            {name: 'DepartmentNo'},
-            {name: 'Department'},
-            {name: 'ManagerNo'},
-            {name: 'TotalStaff', type: 'int'},
-            {name: 'createTime', type: 'date', dateFormat: 'Y-m-d'}
+            {name: 'departmentNo'},
+            {name: 'departmentName'},
+            {name: 'managerNo'},
+            {name: 'totalStaff', type: 'int'},
+            {name: 'createTime', type: 'date', dateFormat: 'Y-m-d'},
+            {name: 'description'}
          ]
     });
 
@@ -130,17 +131,18 @@ Ext.onReady(function () {
         ],
         columns: [
             Ext.create('Ext.grid.RowNumberer'),
-            {text: "部门编号", flex: 0.2, sortable: true, dataIndex: 'DepartmentNo'},
-            {text: "部门名称", flex: 0.2, sortable: true,dataIndex: 'Department'},
-            {text: "部门经理", flex: 0.2, sortable: true, dataIndex: 'ManagerNo'},
-            {text: "总员工数",flex: 0.2, sortable: true, dataIndex: 'TotalStaff'},
+            {text: "部门编号", flex: 0.2, sortable: true, dataIndex: 'departmentNo'},
+            {text: "部门名称", flex: 0.2, sortable: true,dataIndex: 'departmentName'},
+            {text: "部门经理", flex: 0.2, sortable: true, dataIndex: 'managerNo'},
+            {text: "总员工数",flex: 0.2, sortable: true, dataIndex: 'totalStaff'},
             {
         		text: "成立时间", 
         		width: 120, 
         		sortable: true, 
         		renderer: Ext.util.Format.dateRenderer('Y-m-d'), 
         		dataIndex: 'createTime'
-    		}
+    		},
+    		{text: "部门描述",flex: 0.2, sortable: true, dataIndex: 'description'}
         ],
         dockedItems: [{
 	        xtype: 'pagingtoolbar',
@@ -225,44 +227,25 @@ Ext.onReady(function () {
         border:false,
         bodyStyle: 'background:#dfe9f5',
         defaults: {
+        	labelWidth:60,
             anchor: '100%',
             allowBlank:false,
             blankText:'不允许为空',
             msgTarget:'qtip'
         },
         items: [{
-            xtype: 'fieldset',
-            title: '部门信息',
-            collapsible: false,
-            defaults: {
-                border: false,
-                bodyStyle: 'background:#dfe9f5',
-                layout: {
-                    type: 'hbox',
-                    defaultMargins: {top: 0, right: 15, bottom: 5, left: 0}
-                }
-            },
-            items: [{
-                defaults: {
-                    labelWidth:64,
-                    anchor: '100%',
-                    xtype:'textfield'
-                },
-                items: [
-                    {width:'33%',fieldLabel: '部门编号',xtype: 'combo',name: 'DepartmentNo',allowBlank: false}, 
-                    {width:'33%',fieldLabel: '部门名称',name: 'Department',margins:'0 4 0 0',allowBlank: false}
-                ]
-            },{
-                defaults: {
-                    labelWidth:64,
-                    anchor: '100%',
-                    xtype:'textfield'
-                },
-                items: [
-                    {width:'33%',fieldLabel: '部门经理',xtype: 'combo',name: 'ManagerNo',allowBlank: false}, 
-                    {width:'33%',fieldLabel: '员工总数',name: 'TotalStaff',margins:'0 4 0 0',allowBlank: false}
-                ]
-            }]
+        	xtype:'textfield',
+        	fieldLabel : '部门名称',
+			name : 'departmentName'
+        },{
+        	xtype : 'datefield',
+			fieldLabel : '成立时间',
+			name : 'createTime',
+			format : 'Y-m-d'
+        },{
+        	xtype : 'textarea',
+			fieldLabel : '部门描述',
+			name : 'description'
         }],
         buttons:[{
 			text:'提交'
@@ -276,8 +259,8 @@ Ext.onReady(function () {
     
     var win = new top.Ext.Window({
     	layout : 'fit',
-		width :750,
-		height : 500,
+		width :350,
+		height : 230,
 		closeAction:'hide',
 		constrainHeader:true,
 		plain : true,
