@@ -49,3 +49,21 @@
 .save {
 	background-image: url(icons/save.png ) !important;
 }
+.x-form-itemselector-top {
+    background-image: url(icons/top2.gif);
+}
+.x-form-itemselector-up {
+    background-image: url(icons/up2.gif);
+}
+.x-form-itemselector-add {
+    background-image: url(icons/right2.gif);
+}
+.x-form-itemselector-remove {
+    background-image: url(icons/left2.gif);
+}
+.x-form-itemselector-down {
+    background-image: url(icons/down2.gif);
+}
+.x-form-itemselector-bottom {
+    background-image: url(icons/bottom2.gif);
+}
