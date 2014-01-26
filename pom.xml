@@ -121,6 +121,10 @@
 					<artifactId>asm-attrs</artifactId>
 					<groupId>asm</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>cglib</artifactId>
+					<groupId>cglib</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -295,6 +299,11 @@
         	<artifactId>struts2-sitemesh-plugin</artifactId>
         	<version>2.3.15.3</version>
         </dependency>
+        <dependency>
+        	<groupId>cglib</groupId>
+        	<artifactId>cglib</artifactId>
+        	<version>2.2.2</version>
+        </dependency>
 	</dependencies>
 
 
@@ -330,10 +339,12 @@
 					<groupId>org.apache.tomcat.maven</groupId>
 					<artifactId>tomcat7-maven-plugin</artifactId>
 					<version>2.2</version>
-					<configuration>
-						<port>8080</port>
-						<path>/${project.artifactId}</path>
-					</configuration>
+					<configuration>  
+              			<url>http://localhost:8080/manager/text</url>
+              			<username>tomcat</username>  
+              			<password>password</password> 
+<!--               			<server>tomcat</server>  
+ -->           		</configuration>
 				</plugin>
 
 

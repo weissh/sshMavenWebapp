@@ -30,10 +30,10 @@
                 <param name="root">pageBean</param>  
             </result>  
         </action> 
-        <action name="test" class="userAction" method="test" >  
+        <action name="test" class="studentAction" method="test" >  
             <result name="SUCCESS" type="json">  
             	<param name="defaultEncoding">UTF-8</param> 
-                <!-- <param name="root">tblUsers</param>   -->
+                <param name="root">map</param>  
             </result>  
         </action> 
     </package>  

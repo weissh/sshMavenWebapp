@@ -25,8 +25,31 @@ public class UserAction extends ActionSupport {
 	
 	private TblUser tblUsers;
 	
+	private int page=0;
+	private int rows=10;
 	
-
+	private List<TblUser> list;
+	public List<TblUser> getList() {
+		return list;
+	}
+	public void setList(List<TblUser> list) {
+		this.list = list;
+	}
+	@JSON(serialize=false)
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	@JSON(serialize=false)
+	public int getRows() {
+		return rows;
+	}
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+	@JSON(serialize=false)
 	public TblUser getTblUsers() {
 		return tblUsers;
 	}
@@ -43,9 +66,7 @@ public class UserAction extends ActionSupport {
 
 
 	public String test(){
-		tblUsers=(userService.findUser("yingzhuo"));
-		Set rolleSet=tblUsers.getTblRoles();
-		
+		list=userService.findByPage(page, rows);
 		return "SUCCESS";
 	}
 	
