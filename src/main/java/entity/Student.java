@@ -1,5 +1,8 @@
 package entity;
 
+import org.apache.struts2.json.annotations.JSON;
+
+
 /**
  * Student entity. @author MyEclipse Persistence Tools
  */
@@ -43,7 +46,6 @@ public class Student implements java.io.Serializable {
 	public void setCno(Integer cno) {
 		this.cno = cno;
 	}
-
 	public String getCname() {
 		return this.cname;
 	}

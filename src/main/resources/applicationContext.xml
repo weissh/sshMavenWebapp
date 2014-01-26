@@ -30,7 +30,7 @@
 
 		<property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}" />
 		<property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}" />
-
+		<property name="poolPreparedStatements" value="${poolPreparedStatements}"/>
 		<property name="validationQuery" value="${validationQuery}" />
 		<property name="testWhileIdle" value="${testWhileIdle}" />
 		<property name="testOnBorrow" value="${testOnBorrow}" />
