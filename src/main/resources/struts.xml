@@ -11,10 +11,13 @@
 	</package>
 
 	<package name="department" extends="struts-default" >
-		<action name="dept_add" method="save" class="web.action.DepartmentAction" >
+		<action name="dept_add" method="addDept" class="web.action.DepartmentAction" >
 			<result name="SUCCESS">index.jsp</result>
 			<result name="INPUT">login.jsp</result>
 		</action>
+		<action name="dept_update" method="updateDept" class="web.action.DepartmentAction" ></action>
+		<action name="dept_delete" method="deleteDept" class="web.action.DepartmentAction" ></action>
+		<action name="dept_getAll" method="getAllDept" class="web.action.DepartmentAction" ></action>
 	</package>
 	
 	<package name="admin" namespace="/admin" extends="struts-default">

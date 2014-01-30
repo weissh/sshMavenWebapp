@@ -64,7 +64,6 @@ public class LoginAction extends BaseAction{
 	}
 	
 	public String login(){
-		System.out.println(userName);
 		Staff staff=this.staffService.getStaffByUserNamePwd(this.userName,this.password);
 		if(staff!=null){
 			ActionContext context=ActionContext.getContext();

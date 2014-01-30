@@ -6,15 +6,15 @@ import service.StaffService;
 
 public class StaffServiceImpl extends GenericServiceImpl<Staff> implements StaffService{
 
-	private StaffService staffService;
-	
-	public StaffService getStaffService() {
-		return staffService;
-	}
-
-	public void setStaffService(StaffService staffService) {
-		this.staffService = staffService;
-	}
+//	private StaffService staffService;
+//	
+//	public StaffService getStaffService() {
+//		return staffService;
+//	}
+//
+//	public void setStaffService(StaffService staffService) {
+//		this.staffService = staffService;
+//	}
 
 	private StaffDao staffDao;
 
