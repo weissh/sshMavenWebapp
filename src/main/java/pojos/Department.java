@@ -1,5 +1,6 @@
 package pojos;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,8 +12,13 @@ public class Department implements java.io.Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer departmentId;
 	private String departmentName;
+	private Date createTime;
 	private Integer managerId;
 	private Integer totalStaff;
 	private String description;
@@ -29,11 +35,19 @@ public class Department implements java.io.Serializable {
 	public Department() {
 	}
 
+	//前端表单构造函数
+	public Department(String departmentName,Date createTime,String description){
+		this.departmentName=departmentName;
+		this.createTime=createTime;
+		this.description=description;
+	}
+	
 	/** full constructor */
-	public Department(String departmentName, Integer managerId,
+	public Department(String departmentName, Date createTime, Integer managerId,
 			Integer totalStaff, String description, String prop1, String prop2,
 			String prop3, String prop4, String prop5, Set staffs) {
 		this.departmentName = departmentName;
+		this.createTime=createTime;
 		this.managerId = managerId;
 		this.totalStaff = totalStaff;
 		this.description = description;
@@ -61,6 +75,14 @@ public class Department implements java.io.Serializable {
 
 	public void setDepartmentName(String departmentName) {
 		this.departmentName = departmentName;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
 	public Integer getManagerId() {

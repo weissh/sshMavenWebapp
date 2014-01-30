@@ -13,6 +13,9 @@
         <property name="departmentName" type="java.lang.String">
             <column name="DepartmentName" length="10" />
         </property>
+        <property name="createTime" type="java.util.Date">
+            <column name="CreateTime" length="10" />
+        </property>
         <property name="managerId" type="java.lang.Integer">
             <column name="ManagerID" />
         </property>
