@@ -60,6 +60,13 @@ public class BaseAction extends ActionSupport implements Serializable {
 		this.session = session;
 	}
 
+	/**
+	 * <p>
+	 * 使action动作返回一个json类型，例：{'success':false,msg:'参数获取错误！'}，具体可在浏览器试一下
+	 * </p>
+	 * 
+	 * @param boolean flag, String msg
+	 */
 	public void printString(boolean flag, String msg) {
 		String isSuccess = flag ? "true" : "false";
 		this.getResponse().setContentType("text/html;charset=UTF-8");
@@ -72,6 +79,13 @@ public class BaseAction extends ActionSupport implements Serializable {
 		}
 	}
 	
+	/**
+	 * <p>
+	 * 使action动作返回一个json类型，例：{msg:'参数获取错误！'}，具体可在浏览器试一下
+	 * </p>
+	 * 
+	 * @param String msg
+	 */
 	public void printString(String msg){
 		this.getResponse().setContentType("text/html;charset=UTF-8");
 		this.getResponse().setCharacterEncoding("UTF-8");
@@ -83,6 +97,13 @@ public class BaseAction extends ActionSupport implements Serializable {
 		}
 	}
 	
+	/**
+	 * <p>
+	 * 使action动作返回一个json类型
+	 * </p>
+	 * 
+	 * @param int start,int limit,int total,List<?> list
+	 */
 	public void printList(int start,int limit,int total,List<?> list){
 		this.getResponse().setContentType("text/html;charset=UTF-8");
 		this.getResponse().setCharacterEncoding("UTF-8");
@@ -99,12 +120,21 @@ public class BaseAction extends ActionSupport implements Serializable {
 		}
 	}
 	
+	/**
+	 * <p>
+	 * 使action动作返回一个json类型
+	 * </p>
+	 * 
+	 * @param int start,int limit,int total,List<?> list,String[] properties,Class<?> clazz
+	 */
 	public void printList(int start,int limit,int total,List<?> list,String[] properties,Class<?> clazz){
 		this.getResponse().setContentType("text/html;charset=UTF-8");
 		this.getResponse().setCharacterEncoding("UTF-8");
 		JSONArray jsonArray=new JSONArray();
 		JsonConfig jsonConfig =new JsonConfig();
+		//转换时间格式
 		jsonConfig.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd"));
+		//避免hibernate查询出现死循环
 		jsonConfig.registerJsonValueProcessor(clazz, new ObjectJsonValueProcessor(properties, clazz));
 		if(list!=null&&list.size()>0){
 			jsonArray=JSONArray.fromObject(list,jsonConfig);

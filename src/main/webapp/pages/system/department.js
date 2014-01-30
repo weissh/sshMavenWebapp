@@ -10,33 +10,37 @@ Ext.require([
 ]);
 
 Ext.onReady(function () {
+	
 	Ext.QuickTips.init();
+    
     Ext.tip.QuickTipManager.init();
+    
+    //创建员工移动选择器
     function createDockedItems(fieldId) {
         return [{
             xtype: 'toolbar',
             dock: 'top',
             items: {
-                text: 'Options',
+                text: '选项',
                 menu: [{
-                    text: 'Get value',
+                    text: '取值',
                     handler: function () {
                         var value = Ext.getCmp(fieldId).getValue();
                         Ext.Msg.alert('Value is a split array', value.join(', '));
                     }
                 }, {
-                    text: 'Set value (2,3)',
+                    text: '设值(2,3)',
                     handler: function () {
                         Ext.getCmp(fieldId).setValue(['2', '3']);
                     }
                 }, {
-                    text: 'Toggle enabled',
+                    text: '切换可用',
                     checked: true,
                     checkHandler: function (item, checked) {
                         Ext.getCmp(fieldId).setDisabled(!checked);
                     }
                 }, {
-                    text: 'Toggle delimiter',
+                    text: '切换分隔符',
                     checked: true,
                     checkHandler: function (item, checked) {
                         var field = Ext.getCmp(fieldId);
@@ -86,29 +90,31 @@ Ext.onReady(function () {
         }];
     }
 
-   
-    Ext.define('department', {
-        extend: 'Ext.data.Model',
-        fields: [
-            {name: 'departmentNo'},
-            {name: 'departmentName'},
-            {name: 'managerNo'},
-            {name: 'totalStaff', type: 'int'},
-            {name: 'createTime', type: 'date', dateFormat: 'Y-m-d'},
-            {name: 'description'}
-         ]
+    Ext.define('department',{
+    	extend: 'Ext.data.Model',
+    	fields:[
+    		{name:'departmentId'},
+    		{name:'departmentName'},
+    		{name:'createTime',type: 'date', dateFormat:'Y-m-d'},
+    		{name:'managerId'},
+    		{name:'totalStaff'},
+    		{name:'description'}
+		]
     });
-
-    Ext.grid.dummyData = [
-        ['1','人力部','小蔡','10','2006-06-04'],
-        ['2','财务部','小召','12','2001-04-03']
-    ];
-
-    var user_store = Ext.create('Ext.data.Store', {
+    
+    var departmentStore = Ext.create('Ext.data.Store', {
         model: 'department',
         autoLoad: true,
-        data : Ext.grid.dummyData
-        });
+        proxy:{
+        	type:'ajax',
+        	url:'dept_getAll.action',
+        	reader:{
+        		type:'json',
+        		root:'infoList',
+        		idProperty:'departmentId'
+        	}
+        }
+    });
 
     //创建表格
     var grid = Ext.create('Ext.grid.Panel', {
@@ -118,20 +124,20 @@ Ext.onReady(function () {
         autoScroll:false,
         multiSelect: true,
         selModel:{selType:'checkboxmodel'},
-        store: user_store,
+        store: departmentStore,
         viewConfig:{
             forceFit:true
         },
         tbar:[
-        	{xtype:'button',text:'新增部门',iconCls: 'user_add',handler:addUserInfo},
-            {xtype:'button',text:'修改部门',iconCls: 'user_edit',handler:editUserInfo},
-            {xtype:'button',text:'删除部门',iconCls: 'user_delete',handler:deleteUserInfo},
+        	{xtype:'button',text:'新增部门',iconCls: 'user_add',handler:addDepartmentInfo},
+            {xtype:'button',text:'修改部门',iconCls: 'user_edit',handler:editDepartmentInfo},
+            {xtype:'button',text:'删除部门',iconCls: 'user_delete',handler:deleteDepartmentInfo},
             {xtype:'button',text:'员工管理',iconCls: 'user_delete',handler:userManagement},
             {xtype:'button',text:'导出',iconCls:'file_export'}
         ],
         columns: [
             Ext.create('Ext.grid.RowNumberer'),
-            {text: "部门编号", flex: 0.2, sortable: true, dataIndex: 'departmentNo'},
+            {text: "部门编号", flex: 0.2, sortable: true, dataIndex: 'departmentId'},
             {text: "部门名称", flex: 0.2, sortable: true,dataIndex: 'departmentName'},
             {text: "部门经理", flex: 0.2, sortable: true, dataIndex: 'managerNo'},
             {text: "总员工数",flex: 0.2, sortable: true, dataIndex: 'totalStaff'},
@@ -147,7 +153,7 @@ Ext.onReady(function () {
         dockedItems: [{
 	        xtype: 'pagingtoolbar',
 	        autoScroll:false,
-	        store: user_store,   // same user_store GridPanel is using
+	        store: departmentStore,   // same user_store GridPanel is using
 	        dock: 'bottom',
 	        pageSize:5,
 	        displayInfo: true,
@@ -218,7 +224,8 @@ Ext.onReady(function () {
         modal:true
 
     });
-    //创建表单
+    
+    //创建新增、修改部门表单
 	var form = top.Ext.create('Ext.form.Panel', {
         width:'100%',
         height:'100%',
@@ -229,26 +236,35 @@ Ext.onReady(function () {
         defaults: {
         	labelWidth:60,
             anchor: '100%',
-            allowBlank:false,
-            blankText:'不允许为空',
             msgTarget:'qtip'
         },
         items: [{
         	xtype:'textfield',
+        	hidden:true,
+        	name:'departmentId'
+        },{
+        	xtype:'textfield',
         	fieldLabel : '部门名称',
-			name : 'departmentName'
+			name : 'departmentName',
+            allowBlank:false,
+            blankText:'不允许为空'
         },{
         	xtype : 'datefield',
 			fieldLabel : '成立时间',
 			name : 'createTime',
-			format : 'Y-m-d'
+			format : 'Y-m-d',
+            allowBlank:false,
+            blankText:'不允许为空'
         },{
         	xtype : 'textarea',
 			fieldLabel : '部门描述',
-			name : 'description'
+			name : 'description',
+            allowBlank:false,
+            blankText:'不允许为空'
         }],
         buttons:[{
-			text:'提交'
+			text:'提交',
+			handler:submitForm
 		},{
 			text:'取消',
 			handler:function(){
@@ -274,16 +290,16 @@ Ext.onReady(function () {
     	wind.setTitle('员工管理');
     	wind.show();
     };
-  //增加新用户
-    function addUserInfo(){
+  //增加新部门
+    function addDepartmentInfo(){
     	form.form.reset();
     	form.isAdd=true;
     	win.setTitle('新增部门');
     	win.show();
     };
     
-    //修改用户
-    function editUserInfo(){
+    //修改部门
+    function editDepartmentInfo(){
     	var record=grid.getSelectionModel().getSelection();
 		if (record.length==1) {
 			form.form.reset();
@@ -296,32 +312,111 @@ Ext.onReady(function () {
 		}
     };
     
-    //删除用户
-    function deleteUserInfo(){
+    //删除部门
+    function deleteDepartmentInfo(){
     	var records=grid.getSelectionModel().getSelection();
     	if(records.length==0){
     		top.Ext.Msg.show({title:'错误', msg:'请至少选择一条记录进行删除！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
     		return;
     	}
-    	Ext.Msg.confirm('提示','您确定要删除所选用户吗？',function(btnID){
+    	top.Ext.Msg.confirm('提示','您确定要删除所选部门吗？',function(btnID){
     		if(btnID=='yes'){
-    			deleteUsers(records)
+    			deleteUsers(records);
     		}
     	});
     };
     //执行删除操作
     function deleteUsers(records){
-    	var userID=records.join(',');
+    	var departmentIds="";
     	for(var i=0;i<records.length;i++){
-    		var index=user_store.find('staffNo',records[i].get('staffNo'));
-    		if(index!=-1){
-    			var rec=user_store.getAt(index);
-    			user_store.remove(rec);
+    		var id=records[i].get('departmentId');
+    		if(i==0){
+    			departmentIds+=id;
+    		}else{
+    			departmentIds=departmentIds+','+id;
     		}
     	}
+    	var msgTip =top.Ext.Msg.show({
+    		title:'提示',
+    		width:250,
+    		msg:'正在删除部门信息，请稍等...'
+    	});
+    	Ext.Ajax.request({
+    		url:'dept_delete',
+    		params:{departmentIds:departmentIds},
+    		method:'POST',
+    		success:function(response,options){
+    			msgTip.hide();
+    			var result=Ext.JSON.decode(response.responseText);
+    			if(result.success){
+			    	for(var i=0;i<records.length;i++){
+			    		var index=departmentStore.find('departmentId',records[i].get('departmentId'));
+			    		if(index!=-1){
+			    			var rec=departmentStore.getAt(index);
+			    			departmentStore.remove(rec);
+			    			grid.getView().refresh();
+			    		}
+			    	}
+    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+    			}else{
+    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息失败！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+    			}
+    		}
+    	});
     };
     
     function submitForm(){
-    	
+    	if(form.isAdd){
+    		form.form.submit({
+	    		waitMsg:'正在提交数据，请稍后...',
+				waitTitle:'提示',
+				url:basePath+'dept_add.action',
+				method:'POST',
+    			success:function(form,action){
+    				win.hide();
+					updateGrid(action.result.msg);
+    				top.Ext.Msg.show({title:'提示', msg:'新增部门成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+    			},
+    			failure:function(form,action){
+    				top.Ext.Msg.show({title:'提示', msg:'新增部门失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+    			}
+    		});
+    	}else{
+    		form.form.submit({
+	    		waitMsg:'正在提交数据，请稍后...',
+				waitTitle:'提示',
+				url:'dept_update.action',
+				method:'POST',
+				success:function(form,action){
+					win.hide();
+					updateGrid(action.result.msg);
+					top.Ext.Msg.show({title:'提示', msg:'修改部门成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+				},
+				failure:function(form,action){
+					top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+				}
+    		});
+    	}
     };
+    
+    function updateGrid(departmentId){
+    	var values=form.form.getValues();
+    	var index=departmentStore.find('departmentId',values['departmentId']);
+    	if(index!=-1){
+    		var item = departmentStore.getAt(index);
+    		for(var fieldName=departmentStore in values){
+    			item.set(fieldName,values[fieldName]);
+    		}
+    		item.commit();
+    	}else{
+    		var rec =Ext.ModelMgr.create({
+    			departmentId:departmentId,
+    			departmentName:values['departmentName'],
+    			createTime:values['createTime'],
+    			description:values['description']
+    		},'department');
+    		departmentStore.add(rec);
+    	}
+    }
+
 });

@@ -67,7 +67,7 @@ public interface GenericDao<T> {
 
 	/**
 	 * <p>
-	 * 通过名字查找
+	 * 通过类型和id查找一条记录
 	 * </p>
 	 * 
 	 * @param id: id

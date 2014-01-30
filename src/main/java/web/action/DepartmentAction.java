@@ -120,9 +120,10 @@ public class DepartmentAction extends BaseAction {
 
 	// 删除部门
 	public String deleteDept() {
-		System.out.println(departmentIds);
+		//如果有多个id，则获取到的departmentIds格式是：id1,id2,id3,id4....
 		String[] str=this.departmentIds.split(",");
 		ArrayList<Department> departments= new ArrayList<Department>();
+		//遍历id，并实例化类型，在add到List
 		for(int i=0;i<str.length;i++){
 			Department department = new Department();
 			department.setDepartmentId(Integer.parseInt(str[i]));
