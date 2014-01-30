@@ -1,6 +1,7 @@
 package web.action;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +11,12 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts2.ServletActionContext;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
 
 import com.opensymphony.xwork2.ActionSupport;
+
+import common.DateJsonValueProcessor;
+import common.ObjectJsonValueProcessor;
 
 @SuppressWarnings("unused")
 public class BaseAction extends ActionSupport implements Serializable {
@@ -56,11 +61,11 @@ public class BaseAction extends ActionSupport implements Serializable {
 	}
 
 	public void printString(boolean flag, String msg) {
-		String isSuucess = flag ? "true" : "false";
+		String isSuccess = flag ? "true" : "false";
 		this.getResponse().setContentType("text/html;charset=UTF-8");
 		this.getResponse().setCharacterEncoding("UTF-8");
 		try{
-			this.getResponse().getWriter().write("{'success':"+isSuucess+",msg:'"+msg+"'}");
+			this.getResponse().getWriter().write("{'success':"+isSuccess+",msg:'"+msg+"'}");
 			this.getResponse().flushBuffer();
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -93,32 +98,24 @@ public class BaseAction extends ActionSupport implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	// //基础操作
-	// private String action="index";
-	//
-	// //获取action的属性值
-	// public String getAction(){
-	// return action;
-	// }
-	//
-	// public void setAction(String action){
-	// this.action=action;
-	// }
-	//
-	// public String execute(){
-	// try{
-	// return this.executeMethod(this.getAction());
-	// }catch(Exception e){
-	// e.printStackTrace();
-	// return INPUT;
-	// }
-	// }
-	//
-	// private String executeMethod(String method) throws Exception {
-	// Class[] c=null;
-	// Method m=this.getClass().getMethod(method, c);
-	// Object[] object = null;
-	// String result =(String) m.invoke(this, object);
-	// return result;
-	// }
+	
+	public void printList(int start,int limit,int total,List<?> list,String[] properties,Class<?> clazz){
+		this.getResponse().setContentType("text/html;charset=UTF-8");
+		this.getResponse().setCharacterEncoding("UTF-8");
+		JSONArray jsonArray=new JSONArray();
+		JsonConfig jsonConfig =new JsonConfig();
+		jsonConfig.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd"));
+		jsonConfig.registerJsonValueProcessor(clazz, new ObjectJsonValueProcessor(properties, clazz));
+		if(list!=null&&list.size()>0){
+			jsonArray=JSONArray.fromObject(list,jsonConfig);
+			System.out.println(jsonArray.toString());
+		}
+		String jsonString ="{start:"+start+",limit:"+limit+",totalProperty:"+total+",infoList:"+jsonArray.toString()+"}";
+		try{
+			this.getResponse().getWriter().write(jsonString);
+			this.getResponse().flushBuffer();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
