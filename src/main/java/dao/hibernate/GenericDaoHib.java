@@ -8,6 +8,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -50,6 +51,25 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 		return hql;
 	}
 	
+	public T find(Class<T> clazz,int id){
+		Session session =this.getSession();
+		Transaction trans=session.beginTransaction();
+		@SuppressWarnings("unchecked")
+		T t= (T) session.get(clazz, id);
+		trans.commit();
+		session.close();
+		return t;
+				//(T)getHibernateTemplate().get(clazz, id);
+	}
+	
+//	public void update(T entity){
+//		Session session =this.getSession();
+//		Transaction trans=session.beginTransaction();
+//		session.update(entity);
+//		trans.commit();
+//		session.close();
+//	}
+	
 	@SuppressWarnings("unchecked")
 	public List<T> findAll() {
 		String hql = "from " + type.getName();
@@ -70,7 +90,7 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 		return results;
 	}
 	
-	public void modify(T entity) {
+	public void update(T entity) {
 		getHibernateTemplate().update(entity);
 	}
 	
@@ -82,9 +102,10 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 		getHibernateTemplate().deleteAll(entities);		
 	}
 	
-	@SuppressWarnings("unchecked")
-	public T save(T entity) {
-		return (T) getHibernateTemplate().save(entity);
+	//@SuppressWarnings("unchecked")
+	public int save(T entity) {
+		 return  (Integer) getHibernateTemplate().save(entity);
+		//return (T) getHibernateTemplate().save(entity);
 	}
 	
 	public int getTotalRows() {

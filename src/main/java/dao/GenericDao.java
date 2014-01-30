@@ -31,7 +31,7 @@ public interface GenericDao<T> {
 	 * @param entity: 实体
 	 * @return 保存后得到的id
 	 */
-	public T save(T entity);
+	public int save(T entity);
 
 	public List<T> findByProperty(String propertyName, Object value);
 	/**
@@ -62,8 +62,8 @@ public interface GenericDao<T> {
 	 * 
 	 * @param entity: 实体
 	 */
-
-	public void modify(T entity);
+	
+	public void update(T entity);
 
 	/**
 	 * <p>
@@ -73,7 +73,8 @@ public interface GenericDao<T> {
 	 * @param id: id
 	 * @return 找到的实体
 	 */
-
+	public T find(Class<T> clazz,int id);
+	
 	/**
 	 * <p/>
 	 * 查找全部实体

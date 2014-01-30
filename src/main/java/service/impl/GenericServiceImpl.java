@@ -3,9 +3,8 @@ package service.impl;
 import java.util.Collection;
 import java.util.List;
 
-import dao.GenericDao;
-
 import service.GenericService;
+import dao.GenericDao;
 
 public class GenericServiceImpl<T> implements GenericService<T> {
 
@@ -20,7 +19,7 @@ public class GenericServiceImpl<T> implements GenericService<T> {
 	}
 
 	@Override
-	public T save(T entity) {
+	public int save(T entity) {
 		return genericDao.save(entity);
 	}
 
@@ -48,12 +47,16 @@ public class GenericServiceImpl<T> implements GenericService<T> {
 	public void removeAll(Collection<T> entities) {
 		genericDao.removeAll(entities);
 	}
-
+	
 	@Override
-	public void modify(T entity) {
-		genericDao.modify(entity);
+	public void update(T entity) {
+		genericDao.update(entity);
 	}
 
+	public T find(Class<T> clazz,int id){
+		return genericDao.find(clazz, id);
+	}
+	
 	@Override
 	public List<T> findAll() {
 		return genericDao.findAll();
