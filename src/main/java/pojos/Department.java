@@ -35,6 +35,12 @@ public class Department implements java.io.Serializable {
 	public Department() {
 	}
 
+	//前端部门下拉列表数据源
+	public Department(int departmentId,String departmentName){
+		this.departmentId=departmentId;
+		this.departmentName=departmentName;
+	}
+	
 	//前端表单构造函数
 	public Department(String departmentName,Date createTime,String description){
 		this.departmentName=departmentName;

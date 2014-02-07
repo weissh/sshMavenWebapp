@@ -25,17 +25,18 @@ public class Staff implements java.io.Serializable {
 	private String phone;
 	private String email;
 	private String urgentContact;
-	private String ucphone;
+	private String ucPhone;
 	private String gender;
 	private String nationality;
 	private String politicalStatus;
-	private String staffinfocol;
+	private Integer age;
 	private Date birthday;
 	private String maritalStatus;
-	private String idno;
+	private String idNo;
 	private String passportNo;
 	private String nativePlace;
 	private String domicilePlace;
+	private Date dateOfRecruitment;
 	private String currentAddress;
 	private String zipCode;
 	private String graduateSchool;
@@ -71,13 +72,52 @@ public class Staff implements java.io.Serializable {
 		this.staffName = staffName;
 	}
 
+	/** 前端的表单结构 */
+	public Staff(Department department, String staffName, Date entryTime,
+			String position, String phone, String email, String urgentContact,
+			String ucPhone, String gender, String nationality,
+			String politicalStatus,Integer age, Date birthday,
+			String maritalStatus, String idNo, String passportNo,
+			String nativePlace, String domicilePlace, Date dateOfRecruitment, String currentAddress,
+			String zipCode, String graduateSchool, String hightestEdu,
+			String hightestDegree, String major, String schoolSystem,
+			String password) {
+		this.department = department;
+		this.staffName = staffName;
+		this.entryTime = entryTime;
+		this.position = position;
+		this.phone = phone;
+		this.email = email;
+		this.urgentContact = urgentContact;
+		this.ucPhone = ucPhone;
+		this.gender = gender;
+		this.nationality = nationality;
+		this.politicalStatus = politicalStatus;
+		this.age=age;
+		this.birthday = birthday;
+		this.maritalStatus = maritalStatus;
+		this.idNo = idNo;
+		this.passportNo = passportNo;
+		this.nativePlace = nativePlace;
+		this.domicilePlace = domicilePlace;
+		this.dateOfRecruitment=dateOfRecruitment;
+		this.currentAddress = currentAddress;
+		this.zipCode = zipCode;
+		this.graduateSchool = graduateSchool;
+		this.hightestEdu = hightestEdu;
+		this.hightestDegree = hightestDegree;
+		this.major = major;
+		this.schoolSystem = schoolSystem;
+		this.password = password;
+	}
+	
 	/** full constructor */
 	public Staff(Department department, String staffName, Date entryTime,
 			String position, String phone, String email, String urgentContact,
-			String ucphone, String gender, String nationality,
-			String politicalStatus, String staffinfocol, Date birthday,
-			String maritalStatus, String idno, String passportNo,
-			String nativePlace, String domicilePlace, String currentAddress,
+			String ucPhone, String gender, String nationality,
+			String politicalStatus, Integer age, Date birthday,
+			String maritalStatus, String idNo, String passportNo,
+			String nativePlace, String domicilePlace, Date dateOfRecruitment, String currentAddress,
 			String zipCode, String graduateSchool, String hightestEdu,
 			String hightestDegree, String major, String schoolSystem,String userName,
 			String password, String prop1, String prop2, String prop3,
@@ -89,17 +129,18 @@ public class Staff implements java.io.Serializable {
 		this.phone = phone;
 		this.email = email;
 		this.urgentContact = urgentContact;
-		this.ucphone = ucphone;
+		this.ucPhone = ucPhone;
 		this.gender = gender;
 		this.nationality = nationality;
 		this.politicalStatus = politicalStatus;
-		this.staffinfocol = staffinfocol;
+		this.age = age;
 		this.birthday = birthday;
 		this.maritalStatus = maritalStatus;
-		this.idno = idno;
+		this.idNo = idNo;
 		this.passportNo = passportNo;
 		this.nativePlace = nativePlace;
 		this.domicilePlace = domicilePlace;
+		this.dateOfRecruitment=dateOfRecruitment;
 		this.currentAddress = currentAddress;
 		this.zipCode = zipCode;
 		this.graduateSchool = graduateSchool;
@@ -185,12 +226,12 @@ public class Staff implements java.io.Serializable {
 		this.urgentContact = urgentContact;
 	}
 
-	public String getUcphone() {
-		return this.ucphone;
+	public String getUcPhone() {
+		return this.ucPhone;
 	}
 
-	public void setUcphone(String ucphone) {
-		this.ucphone = ucphone;
+	public void setUcPhone(String ucPhone) {
+		this.ucPhone = ucPhone;
 	}
 
 	public String getGender() {
@@ -217,12 +258,12 @@ public class Staff implements java.io.Serializable {
 		this.politicalStatus = politicalStatus;
 	}
 
-	public String getStaffinfocol() {
-		return this.staffinfocol;
+	public Integer getAge() {
+		return age;
 	}
 
-	public void setStaffinfocol(String staffinfocol) {
-		this.staffinfocol = staffinfocol;
+	public void setAge(Integer age) {
+		this.age = age;
 	}
 
 	public Date getBirthday() {
@@ -241,12 +282,12 @@ public class Staff implements java.io.Serializable {
 		this.maritalStatus = maritalStatus;
 	}
 
-	public String getIdno() {
-		return this.idno;
+	public String getIdNo() {
+		return this.idNo;
 	}
 
-	public void setIdno(String idno) {
-		this.idno = idno;
+	public void setIdNo(String idNo) {
+		this.idNo = idNo;
 	}
 
 	public String getPassportNo() {
@@ -271,6 +312,14 @@ public class Staff implements java.io.Serializable {
 
 	public void setDomicilePlace(String domicilePlace) {
 		this.domicilePlace = domicilePlace;
+	}
+
+	public Date getDateOfRecruitment() {
+		return dateOfRecruitment;
+	}
+
+	public void setDateOfRecruitment(Date dateOfRecruitment) {
+		this.dateOfRecruitment = dateOfRecruitment;
 	}
 
 	public String getCurrentAddress() {

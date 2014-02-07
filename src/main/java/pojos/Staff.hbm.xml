@@ -31,7 +31,7 @@
         <property name="urgentContact" type="java.lang.String">
             <column name="UrgentContact" length="20" />
         </property>
-        <property name="ucphone" type="java.lang.String">
+        <property name="ucPhone" type="java.lang.String">
             <column name="UCPhone" length="11" />
         </property>
         <property name="gender" type="java.lang.String">
@@ -43,8 +43,8 @@
         <property name="politicalStatus" type="java.lang.String">
             <column name="PoliticalStatus" length="10" />
         </property>
-        <property name="staffinfocol" type="java.lang.String">
-            <column name="staffinfocol" length="10" />
+        <property name="age" type="java.lang.Integer">
+            <column name="Age" />
         </property>
         <property name="birthday" type="java.util.Date">
             <column name="Birthday" length="10" />
@@ -52,7 +52,7 @@
         <property name="maritalStatus" type="java.lang.String">
             <column name="MaritalStatus" length="10" />
         </property>
-        <property name="idno" type="java.lang.String">
+        <property name="idNo" type="java.lang.String">
             <column name="IDNo" length="18" />
         </property>
         <property name="passportNo" type="java.lang.String">
@@ -63,6 +63,9 @@
         </property>
         <property name="domicilePlace" type="java.lang.String">
             <column name="DomicilePlace" length="100" />
+        </property>
+        <property name="dateOfRecruitment" type="java.util.Date">
+            <column name="DateOfRecruitment" length="10" />
         </property>
         <property name="currentAddress" type="java.lang.String">
             <column name="CurrentAddress" length="100" />
@@ -106,20 +109,23 @@
         <property name="prop5" type="java.lang.String">
             <column name="Prop5" length="45" />
         </property>
+        
         <set name="costs" inverse="true">
             <key>
                 <column name="Staff_StaffID" not-null="true" />
             </key>
             <one-to-many class="pojos.Cost" />
         </set>
+        
         <set name="roles" table="staff_has_role" catalog="byjx">
             <key>
-                <column name="Staff_StaffID" not-null="true" />
+                <column name="Staff_StaffID"/>
             </key>
-            <many-to-many entity-name="pojos.Role">
-                <column name="Role_RoleID" not-null="true" />
+            <many-to-many class="pojos.Role">
+                <column name="Role_RoleID"/>
             </many-to-many>
         </set>
+        
         <set name="journals" inverse="true">
             <key>
                 <column name="Staff_StaffID" not-null="true" />

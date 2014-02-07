@@ -31,14 +31,16 @@
         <property name="prop5" type="java.lang.String">
             <column name="Prop5" length="45" />
         </property>
-        <set name="staffs" inverse="true" table="staff_has_role" catalog="byjx">
+        
+        <set name="staffs" table="staff_has_role" catalog="byjx">
             <key>
-                <column name="Role_RoleID" not-null="true" />
+                <column name="Role_RoleID"/>
             </key>
-            <many-to-many entity-name="pojos.Staff">
-                <column name="Staff_StaffID" not-null="true" />
+            <many-to-many class="pojos.Staff">
+                <column name="Staff_StaffID"/>
             </many-to-many>
         </set>
+        
         <set name="rights" table="role_has_right" catalog="byjx">
             <key>
                 <column name="Role_RoleID" not-null="true" />
