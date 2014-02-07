@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.json.JsonConfig;
+import net.sf.json.util.PropertyFilter;
 import pojos.Department;
-import pojos.Staff;
 import service.DepartmentService;
 
 public class DepartmentAction extends BaseAction {
@@ -47,16 +48,16 @@ public class DepartmentAction extends BaseAction {
 
 
 	// 获取前端表单属性 start
-	private String departmentId;
+	private int departmentId;
 	private String departmentName;
 	private Date createTime;
 	private String description;
 
-	public String getDepartmentId() {
+	public int getDepartmentId() {
 		return departmentId;
 	}
 
-	public void setDepartmentId(String departmentId) {
+	public void setDepartmentId(int departmentId) {
 		this.departmentId = departmentId;
 	}
 
@@ -105,16 +106,16 @@ public class DepartmentAction extends BaseAction {
 
 	// 修改部门
 	public String updateDept() {
-		if(Integer.parseInt(departmentId)==0){
+		if(departmentId==0){
 			this.printString(false, "获取参数错误！");
 			return null;
 		}
-		Department department =this.departmentService.find(Department.class, Integer.parseInt(departmentId));
+		Department department =this.departmentService.find(Department.class, departmentId);
 		department.setDepartmentName(departmentName);
 		department.setCreateTime(createTime);
 		department.setDescription(description);
 		this.departmentService.update(department);
-		this.printString(true, departmentId);
+		this.printString(true, departmentId+"");
 		return null;
 	}
 
@@ -134,10 +135,30 @@ public class DepartmentAction extends BaseAction {
 		return null;
 	}
 
+	//获取部门信息列表
 	public String getAllDept() {
 		List<Department> departments = this.departmentService.findAll();
-		String[] properties = { "staffName" };
-		this.printList(0, 0, 0, departments, properties, Staff.class);
+		JsonConfig jsonConfig =new JsonConfig();
+		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
+			
+			@Override
+			public boolean apply(Object arg0, String arg1, Object arg2) {
+				if(arg1.equals("staffs")){
+					return true;
+				}else{
+					return false;
+				}
+			}
+		});
+		this.printList(0, 0, 0, departments, jsonConfig);
+		return null;
+	}
+	
+	//仅获得部门的departmentId和departmentName属性，并以json返回:作为前端部门下拉列表的值
+	public String getDeptForSelector(){
+		String sql="select new Department(dept.departmentId,dept.departmentName) from Department dept";
+		List<Department> departments=this.departmentService.findBysql(sql);
+		this.printList(0, 0, 0, departments);
 		return null;
 	}
 }

@@ -110,6 +110,7 @@ public class BaseAction extends ActionSupport implements Serializable {
 		JSONArray jsonArray=new JSONArray();
 		if(list!=null&&list.size()>0){
 			jsonArray=JSONArray.fromObject(list);
+			System.out.println(jsonArray.toString());
 		}
 		String jsonString ="{start:"+start+",limit:"+limit+",totalProperty:"+total+",infoList:"+jsonArray.toString()+"}";
 		try{
@@ -120,22 +121,13 @@ public class BaseAction extends ActionSupport implements Serializable {
 		}
 	}
 	
-	/**
-	 * <p>
-	 * 使action动作返回一个json类型
-	 * </p>
-	 * 
-	 * @param int start,int limit,int total,List<?> list,String[] properties,Class<?> clazz
-	 */
-	public void printList(int start,int limit,int total,List<?> list,String[] properties,Class<?> clazz){
+	public void printList(int start,int limit,int total,List<?> list,JsonConfig jsonConfig){
 		this.getResponse().setContentType("text/html;charset=UTF-8");
 		this.getResponse().setCharacterEncoding("UTF-8");
 		JSONArray jsonArray=new JSONArray();
-		JsonConfig jsonConfig =new JsonConfig();
 		//转换时间格式
 		jsonConfig.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd"));
 		//避免hibernate查询出现死循环
-		jsonConfig.registerJsonValueProcessor(clazz, new ObjectJsonValueProcessor(properties, clazz));
 		if(list!=null&&list.size()>0){
 			jsonArray=JSONArray.fromObject(list,jsonConfig);
 			System.out.println(jsonArray.toString());
