@@ -12,17 +12,24 @@ Ext.require([
 Ext.onReady(function(){
     Ext.QuickTips.init();
 	
-    var dept=new Ext.data.ArrayStore({
-        fieldLabel:30,
-        fields:['id','name'],
-        data:[
-            [1,'财务部'],
-            [2,'人力部'],
-            [3,'销售部']
-        ]
+    var dept=new Ext.data.Store({
+    	autoLoad: true,
+    	fields:[
+        	{name:'departmentId'},
+        	{name:'departmentName'}
+    	],
+    	proxy:{
+        	type:'ajax',
+        	url:'dept_getForSelector.action',
+        	reader:{
+        		type:'json',
+        		root:'infoList',
+        		idProperty:'departmentId'
+        	}
+        }
     });
 
-    var user=new Ext.data.ArrayStore({
+    var user=new Ext.data.Store({
         fields:['id','name'],
         data:[
             [1,'小闫'],
@@ -33,43 +40,138 @@ Ext.onReady(function(){
         ]
     });
 
-    var role=new Ext.data.ArrayStore({
+    var role=new Ext.data.Store({
         fields:['id','name'],
         data:[
-            [1,'管理员'],
-            [2,'员工'],
-            [3,'部门经理']
+            {'id':1,'name':'员工'},
+	        {'id':2,'name':'部门经理'},
+	        {'id':3,'name':'总经理'},
+	        {'id':4,'name':'管理员'}
         ]
     });
 
-    Ext.define('user', {
+    var position=new Ext.data.Store({
+        fields:['id','name'],
+        data:[
+            {'id':1,'name':'员工'},
+	        {'id':2,'name':'部门经理'},
+	        {'id':3,'name':'总经理'}
+        ]
+    });
+    
+    var maritalStatus=new Ext.data.Store({
+        fieldLabel:30,
+        fields:['id','name'],
+        data:[
+	        {'id':1,'name':'未婚'},
+	        {'id':2,'name':'已婚'},
+	        {'id':3,'name':'离异'},
+	        {'id':4,'name':'丧偶'}
+        ]
+    });
+    
+    var highestEdu=new Ext.data.Store({
+        fieldLabel:30,
+        fields:['id','name'],
+        data:[
+	        {'id':1,'name':'专科'},
+	        {'id':2,'name':'本科'},
+	        {'id':3,'name':'硕士研究生'},
+	        {'id':4,'name':'博士研究生'}
+        ]
+    });
+    
+    var highestDegree=new Ext.data.Store({
+        fieldLabel:30,
+        fields:['id','name'],
+        data:[
+	        {'id':1,'name':'学士学位'},
+	        {'id':2,'name':'硕士学位'},
+	        {'id':3,'name':'博士学位'}
+        ]
+    });
+    
+    var schoolSystem=new Ext.data.Store({
+        fieldLabel:30,
+        fields:['id','name'],
+        data:[
+	        {'id':1,'name':'单轨制'},
+	        {'id':2,'name':'双轨制'},
+	        {'id':3,'name':'分支制学制'}
+        ]
+    });
+    
+    var politicalStatus=new Ext.data.Store({
+        fieldLabel:30,
+        fields:['id','name'],
+        data:[
+	        {'id':1,'name':'中共党员'},
+	        {'id':2,'name':'预备党员'},
+	        {'id':3,'name':'共青团员'},
+	        {'id':4,'name':'群众'}
+        ]
+    });
+    
+    var gender=new Ext.data.Store({
+        fieldLabel:30,
+        autoLoad: true,
+        fields:['id','name'],
+        data:[
+	        {'id':1,'name':'男'},
+	        {'id':2,'name':'女'}
+        ]
+    });    
+    Ext.define('staff', {
         extend: 'Ext.data.Model',
         fields: [
+            {name: 'staffId', type: 'int'},
             {name: 'staffName'},
-            {name: 'staffNo', type: 'int'},
-            {name: 'department'},
+            //mapping 用于获取嵌套json中的摸个属性
+            {name: 'departmentId', type: 'int',mapping:'department.departmentId'},
             {name: 'position'},
-            {name: 'enterTime', type: 'date', dateFormat: 'Y-m-d'},
+            {name: 'entryTime', type: 'date', dateFormat: 'Y-m-d'},
             {name: 'phone'},
-            {name: 'role'},
+            {name: 'roleId', type: 'int'},
             {name: 'password'},
-            {name: 'desc'}
+            {name: 'gender'},
+            {name: 'age', type: 'int'},
+            {name: 'birthday', type: 'date', dateFormat: 'Y-m-d'},
+            {name: 'nationality'},
+            {name: 'politicalStatus'},
+            {name: 'maritalStatus'},
+            {name: 'nativePlace'},
+            {name: 'idNo'},
+            {name: 'passportNo'},
+            {name: 'domicilePlace'},
+            {name: 'dateOfRecruitment', type: 'date', dateFormat: 'Y-m-d'},
+            {name: 'hightestEdu'},
+            {name: 'hightestDegree'},
+            {name: 'graduateSchool'},
+            {name: 'major'},
+            {name: 'schoolSystem'},
+            {name: 'currentAddress'},
+            {name: 'urgentContact'},
+            {name: 'email'},
+            {name: 'zipCode'},
+            {name: 'ucPhone'}
          ]
     });
 
-    Ext.grid.dummyData = [
-        ['菜',1,'财务','总经理','2006-06-04','123213','总经理','123123'],
-        ['菜',2,'财务','总经理','2001-04-03','123213','总经理','123123']
-    ];
-
-    var user_store = Ext.create('Ext.data.Store', {
-        model: 'user',
+    var staffStore = Ext.create('Ext.data.Store', {
+        model: 'staff',
         autoLoad: true,
-        data : Ext.grid.dummyData
-        //proxy:new Ext.ux.data.PagingMemoryProxy(Ext.grid.dummyData)
+        proxy:{
+        	type:'ajax',
+        	url:'staff_getAll.action',
+        	reader:{
+        		type:'json',
+        		root:'infoList',
+        		idProperty:'userId'
+        	}
+        }
     });
 
-    //创建表格
+    //创建用户表格
     var grid = Ext.create('Ext.grid.Panel', {
         width: document.body.clientWidth,
         height: document.body.clientHeight,
@@ -77,7 +179,7 @@ Ext.onReady(function(){
         autoScroll:false,
         multiSelect: true,
         selModel:{selType:'checkboxmodel'},
-        store: user_store,
+        store: staffStore,
         viewConfig:{
             forceFit:true
         },
@@ -87,6 +189,8 @@ Ext.onReady(function(){
             fieldLabel:'<b>部门</b>',
             displayField:'name',
             forceSelection:true,
+        	valueField:'departmentId',
+        	displayField:'departmentName',
             typeAhead:true,
             width:150,
             labelWidth:30,
@@ -125,24 +229,41 @@ Ext.onReady(function(){
         columns: [
             Ext.create('Ext.grid.RowNumberer'),
             {text: "姓名", flex: 1, sortable: true, dataIndex: 'staffName'},
-            {text: "工号", width: 120, sortable: true,dataIndex: 'staffNo'},
-            {text: "部门", width: 120, sortable: true, dataIndex: 'department'},
+            {text: "工号", width: 120, sortable: true,dataIndex: 'staffId'},
+            {text: "部门", width: 120, sortable: true, dataIndex: 'departmentId'},
             {text: "职务", width: 120, sortable: true, dataIndex: 'position'},
-            {
-        		text: "入职时间", 
-        		width: 120, 
-        		sortable: true, 
-        		renderer: Ext.util.Format.dateRenderer('Y-m-d'), 
-        		dataIndex: 'enterTime'
-    		},
+            {text: "入职时间", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('Y-m-d'), dataIndex: 'entryTime'},
             {text: "联系电话", width: 120, sortable: true, dataIndex: 'phone'},
-            {text: "角色", width: 120, sortable: true, dataIndex: 'role'},
-            {text: "密码", width: 120, sortable: true, dataIndex: 'password'}
+            {text: "角色", width: 120, sortable: true, dataIndex: 'roleId'},
+            {text: "密码", width: 120, sortable: true, dataIndex: 'password'},
+            {text: "姓名", width: 120, sortable: true, dataIndex: '',hidden:true},
+            {text: "性别", width: 120, sortable: true, dataIndex: 'gender',hidden:true},
+            {text: "年龄", width: 120, sortable: true, dataIndex: 'age',hidden:true},
+            {text: "出生日期", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('Y-m-d'),dataIndex: 'birthday',hidden:true},
+            {text: "民族", width: 120, sortable: true, dataIndex: 'nationality',hidden:true},
+            {text: "政治面貌", width: 120, sortable: true, dataIndex: 'politicalStatus',hidden:true},
+            {text: "婚姻状况", width: 120, sortable: true, dataIndex: 'maritalStatus',hidden:true},
+            {text: "籍贯", width: 120, sortable: true, dataIndex: 'nativePlace',hidden:true},
+            {text: "身份证号", width: 120, sortable: true, dataIndex: 'idNo',hidden:true},
+            {text: "护照号", width: 120, sortable: true, dataIndex: 'passportNo',hidden:true},
+            {text: "户口地址", width: 120, sortable: true, dataIndex: 'domicilePlace',hidden:true},
+            {text: "参加工作时间", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('Y-m-d'),dataIndex: 'dateOfRecruitment',hidden:true},
+            {text: "最高学历", width: 120, sortable: true, dataIndex: 'hightestEdu',hidden:true},
+            {text: "最高学位", width: 120, sortable: true, dataIndex: 'hightestDegree',hidden:true},
+            {text: "毕业院校", width: 120, sortable: true, dataIndex: 'graduateSchool',hidden:true},
+            {text: "专业", width: 120, sortable: true, dataIndex: 'major',hidden:true},
+            {text: "学制", width: 120, sortable: true, dataIndex: 'schoolSystem',hidden:true},
+            {text: "手机号", width: 120, sortable: true, dataIndex: 'phone',hidden:true},
+            {text: "现居住地", width: 120, sortable: true, dataIndex: 'currentAddress',hidden:true},
+            {text: "紧急联系人", width: 120, sortable: true, dataIndex: 'urgentContact',hidden:true},
+            {text: "邮箱", width: 120, sortable: true, dataIndex: 'email',hidden:true},
+            {text: "邮编", width: 120, sortable: true, dataIndex: 'zipCode',hidden:true},
+            {text: "紧急电话", width: 120, sortable: true, dataIndex: 'ucPhone',hidden:true}
         ],
         dockedItems: [{
 	        xtype: 'pagingtoolbar',
 	        autoScroll:false,
-	        store: user_store,   // same user_store GridPanel is using
+	        store: staffStore,   // same user_store GridPanel is using
 	        dock: 'bottom',
 	        pageSize:5,
 	        displayInfo: true,
@@ -175,6 +296,10 @@ Ext.onReady(function(){
             msgTarget:'qtip'
         },
         items: [{
+        	xtype:'textfield',
+        	name:'userId',
+        	hidden:true
+        },{
             xtype: 'fieldset',
             title: '部门信息',
             collapsible: false,
@@ -186,30 +311,53 @@ Ext.onReady(function(){
                     defaultMargins: {top: 0, right: 15, bottom: 5, left: 0}
                 }
             },
-            items: [{
-                defaults: {
-                    labelWidth:64,
-                    anchor: '100%',
-                    xtype:'textfield'
-                },
-                items: [{
-                    xtype: 'filefield',
-                    emptyText: '请选择上传图片',
-                    fieldLabel: '请上传图片',
-                    name: 'photo-path',
-                    buttonText: '浏览  ',
-                    labelAlign:'left'
-                }]
-            },{
+            items: [
+//            	{
+//                defaults: {
+//                    labelWidth:64,
+//                    anchor: '100%',
+//                    xtype:'textfield'
+//                },
+//                items: [{
+//                    xtype: 'filefield',
+//                    emptyText: '请选择上传图片',
+//                    fieldLabel: '请上传图片',
+//                    name: 'photo-path',
+//                    buttonText: '浏览  ',
+//                    labelAlign:'left'
+//                }]
+//            },
+            	{
                 defaults: {
                     labelWidth:64,
                     anchor: '100%',
                     xtype:'textfield'
                 },
                 items: [
-                    {width:'33%',fieldLabel: '工号',xtype: 'combo',name: 'staffNo',allowBlank: false}, 
-                    {width:'33%',fieldLabel: '部门',xtype: 'combo',name: 'department',allowBlank: false},
-                    {width:'33%',fieldLabel: '职务',xtype: 'combo',name: 'position',margins:'0 4 0 0',allowBlank: false}
+                    {width:'33%',fieldLabel: '工号',xtype: 'combo',name: 'staffId',value:123,allowBlank: false}, 
+                    {
+                    	width:'33%',
+                    	fieldLabel: '部门',
+                    	xtype: 'combo',
+                    	name: 'departmentId',
+                    	store:dept,
+                    	valueField:'departmentId',
+                    	displayField:'departmentName',
+                    	value:17,
+                    	mode:'local',
+                    	allowBlank: false
+                	},{
+                		width:'33%',
+                		fieldLabel: '职务',
+                		xtype: 'combo',
+                		name: 'position',
+                		store:position,
+                		valueField:'id',
+                		displayField:'name',
+                		margins:'0 4 0 0',
+                		value:3,
+                		allowBlank: false
+            		}
                 ]
             },{
                 defaults: {
@@ -218,9 +366,19 @@ Ext.onReady(function(){
                     xtype:'textfield'
                 },
                 items: [
-                    {xtype: 'datefield',width:'33%',fieldLabel: '入职时间',name: 'enterTime',format : 'Y-m-d',allowBlank: false},
-                    {width:'33%',fieldLabel: '角色',xtype: 'combo',name: 'role',allowBlank: false},
-                    {width:'33%',fieldLabel: '密码',name: 'password',margins:'0 4 0 0',allowBlank: false}
+                    {xtype: 'datefield',width:'33%',fieldLabel: '入职时间',name: 'entryTime',format : 'Y-m-d',value:'2011-12-12',allowBlank: false},
+                    {
+                    	width:'33%',
+                    	fieldLabel: '角色',
+                    	xtype: 'combo',
+                    	name: 'roleId',
+                    	store:role,
+                    	valueField:'id',
+                    	displayField:'name',
+                    	value:1,
+                    	allowBlank: false
+                	},
+                    {width:'33%',fieldLabel: '密码',name: 'password',margins:'0 4 0 0',value:'123',allowBlank: false}
                 ]
             }]
         },{
@@ -242,9 +400,28 @@ Ext.onReady(function(){
                     xtype:'textfield'
                 },
                 items: [
-                    {width:'33%',fieldLabel: '姓名',name: 'staffName',allowBlank: false}, 
-                    {width:'33%',fieldLabel: '性别',xtype: 'combo',name: 'gender',allowBlank: false},
-                    {width:'33%',fieldLabel: '年龄',xtype: 'combo',name: 'age',margins:'0 4 0 0',allowBlank: false}
+                    {width:'33%',fieldLabel: '姓名',name: 'staffName',value:'123',allowBlank: false}, 
+                    {
+                    	width:'33%',
+                    	fieldLabel: '性别',
+                    	xtype: 'combo',
+                    	name: 'gender',
+                    	store:gender,
+                    	valueField:'id',
+                    	displayField:'name',
+                    	value:1,
+                    	mode:'local',
+                    	allowBlank: false
+                	},{
+                		xtype: 'datefield',
+                		width:'33%',
+                		fieldLabel: '出生日期',
+                		name: 'birthday',
+                		format:'Y-m-d',
+                		margins:'0 4 0 0',
+                		value:'2012-12-12',
+                		allowBlank: false
+            		}
                 ]
             },{
                 defaults: {
@@ -253,9 +430,20 @@ Ext.onReady(function(){
                     xtype:'textfield'
                 },
                 items: [
-                    {xtype: 'datefield',width:'33%',fieldLabel: '出生日期',name: 'birthday',format:'Y-m-d',allowBlank: false},
-                    {width:'33%',fieldLabel: '民族',xtype: 'combo',name: 'nationality',allowBlank: false}, 
-                    {width:'33%',fieldLabel: '政治面貌',xtype: 'combo',name: 'politicalStatus',margins:'0 4 0 0',allowBlank: false}
+                    {width:'33%',fieldLabel: '年龄',name: 'age',value:12,allowBlank: false},
+                    {width:'33%',fieldLabel: '民族',name: 'nationality',value:'123',allowBlank: false}, 
+                    {
+                    	width:'33%',
+                    	fieldLabel: '政治面貌',
+                    	xtype: 'combo',
+                    	name: 'politicalStatus',
+                    	store:politicalStatus,
+                    	valueField:'id',
+                    	displayField:'name',
+                    	margins:'0 4 0 0',
+                    	value:1,
+                    	allowBlank: false
+                	}
                 ]
             },{
                 defaults: {
@@ -264,9 +452,19 @@ Ext.onReady(function(){
                     xtype:'textfield'
                 },
                 items: [
-                    {width:'33%',fieldLabel: '婚姻状况',xtype: 'combo',name: 'maritalStatus',allowBlank: false},
-                    {width:'33%',fieldLabel: '籍贯',xtype: 'combo',name: 'nativePlace',allowBlank: false},
-                    {width:'33%',fieldLabel: '身份证号',name: 'IDNo',margins:'0 4 0 0',allowBlank: false}
+                    {
+                    	width:'33%',
+                    	fieldLabel: '婚姻状况',
+                    	xtype: 'combo',
+                    	name: 'maritalStatus',
+                    	store:maritalStatus,
+                    	valueField:'id',
+                    	displayField: 'name',
+                    	value:1,
+                    	allowBlank: false
+                	},
+                    {width:'33%',fieldLabel: '籍贯',name: 'nativePlace',value:'123',allowBlank: false},
+                    {width:'33%',fieldLabel: '身份证号',name: 'idNo',margins:'0 4 0 0',value:'123',allowBlank: false}
                 ]
             },{
                 defaults: {
@@ -275,8 +473,8 @@ Ext.onReady(function(){
                     xtype:'textfield'
                 },
                 items: [
-                    {width:'49%',fieldLabel: '护照号',name: 'passportNo',allowBlank: false},
-                    {width:'50%',fieldLabel: '户口地址',name: 'domicilePlace',margins:'0 4 5 0',allowBlank: false}
+                    {width:'49%',fieldLabel: '护照号',name: 'passportNo',value:'123',allowBlank: false},
+                    {width:'50%',fieldLabel: '户口地址',name: 'domicilePlace',margins:'0 4 5 0',value:'123',allowBlank: false}
                 ]
             }]
         },{
@@ -299,9 +497,29 @@ Ext.onReady(function(){
                     anchor: '100%'
                 },
                 items: [
-                    {width:'33%',fieldLabel: '<fon size="10">参加工作时间</fon>',name: 'dateOfRecruitment',allowBlank: false}, 
-                    {width:'33%',fieldLabel: '最高学历',xtype: 'combo',name: 'hightestEdu',allowBlank: false},
-                    {width:'33%',fieldLabel: '最高学位',xtype: 'combo',name: 'hightestDegree',margins:'0 4 0 0',allowBlank: false}
+                    {xtype: 'datefield',width:'33%',fieldLabel: '参加工作时间',name: 'dateOfRecruitment',format:'Y-m-d',value:'2012-12-12',allowBlank: false}, 
+                    {
+                    	width:'33%',
+                    	fieldLabel: '最高学历',
+                    	xtype: 'combo',
+                    	name: 'hightestEdu',
+                    	store:highestEdu,
+                    	valueField:'id',
+                    	displayField: 'name',
+                    	value:1,
+                    	allowBlank: false
+                	},{	
+                    	width:'33%',
+                    	fieldLabel: '最高学位',
+                    	xtype: 'combo',
+                    	name: 'hightestDegree',
+                    	store:highestDegree,
+                    	valueField:'id',
+                    	displayField: 'name',
+                    	margins:'0 4 0 0',
+                    	value:1,
+                    	allowBlank: false
+                	}
                 ]
             },{
                 defaults: {
@@ -310,9 +528,20 @@ Ext.onReady(function(){
                     anchor: '100%'
                 },
                 items: [
-                    {width:'33%',fieldLabel: '毕业院校',name: 'graduateSchool',allowBlank: false},
-                    {width:'33%',fieldLabel: '专业',name: 'major',allowBlank: false}, 
-                    {width:'33%',fieldLabel: '学制',name: 'schoolSystem',margins:'0 3 0 0',allowBlank: false}
+                    {width:'33%',fieldLabel: '毕业院校',name: 'graduateSchool',value:'123',allowBlank: false},
+                    {width:'33%',fieldLabel: '专业',name: 'major',value:'123',allowBlank: false}, 
+                    {
+                    	width:'33%',
+                    	fieldLabel: '学制',
+                    	xtype: 'combo',
+                    	name: 'schoolSystem',
+                    	store:schoolSystem,
+                    	valueField:'id',
+                    	displayField: 'name',
+                    	margins:'0 3 0 0',
+                    	value:1,
+                    	allowBlank: false
+                	}
                 ]
             }]
         },{
@@ -335,9 +564,9 @@ Ext.onReady(function(){
                     anchor: '100%'
                 },
                 items: [
-                    {width:'33%',fieldLabel: '手机号',name: 'phone',allowBlank: false}, 
-                    {width:'33%',fieldLabel: '现居住地',name: 'currentAddress',allowBlank: false}, 
-                    {width:'33%',fieldLabel: '紧急联系人',name: 'urgentContact',margins:'0 4 0 0',allowBlank: false}
+                    {width:'33%',fieldLabel: '手机号',name: 'phone',value:'123',allowBlank: false}, 
+                    {width:'33%',fieldLabel: '现居住地',name: 'currentAddress',value:'123',allowBlank: false}, 
+                    {width:'33%',fieldLabel: '紧急联系人',name: 'urgentContact',margins:'0 4 0 0',value:'123',allowBlank: false}
                 ]
             },{
                 defaults: {
@@ -346,9 +575,9 @@ Ext.onReady(function(){
                     anchor: '100%'
                 },
                 items: [
-                    {width:'33%',fieldLabel: '邮箱',name: 'email',allowBlank: false},
-                    {width:'33%',fieldLabel: '邮编',name: 'zipCode',allowBlank: false},
-                    {width:'33%',fieldLabel: '紧急电话',name: 'UCPhone',margins:'0 4 0 0',allowBlank: false}
+                    {width:'33%',fieldLabel: '邮箱',name: 'email',value:'123',allowBlank: false},
+                    {width:'33%',fieldLabel: '邮编',name: 'zipCode',value:'123',allowBlank: false},
+                    {width:'33%',fieldLabel: '紧急电话',name: 'ucPhone',margins:'0 4 0 0',value:'123',allowBlank: false}
                 ]
             }]
         }],
@@ -407,7 +636,7 @@ Ext.onReady(function(){
     	}
     	Ext.Msg.confirm('提示','您确定要删除所选用户吗？',function(btnID){
     		if(btnID=='yes'){
-    			deleteUsers(records)
+    			deleteUsers(records);
     		}
     	});
     };
@@ -420,10 +649,10 @@ Ext.onReady(function(){
 //    		msg:'正在删除用户信息，请稍后...'
 //    	});
     	for(var i=0;i<records.length;i++){
-    		var index=user_store.find('staffNo',records[i].get('staffNo'));
+    		var index=userStore.find('staffId',records[i].get('staffId'));
     		if(index!=-1){
-    			var rec=user_store.getAt(index);
-    			user_store.remove(rec);
+    			var rec=userStore.getAt(index);
+    			userStore.remove(rec);
     			//grid.getStore().reload();
     		}
     	}
@@ -459,10 +688,11 @@ Ext.onReady(function(){
     			method:'POST',
     			success:function(form,action){
     				win.hide();
-    				Ext.Msg.alert('提示','新增员工成功！');
+    				updateGrid(action.result.msg);
+    				top.Ext.Msg.show({title:'提示', msg:'新增员工成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
     			},
     			failure:function(form,action){
-    				Ext.Msg.alert('提示','新增员工失败！')	
+    				top.Ext.Msg.show({title:'提示', msg:'新增员工失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});	
     			}
     		});
     	}else{
@@ -473,12 +703,58 @@ Ext.onReady(function(){
 				method:'POST',
 				success:function(form,action){
 					win.hide();
-					Ext.Msg.alert('提示','修改员工成功！');
+					updateGrid(action.result.msg);
+					top.Ext.Msg.show({title:'提示', msg:'修改员工成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
 				},
 				failure:function(form,action){
-					Ext.Msg.alert('提示','修改员工失败！');	
+					top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
 				}
     		});
     	}
     };
+    
+    function updateGrid(staffId){
+    	var values=form.form.getValues();
+    	var index=staffStore.find('staffId',values['staffId']);
+    	if(index!=-1){
+    		var item = staffStore.getAt(index);
+    		for(var fieldName=staffStore in values){
+    			item.set(fieldName,values[fieldName]);
+    		}
+    		item.commit();
+    	}else{
+    		var rec =Ext.ModelMgr.create({
+    			staffId:staffId,
+    			staffName:values['staffName'],
+    			departmentId:values['departmentId'],
+    			position:values['position'],
+    			entryTime:values['entryTime'],
+    			phone:values['phone'],
+    			roleId:values['roleId'],
+    			password:values['password'],
+    			gender:values['gender'],
+    			age:values['age'],
+    			birthday:values['birthday'],
+    			nationality:values['nationality'],
+    			politicalStatus:values['politicalStatus'],
+    			maritalStatus:values['maritalStatus'],
+    			nativePlace:values['nativePlace'],
+    			idNo:values['idNo'],
+    			passportNo:values['passportNo'],
+    			domicilePlace:values['domicilePlace'],
+    			dateOfRecruitment:values['dateOfRecruitment'],
+    			hightestEdu:values['hightestEdu'],
+    			hightestDegree:values['hightestDegree'],
+    			graduateSchool:values['graduateSchool'],
+    			major:values['major'],
+    			schoolSystem:values['schoolSystem'],
+    			currentAddress:values['currentAddress'],
+    			urgentContact:values['urgentContact'],
+    			email:values['email'],
+    			zipCode:values['zipCode'],
+    			ucPhone:values['ucPhone']
+    		},'staff');
+    		staffStore.add(rec);
+    	}
+    }
 });

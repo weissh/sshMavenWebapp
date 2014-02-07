@@ -7,11 +7,11 @@ import dao.StaffDao;
 
 public class StaffDaoHib extends GenericDaoHib<Staff> implements StaffDao{
 
-	public StaffDaoHib() {
+
+	public StaffDaoHib(){
 		super(Staff.class);
 	}
 
-	@Override
 	public Staff getStaffByUserNamePassword(String userName, String password) {
 		System.out.println(userName);
 		List<Staff> staff=this.findByProperty("userName", userName);
@@ -22,4 +22,8 @@ public class StaffDaoHib extends GenericDaoHib<Staff> implements StaffDao{
 		return null;
 	}
 
+	public Staff find(Integer id){
+		return this.find(Staff.class, id);
+	}
+	
 }

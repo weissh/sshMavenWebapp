@@ -26,9 +26,11 @@ public class StaffServiceImpl extends GenericServiceImpl<Staff> implements Staff
 		this.staffDao = staffDao;
 	}
 
-	@Override
 	public Staff getStaffByUserNamePwd(String userName, String password) {
 		return this.staffDao.getStaffByUserNamePassword(userName, password);
 	}
 	
+	public Staff find(Integer id){
+		return this.staffDao.find(id);
+	}
 }

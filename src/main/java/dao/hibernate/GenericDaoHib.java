@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.apache.shiro.dao.DataAccessException;
 import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
@@ -12,10 +14,14 @@ import org.hibernate.Transaction;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import common.SystemException;
+
 import dao.GenericDao;
 
 public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<T> {
 
+	Logger log=Logger.getLogger(GenericDaoHib.class);
+	
 	// 具体的实体类型
 	//	private static final Logger log = LoggerFactory.getLogger(StudentDaoImpl.class);
 	private Class<T> type;
@@ -52,14 +58,13 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	}
 	
 	public T find(Class<T> clazz,int id){
-		Session session =this.getSession();
-		Transaction trans=session.beginTransaction();
-		@SuppressWarnings("unchecked")
-		T t= (T) session.get(clazz, id);
-		trans.commit();
-		session.close();
-		return t;
-				//(T)getHibernateTemplate().get(clazz, id);
+//		Session session =this.getSession();
+//		Transaction trans=session.beginTransaction();
+//		@SuppressWarnings("unchecked")
+//		T t= (T) session.get(clazz, id);
+//		trans.commit();
+//		session.close();
+		return (T)getHibernateTemplate().get(clazz, id);
 	}
 	
 //	public void update(T entity){
@@ -104,7 +109,15 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	
 	//@SuppressWarnings("unchecked")
 	public int save(T entity) {
-		 return  (Integer) getHibernateTemplate().save(entity);
+		if(entity==null)
+			throw new SystemException("对象为空！");
+		try{
+			return (Integer) getHibernateTemplate().save(entity);
+		}catch (DataAccessException e) {
+			log.error("保存方法发生错误:",e);
+			throw new SystemException("保存方法发生错误:",e);
+		}
+		
 		//return (T) getHibernateTemplate().save(entity);
 	}
 	
@@ -196,7 +209,7 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 		return getHibernateTemplate().executeFind(new HibernateCallback() {
 			public List<T> doInHibernate(Session session)
 					throws HibernateException, SQLException {
-				return session.createSQLQuery(sql).addEntity(type.getName()).list();
+				return session.createQuery(sql).list();
 			}
 		});
 	}
@@ -246,4 +259,6 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 		}
 	}
 
+	
+	
 }

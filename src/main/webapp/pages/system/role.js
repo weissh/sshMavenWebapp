@@ -16,19 +16,19 @@ Ext.onReady(function(){
         [002,'管理员','最大权限']
     ];
 	
-	var role_store=Ext.create('Ext.data.Store',{
+	var roleStore=Ext.create('Ext.data.Store',{
 		model:'role',
 		autoLoad:true,
 		data:Ext.grid.dummyData
 	});
 	
 	//定义角色表格
-	var role_grid=Ext.create('Ext.grid.Panel', {
+	var grid=Ext.create('Ext.grid.Panel', {
 		width:'40%',
 		margins:'0 20 0 -1',
 		height:document.body.clientHeight,
 		bodyStyle:'border-width:0 1px 1px 0',
-		store:role_store,
+		store:roleStore,
 		dockedItems: [{
 	        xtype: 'toolbar',
 	        margin:'-1 0 0 -1',
@@ -223,7 +223,7 @@ Ext.onReady(function(){
 	    }]
 	});
 	
-	var record=role_grid.getStore().getAt(0);
+	var record=grid.getStore().getAt(0);
 	role_form.getForm().loadRecord(record);
 	
 	//定义另一个表单，用于新增、修改角色信息；定义角色信息表单：包括角色基本信息以及其权限信息,
@@ -304,7 +304,7 @@ Ext.onReady(function(){
 	
 	//删除角色
 	function deleteRoleInfo(){
-		var records=role_grid.getSelectionModel().getSelection();
+		var records=grid.getSelectionModel().getSelection();
 		if(records.length==0){
 			top.Ext.Msg.show({title:'错误', msg:'请至少选择一条记录进行删除！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
     		return;
@@ -324,10 +324,10 @@ Ext.onReady(function(){
 //    		msg:'正在删除角色信息，请稍后...'
 //    	});
 		for(var i=0;i<records.length;i++){
-			var index=role_store.find('roleNo',records[i].get('roleNo'));
+			var index=roleStore.find('roleNo',records[i].get('roleNo'));
 			if(index!=-1){
-				var rec=role_store.getAt(index);
-				role_store.remove(rec);
+				var rec=roleStore.getAt(index);
+				roleStore.remove(rec);
 				role_form.getForm().reset();
 			}
 		}
@@ -364,6 +364,6 @@ Ext.onReady(function(){
 		layout:'hbox',
 		border:false,
 		bodyStyle: 'background:#f0f0f0',
-		items:[role_grid,role_form]
+		items:[grid,role_form]
 	});
 });

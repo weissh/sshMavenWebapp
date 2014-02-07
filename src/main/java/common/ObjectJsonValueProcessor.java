@@ -47,7 +47,7 @@ public class ObjectJsonValueProcessor implements JsonValueProcessor {
 				propertyDescriptor=new PropertyDescriptor(properties[i], clazz);
 				method=propertyDescriptor.getReadMethod();
 				String v=String.valueOf(method.invoke(value));
-				json.append("'"+properties+"':'"+v+"'");
+				json.append("'"+properties[i]+"':'"+v+"'");
 				json.append(i!=properties.length-1?",":"");
 			}
 			json.append("}");

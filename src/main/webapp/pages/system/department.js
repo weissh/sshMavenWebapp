@@ -93,7 +93,7 @@ Ext.onReady(function () {
     Ext.define('department',{
     	extend: 'Ext.data.Model',
     	fields:[
-    		{name:'departmentId'},
+    		{name:'departmentId',type:'int'},
     		{name:'departmentName'},
     		{name:'createTime',type: 'date', dateFormat:'Y-m-d'},
     		{name:'managerId'},
@@ -153,7 +153,7 @@ Ext.onReady(function () {
         dockedItems: [{
 	        xtype: 'pagingtoolbar',
 	        autoScroll:false,
-	        store: departmentStore,   // same user_store GridPanel is using
+	        store: departmentStore,
 	        dock: 'bottom',
 	        pageSize:5,
 	        displayInfo: true,
