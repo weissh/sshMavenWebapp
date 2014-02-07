@@ -3,21 +3,46 @@
 <struts>
 	<constant name="struts.objectFactory" value="spring" /> 
 
+
+	<!--package中的每个action的class指定的是applicationContext.xml中配置的Action的id  -->
 	<package name="loginout" extends="struts-default" namespace="/">
 		<action name="login" method="login" class="web.action.LoginAction">
 			<result name="SUCCESS">index.jsp</result>
 			<result name="INPUT">login.jsp</result>
 		</action>
 	</package>
-
-	<package name="department" extends="struts-default" >
-		<action name="dept_add" method="addDept" class="web.action.DepartmentAction" >
-			<result name="SUCCESS">index.jsp</result>
-			<result name="INPUT">login.jsp</result>
+	
+	<package name="department" extends="json-default" >
+		<action name="dept_add" method="addDept" class="departmentAction" >
+		<result name="success" type="json"/>
 		</action>
-		<action name="dept_update" method="updateDept" class="web.action.DepartmentAction" ></action>
-		<action name="dept_delete" method="deleteDept" class="web.action.DepartmentAction" ></action>
-		<action name="dept_getAll" method="getAllDept" class="web.action.DepartmentAction" ></action>
+		<action name="dept_update" method="updateDept" class="departmentAction" >
+		<result name="success" type="json"/>
+		</action>
+		<action name="dept_delete" method="deleteDept" class="departmentAction" >
+		<result name="success" type="json"/>
+		</action>
+		<action name="dept_getAll" method="getAllDept" class="departmentAction" >
+		<result name="success" type="json"/>
+		</action>
+		<action name="dept_getForSelector" method="getDeptForSelector" class="departmentAction" >
+		<result name="success" type="json"/>
+		</action>
+	</package>
+	
+	<package name="staff" extends="json-default" >
+		<action name="staff_add" method="addStaff" class="staffAction" >
+		<result name="success" type="json"/>
+		</action>
+		<action name="staff_update" method="updateStaff" class="staffAction" >
+		<result name="success" type="json"/>
+		</action>
+		<action name="staff_delete" method="deleteStaff" class="staffAction" >
+		<result name="success" type="json"/>
+		</action>
+		<action name="staff_getAll" method="getAllStaff" class="staffAction" >
+		<result name="success" type="json"/>
+		</action>
 	</package>
 	
 	<package name="admin" namespace="/admin" extends="struts-default">

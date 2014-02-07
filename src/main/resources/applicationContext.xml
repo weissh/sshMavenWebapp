@@ -59,6 +59,7 @@
 				<prop key="connection.password">root</prop>
 				<prop key="connection.driver_class">com.mysql.jdbc.Driver</prop>
 				<prop key="myeclipse.connection.profile">byjx</prop>
+				<prop key="hbm2ddl.auto">update</prop>
 				<!-- 添加新的hibernate配置（结束），cai -->
 				
 				<prop key="hibernate.show_sql">true</prop>
@@ -116,89 +117,141 @@
 	</bean>
 
 	<!-- 配置所有的**DaoHib 作者：cai ——start -->
-	
-	<!-- 配置StaffDaoHib -->
-	<bean id="staffDao" class="dao.hibernate.StaffDaoHib">
-		<property name="sessionFactory" ref="sessionFactory"/>
-	</bean>
-	
-	<!-- 配置DepartmentDaoHib -->
+	<!-- 配置departmentDaoHib -->
 	<bean id="departmentDao" class="dao.hibernate.DepartmentDaoHib ">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	
-	<!-- 配置JournalDaoHib -->
+	<!-- 配置staffDaoHib -->
+	<bean id="staffDao" class="dao.hibernate.StaffDaoHib">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<!-- 配置journalDaoHib -->
 	<bean id="journalDao" class="dao.hibernate.JournalDaoHib ">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	
-	<!-- 配置CostDaoHib -->
+	<!-- 配置costDaoHib -->
 	<bean id="costDao" class="dao.hibernate.CostDaoHib ">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	
+	<!-- 配置roleDaoHib -->
+	<bean id="roleDao" class="dao.hibernate.RoleDaoHib ">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<!-- 配置RightDaoHib -->
+	<bean id="rightDao" class="dao.hibernate.RightDaoHib ">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
 	<!-- 配置所有的**DaoHib 作者：cai ——end -->
 	
 	
 	<!-- 配置所有的**Service 作者：cai ——start -->
-		
-	<!-- 配置staffService -->
-	<bean id="staffService" class="service.impl.StaffServiceImpl">
-	<property name="staffDao" ref="staffDao"/>
-	</bean>
-	 
 	<!-- 配置departmentService -->
 	<bean id="departmentService" class="service.impl.DepartmentServiceImpl">
 		<property name="genericDao" ref="departmentDao"/>
 		<property name="departmentDao" ref="departmentDao"/>
 	</bean>
 	
-	<!-- 配置JournalService -->
+	<!-- 配置staffService -->
+	<bean id="staffService" class="service.impl.StaffServiceImpl">
+		<property name="genericDao" ref="staffDao"/>
+		<property name="staffDao" ref="staffDao"/>
+	</bean>
+	 
+	<!-- 配置journalService -->
 	<bean id="journalService" class="service.impl.JournalServiceImpl">
 		<property name="genericDao" ref="journalDao"/>
 		<property name="journalDao" ref="journalDao"/>
 	</bean>
 	
-	<!-- 配置CostService -->
+	<!-- 配置costService -->
 	<bean id="costService" class="service.impl.CostServiceImpl">
 		<property name="genericDao" ref="costDao"/>
 		<property name="costDao" ref="costDao"/>
 	</bean>
 	
+	<!-- 配置roleService -->
+	<bean id="roleService" class="service.impl.RoleServiceImpl">
+		<property name="genericDao" ref="roleDao"/>
+		<property name="roleDao" ref="roleDao"/>
+	</bean>
+	
+	<!-- 配置rightService -->
+	<bean id="rightService" class="service.impl.RightServiceImpl">
+		<property name="genericDao" ref="rightDao"/>
+		<property name="rightDao" ref="rightDao"/>
+	</bean>
 	<!-- 配置所有的**Service 作者：cai ——end -->
 	
 	
 	<!-- 配置所有的**ServiceDaoProxy 作者：cai ——start -->
-	
-	<!-- 配置staffServiceDaoProxy -->
-	<bean id="staffServiceDaoProxy" parent="transactionBase">
-		<property name="target" ref="staffService"/>
-	</bean>
-	
 	<!-- 配置departmentServiceDaoProxy -->
 	<bean id="departmentServiceDaoProxy" parent="transactionBase">
 		<property name="target" ref="departmentService"/>
 	</bean>
 	
+	<!-- 配置staffServiceDaoProxy -->
+	<bean id="staffServiceDaoProxy" parent="transactionBase">
+		<property name="target" ref="staffService"/>
+	</bean>
 	<!-- 配置journalServiceDaoProxy -->
 	<bean id="journalServiceDaoProxy" parent="transactionBase">
 		<property name="target" ref="journalService"/>
 	</bean>
 	
-	<!-- 配置departmentServiceDaoProxy -->
+	<!-- 配置costServiceDaoProxy -->
 	<bean id="costServiceDaoProxy" parent="transactionBase">
 		<property name="target" ref="costService"/>
 	</bean>
 	
+	<!-- 配置roleServiceDaoProxy -->
+	<bean id="roleServiceDaoProxy" parent="transactionBase">
+		<property name="target" ref="roleService"/>
+	</bean>
+	
+	<!-- 配置rightServiceDaoProxy -->
+	<bean id="rightServiceDaoProxy" parent="transactionBase">
+		<property name="target" ref="rightService"/>
+	</bean>
 	<!-- 配置所有的**ServiceDaoProxy 作者：cai ——end -->
 	
 	
 	<!-- 配置所有的**Action 作者：cai ——start -->
-	
 	<!-- 配置departmentAction -->
 	<bean id="departmentAction" class="web.action.DepartmentAction" scope="prototype">
 		<property name="departmentService" ref="departmentServiceDaoProxy"/>
 	</bean>
 	
+	<!-- 配置staffAction -->
+	<bean id="staffAction" class="web.action.StaffAction" scope="prototype">
+		<property name="staffService" ref="staffServiceDaoProxy"/>
+		<property name="departmentService" ref="departmentServiceDaoProxy"/>
+	</bean>
+	
+	<!-- 配置journalAction -->
+	<bean id="journalAction" class="web.action.JournalAction" scope="prototype">
+		<property name="journalService" ref="journalServiceDaoProxy"/>
+	</bean>
+	
+	<!-- 配置costAction -->
+	<bean id="costAction" class="web.action.CostAction" scope="prototype">
+		<property name="costService" ref="costServiceDaoProxy"/>
+	</bean>
+	
+	<!-- 配置
+	<bean id="roleAction" class="web.action.RoleAction" scope="prototype">
+		<property name="roleService" ref="roleServiceDaoProxy"/>
+	</bean>
+	roleAction -->
+	<!-- 配置
+	<bean id="rightAction" class="web.action.RightAction" scope="prototype">
+		<property name="rightService" ref="rightServiceDaoProxy"/>
+	</bean>
+	rightAction -->
 	<!-- 配置所有的**Action 作者：cai ——end -->
+	
 </beans>
