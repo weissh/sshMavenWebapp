@@ -14,34 +14,44 @@
 	
 	<package name="department" extends="json-default" >
 		<action name="dept_add" method="addDept" class="departmentAction" >
-		<result name="success" type="json"/>
+			<result name="success" type="json"/>
 		</action>
 		<action name="dept_update" method="updateDept" class="departmentAction" >
-		<result name="success" type="json"/>
+			<result name="success" type="json"/>
 		</action>
 		<action name="dept_delete" method="deleteDept" class="departmentAction" >
-		<result name="success" type="json"/>
+			<result name="success" type="json"/>
 		</action>
 		<action name="dept_getAll" method="getAllDept" class="departmentAction" >
-		<result name="success" type="json"/>
+			<result name="success" type="json"/>
 		</action>
 		<action name="dept_getForSelector" method="getDeptForSelector" class="departmentAction" >
-		<result name="success" type="json"/>
+			<result name="success" type="json"/>
 		</action>
 	</package>
 	
 	<package name="staff" extends="json-default" >
 		<action name="staff_add" method="addStaff" class="staffAction" >
-		<result name="success" type="json"/>
+			<!--
+			<interceptor-ref name="fileUpload">
+				<param name="allowedTypes">jpg</param>
+				<param name="maximumSize">20000000</param>
+			</interceptor-ref>
+			
+			<interceptor-ref name="defaultStack">
+				<param name=""></param>
+			</interceptor-ref>
+			  -->
+			<result name="success" type="json"/>
 		</action>
 		<action name="staff_update" method="updateStaff" class="staffAction" >
-		<result name="success" type="json"/>
+			<result name="success" type="json"/>
 		</action>
 		<action name="staff_delete" method="deleteStaff" class="staffAction" >
-		<result name="success" type="json"/>
+			<result name="success" type="json"/>
 		</action>
 		<action name="staff_getAll" method="getAllStaff" class="staffAction" >
-		<result name="success" type="json"/>
+			<result name="success" type="json"/>
 		</action>
 	</package>
 	

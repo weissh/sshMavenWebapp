@@ -13,6 +13,9 @@
         <many-to-one name="department" class="pojos.Department" fetch="select">
             <column name="Department_DepartmentID" not-null="true" />
         </many-to-one>
+        <property name="photo" type="java.lang.String">
+            <column name="Photo" length="100" />
+        </property>
         <property name="staffName" type="java.lang.String">
             <column name="StaffName" length="20" not-null="true" />
         </property>

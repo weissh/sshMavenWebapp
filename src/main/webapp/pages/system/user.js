@@ -30,85 +30,92 @@ Ext.onReady(function(){
     });
 
     var user=new Ext.data.Store({
+    	autoLoad: true,
         fields:['id','name'],
         data:[
-            [1,'小闫'],
-            [2,'小祖'],
-            [3,'小蔡'],
-            [4,'小宋'],
-            [5,'小吴']
+            ['1','小闫'],
+            ['2','小祖'],
+            ['3','小蔡'],
+            ['4','小宋'],
+            ['5','小吴']
         ]
     });
 
     var role=new Ext.data.Store({
         fields:['id','name'],
         data:[
-            {'id':1,'name':'员工'},
-	        {'id':2,'name':'部门经理'},
-	        {'id':3,'name':'总经理'},
-	        {'id':4,'name':'管理员'}
+            {'id':'1','name':'员工'},
+	        {'id':'2','name':'部门经理'},
+	        {'id':'3','name':'总经理'},
+	        {'id':'4','name':'管理员'}
         ]
     });
 
     var position=new Ext.data.Store({
+    	autoLoad: true,
         fields:['id','name'],
         data:[
-            {'id':1,'name':'员工'},
-	        {'id':2,'name':'部门经理'},
-	        {'id':3,'name':'总经理'}
+            {'id':'1','name':'员工'},
+	        {'id':'2','name':'部门经理'},
+	        {'id':'3','name':'总经理'}
         ]
     });
     
     var maritalStatus=new Ext.data.Store({
+    	autoLoad: true,
         fieldLabel:30,
         fields:['id','name'],
         data:[
-	        {'id':1,'name':'未婚'},
-	        {'id':2,'name':'已婚'},
-	        {'id':3,'name':'离异'},
-	        {'id':4,'name':'丧偶'}
+	        {'id':'1','name':'未婚'},
+	        {'id':'2','name':'已婚'},
+	        {'id':'3','name':'离异'},
+	        {'id':'4','name':'丧偶'}
         ]
     });
     
     var highestEdu=new Ext.data.Store({
+    	autoLoad: true,
         fieldLabel:30,
         fields:['id','name'],
         data:[
-	        {'id':1,'name':'专科'},
-	        {'id':2,'name':'本科'},
-	        {'id':3,'name':'硕士研究生'},
-	        {'id':4,'name':'博士研究生'}
+	        {'id':'1','name':'专科'},
+	        {'id':'2','name':'本科'},
+	        {'id':'3','name':'硕士研究生'},
+	        {'id':'4','name':'博士研究生'}
         ]
     });
     
     var highestDegree=new Ext.data.Store({
+    	autoLoad: true,
         fieldLabel:30,
         fields:['id','name'],
         data:[
-	        {'id':1,'name':'学士学位'},
-	        {'id':2,'name':'硕士学位'},
-	        {'id':3,'name':'博士学位'}
+	        {'id':'1','name':'学士学位'},
+	        {'id':'2','name':'硕士学位'},
+	        {'id':'3','name':'博士学位'}
         ]
     });
     
     var schoolSystem=new Ext.data.Store({
+    	autoLoad: true,
         fieldLabel:30,
         fields:['id','name'],
         data:[
-	        {'id':1,'name':'单轨制'},
-	        {'id':2,'name':'双轨制'},
-	        {'id':3,'name':'分支制学制'}
+	        {'id':'1','name':'单轨制'},
+	        {'id':'2','name':'双轨制'},
+	        {'id':'3','name':'分支制学制'}
         ]
     });
     
     var politicalStatus=new Ext.data.Store({
+    	autoLoad: true,
         fieldLabel:30,
         fields:['id','name'],
         data:[
-	        {'id':1,'name':'中共党员'},
-	        {'id':2,'name':'预备党员'},
-	        {'id':3,'name':'共青团员'},
-	        {'id':4,'name':'群众'}
+	        {'id':'1','name':'中共党员'},
+	        {'id':'2','name':'预备党员'},
+	        {'id':'3','name':'共青团员'},
+	        {'id':'4','name':'群众'}
         ]
     });
     
@@ -117,14 +124,15 @@ Ext.onReady(function(){
         autoLoad: true,
         fields:['id','name'],
         data:[
-	        {'id':1,'name':'男'},
-	        {'id':2,'name':'女'}
+	        {'id':'1','name':'男'},
+	        {'id':'2','name':'女'}
         ]
     });    
     Ext.define('staff', {
         extend: 'Ext.data.Model',
         fields: [
             {name: 'staffId', type: 'int'},
+            {name: 'photoImg'},
             {name: 'staffName'},
             //mapping 用于获取嵌套json中的摸个属性
             {name: 'departmentId', type: 'int',mapping:'department.departmentId'},
@@ -221,27 +229,85 @@ Ext.onReady(function(){
         },
             {xtype:'button',text:'查询',iconCls:'search'},
             '-','->',
-        	{xtype:'button',text:'新增用户',iconCls: 'user_add',handler:addUserInfo},
-            {xtype:'button',text:'修改',iconCls: 'user_edit',handler:editUserInfo},
-            {xtype:'button',text:'删除',iconCls: 'user_delete',handler:deleteUserInfo},
+        	{xtype:'button',text:'新增',iconCls: 'user_add',handler:addStaffInfo},
+            {xtype:'button',text:'修改',iconCls: 'user_edit',handler:editStaffInfo},
+            {xtype:'button',text:'删除',iconCls: 'user_delete',handler:deleteStaffInfo},
             {xtype:'button',text:'导出',iconCls:'file_export'}
         ],
         columns: [
             Ext.create('Ext.grid.RowNumberer'),
-            {text: "姓名", flex: 1, sortable: true, dataIndex: 'staffName'},
             {text: "工号", width: 120, sortable: true,dataIndex: 'staffId'},
-            {text: "部门", width: 120, sortable: true, dataIndex: 'departmentId'},
-            {text: "职务", width: 120, sortable: true, dataIndex: 'position'},
+            {text: "姓名", flex: 1, sortable: true, dataIndex: 'staffName'},
+            {text: "照片路径", width: 120, sortable: true,dataIndex: 'photoImg',hidden:true},
+            {
+            	text: "部门", 
+            	width: 120, 
+            	sortable: true, 
+            	dataIndex: 'departmentId',
+            	renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
+            		var index=dept.find('departmentId',value);
+            		var record=dept.getAt(index);
+            		var text="";
+            		if(record==null){
+            			text=value;
+            		}else{
+            			text=record.data['departmentName'];
+            		}
+            		return text;
+            	}
+        	},
+            {
+            	text: "职务",
+            	width: 120, 
+            	sortable: true, 
+            	dataIndex: 'position',
+            	renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
+            		var index=position.find('id',value);
+            		var record=position.getAt(index);
+            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
+            	}
+        	},
             {text: "入职时间", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('Y-m-d'), dataIndex: 'entryTime'},
             {text: "联系电话", width: 120, sortable: true, dataIndex: 'phone'},
-            {text: "角色", width: 120, sortable: true, dataIndex: 'roleId'},
+            {
+            	text: "角色", 
+            	width: 120, 
+            	sortable: true, 
+            	dataIndex: 'roleId'
+//            	renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
+//            		var index=role.find('id',value);
+//            		var record=role.getAt(index);
+//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
+//            	}
+        	},
             {text: "密码", width: 120, sortable: true, dataIndex: 'password'},
             {text: "姓名", width: 120, sortable: true, dataIndex: '',hidden:true},
-            {text: "性别", width: 120, sortable: true, dataIndex: 'gender',hidden:true},
+            {
+            	text: "性别", 
+            	width: 120, 
+            	sortable: true, 
+            	dataIndex: 'gender',
+            	renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
+            		var index=gender.find('id',value);
+            		var record=gender.getAt(index);
+            		return getText(record);
+            	},
+            	hidden:true
+        	},
             {text: "年龄", width: 120, sortable: true, dataIndex: 'age',hidden:true},
             {text: "出生日期", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('Y-m-d'),dataIndex: 'birthday',hidden:true},
             {text: "民族", width: 120, sortable: true, dataIndex: 'nationality',hidden:true},
-            {text: "政治面貌", width: 120, sortable: true, dataIndex: 'politicalStatus',hidden:true},
+            {
+            	text: "政治面貌", 
+            	width: 120, 
+            	sortable: true, 
+            	dataIndex: 'politicalStatus',
+            	renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
+            		var index=politicalStatus.find('id',value);
+            		var record=politicalStatus.getAt(index);
+            		return getText(record);
+            	},
+            	hidden:true},
             {text: "婚姻状况", width: 120, sortable: true, dataIndex: 'maritalStatus',hidden:true},
             {text: "籍贯", width: 120, sortable: true, dataIndex: 'nativePlace',hidden:true},
             {text: "身份证号", width: 120, sortable: true, dataIndex: 'idNo',hidden:true},
@@ -278,7 +344,7 @@ Ext.onReady(function(){
         renderTo: Ext.getBody()
     });
     
-    grid.addListener('itemdblclick', editUserInfo, this);
+    grid.addListener('itemdblclick', editStaffInfo, this);
     
     //user_store.load({ params: { start: 0, limit: 2} })
     //创建表单
@@ -291,8 +357,6 @@ Ext.onReady(function(){
         bodyStyle: 'background:#dfe9f5',
         defaults: {
             anchor: '100%',
-//            allowBlank:false,
-//            blankText:'不允许为空',
             msgTarget:'qtip'
         },
         items: [{
@@ -312,22 +376,22 @@ Ext.onReady(function(){
                 }
             },
             items: [
-//            	{
-//                defaults: {
-//                    labelWidth:64,
-//                    anchor: '100%',
-//                    xtype:'textfield'
-//                },
-//                items: [{
-//                    xtype: 'filefield',
-//                    emptyText: '请选择上传图片',
-//                    fieldLabel: '请上传图片',
-//                    name: 'photo-path',
-//                    buttonText: '浏览  ',
-//                    labelAlign:'left'
-//                }]
-//            },
             	{
+                defaults: {
+                    labelWidth:64,
+                    anchor: '100%',
+                    xtype:'textfield'
+                },
+                items: [{
+                    xtype: 'filefield',
+                    width:200,
+                    emptyText: '请选择上传图片',
+                    fieldLabel: '请上传图片',
+                    name: 'photoImg',
+                    buttonText: '浏览  ',
+                    labelAlign:'left'
+                }]
+	            },{
                 defaults: {
                     labelWidth:64,
                     anchor: '100%',
@@ -355,7 +419,7 @@ Ext.onReady(function(){
                 		valueField:'id',
                 		displayField:'name',
                 		margins:'0 4 0 0',
-                		value:3,
+                		value:'1',
                 		allowBlank: false
             		}
                 ]
@@ -375,7 +439,7 @@ Ext.onReady(function(){
                     	store:role,
                     	valueField:'id',
                     	displayField:'name',
-                    	value:1,
+                    	value:'1',
                     	allowBlank: false
                 	},
                     {width:'33%',fieldLabel: '密码',name: 'password',margins:'0 4 0 0',value:'123',allowBlank: false}
@@ -409,8 +473,8 @@ Ext.onReady(function(){
                     	store:gender,
                     	valueField:'id',
                     	displayField:'name',
-                    	value:1,
                     	mode:'local',
+                    	value:'1',
                     	allowBlank: false
                 	},{
                 		xtype: 'datefield',
@@ -441,7 +505,7 @@ Ext.onReady(function(){
                     	valueField:'id',
                     	displayField:'name',
                     	margins:'0 4 0 0',
-                    	value:1,
+                    	value:'1',
                     	allowBlank: false
                 	}
                 ]
@@ -460,7 +524,7 @@ Ext.onReady(function(){
                     	store:maritalStatus,
                     	valueField:'id',
                     	displayField: 'name',
-                    	value:1,
+                    	value:'1',
                     	allowBlank: false
                 	},
                     {width:'33%',fieldLabel: '籍贯',name: 'nativePlace',value:'123',allowBlank: false},
@@ -502,11 +566,12 @@ Ext.onReady(function(){
                     	width:'33%',
                     	fieldLabel: '最高学历',
                     	xtype: 'combo',
+                    	hiddenName:'hightestEdu',
                     	name: 'hightestEdu',
                     	store:highestEdu,
                     	valueField:'id',
                     	displayField: 'name',
-                    	value:1,
+                    	value:'1',
                     	allowBlank: false
                 	},{	
                     	width:'33%',
@@ -517,7 +582,7 @@ Ext.onReady(function(){
                     	valueField:'id',
                     	displayField: 'name',
                     	margins:'0 4 0 0',
-                    	value:1,
+                    	value:'1',
                     	allowBlank: false
                 	}
                 ]
@@ -539,7 +604,7 @@ Ext.onReady(function(){
                     	valueField:'id',
                     	displayField: 'name',
                     	margins:'0 3 0 0',
-                    	value:1,
+                    	value:'1',
                     	allowBlank: false
                 	}
                 ]
@@ -587,8 +652,24 @@ Ext.onReady(function(){
 		},{
 			text:'取消',
 			handler:function(){
-				win.close();
+				//win.close();
+				var form1   = this.up('form').getForm(),
+                    encode = Ext.String.htmlEncode,
+                    s      = '';
+
+                if (form1.isValid()) {
+                    Ext.iterate(form1.getValues(), function(key, value) {
+                        value = encode(value);
+                        
+                        s += Ext.util.Format.format("{0} = {1}<br />", key, value);
+                    }, this);
+
+                    top.Ext.Msg.alert('Form Values', s);
+                }
 			}
+//			handler:function(){
+//				win.close();
+//			}
 		}]
     });
     
@@ -604,7 +685,7 @@ Ext.onReady(function(){
     });
 	    
     //增加新用户
-    function addUserInfo(){
+    function addStaffInfo(){
     	form.form.reset();
     	form.isAdd=true;
     	//form.getForm().findField('email').setReadOnly (false);
@@ -613,7 +694,7 @@ Ext.onReady(function(){
     };
     
     //修改用户
-    function editUserInfo(){
+    function editStaffInfo(){
     	var record=grid.getSelectionModel().getSelection();
 		if (record.length==1) {
 			form.form.reset();
@@ -628,7 +709,7 @@ Ext.onReady(function(){
     };
     
     //删除用户
-    function deleteUserInfo(){
+    function deleteStaffInfo(){
     	var records=grid.getSelectionModel().getSelection();
     	if(records.length==0){
     		top.Ext.Msg.show({title:'错误', msg:'请至少选择一条记录进行删除！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
@@ -636,83 +717,87 @@ Ext.onReady(function(){
     	}
     	Ext.Msg.confirm('提示','您确定要删除所选用户吗？',function(btnID){
     		if(btnID=='yes'){
-    			deleteUsers(records);
+    			deleteStaffs(records);
+    		}
+    	});
+    }
+    //执行删除操作
+    function deleteStaffs(records){
+    	var staffIds="";
+    	for(var i=0;i<records.length;i++){
+    		var id=records[i].get('staffId');
+    		if(i==0){
+    			staffIds+=id;
+    		}else{
+    			staffIds=staffIds+','+id;
+    		}
+    	}
+    	var msgTip=top.Ext.MessageBox.show({
+    		title:'提示',
+    		width:250,
+    		msg:'正在删除员工信息，请稍后...'
+    	});
+    	Ext.Ajax.request({
+    		url:'staff_delete.action',
+    		params:{staffIds:staffIds},
+    		method:'POST',
+    		success:function(response,options){
+    			msgTip.hide();
+    			var result=Ext.JSON.decode(response.responseText);
+    			if(result.success){
+    				for(var i=0;i<records.length;i++){
+    					var index=staffStore.find('staffId',records[i].get('staffId'));
+    					if(index!=-1){
+    						var rec=staffStore.getAt(index);
+    						staffStore.remove(rec);
+    						grid.getView().refresh();
+    					}
+    				}
+    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+    			}else{
+    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+    			}
     		}
     	});
     };
-    //执行删除操作
-    function deleteUsers(records){
-    	var userID=records.join(',');
-//    	var msgTip=Ext.MessageBox.show({
-//    		title:'提示',
-//    		width:250,
-//    		msg:'正在删除用户信息，请稍后...'
-//    	});
-    	for(var i=0;i<records.length;i++){
-    		var index=userStore.find('staffId',records[i].get('staffId'));
-    		if(index!=-1){
-    			var rec=userStore.getAt(index);
-    			userStore.remove(rec);
-    			//grid.getStore().reload();
-    		}
-    	}
-//	    	Ext.Ajax.request({
-//	    		url:'',
-//	    		params:{userID:userID},
-//	    		method:'POST',
-//	    		success:function(response,options){
-//	    			msgTip.hide();
-//	    			var result=Ext.JSON.decode(response.responseText);
-//	    			if(result.success){
-//	    				for(var i=0;i<userList.lenght;i++){
-//	    					var index=user_store.find('id',userList[i]);
-//	    					if(index!=-1){
-//	    						var rec=userList.getAt(index);
-//	    						user_store.remove(rec);
-//	    					}
-//	    				}
-//	    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
-//	    			}else{
-//	    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息失败！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
-//	    			}
-//	    		}
-//	    	});
-    };
     
     function submitForm(){
-    	if(form.isAdd){
-    		form.form.submit({
-    			waitMsg:'正在提交数据，请稍后...',
-    			waitTitle:'提示',
-    			url:'staff_add.action',
-    			method:'POST',
-    			success:function(form,action){
-    				win.hide();
-    				updateGrid(action.result.msg);
-    				top.Ext.Msg.show({title:'提示', msg:'新增员工成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
-    			},
-    			failure:function(form,action){
-    				top.Ext.Msg.show({title:'提示', msg:'新增员工失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});	
-    			}
-    		});
-    	}else{
-    		form.form.submit({
-	    		waitMsg:'正在提交数据，请稍后...',
-				waitTitle:'提示',
-				url:'staff_update.action',
-				method:'POST',
-				success:function(form,action){
-					win.hide();
-					updateGrid(action.result.msg);
-					top.Ext.Msg.show({title:'提示', msg:'修改员工成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
-				},
-				failure:function(form,action){
-					top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
-				}
-    		});
+    	if(form.form.isValid()){
+	    	if(form.isAdd){
+	    		form.form.submit({
+	    			waitMsg:'正在提交数据，请稍后...',
+	    			waitTitle:'提示',
+	    			url:'staff_add.action',
+	    			method:'POST',
+	    			success:function(form,action){
+	    				win.hide();
+	    				updateGrid(action.result.msg);
+	    				top.Ext.Msg.show({title:'提示', msg:'新增员工成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+	    			},
+	    			failure:function(form,action){
+	    				top.Ext.Msg.show({title:'提示', msg:'新增员工失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});	
+	    			}
+	    		});
+	    	}else{
+	    		form.form.submit({
+		    		waitMsg:'正在提交数据，请稍后...',
+					waitTitle:'提示',
+					url:'staff_update.action',
+					method:'POST',
+					success:function(form,action){
+						win.hide();
+						updateGrid(action.result.msg);
+						top.Ext.Msg.show({title:'提示', msg:'修改员工成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+					},
+					failure:function(form,action){
+						top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+					}
+	    		});
+	    	}
     	}
     };
     
+    //更新grid
     function updateGrid(staffId){
     	var values=form.form.getValues();
     	var index=staffStore.find('staffId',values['staffId']);
@@ -725,6 +810,7 @@ Ext.onReady(function(){
     	}else{
     		var rec =Ext.ModelMgr.create({
     			staffId:staffId,
+    			photoImg:values['photoImg'],
     			staffName:values['staffName'],
     			departmentId:values['departmentId'],
     			position:values['position'],
@@ -756,5 +842,16 @@ Ext.onReady(function(){
     		},'staff');
     		staffStore.add(rec);
     	}
+    };
+    
+    //
+    function getText(record){
+    	var text="";
+		if(record==null){
+			text=value;
+		}else{
+			text=record.data['name'];
+		}
+		return text;
     }
 });

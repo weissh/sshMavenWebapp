@@ -72,13 +72,13 @@ Ext.onReady(function() {
         ]
     });
     
-    var operatemode=new Ext.data.JsonStore({
+    var operatemode=new Ext.data.Store({
         fields:['id','name'],
         data:[
-            [1,'出差'],
-            [2,'汇报'],
-            [3,'签合同'],
-            [4,'询价']
+        	{'id':'1','name':'出差'},
+	        {'id':'2','name':'汇报'},
+	        {'id':'3','name':'签合同'},
+	        {'id':'4','name':'询价'}
         ]
     });
     
@@ -316,10 +316,11 @@ Ext.onReady(function() {
 				}, {
 					xtype : 'combo',
 					fieldLabel : '工作方式',
+					valueField:'id',
 					displayField : 'name',
 					store : operatemode,
 					typeAhead : true,
-					queryMode : 'local',
+					mode : 'local',
 					name:'OperateMode'
 				}, {
 					xtype : 'textfield',

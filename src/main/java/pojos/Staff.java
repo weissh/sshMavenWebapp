@@ -19,6 +19,7 @@ public class Staff implements java.io.Serializable {
 	
 	private Integer staffId;
 	private Department department;
+	private String photo;
 	private String staffName;
 	private Date entryTime;
 	private String position;
@@ -73,7 +74,7 @@ public class Staff implements java.io.Serializable {
 	}
 
 	/** 前端的表单结构 */
-	public Staff(Department department, String staffName, Date entryTime,
+	public Staff(Department department, String photo, String staffName, Date entryTime,
 			String position, String phone, String email, String urgentContact,
 			String ucPhone, String gender, String nationality,
 			String politicalStatus,Integer age, Date birthday,
@@ -83,6 +84,7 @@ public class Staff implements java.io.Serializable {
 			String hightestDegree, String major, String schoolSystem,
 			String password) {
 		this.department = department;
+		this.photo=photo;
 		this.staffName = staffName;
 		this.entryTime = entryTime;
 		this.position = position;
@@ -112,7 +114,7 @@ public class Staff implements java.io.Serializable {
 	}
 	
 	/** full constructor */
-	public Staff(Department department, String staffName, Date entryTime,
+	public Staff(Department department, String photo, String staffName, Date entryTime,
 			String position, String phone, String email, String urgentContact,
 			String ucPhone, String gender, String nationality,
 			String politicalStatus, Integer age, Date birthday,
@@ -123,6 +125,7 @@ public class Staff implements java.io.Serializable {
 			String password, String prop1, String prop2, String prop3,
 			String prop4, String prop5, Set costs, Set roles, Set journals) {
 		this.department = department;
+		this.photo=photo;
 		this.staffName = staffName;
 		this.entryTime = entryTime;
 		this.position = position;
@@ -176,6 +179,14 @@ public class Staff implements java.io.Serializable {
 
 	public void setDepartment(Department department) {
 		this.department = department;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 
 	public String getStaffName() {

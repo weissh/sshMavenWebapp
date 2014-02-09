@@ -1,22 +1,24 @@
 package web.action;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import common.ObjectJsonValueProcessor;
+import org.apache.struts2.ServletActionContext;
 
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
-
-import pojos.Cost;
 import pojos.Department;
 import pojos.Role;
 import pojos.Staff;
 import service.DepartmentService;
 import service.RoleService;
 import service.StaffService;
+
+import common.ObjectJsonValueProcessor;
 
 public class StaffAction extends BaseAction{
 
@@ -28,8 +30,13 @@ public class StaffAction extends BaseAction{
 	private StaffService staffService;
 	private DepartmentService departmentService;
 	private RoleService roleService;
+	
+	//前端表单的所有字段
 	private String staffIds;
 	private int staffId;
+	private String photo;
+	private File photoImg;
+	private String photoImgFileName;
 	private String staffName;
 	private int departmentId;
 	private Date entryTime;
@@ -77,6 +84,9 @@ public class StaffAction extends BaseAction{
 	public void setRoleService(RoleService roleService) {
 		this.roleService = roleService;
 	}
+	
+	
+	//前端表单所有字段的get和set方法
 	public String getStaffIds() {
 		return staffIds;
 	}
@@ -88,6 +98,24 @@ public class StaffAction extends BaseAction{
 	}
 	public void setStaffId(int staffId) {
 		this.staffId = staffId;
+	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	public File getPhotoImg() {
+		return photoImg;
+	}
+	public void setPhotoImg(File photoImg) {
+		this.photoImg = photoImg;
+	}
+	public String getPhotoImgFileName() {
+		return photoImgFileName;
+	}
+	public void setPhotoImgFileName(String photoImgFileName) {
+		this.photoImgFileName = photoImgFileName;
 	}
 	public String getStaffName() {
 		return staffName;
@@ -258,23 +286,61 @@ public class StaffAction extends BaseAction{
 		this.zipCode = zipCode;
 	}
 	
+	//得到文件保存的路径
+	public String getPhotoSavePath(){
+		return ServletActionContext.getServletContext().getRealPath("/")+"images/photo/";
+	}
+	
 	//新增新员工
-	public String addStaff(){
+	public String addStaff() throws Exception{
 		Department department =this.departmentService.find(Department.class, departmentId);
 //		Role role =this.roleService.find(Role.class, roleId);
-		System.out.println(this.ucPhone+idNo);
-		Staff staff=new Staff(department, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, null, password, null, null, null, null, null, null, null, null);
+		Staff staff=new Staff(department, null, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, null, password, null, null, null, null, null, null, null, null);
+		savePhoto(staff);
 		int staffId=this.staffService.save(staff);
-		System.out.println(staff.getDepartment().getDepartmentId());
 		this.printString(true, staffId+"");
 		return null;
 	}
 	
+	//保存照片
+	public void savePhoto(Staff staff) throws Exception{
+		if(photoImg==null){
+			return ;
+		}
+		//文件重命名为"staff_+staffId+后缀"的形式
+		photo="staff_"+staffId+photoImgFileName.substring(photoImgFileName.lastIndexOf("."));
+		FileOutputStream fos=new FileOutputStream(getPhotoSavePath()+photo);
+		FileInputStream fis=new FileInputStream(photoImg);
+		byte[] b =new byte[512];
+		int length=0;
+		while((length=fis.read(b))>0){
+			fos.write(b, 0, length);
+		}
+		fis.close();
+		fos.close();
+		System.out.println(photo);
+		staff.setPhoto(photo);
+	}
 	public String updateStaff(){
+//		Staff staff=this.staffService.find(Staff.class, staffId);
+		Department department =this.departmentService.find(Department.class, departmentId);
+//		Role role =this.roleService.find(Role.class, roleId);
+		Staff staff=new Staff(department, photo, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, password);
+		staff.setStaffId(staffId);
+		this.staffService.update(this.staffService.merge(staff));
+		this.printString(true, staffId+"");
 		return null;
 	}
 	
 	public String deleteStaff(){
+		String[] ids=this.staffIds.split(",");
+		ArrayList<Staff> staffs=new ArrayList<Staff>();
+		for(int i=0;i<ids.length;i++){
+			Staff staff = this.staffService.find(Staff.class, Integer.parseInt(ids[i]));
+			staffs.add(staff);
+		}
+		this.staffService.removeAll(staffs);
+		this.printString(true, "");
 		return null;
 	}
 	
