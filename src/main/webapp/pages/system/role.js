@@ -42,7 +42,7 @@ Ext.onReady(function(){
 	        xtype: 'pagingtoolbar',
 	        border:true,
 	        margin:'0 0 -1 -1',
-	        store: role_store, 
+	        store: roleStore, 
 	        dock: 'bottom',
 	        pageSize:5,
 	        displayInfo: true,
@@ -56,7 +56,7 @@ Ext.onReady(function(){
 		],
 		listeners:{
 			itemclick:function(view,rec,item,index,e,eOpts){
-                    role_form.getForm().loadRecord(rec);
+                    roleForm.getForm().loadRecord(rec);
             }
 		},
 		renderTo:Ext.getBody()
@@ -165,7 +165,7 @@ Ext.onReady(function(){
 	};
 	
 	//定义角色基本信息
-	var role_info={
+	var roleInfo={
 		border:false,
 		bodyStyle: 'background:#dfe9f5',
 		items:[{
@@ -205,14 +205,14 @@ Ext.onReady(function(){
 	}
 	
 	//定义角色信息表单：包括角色基本信息以及其权限信息
-	var role_form=Ext.create('Ext.form.Panel', {
+	var roleForm=Ext.create('Ext.form.Panel', {
 		frame:false,
 		border:true,
 		bodyStyle: 'background:#dfe9f5;border-width:1px 0 0 1px',
 		width:'59.9%',
 		bodyPadding:'5px 40px 0 40px',
 		height:'100%',
-		items:[role_info,authorityList],
+		items:[roleInfo,authorityList],
 		dockedItems: [{
 	        xtype: 'toolbar',
 	        margin:'-1 -1 0 0',
@@ -224,7 +224,7 @@ Ext.onReady(function(){
 	});
 	
 	var record=grid.getStore().getAt(0);
-	role_form.getForm().loadRecord(record);
+	roleForm.getForm().loadRecord(record);
 	
 	//定义另一个表单，用于新增、修改角色信息；定义角色信息表单：包括角色基本信息以及其权限信息,
 	var form=top.Ext.create('Ext.form.Panel',{
@@ -233,7 +233,7 @@ Ext.onReady(function(){
 		bodyPadding:15,
 		width:'100%',
 		height:'100%',
-		items:[role_info,authorityList],
+		items:[roleInfo,authorityList],
 		fbar:[{
 			xtype:'button',
 			text:'提交',
@@ -364,6 +364,6 @@ Ext.onReady(function(){
 		layout:'hbox',
 		border:false,
 		bodyStyle: 'background:#f0f0f0',
-		items:[grid,role_form]
+		items:[grid,roleForm]
 	});
 });

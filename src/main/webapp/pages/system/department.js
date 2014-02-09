@@ -321,12 +321,12 @@ Ext.onReady(function () {
     	}
     	top.Ext.Msg.confirm('提示','您确定要删除所选部门吗？',function(btnID){
     		if(btnID=='yes'){
-    			deleteUsers(records);
+    			deleteDept(records);
     		}
     	});
     };
     //执行删除操作
-    function deleteUsers(records){
+    function deleteDept(records){
     	var departmentIds="";
     	for(var i=0;i<records.length;i++){
     		var id=records[i].get('departmentId');
@@ -342,7 +342,7 @@ Ext.onReady(function () {
     		msg:'正在删除部门信息，请稍等...'
     	});
     	Ext.Ajax.request({
-    		url:'dept_delete',
+    		url:'dept_delete.action',
     		params:{departmentIds:departmentIds},
     		method:'POST',
     		success:function(response,options){
@@ -359,43 +359,45 @@ Ext.onReady(function () {
 			    	}
     				top.Ext.Msg.show({title:'提示', msg:'删除用户信息成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
     			}else{
-    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息失败！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
     			}
     		}
     	});
     };
     
     function submitForm(){
-    	if(form.isAdd){
-    		form.form.submit({
-	    		waitMsg:'正在提交数据，请稍后...',
-				waitTitle:'提示',
-				url:basePath+'dept_add.action',
-				method:'POST',
-    			success:function(form,action){
-    				win.hide();
-					updateGrid(action.result.msg);
-    				top.Ext.Msg.show({title:'提示', msg:'新增部门成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
-    			},
-    			failure:function(form,action){
-    				top.Ext.Msg.show({title:'提示', msg:'新增部门失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
-    			}
-    		});
-    	}else{
-    		form.form.submit({
-	    		waitMsg:'正在提交数据，请稍后...',
-				waitTitle:'提示',
-				url:'dept_update.action',
-				method:'POST',
-				success:function(form,action){
-					win.hide();
-					updateGrid(action.result.msg);
-					top.Ext.Msg.show({title:'提示', msg:'修改部门成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
-				},
-				failure:function(form,action){
-					top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
-				}
-    		});
+    	if(form.form.isValid()){
+	    	if(form.isAdd){
+	    		form.form.submit({
+		    		waitMsg:'正在提交数据，请稍后...',
+					waitTitle:'提示',
+					url:basePath+'dept_add.action',
+					method:'POST',
+	    			success:function(form,action){
+	    				win.hide();
+						updateGrid(action.result.msg);
+	    				top.Ext.Msg.show({title:'提示', msg:'新增部门成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+	    			},
+	    			failure:function(form,action){
+	    				top.Ext.Msg.show({title:'提示', msg:'新增部门失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+	    			}
+	    		});
+	    	}else{
+	    		form.form.submit({
+		    		waitMsg:'正在提交数据，请稍后...',
+					waitTitle:'提示',
+					url:'dept_update.action',
+					method:'POST',
+					success:function(form,action){
+						win.hide();
+						updateGrid(action.result.msg);
+						top.Ext.Msg.show({title:'提示', msg:'修改部门成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+					},
+					failure:function(form,action){
+						top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+					}
+	    		});
+	    	}
     	}
     };
     
