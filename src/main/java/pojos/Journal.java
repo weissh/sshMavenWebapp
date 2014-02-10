@@ -26,8 +26,8 @@ public class Journal implements java.io.Serializable {
 	private String contactPosition;
 	private String contactPhone;
 	private String contactEmail;
-	private Date startTime;
-	private Date endTime;
+	private String startTime;
+	private String endTime;
 	private String workContent;
 	private String prop1;
 	private String prop2;
@@ -52,7 +52,7 @@ public class Journal implements java.io.Serializable {
 			String province, String address, String contactObject,
 			String level, String contactWay, String contactName,
 			String contactPosition, String contactPhone, String contactEmail,
-			Date startTime, Date endTime, String workContent, String prop1,
+			String startTime, String endTime, String workContent, String prop1,
 			String prop2, String prop3, String prop4, String prop5) {
 		this.staff = staff;
 		this.recordDate = recordDate;
@@ -80,6 +80,33 @@ public class Journal implements java.io.Serializable {
 	}
 
 	// Property accessors
+
+	public Journal(Staff staff, Date executeDate, String operateMode,
+			String unitName, String country, String province,
+			String address, String contactObject, String level,
+			String contactWay, String contactName, String contactPosition,
+			String contactPhone, String contactEmail, String startTime,
+			String endTime, String workContent) {
+		this.staff = staff;
+		this.recordDate = new Date();
+		this.executeDate = executeDate;
+		this.operateMode = operateMode;
+		this.unitName = unitName;
+		this.country = country;
+		this.province = province;
+		this.address = address;
+		this.contactObject = contactObject;
+		this.level = level;
+		this.contactWay = contactWay;
+		this.contactName = contactName;
+		this.contactPosition = contactPosition;
+		this.contactPhone = contactPhone;
+		this.contactEmail = contactEmail;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.workContent = workContent;	
+		// TODO Auto-generated constructor stub
+	}
 
 	public Integer getWorkId() {
 		return this.workId;
@@ -209,19 +236,19 @@ public class Journal implements java.io.Serializable {
 		this.contactEmail = contactEmail;
 	}
 
-	public Date getStartTime() {
-		return this.startTime;
+	public String getStartTime() {
+		return startTime;
 	}
 
-	public void setStartTime(Date startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 
-	public Date getEndTime() {
-		return this.endTime;
+	public String getEndTime() {
+		return endTime;
 	}
 
-	public void setEndTime(Date endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 
