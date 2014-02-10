@@ -584,6 +584,5 @@ Ext.onReady(function() {
     		journalStore.add(rec);
     	}
     }
-
-    
+   
 });
