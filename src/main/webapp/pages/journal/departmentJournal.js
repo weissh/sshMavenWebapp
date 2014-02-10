@@ -17,137 +17,118 @@ Ext.onReady(function() {
 	
 	Ext.tip.QuickTipManager.init();
 	
-	//定义分面参数
-	//var gridUrl='../server/gridserver.jsp';//取数据的服务页
-	//var start=0;//读取的起始行
-	//var limit=10;//每次读取的行数
-	
-	var journal_store=new Ext.data.JsonStore({
+	Ext.define('journal',{
+		extend: 'Ext.data.Model',
 		fields: [
-		    {name:'WorkID',type:'string'},
-            {name:'RecordDate',type:'date',dateFormat:'Y-m-d'},
-            {name:'StaffNo',type:'string'},
-            {name:'StaffName',type:'string'},
-	        {name:'ExecDate',type:'date',dateFormat:'Y-m-d'},
-	        {name:'OperateMode',type:'string'},
-	        {name:'UnitName',type:'string'},
-	        {name:'Country',type:'string'},
-	        {name:'Province',type:'string'},
-	        {name:'Address',type:'string'},
-	        {name:'ContactObject',type:'string'},
-	        {name:'Level',type:'string'},
-	        {name:'ContactWay',type:'string'},
-	        {name:'ContactName',type:'string'},
-	        {name:'ContactPosition',type:'string'},
-	        {name:'ContactPhone',type:'string'},
-	        {name:'ContactEmail',type:'string'},
-	        {name:'StartTime',type:'date',dateFormat:'G:i:s'},
-	        {name:'EndTime',type:'date',dateFormat:'G:i:s'},
-	        {name:'JobContent',type:'string'}		
-         ],
-        data:[['500','2007-08-07','001002','小吴','2007-08-07','1','2','3','4','5','6','7','8','9','10','13110981234','111@qq.com','11:00:00','13:00:00','和客户谈地很好'],
-              ['600','2008-01-24','001003','大蔡','2008-01-27','出差','天天钢材市场','中国','北京','朝阳区光明大厦B座','天天钢材市场','A级','见面会谈','严总','总经理','15510981234','222@qq.com','7:00:00','9:00:00','一笔订单']]
+		    {name:'workId',type:'string'},
+            {name:'recordDate',type:'date',dateFormat:'Y-m-d'},
+            {name:'staffId',type:'int',mapping:'staff.staffId'},
+            {name:'staffName',type:'string',mapping:'staff.staffName'},
+	        {name:'executeDate',type:'date',dateFormat:'Y-m-d'},
+	        {name:'operateMode',type:'string'},
+	        {name:'unitName',type:'string'},
+	        {name:'country',type:'string'},
+	        {name:'province',type:'string'},
+	        {name:'address',type:'string'},
+	        {name:'contactObject',type:'string'},
+	        {name:'level',type:'string'},
+	        {name:'contactWay',type:'string'},
+	        {name:'contactName',type:'string'},
+	        {name:'contactPosition',type:'string'},
+	        {name:'contactPhone',type:'string'},
+	        {name:'contactEmail',type:'string'},
+	        {name:'startTime',type:'string'},
+	        {name:'endTime',type:'string'},
+	        {name:'workContent',type:'string'}		
+         ]
+	})
 	
-	});
+	 var journalStore = Ext.create('Ext.data.Store', {
+        model: 'journal',
+        autoLoad: true,
+        proxy:{
+        	type:'ajax',
+        	url:'jour_getAll.action',
+        	reader:{
+        		type:'json',
+        		root:'infoList',
+        		idProperty:'workId'
+        	}
+        }
+    });
+    
 	
 	//定义下拉框中的字段变量
-	var dept=new Ext.data.JsonStore({
-        fieldLabel:30,
-        fields:['id','name'],
-        data:[
-            [1,'财务部'],
-            [2,'人力部'],
-            [3,'销售部']
-        ]
+    
+    var dept=new Ext.data.Store({
+    	autoLoad: true,
+    	fields:[
+        	{name:'departmentId'},
+        	{name:'departmentName'}
+    	],
+    	proxy:{
+        	type:'ajax',
+        	url:'dept_getForSelector.action',
+        	reader:{
+        		type:'json',
+        		root:'infoList',
+        		idProperty:'departmentId'
+        	}
+        }
     });
 
-    var user=new Ext.data.JsonStore({
+    var user=new Ext.data.Store({
         fields:['id','name'],
         data:[
-            [1,'小闫'],
-            [2,'大祖'],
-            [3,'大蔡'],
-            [4,'小宋'],
-            [5,'小吴']
+        {'id':'1','name':'小闫'},
+        {'id':'2','name':'大祖'},
+        {'id':'3','name':'大蔡'},
+        {'id':'4','name':'小宋'},
+        {'id':'5','name':'小吴'}
         ]
     });
     
     var operatemode=new Ext.data.Store({
         fields:['id','name'],
         data:[
-        	{'id':'1','name':'出差'},
-	        {'id':'2','name':'汇报'},
-	        {'id':'3','name':'签合同'},
-	        {'id':'4','name':'询价'}
+        {'id':'1','name':'出差'},
+        {'id':'2','name':'汇报'},
+        {'id':'3','name':'签合同'},
+        {'id':'4','name':'询价'}
         ]
     });
     
-    var contactobject=new Ext.data.JsonStore({
+    var contactobject=new Ext.data.Store({
         fields:['id','name'],
         data:[
-            [1,'安全食品有限公司'],
-            [2,'泰格码有限公司'],
-            [3,'天天钢材市场']
+        {'id':'1','name':'安全食品有限公司'},
+        {'id':'2','name':'泰格码有限公司'},
+        {'id':'3','name':'天天钢材市场'}
         ]
     });
     
-    var level=new Ext.data.JsonStore({
+    var level=new Ext.data.Store({
         fields:['id','name'],
         data:[
-            [1,'A级'],
-            [2,'B级'],
-            [3,'C级'],
-            [4,'D级'],
-            [5,'E级']
+        {'id':'1','name':'A级'},
+        {'id':'2','name':'B级'},
+        {'id':'3','name':'C级'},
+        {'id':'4','name':'D级'},
+        {'id':'5','name':'E级'}
         ]
     });
     
-    var contactway=new Ext.data.JsonStore({
+    var contactway=new Ext.data.Store({
         fields:['id','name'],
         data:[
-            [1,'电话联系'],
-            [2,'电邮联系'],
-            [3,'信件联系'],
-            [4,'见面会谈'],
-            [5,'网络视频']
+        {'id':'1','name':'电话联系'},
+        {'id':'2','name':'电邮联系'},
+        {'id':'3','name':'信件联系'},
+        {'id':'4','name':'见面会谈'},
+        {'id':'5','name':'网络视频'}
         ]
     });
-    /*Ext.define('JournalModel', {
-        extend: 'Ext.data.Model',
-        fields: [       
-            {name:'RecordDate',type:'date',dateFormat:'Y-m-d'},
-            {name:'StaffName',type:'string'},
-            {name:'StaffNo',type:'string'},
-	        {name:'ExecDate',type:'date',dateFormat:'Y-m-d'},
-	        {name:'OperateMode',type:'string'},
-	        {name:'UnitName',type:'string'},
-	        {name:'Country',type:'string'},
-	        {name:'Province',type:'string'},
-	        {name:'Address',type:'string'},
-	        {name:'ContactObject',type:'string'},
-	        {name:'Level',type:'string'},
-	        {name:'ContactWay',type:'string'},
-	        {name:'ContactName',type:'string'},
-	        {name:'ContactPosition',type:'string'},
-	        {name:'ContactPhone',type:'string'},
-	        {name:'ContactEmail',type:'string'},
-	        {name:'StartTime',type:'date',dateFormat:'G:i:s'},
-	        {name:'EndTime',type:'date',dateFormat:'G:i:s'},
-	        {name:'JobContent',type:'string'}		
-         ]
-    });
-    	
-	Ext.grid.dummyData =[['2007-08-07','001002','小吴','2007-08-07',
-	    '1','2','3','4','5','6','7','8','9','10',
-	    '13110981234','111@qq.com','11:00:00','13:00:00','和客户谈地很好']];
     
-    var getLocalStore = function() {
-        return Ext.create('Ext.data.ArrayStore', {
-            pageSize:2,
-            model: 'journalModel',
-            data: Ext.grid.dummyData
-        });
-    };*/
 
     //添加日期控件的验证，保证结束日期在开始时期之后
     Ext.apply(Ext.form.field.VTypes, {
@@ -212,21 +193,21 @@ Ext.onReady(function() {
 			}, {
 				xtype : 'combo',
 				fieldLabel : '<b>部门</b>',
-				displayField : 'name',
+				valueField:'departmentId',
+				displayField : 'departmentName',
 			    width : 140,
 				labelWidth : 30,
 				store : dept,
-				queryMode : 'local',
 				typeAhead : true,
 				margins : '0 10 0 0'
 			}, {
 				xtype : 'combo',
 				fieldLabel : '<b>员工</b>',
+				valueField:'id',
 				displayField : 'name',
 				width : 140,
 				labelWidth : 30,
 				store : user,
-				queryMode : 'local',
 				typeAhead : true,
 				margins : '0 10 0 0'
 			},
@@ -246,33 +227,34 @@ Ext.onReady(function() {
 		height:'100%',
 		border:false,
 		layout:'fit',
-		store:journal_store,
+		store:journalStore,
 		viewConfig:{
 			forceFit:true
 		},
+		multiSelect:true,
 		tbar:[dr],
 		columns:[
 		    Ext.create('Ext.grid.RowNumberer'),
-		    {text: "日志编号", width: 70, sortable: true, align:'center', dataIndex: 'WorkID',hidden:true},
-			{text: "记录时间", width: 80, sortable: true, align:'center', renderer: Ext.util.Format.dateRenderer('Y-m-d'), dataIndex: 'RecordDate'},
-            {text: "员工编号", width: 70, sortable: true, align:'center', dataIndex: 'StaffNo'},
-            {text: "员工姓名", width: 70, sortable: true, align:'center', dataIndex: 'StaffName'},
-            {text: "工作日期", width: 80, sortable: true, align:'center', renderer: Ext.util.Format.dateRenderer('Y-m-d'), dataIndex: 'ExecDate'},
-            {text: "工作方式", width: 90, sortable: true, align:'center', dataIndex: 'OperateMode'},
-            {text: "单位名称", width: 120, sortable: true, align:'center', dataIndex: 'UnitName'},
-            {text: "国家", width: 50, sortable: true, align:'center', dataIndex: 'Country'},
-            {text: "省市", width: 50, sortable: true, align:'center', dataIndex: 'Province'},
-            {text: "详细地址", width: 120, sortable: true, align:'center', dataIndex: 'Address'},
-            {text: "客户/经销商", width: 120, sortable: true, align:'center', dataIndex: 'ContactObject'},
-            {text: "重要级别", width: 60, sortable: true, align:'center', dataIndex: 'Level'},
-            {text: "联系途径", width: 60, sortable: true, align:'center', dataIndex: 'ContactWay'},
-            {text: "联系人姓名", width: 70, sortable: true, align:'center', dataIndex: 'ContactName'},
-            {text: "联系人职务", width: 70, sortable: true, align:'center', dataIndex: 'ContactPosition'},
-            {text: "联系人电话", width: 85, sortable: true, align:'center', dataIndex: 'ContactPhone'},
-            {text: "联系人邮箱", width: 80, sortable: true, align:'center', dataIndex: 'ContactEmail'},
-            {text: "开始时间", width: 70, sortable: true, renderer: Ext.util.Format.dateRenderer('G:i:s'), dataIndex: 'StartTime'},
-            {text: "结束时间", width: 70, sortable: true, renderer: Ext.util.Format.dateRenderer('G:i:s'), dataIndex: 'EndTime'},
-            {text: "商谈主要内容及结果", width: 120, sortable: true, dataIndex: 'JobContent'}],
+		    {text: "日志编号", width: 70, sortable: true, align:'center', dataIndex: 'workId',hidden:true},
+			{text: "记录时间", width: 80, sortable: true, align:'center', renderer: Ext.util.Format.dateRenderer('Y-m-d'), dataIndex: 'recordDate'},
+            {text: "员工编号", width: 70, sortable: true, align:'center', dataIndex: 'staffId'},
+            {text: "员工姓名", width: 70, sortable: true, align:'center', dataIndex: 'staffName'},
+            {text: "工作日期", width: 80, sortable: true, align:'center', renderer: Ext.util.Format.dateRenderer('Y-m-d'), dataIndex: 'executeDate'},
+            {text: "工作方式", width: 90, sortable: true, align:'center', dataIndex: 'operateMode'},
+            {text: "单位名称", width: 120, sortable: true, align:'center', dataIndex: 'unitName'},
+            {text: "国家", width: 50, sortable: true, align:'center', dataIndex: 'country'},
+            {text: "省市", width: 50, sortable: true, align:'center', dataIndex: 'province'},
+            {text: "详细地址", width: 120, sortable: true, align:'center', dataIndex: 'address'},
+            {text: "客户/经销商", width: 120, sortable: true, align:'center', dataIndex: 'contactObject'},
+            {text: "重要级别", width: 60, sortable: true, align:'center', dataIndex: 'level'},
+            {text: "联系途径", width: 60, sortable: true, align:'center', dataIndex: 'contactWay'},
+            {text: "联系人姓名", width: 70, sortable: true, align:'center', dataIndex: 'contactName'},
+            {text: "联系人职务", width: 70, sortable: true, align:'center', dataIndex: 'contactPosition'},
+            {text: "联系人电话", width: 85, sortable: true, align:'center', dataIndex: 'contactPhone'},
+            {text: "联系人邮箱", width: 80, sortable: true, align:'center', dataIndex: 'contactEmail'},
+            {text: "开始时间", width: 70, sortable: true, dataIndex: 'startTime'},
+            {text: "结束时间", width: 70, sortable: true, dataIndex: 'endTime'},
+            {text: "商谈主要内容及结果", width: 120, sortable: true, dataIndex: 'workContent'}],
 		bbar:new Ext.PagingToolbar({
 
 		}),
@@ -289,30 +271,35 @@ Ext.onReady(function() {
 				border : false,
 				defaults : {
 					// anchor: '100%',
-					allowBlank : false,
-					blankText : '不允许为空',
-					msgTarget : 'qtip',
+					//allowBlank : false,
+					//blankText : '不允许为空',
+					//msgTarget : 'qtip',
 					labelWidth : 80
 				},
 				//frame : true,
 
 				items : [{
+					xtype:'textfield',
+					name:'workId',
+					hidden:'true'
+				},{
 					xtype : 'textfield',
 					fieldLabel : '员工编号',
-					name:'StaffNo'
-					}, {
+					name:'staffId'
+					
+				}, {
 					xtype : 'textfield',
 					fieldLabel : '员工姓名',
-					name:'StaffName',
+					name:'staffName',
 					readOnly : true
 				}, {
 					xtype : 'datefield',
 					fieldLabel : '工作日期',
 					maxValue : new Date(),
-					vtype : 'daterange',
 					mode : 'local',
 					format : 'Y-m-d',
-					name:'ExecDate'
+					name:'executeDate',
+					value:'2014-02-01'
 				}, {
 					xtype : 'combo',
 					fieldLabel : '工作方式',
@@ -320,96 +307,111 @@ Ext.onReady(function() {
 					displayField : 'name',
 					store : operatemode,
 					typeAhead : true,
-					mode : 'local',
-					name:'OperateMode'
+					name:'operateMode',
+					value:1
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '单位名称',
-					name:'UnitName'
+					name:'unitName',
+					value:'一个单位'
 				}, {
 					xtype : 'combo',
 					fieldLabel : '国家',
-					displayField : 'name',
+					valueField:'departmentId',
+					displayField : 'departmentName',
 					store : dept,
 					typeAhead : true,
-					queryMode : 'local',
-					name:'Country'
+					name:'country',
+					value:1
 				}, {
 					xtype : 'combo',
 					fieldLabel : '省市',
-					displayField : 'name',
+					valueField:'departmentId',
+					displayField : 'departmentName',
 					store : dept,
 					typeAhead : true,
-					queryMode : 'local',
-					name:'Province'
+					name:'province',
+					value:1
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '详细地址',
-					name:'Address'
+					name:'address',
+					value:'朝阳区'
 				}, {
 					xtype : 'combo',
 					fieldLabel : '客户/经销商',
+					valueField:'id',
 					displayField : 'name',
 					store : contactobject,
 					typeAhead : true,
-					queryMode : 'local',
-					name:'ContactObject'
+					name:'contactObject',
+					value:1
 				}, {
 					xtype : 'combo',
 					fieldLabel : '重要级别',
+					valueField:'id',
 					displayField : 'name',
 					store : level,
 					typeAhead : true,
-					queryMode : 'local',
-					name:'Level'
+					name:'level',
+					value:1
 				}, {
 					xtype : 'combo',
 					fieldLabel : '联系途径',
+					valueField:'id',
 					displayField : 'name',
 					store : contactway,
 					typeAhead : true,
-					queryMode : 'local',
-					name:'ContactWay'
+					name:'contactWay',
+					value:1
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人姓名',
-					name:'ContactName'
+					name:'contactName',
+					value:'吴大大'
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人职务',
-					name:'ContactPosition'
+					name:'contactPosition',
+					value:'副总经理'
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人电话',
-					name:'ContactPhone'
+					name:'contactPhone',
+					value:'13098319911'
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人邮箱',
 					vtype : 'email',
-					name:'ContactEmail'
+					name:'contactEmail',
+					value:'33@123.com'
 				}, {
 					xtype : 'timefield',
 					fieldLabel : '开始时间',
 					pickerMaxBeight : 80,
 					increment : 60,
 					format : 'G:i:s',
-					name:'StartTime'
+					name:'startTime',
+					value:'7:00:00'
 				}, {
 					xtype : 'timefield',
 					fieldLabel : '结束时间',
 					pickerMaxBeight : 80,
 					increment : 60,
 					format : 'G:i:s',
-					name:'EndTime'
+					name:'endTime',
+					value:'9:00:00'
 				}, {
 					xtype : 'textarea',
 					fieldLabel : '工作（商谈）主要内容及结果（200字以内）',
 					preventScrollbars : true,
 					width : 250,
-					name:'JobContent'
+					name:'workContent',
+					value:'A big deal!'
 				}],
 				buttons : [{
-							text : '提交'
+							text : '提交',
+							handler:submitForm
 						}, {
 							text : '取消',
 							handler : function() {
@@ -428,24 +430,25 @@ Ext.onReady(function() {
 		modal : true,
 		items : form
     });
-	    
-    //增加新用户
+	     
+     
+    //增加日志
     function addJournal(){   	
     	form.form.reset();
     	form.isAdd=true;
-    	form.getForm().findField('StaffNo').setReadOnly(false);
-    	win.setTitle('新增用户');
+    	form.getForm().findField('staffId').setReadOnly(false);
+    	win.setTitle('新建日志');
     	win.show();
     };
     
-    //修改用户
+    //修改日志
     function editJournal(){
     	var record=grid.getSelectionModel().getSelection();
 		if (record.length==1) {
 			form.form.reset();
 	    	form.isAdd=false;
-	    	form.getForm().findField('StaffNo').setReadOnly(true);
-	    	win.setTitle('修改用户');
+	    	form.getForm().findField('staffId').setReadOnly(true);
+	    	win.setTitle('修改日志');
 	    	win.show();
 			form.getForm().loadRecord(record[0]);			
 		} else {
@@ -456,60 +459,131 @@ Ext.onReady(function() {
     //双击进行修改
     grid.addListener('itemdblclick', editJournal, this);
     
-    //删除用户
+    //删除日志
     function deleteJournal(){
     	var records=grid.getSelectionModel().getSelection();
     	if(records.length==0){
     		top.Ext.Msg.show({title:'错误', msg:'请至少选择一条记录进行删除！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
     		return;
     	}
-    	Ext.Msg.confirm('提示','您确定要删除所选用户吗？',function(btnID){
+    	Ext.Msg.confirm('提示','您确定要删除所选日志吗？',function(btnID){
     		if(btnID=='yes'){
     			deleteJRecords(records)
     		}
     	});
     };
     
+    //执行删除操作
     function deleteJRecords(records){
-    	var userID=records.join(',');
-//    	var msgTip=Ext.MessageBox.show({
-//    		title:'提示',
-//    		width:250,
-//    		msg:'正在删除用户信息，请稍后...'
-//    	});
+    	var journalIds="";
     	for(var i=0;i<records.length;i++){
-    		var index=journal_store.find('WorkID',records[i].get('WorkID'));
-    		if(index!=-1){
-    			var rec=journal_store.getAt(index);
-    			journal_store.remove(rec);
-    			//grid.getStore().reload();
+    		var id=records[i].get('workId');
+    		if(i==0){
+    			journalIds+=id;
+    		}else{
+    			journalIds=journalIds+','+id;
     		}
     	}
-//	    	Ext.Ajax.request({
-//	    		url:'',
-//	    		params:{userID:userID},
-//	    		method:'POST',
-//	    		success:function(response,options){
-//	    			msgTip.hide();
-//	    			var result=Ext.JSON.decode(response.responseText);
-//	    			if(result.success){
-//	    				for(var i=0;i<userList.lenght;i++){
-//	    					var index=user_store.find('id',userList[i]);
-//	    					if(index!=-1){
-//	    						var rec=userList.getAt(index);
-//	    						user_store.remove(rec);
-//	    					}
-//	    				}
-//	    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
-//	    			}else{
-//	    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息失败！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
-//	    			}
-//	    		}
-//	    	});
+    	var msgTip =top.Ext.Msg.show({
+    		title:'提示',
+    		width:250,
+    		msg:'正在删除部门信息，请稍等...'
+    	});
+    	Ext.Ajax.request({
+    		url:'jour_delete.action',
+    		params:{journalIds:journalIds},
+    		method:'POST',
+    		success:function(response,options){
+    			msgTip.hide();
+    			var result=Ext.JSON.decode(response.responseText);
+    			if(result.success){
+			    	for(var i=0;i<records.length;i++){
+			    		var index=journalStore.find('workId',records[i].get('workId'));
+			    		if(index!=-1){
+			    			var rec=journalStore.getAt(index);
+			    			journalStore.remove(rec);
+			    			grid.getView().refresh();
+			    		}
+			    	}
+    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+    			}else{
+    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+    			}
+    		}
+    	});
     };
     
     function submitForm(){
-    	
+    	//if(form.form.isValid()){
+    	if(form.isAdd){
+    		form.form.submit({
+	    		waitMsg:'正在提交数据，请稍后...',
+				waitTitle:'提示',
+				url:'jour_add',
+				method:'POST',
+    			success:function(form,action){
+    				win.hide();
+					updateGrid(action.result.msg);
+    				top.Ext.Msg.show({title:'提示', msg:'新增日志成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+    			},
+    			failure:function(form,action){
+    				top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+    			}
+    		});
+    	}else{
+    		form.form.submit({
+	    		waitMsg:'正在提交数据，请稍后...',
+				waitTitle:'提示',
+				url:'jour_update.action',
+				method:'POST',
+				success:function(form,action){
+					win.hide();
+					updateGrid(action.result.msg);
+					top.Ext.Msg.show({title:'提示', msg:'修改日志成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+				},
+				failure:function(form,action){
+					top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+				}
+    		});
+    	}
+    	//}
     };
+    
+    function updateGrid(workId){
+    	var values=form.form.getValues();
+    	var index=journalStore.find('workId',values['workId']);
+    	if(index!=-1){
+    		var item = journalStore.getAt(index);
+    		for(var fieldName=journalStore in values){
+    			item.set(fieldName,values[fieldName]);
+    		}
+    		item.commit();
+    	}else{
+    		var rec =Ext.ModelMgr.create({
+    			workId:workId,
+    			recordDate:new Date(),
+                staffId:values['staffId'],
+                staffName:values['staffName'],
+	            executeDate:values['executeDate'],
+	            operateMode:values['operateMode'],
+	            unitName:values['unitName'],
+	            country:values['country'],
+	            province:values['province'],
+	            address:values['address'],
+	            contactObject:values['contactObject'],
+	            level:values['level'],
+	            contactWay:values['contactWay'],
+	            contactName:values['contactName'],
+	            contactPosition:values['contactPosition'],
+	            contactPhone:values['contactPhone'],
+	            contactEmail:values['contactEmail'],
+	            startTime:values['startTime'],
+	            endTime:values['endTime'],
+	            workContent:values['workContent']		
+    		},'journal');
+    		journalStore.add(rec);
+    	}
+    }
 
+    
 });
