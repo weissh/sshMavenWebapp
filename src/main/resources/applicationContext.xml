@@ -235,6 +235,7 @@
 	<!-- 配置journalAction -->
 	<bean id="journalAction" class="web.action.JournalAction" scope="prototype">
 		<property name="journalService" ref="journalServiceDaoProxy"/>
+		<property name="staffService" ref="staffServiceDaoProxy"/>
 	</bean>
 	
 	<!-- 配置costAction -->
