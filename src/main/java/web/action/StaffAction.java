@@ -1,3 +1,17 @@
+/**
+ * Copyright (C) 2014 Asiainfo-Linkage
+ *
+ * @className:web.action.StaffAction
+ * @description:实现对员工的增、删、改、查等操作
+ * @version:v1.0.0
+ * @author:caiwenming
+ *
+ * Modification History:
+ * Date         Author         Version      Description
+ * -----------------------------------------------------------------
+ * 2014-2-9     caiwenming       v1.0.0         create
+ *
+ */
 package web.action;
 
 import java.io.File;
@@ -22,16 +36,14 @@ import common.ObjectJsonValueProcessor;
 
 public class StaffAction extends BaseAction{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
+	/** 获取对员工进行增、改、查操作所需要的服务 */
 	private StaffService staffService;
 	private DepartmentService departmentService;
 	private RoleService roleService;
 	
-	//前端表单的所有字段
+	/**前端表单的所有字段 */
 	private String staffIds;
 	private int staffId;
 	private String photo;
@@ -66,6 +78,7 @@ public class StaffAction extends BaseAction{
 	private String ucPhone;
 	private String zipCode;
 	
+	/** 各种服务相对应的get和set方法 */
 	public StaffService getStaffService() {
 		return staffService;
 	}
@@ -86,7 +99,7 @@ public class StaffAction extends BaseAction{
 	}
 	
 	
-	//前端表单所有字段的get和set方法
+	/**前端表单所有字段的get和set方法 */
 	public String getStaffIds() {
 		return staffIds;
 	}
@@ -286,12 +299,41 @@ public class StaffAction extends BaseAction{
 		this.zipCode = zipCode;
 	}
 	
-	//得到文件保存的路径
+	/**
+	 *
+	 * @Description:上传员工照片时，获取保存照片的路径
+	 *
+	 * @return String类型，照片保存路径
+	 *
+	 * @version:v1.0
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午8:51:24
+	 *
+	 * Modification History:
+	 * Date         Author        Version      Description
+	 * -----------------------------------------------------------------
+	 * 2014-2-10    caiwenming      v1.0.0         create
+	 */
 	public String getPhotoSavePath(){
 		return ServletActionContext.getServletContext().getRealPath("/")+"images/photo/";
 	}
 	
-	//新增新员工
+	/**
+	 *
+	 * @Description:新增员工，同时保存员工的照片到服务器上
+	 *
+	 * @return Json字符串
+	 * @throws Exception
+	 *
+	 * @version:v1.0
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午8:53:55
+	 *
+	 * Modification History:
+	 * Date         Author        Version      Description
+	 * -----------------------------------------------------------------
+	 * 2014-2-10    caiwenming      v1.0.0         create
+	 */
 	public String addStaff() throws Exception{
 		Department department =this.departmentService.find(Department.class, departmentId);
 //		Role role =this.roleService.find(Role.class, roleId);
@@ -302,12 +344,27 @@ public class StaffAction extends BaseAction{
 		return null;
 	}
 	
-	//保存照片
+	/**
+	 * 
+	 * @Description:保存员工照片
+	 *
+	 * @param staff
+	 * @throws Exception
+	 *
+	 * @version:v1.0
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午8:55:31
+	 *
+	 * Modification History:
+	 * Date         Author        Version      Description
+	 * -----------------------------------------------------------------
+	 * 2014-2-10    caiwenming      v1.0.0         create
+	 */
 	public void savePhoto(Staff staff) throws Exception{
 		if(photoImg==null){
 			return ;
 		}
-		//文件重命名为"staff_+staffId+后缀"的形式
+		/** 文件重命名为"staff_+staffId+后缀"的形式 */
 		photo="staff_"+staffId+photoImgFileName.substring(photoImgFileName.lastIndexOf("."));
 		FileOutputStream fos=new FileOutputStream(getPhotoSavePath()+photo);
 		FileInputStream fis=new FileInputStream(photoImg);
@@ -318,23 +375,58 @@ public class StaffAction extends BaseAction{
 		}
 		fis.close();
 		fos.close();
-		System.out.println(photo);
 		staff.setPhoto(photo);
 	}
+	
+	/**
+	 *
+	 * @Description:更新员工信息（目前有两种方法）：
+	 * 1.如下，直接用实体类的构造函数new一个新的对象，再用set
+	 * 方法设置其id，之后再把该对象用merge方法将其由瞬时状态（Transient）转换成脱管状态（Detached），
+	 * 最后用update方法将该对象转换成持久化状态（Persistent）即存入数据库中。
+	 * 2.使用find的方法，从数据库查找出要修改的记录，使用实体类的set方法重新设置对象的所有属性值，最后update
+	 * 
+	 * @return
+	 *
+	 * @version:v1.0
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午8:57:05
+	 *
+	 * Modification History:
+	 * Date         Author        Version      Description
+	 * -----------------------------------------------------------------
+	 * 2014-2-10    caiwenming      v1.0.0         create
+	 */
 	public String updateStaff(){
-//		Staff staff=this.staffService.find(Staff.class, staffId);
 		Department department =this.departmentService.find(Department.class, departmentId);
 //		Role role =this.roleService.find(Role.class, roleId);
 		Staff staff=new Staff(department, photo, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, password);
 		staff.setStaffId(staffId);
+		/**将对象从瞬时状态改成脱管状态（merge），之后再更新（update）*/
 		this.staffService.update(this.staffService.merge(staff));
 		this.printString(true, staffId+"");
 		return null;
 	}
 	
+	/**
+	 *
+	 * @Description:删除一条或多条员工记录
+	 *
+	 * @return
+	 *
+	 * @version:v1.0
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午9:09:03
+	 *
+	 * Modification History:
+	 * Date         Author        Version      Description
+	 * -----------------------------------------------------------------
+	 * 2014-2-10    caiwenming      v1.0.0         create
+	 */
 	public String deleteStaff(){
 		String[] ids=this.staffIds.split(",");
 		ArrayList<Staff> staffs=new ArrayList<Staff>();
+		/**遍历id数组，查找相应记录并add到ArrayList中 */
 		for(int i=0;i<ids.length;i++){
 			Staff staff = this.staffService.find(Staff.class, Integer.parseInt(ids[i]));
 			staffs.add(staff);
@@ -344,12 +436,28 @@ public class StaffAction extends BaseAction{
 		return null;
 	}
 	
+	/**
+	 *
+	 * @Description:获取所有的员工记录，充当前端grid的数据源
+	 *
+	 * @return
+	 *
+	 * @version:v1.0
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午9:10:24
+	 *
+	 * Modification History:
+	 * Date         Author        Version      Description
+	 * -----------------------------------------------------------------
+	 * 2014-2-10    caiwenming      v1.0.0         create
+	 */
 	public String getAllStaff(){
 		List<Staff> staffs=this.staffService.findAll();
 		JsonConfig jsonConfig =new JsonConfig();
+		/** 结果转换成json对象是避免出现hibernate死循环，过滤掉引起死循环的字段，保留有用字段 */
 		jsonConfig.registerJsonValueProcessor(Department.class, new ObjectJsonValueProcessor(new String[]{"departmentId"}, Department.class));
+		/** 同样是为了避免出现hibernate死循环，过滤掉引起死循环的整个对象，不需要任何字段 */
 		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
-			
 			@Override
 			public boolean apply(Object arg0, String arg1, Object arg2) {
 				if(arg1.equals("costs")||arg1.equals("roles")||arg1.equals("journals")){

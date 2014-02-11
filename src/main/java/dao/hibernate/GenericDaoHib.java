@@ -1,3 +1,18 @@
+/**
+ * Copyright (C) 2014 Asiainfo-Linkage
+ *
+ * @className:dao.hibernate.GenericDaoHib
+ * @description:实现数据访问，即数据库的增、删、改、查；并且支持泛型（不同的Pojo），确定具体的Pojo后即可操作相应的数据表
+ * 
+ * @version:v1.0.0
+ * @author:caiwenming
+ *
+ * Modification History:
+ * Date         Author         Version      Description
+ * -----------------------------------------------------------------
+ * 2014-2-9     caiwenming       v1.0.0         create
+ *
+ */
 package dao.hibernate;
 
 import java.sql.SQLException;
@@ -10,7 +25,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -22,33 +36,22 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 
 	Logger log=Logger.getLogger(GenericDaoHib.class);
 	
-	// 具体的实体类型
-	//	private static final Logger log = LoggerFactory.getLogger(StudentDaoImpl.class);
+	/** 具体的实体类型 */
 	private Class<T> type;
 	
-	// Spring提供的Hibernate工具类
-	// 查询条件
+	/** 查询条件 */
 	private String hql;
 
 	/**
-	 * <p>
-	 * 必须提供的构造方法,以便创建实例的时候就知道具体实体的类型
-	 * <p>
-	 * 
-	 * @param type :实体类型
+	 * 构造方法
+	 * @param type
 	 */
 	public GenericDaoHib(Class<T> type) {
 		this.type = type;
 		this.hql = "from " + type.getName();	
 	}
 	
-	/**
-	 * <p>
-	 * 因为这个类没有继承HibernateDaoSupport,所以现在由Spring注入HibernateTemplate
-	 * </p>
-	 * 
-	 * @param hibernateTemplate :Spring提供的Hibernate工具类
-	 */
+	/** 因为这个类没有继承HibernateDaoSupport,所以现在由Spring注入HibernateTemplate */
 	public void setHql(String hql) {
 		this.hql = hql;
 	}
@@ -57,57 +60,139 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 		return hql;
 	}
 	
+	@Override
+	/**
+	 *
+	 * @Description:根据id查找相应的记录,必须指定是哪个实体类
+	 *
+	 * @param clazz
+	 * @param id
+	 * 
+	 * @return T，取决于传入的Class参数
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 *
+	 */
 	public T find(Class<T> clazz,int id){
-//		Session session =this.getSession();
-//		Transaction trans=session.beginTransaction();
-//		@SuppressWarnings("unchecked")
-//		T t= (T) session.get(clazz, id);
-//		trans.commit();
-//		session.close();
 		return (T)getHibernateTemplate().get(clazz, id);
 	}
-	
-//	public void update(T entity){
-//		Session session =this.getSession();
-//		Transaction trans=session.beginTransaction();
-//		session.update(entity);
-//		trans.commit();
-//		session.close();
-//	}
-	
+
 	@SuppressWarnings("unchecked")
+	/**
+	 *
+	 * @Description:查找所有的记录
+	 *
+	 * @return
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public List<T> findAll() {
 		String hql = "from " + type.getName();
 		return (List<T>) getHibernateTemplate().find(hql);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
+	/**
+	 *
+	 * @Description:根据某个字段查找
+	 *
+	 * @param propertyName
+	 * @param value
+	 * 
+	 * @return
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public List<T> findByProperty(String propertyName, Object value) {
 		String hql = "from " + type.getName()+" as model where model."+propertyName + "= ?";
 		return (List<T>) getHibernateTemplate().find(hql, value);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	@Override
+	/**
+	 *
+	 * @Description:不支持主键、不支持关联、不支持null、对于基本类型将会默认作为查询条件
+	 * 
+	 * @param instance
+	 * 
+	 * @return
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public List<T> findByExample(T instance) {
 		List<T> results = getHibernateTemplate().findByExample(instance);
 		return results;
 	}
 	
+	@Override
+	/**
+	 *
+	 * @Description:根据某个字段查找
+	 *
+	 * @param propertyName
+	 * @param value
+	 * 
+	 * @return
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public void update(T entity) {
 		getHibernateTemplate().update(entity);
 	}
 	
+	@Override
+	/**
+	 *
+	 * @Description:根据某个实例对象删除相应的数据库记录
+	 *
+	 * @param entity
+	 * 
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public void remove(T entity) {
 		getHibernateTemplate().delete(entity);
 	}
 	
+	@Override
+	/**
+	 *
+	 * @Description:根据一个实例对象集，删除相应的数据库所有记录
+	 *
+	 * @param entities
+	 * 
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public void removeAll(Collection<T> entities) {
 		getHibernateTemplate().deleteAll(entities);		
 	}
 	
-	//@SuppressWarnings("unchecked")
+	@Override
+	/**
+	 *
+	 * @Description:根据一个实例对象保存
+	 *
+	 * @param entity
+	 * 
+	 * @return
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public int save(T entity) {
 		if(entity==null)
 			throw new SystemException("对象为空！");
@@ -117,10 +202,19 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 			log.error("保存方法发生错误:",e);
 			throw new SystemException("保存方法发生错误:",e);
 		}
-		
-		//return (T) getHibernateTemplate().save(entity);
 	}
 	
+	@Override
+	/**
+	 *
+	 * @Description:查找某个数据表中所有记录的条数
+	 *
+	 * @return
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public int getTotalRows() {
 		String actualHql = "select count(*) "
 				+ hql.substring(hql.indexOf("from"));
@@ -128,11 +222,37 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 				.intValue();
 	}
 	
+	
+	/**
+	 *
+	 * @Description:获取某个查找操作返回结果的条数
+	 * 
+	 * @param sql
+	 * 
+	 * @return
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public int getTotalRows(String sql) {
-		
 		return findBySql(sql).size();
 	}
 	
+	@Override
+	/**
+	 *
+	 * @Description:获取根据某个属性查找出的记录的条数
+	 * 
+	 * @param propertyName
+	 * @param value
+	 * 
+	 * @return
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public int getTotalRows(String propertyName,Object value) {
 		String actualHql = "select count(*) "
 				+ hql.substring(hql.indexOf("from"))+" where "+ propertyName + " like %"+value+"%";
@@ -140,14 +260,27 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 				.intValue();
 	}
 	
+	@Override
+	/**
+	 *
+	 * @Description:用于前端分页，获取分页的总页数
+	 * 
+	 * @param size
+	 * 
+	 * @return
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public int getPageSize(int size) {
-		// 最大页数
+		/** 最大页数 */
 		int pageSize;
-		// 实际每页数据条数
+		/** 实际每页数据条数 */
 		int actualSize;
-		// 总记录数
+		/** 总记录数 */
 		int totalRows = this.getTotalRows();
-		// 计算实际每页的条数,如果请求的每页数据条数大于总条数, 则等于总条数
+		/** 计算实际每页的条数,如果请求的每页数据条数大于总条数, 则等于总条数 */
 		actualSize = (size > totalRows) ? totalRows : size;
 		if (totalRows > 0) {
 			pageSize = (totalRows % size == 0) ? (totalRows / actualSize)
@@ -157,23 +290,36 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 		}
 		return pageSize;
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
+	/**
+	 *
+	 * @Description:实现前端分页
+	 * 
+	 * @param page
+	 * @param size
+	 * 
+	 * @return
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public List<T> findByPage(final int page, final int size) {
 		final int pageSize = this.getPageSize(size);
 		final int totalRows = this.getTotalRows();
 		return getHibernateTemplate().executeFind(new HibernateCallback() {
 			public List<T> doInHibernate(Session session)
 					throws HibernateException, SQLException {
-				// 实际页码
+				/** 实际页码 */
 				int actualPage = (page > pageSize) ? pageSize : page;
-				// 计算实际每页的条数,如果请求的每页数据条数大于总条数, 则等于总条数
+				/** 计算实际每页的条数,如果请求的每页数据条数大于总条数, 则等于总条数 */
 				int actualSize = (size > totalRows) ? totalRows : size;
-				// 计算请求页码的第一条记录的索引值,如果
+				/** 计算请求页码的第一条记录的索引值 */
 				int startRow = (actualPage > 0) ? (actualPage - 1) * actualSize
 						: 0;
 				Query query = session.createQuery(hql);
-				// 设置第一条记录
+				/** 设置第一条记录 */
 				query.setFirstResult(startRow);
 				query.setMaxResults(actualSize);
 				return (List<T>) query.list();
@@ -181,30 +327,56 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 		});
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
+	/**
+	 *
+	 * @Description:实现前端分页
+	 * 
+	 * @param page
+	 * @param size
+	 * @param sql
+	 * 
+	 * @return
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public List<T> findByPage(final int page,final int size,final String sql) {
 		final int pageSize = this.getPageSize(size);
 		final int totalRows = this.getTotalRows();
 		return getHibernateTemplate().executeFind(new HibernateCallback() {
 			public List<T> doInHibernate(Session session)
 					throws HibernateException, SQLException {
-				// 实际页码
+				/** 实际页码 */
 				int actualPage = (page > pageSize) ? pageSize : page;
-				// 计算实际每页的条数,如果请求的每页数据条数大于总条数, 则等于总条数
+				/** 计算实际每页的条数,如果请求的每页数据条数大于总条数, 则等于总条数 */
 				int actualSize = (size > totalRows) ? totalRows : size;
-				// 计算请求页码的第一条记录的索引值,如果
+				/** 计算请求页码的第一条记录的索引值,如果 */
 				int startRow = (actualPage > 0) ? (actualPage - 1) * actualSize
 						: 0;
-				//Query query = session.createSQLQuery(sql+" limit "+startRow+" , "+ actualSize);
-				// 设置第一条记录
+				/** Query query = session.createSQLQuery(sql+" limit "+startRow+" , "+ actualSize); */
+				/** 设置第一条记录 */
 				return session.createSQLQuery(sql+" limit "+startRow+" , "+ actualSize).addEntity(type.getName()).list();
 			}
 		});
 	}
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
+	/**
+	 *
+	 * @Description:根据sql语句进行查询
+	 * 
+	 * @param sql
+	 * 
+	 * @return
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public List<T> findBySql(final String sql) {
 		return getHibernateTemplate().executeFind(new HibernateCallback() {
 			public List<T> doInHibernate(Session session)
@@ -213,12 +385,22 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 			}
 		});
 	}
-	
+
 	@Override
-	/** 
-	* 将传入的对象持久化并保存。 
-	* 如果对象未保存（Transient状态），调用save方法保存。如果对象已保存（Detached状态），调用update方法将对象与Session重新关联。 
-	*/  
+	/**
+	 *
+	 * @Description: 将传入的对象持久化并保存。 
+	 * 如果对象未保存（Transient状态），调用save方法保存。如果对象已保存（Detached状态），
+	 * 调用update方法将对象与Session重新关联。 
+	 * 
+	 * @param instance
+	 * 
+	 * @return
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public void attachDirty(T instance) {
 		try {
 			this.getHibernateTemplate().saveOrUpdate(instance);
@@ -226,11 +408,20 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 			throw re;
 		}
 	}
-	
+
 	@Override
-	/** 
-	* 将传入的对象状态设置为Transient状态 
-	*/
+	/**
+	 *
+	 * @Description: 将传入的对象状态设置为Transient状态 
+	 * 
+	 * @param instance
+	 * 
+	 * @return
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public void attachClean(T instance) {
 		try {
 			this.getHibernateTemplate().lock(instance, LockMode.NONE);
@@ -240,13 +431,22 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 			throw re;
 		}
 	}
-	
+
 	@Override
-	// 关于merge() attachDirty() attachClean()三种方法下面做一个简单的介绍  
-	/** 
-	* 将传入的detached状态的对象的属性复制到持久化对象中，并返回该持久化对象。 
-	* 如果该session中没有关联的持久化对象，加载一个，如果传入对象未保存，保存一个副本并作为持久对象返回，传入对象依然保持detached状态。 
-	*/  
+	/**
+	 *
+	 * @Description: 将传入的detached状态的对象的属性复制到持久化对象中，并返回该持久化对象。 
+	 * 如果该session中没有关联的持久化对象，加载一个，如果传入对象未保存，保存一个副本并作为持久对象返回，
+	 * 传入对象依然保持detached状态。 
+	 * 
+	 * @param instance
+	 * 
+	 * @return
+	 *
+	 * @author:caiwenming
+	 * @date:2014-2-10 上午10:50:45
+	 * 
+	 */
 	public T merge(T detachedInstance) {
 		try {
 			T result = (T) this.getHibernateTemplate().merge(

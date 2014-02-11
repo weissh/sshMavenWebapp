@@ -11,17 +11,11 @@ import service.DepartmentService;
 
 public class DepartmentAction extends BaseAction {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
+	/** 获取department服务、以及get和set方法  */
 	private DepartmentService departmentService;
 
-	private Department department;
-
-	private String departmentIds;
-	
 	public DepartmentService getDepartmentService() {
 		return departmentService;
 	}
@@ -30,14 +24,14 @@ public class DepartmentAction extends BaseAction {
 		this.departmentService = departmentService;
 	}
 
-	public Department getDepartment() {
-		return department;
-	}
+	/** 获取前端表单所有字段  */
+	private String departmentIds;
+	private int departmentId;
+	private String departmentName;
+	private Date createTime;
+	private String description;
 
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
-	
+	/** 前端表单所有字段的get和set方法  */
 	public String getDepartmentIds() {
 		return departmentIds;
 	}
@@ -45,14 +39,7 @@ public class DepartmentAction extends BaseAction {
 	public void setDepartmentIds(String departmentIds) {
 		this.departmentIds = departmentIds;
 	}
-
-
-	// 获取前端表单属性 start
-	private int departmentId;
-	private String departmentName;
-	private Date createTime;
-	private String description;
-
+	
 	public int getDepartmentId() {
 		return departmentId;
 	}
@@ -85,9 +72,21 @@ public class DepartmentAction extends BaseAction {
 		this.description = description;
 	}
 
-	// 获取前端表单属性 end
-	
-	// 新增部门
+	/**
+	 *
+	 * @Description:新增部门
+	 *
+	 * @return
+	 *
+	 * @version:v1.0
+	 * @author:caiwenming
+	 * @date:2014-2-11 上午9:11:44
+	 *
+	 * Modification History:
+	 * Date         Author        Version      Description
+	 * -----------------------------------------------------------------
+	 * 2014-2-11    caiwenming      v1.0.0         create
+	 */
 	public String addDept(){
 		if (departmentName == null || createTime == null || description == null) {
 			this.printString(false, "参数获取错误！");
@@ -104,7 +103,21 @@ public class DepartmentAction extends BaseAction {
 		return null;
 	}
 
-	// 修改部门
+	/**
+	 *
+	 * @Description:修改部门
+	 *
+	 * @return
+	 *
+	 * @version:v1.0
+	 * @author:caiwenming
+	 * @date:2014-2-11 上午9:12:18
+	 *
+	 * Modification History:
+	 * Date         Author        Version      Description
+	 * -----------------------------------------------------------------
+	 * 2014-2-11    caiwenming      v1.0.0         create
+	 */
 	public String updateDept() {
 		if(departmentId==0){
 			this.printString(false, "获取参数错误！");
@@ -119,14 +132,29 @@ public class DepartmentAction extends BaseAction {
 		return null;
 	}
 
-	// 删除部门
+	/**
+	 *
+	 * @Description:删除部门
+	 *
+	 * @return
+	 *
+	 * @version:v1.0
+	 * @author:caiwenming
+	 * @date:2014-2-11 上午9:12:33
+	 *
+	 * Modification History:
+	 * Date         Author        Version      Description
+	 * -----------------------------------------------------------------
+	 * 2014-2-11    caiwenming      v1.0.0         create
+	 */
 	public String deleteDept() {
-		//如果有多个id，则获取到的departmentIds格式是：id1,id2,id3,id4....
+		/**如果有多个id，则获取到的departmentIds格式是：id1,id2,id3,id4.... */
 		String[] str=this.departmentIds.split(",");
 		ArrayList<Department> departments= new ArrayList<Department>();
-		//遍历id，并实例化类型，在add到List
+		/**遍历id，并实例化类型，在add到List */
 		for(int i=0;i<str.length;i++){
 			Department department = new Department();
+			/** 因为Department与其他实体类不存在多对一的关系，即数据表中没有外键，所有新建对象只许设置id即可 */
 			department.setDepartmentId(Integer.parseInt(str[i]));
 			departments.add(department);
 		}
@@ -135,7 +163,21 @@ public class DepartmentAction extends BaseAction {
 		return null;
 	}
 
-	//获取部门信息列表
+	/**
+	 *
+	 * @Description:获取所有的部门信息
+	 *
+	 * @return
+	 *
+	 * @version:v1.0
+	 * @author:caiwenming
+	 * @date:2014-2-11 上午9:15:38
+	 *
+	 * Modification History:
+	 * Date         Author        Version      Description
+	 * -----------------------------------------------------------------
+	 * 2014-2-11    caiwenming      v1.0.0         create
+	 */
 	public String getAllDept() {
 		List<Department> departments = this.departmentService.findAll();
 		JsonConfig jsonConfig =new JsonConfig();
@@ -154,7 +196,21 @@ public class DepartmentAction extends BaseAction {
 		return null;
 	}
 	
-	//仅获得部门的departmentId和departmentName属性，并以json返回:作为前端部门下拉列表的值
+	/**
+	 *
+	 * @Description:仅获得部门的departmentId和departmentName属性，并以json返回:作为前端部门下拉列表的值
+	 *
+	 * @return
+	 *
+	 * @version:v1.0
+	 * @author:caiwenming
+	 * @date:2014-2-11 上午9:16:13
+	 *
+	 * Modification History:
+	 * Date         Author        Version      Description
+	 * -----------------------------------------------------------------
+	 * 2014-2-11    caiwenming      v1.0.0         create
+	 */
 	public String getDeptForSelector(){
 		String sql="select new Department(dept.departmentId,dept.departmentName) from Department dept";
 		List<Department> departments=this.departmentService.findBysql(sql);
