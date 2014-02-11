@@ -65,8 +65,8 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	 *
 	 * @Description:根据id查找相应的记录,必须指定是哪个实体类
 	 *
-	 * @param clazz
-	 * @param id
+	 * @param clazz 某个Pojo类
+	 * @param id 对象的id
 	 * 
 	 * @return T，取决于传入的Class参数
 	 *
@@ -98,10 +98,10 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	@Override
 	/**
 	 *
-	 * @Description:根据某个字段查找
+	 * @Description:根据某个属性值查找
 	 *
-	 * @param propertyName
-	 * @param value
+	 * @param propertyName 某个属性名称
+	 * @param value 该属性的值
 	 * 
 	 * @return
 	 *
@@ -119,7 +119,7 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	 *
 	 * @Description:不支持主键、不支持关联、不支持null、对于基本类型将会默认作为查询条件
 	 * 
-	 * @param instance
+	 * @param instance 不含主键、外键、null的实例对象
 	 * 
 	 * @return
 	 *
@@ -135,10 +135,10 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	@Override
 	/**
 	 *
-	 * @Description:根据某个字段查找
+	 * @Description:根据某个属性查找
 	 *
-	 * @param propertyName
-	 * @param value
+	 * @param propertyName 某个属性名称
+	 * @param value 该属性的值
 	 * 
 	 * @return
 	 *
@@ -155,7 +155,7 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	 *
 	 * @Description:根据某个实例对象删除相应的数据库记录
 	 *
-	 * @param entity
+	 * @param entity 某个的实例对象
 	 * 
 	 * @author:caiwenming
 	 * @date:2014-2-10 上午10:50:45
@@ -170,7 +170,7 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	 *
 	 * @Description:根据一个实例对象集，删除相应的数据库所有记录
 	 *
-	 * @param entities
+	 * @param entities 一个实例对象集
 	 * 
 	 * @author:caiwenming
 	 * @date:2014-2-10 上午10:50:45
@@ -185,7 +185,7 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	 *
 	 * @Description:根据一个实例对象保存
 	 *
-	 * @param entity
+	 * @param entity 某个的实例对象
 	 * 
 	 * @return
 	 *
@@ -227,7 +227,7 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	 *
 	 * @Description:获取某个查找操作返回结果的条数
 	 * 
-	 * @param sql
+	 * @param sql 查询语句
 	 * 
 	 * @return
 	 *
@@ -244,8 +244,8 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	 *
 	 * @Description:获取根据某个属性查找出的记录的条数
 	 * 
-	 * @param propertyName
-	 * @param value
+	 * @param propertyName 某个属性名称
+	 * @param value 该属性的值
 	 * 
 	 * @return
 	 *
@@ -265,7 +265,7 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	 *
 	 * @Description:用于前端分页，获取分页的总页数
 	 * 
-	 * @param size
+	 * @param size 一页显示数据的条数
 	 * 
 	 * @return
 	 *
@@ -296,8 +296,8 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	 *
 	 * @Description:实现前端分页
 	 * 
-	 * @param page
-	 * @param size
+	 * @param page 页面的总数
+	 * @param size 每个页面包含的数据条数
 	 * 
 	 * @return
 	 *
@@ -333,9 +333,9 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	 *
 	 * @Description:实现前端分页
 	 * 
-	 * @param page
-	 * @param size
-	 * @param sql
+	 * @param page 页面的总数
+	 * @param size 每个页面包含的数据条数
+	 * @param sql 查询语句
 	 * 
 	 * @return
 	 *
@@ -369,7 +369,7 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	 *
 	 * @Description:根据sql语句进行查询
 	 * 
-	 * @param sql
+	 * @param sql 查询语句
 	 * 
 	 * @return
 	 *
@@ -393,7 +393,7 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	 * 如果对象未保存（Transient状态），调用save方法保存。如果对象已保存（Detached状态），
 	 * 调用update方法将对象与Session重新关联。 
 	 * 
-	 * @param instance
+	 * @param instance 某个实例对象
 	 * 
 	 * @return
 	 *
@@ -414,7 +414,7 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	 *
 	 * @Description: 将传入的对象状态设置为Transient状态 
 	 * 
-	 * @param instance
+	 * @param instance 某个实例对象
 	 * 
 	 * @return
 	 *
@@ -439,7 +439,7 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	 * 如果该session中没有关联的持久化对象，加载一个，如果传入对象未保存，保存一个副本并作为持久对象返回，
 	 * 传入对象依然保持detached状态。 
 	 * 
-	 * @param instance
+	 * @param instance 某个实例对象（瞬时状态）
 	 * 
 	 * @return
 	 *
@@ -458,7 +458,5 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 			throw re;
 		}
 	}
-
-	
 	
 }

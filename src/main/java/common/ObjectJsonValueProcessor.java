@@ -61,8 +61,8 @@ public class ObjectJsonValueProcessor implements JsonValueProcessor {
 	
     /** 
      * 构造方法,参数必须 
-     * @param properties 
-     * @param clazz 
+     * @param properties 需保留的属性名称
+     * @param clazz 属性对应的pojo类
      */	
 	public ObjectJsonValueProcessor(String[] properties ,Class<?> clazz){
 		this.properties=properties;

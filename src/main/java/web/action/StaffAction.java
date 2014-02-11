@@ -348,7 +348,7 @@ public class StaffAction extends BaseAction{
 	 * 
 	 * @Description:保存员工照片
 	 *
-	 * @param staff
+	 * @param staff 具体的staff对象
 	 * @throws Exception
 	 *
 	 * @version:v1.0
