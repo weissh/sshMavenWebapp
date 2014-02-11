@@ -53,6 +53,14 @@
 		<action name="staff_getAll" method="getAllStaff" class="staffAction" >
 			<result name="success" type="json"/>
 		</action>
+		<!-- smz_start -->
+		<action name="staff_getNameById" method="getStaffNameById" class="staffAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="staff_getForSelector" method="getStaffForSelector" class="staffAction" >
+			<result name="success" type="json"/>
+		</action>
+		<!-- smz_end -->
 	</package>
 	
 	<package name="admin" namespace="/admin" extends="struts-default">

@@ -20,8 +20,10 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.struts2.ServletActionContext;
+import org.hibernate.Hibernate;
 
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
@@ -470,4 +472,35 @@ public class StaffAction extends BaseAction{
 		this.printList(0, 0, 0, staffs, jsonConfig);
 		return null;
 	}
+	/**smz_start**/
+	//根据staffId获得staffName
+	public String getStaffNameById(){
+		Staff staff=this.staffService.find(Staff.class, staffId);
+		if(staff==null){
+			this.printString(false, "员工不存在");
+			return null;
+		}
+		this.printString(true, staff.getStaffName());
+		return null;
+	}
+	//获得员工的下拉框数据
+	public String getStaffForSelector(){
+		Department department =this.departmentService.find(Department.class, departmentId);
+		List<Staff> staffs=new ArrayList(department.getStaffs());
+		List<Staff> simpleStaffs=new ArrayList();
+		for(Staff st:staffs){
+			Staff staff=new Staff();
+			staff.setStaffId(st.getStaffId());
+			staff.setStaffName(st.getStaffName());
+			simpleStaffs.add(staff);
+		}
+        		
+		//List<Staff> staffs=this.staffService.findByProperty("department",department);
+		//String sql="select new Staff(staff.department,staff.staffName) from Staff staff where " +
+		//		"Department_DepartmentID="+departmentId;
+		//List<Staff> staffs=this.staffService.findBysql(sql);
+		this.printList(0, 0, 0, simpleStaffs);		
+		return null;
+	}
+	/**smz_end**/
 }
