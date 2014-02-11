@@ -267,8 +267,7 @@ public class JournalAction extends BaseAction{
 		ArrayList<Journal> journals= new ArrayList<Journal>();
 		//遍历id，并实例化类型，在add到List
 		for(int i=0;i<str.length;i++){
-			Journal journal = new Journal();
-			journal.setWorkId(Integer.parseInt(str[i]));
+			Journal journal = this.journalService.find(Journal.class, Integer.parseInt(str[i]));
 			journals.add(journal);
 		}
 		this.journalService.removeAll(journals);
