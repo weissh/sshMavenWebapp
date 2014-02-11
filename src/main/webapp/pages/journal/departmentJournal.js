@@ -17,6 +17,7 @@ Ext.onReady(function() {
 	
 	Ext.tip.QuickTipManager.init();
 	
+	//定义表格的填充模型journal
 	Ext.define('journal',{
 		extend: 'Ext.data.Model',
 		fields: [
@@ -42,7 +43,7 @@ Ext.onReady(function() {
 	        {name:'workContent',type:'string'}		
          ]
 	})
-	
+	//定义表格的填充数据
 	 var journalStore = Ext.create('Ext.data.Store', {
         model: 'journal',
         autoLoad: true,
@@ -60,12 +61,8 @@ Ext.onReady(function() {
 	
 	//定义下拉框中的字段变量
     
-    var dept=new Ext.data.Store({
-    	autoLoad: true,
-    	fields:[
-        	{name:'departmentId'},
-        	{name:'departmentName'}
-    	],
+    var deptStore=new Ext.data.Store({
+    	autoLoad: true,   	
     	proxy:{
         	type:'ajax',
         	url:'dept_getForSelector.action',
@@ -74,18 +71,27 @@ Ext.onReady(function() {
         		root:'infoList',
         		idProperty:'departmentId'
         	}
-        }
+        },
+        fields:[
+        	{name:'departmentId'},
+        	{name:'departmentName'}
+    	]
     });
 
-    var user=new Ext.data.Store({
-        fields:['id','name'],
-        data:[
-        {'id':'1','name':'小闫'},
-        {'id':'2','name':'大祖'},
-        {'id':'3','name':'大蔡'},
-        {'id':'4','name':'小宋'},
-        {'id':'5','name':'小吴'}
-        ]
+    var staffStore=new Ext.data.Store({
+    	fields:[
+        	{name:'staffId'},
+        	{name:'staffName'}
+    	],
+    	proxy:{
+        	type:'ajax',
+        	url:'staff_getForSelector.action?departmentId=1',
+        	reader:{
+        		type:'json',
+        		root:'infoList',
+        		idProperty:'staffId'
+        	}
+        }
     });
     
     var operatemode=new Ext.data.Store({
@@ -197,21 +203,30 @@ Ext.onReady(function() {
 				displayField : 'departmentName',
 			    width : 140,
 				labelWidth : 30,
-				store : dept,
+				store : deptStore,
 				typeAhead : true,
-				margins : '0 10 0 0'
+				margins : '0 10 0 0',
+				name : 'deptSelected',
+				listeners:{  
+                    select : function(combo, record,index){
+                    staffStore.proxy= new Ext.data.HttpProxy({url: 'staff_getForSelector.action?departmentId=' + combo.value, 
+                                                             reader:{type:'json',root:'infoList',idProperty:'staffId'}});   
+                    staffStore.load();
+                    }   
+                }
 			}, {
 				xtype : 'combo',
 				fieldLabel : '<b>员工</b>',
-				valueField:'id',
-				displayField : 'name',
+				valueField:'staffId',
+				displayField : 'staffName',
 				width : 140,
 				labelWidth : 30,
-				store : user,
+				store : staffStore,
 				typeAhead : true,
-				margins : '0 10 0 0'
+				margins : '0 10 0 0',
+				name : 'staffSelected'
 			},
-			{xtype:'button',text:'查询',iconCls:'search'},'-','->',
+			{xtype:'button',text:'查询',iconCls: 'search',handler : searchJournal},'-','->',
 			{xtype:'button',text:'新建',iconCls: 'journal_add',handler : addJournal},
 			{xtype:'button',text:'修改',iconCls: 'journal_edit',handler : editJournal},
 			{xtype:'filefield',buttonOnly: true,buttonText:'导入',buttonConfig:{iconCls:'file_in'}},
@@ -271,8 +286,8 @@ Ext.onReady(function() {
 				border : false,
 				defaults : {
 					// anchor: '100%',
-					//allowBlank : false,
-					//blankText : '不允许为空',
+					allowBlank : false,
+					blankText : '不允许为空',
 					//msgTarget : 'qtip',
 					labelWidth : 80
 				},
@@ -281,12 +296,34 @@ Ext.onReady(function() {
 				items : [{
 					xtype:'textfield',
 					name:'workId',
+					allowBlank : true,
 					hidden:'true'
 				},{
 					xtype : 'textfield',
 					fieldLabel : '员工编号',
-					name:'staffId'
-					
+					name:'staffId',
+					listeners:{ 
+                        blur:function(tf) {
+                        	var Id=tf.getRawValue();
+                        	//alert(staffId)
+                            Ext.Ajax.request({
+                            	params:{staffId:Id},
+                                url:'staff_getNameById',
+                                method:'POST',
+                                success:function(response,options){
+                                	var responseArray = Ext.JSON.decode(response.responseText);
+                                	if(responseArray.success==true){
+                                        form.getForm().findField('staffName').setValue(responseArray.msg);
+                                	}else{
+                                		form.getForm().findField('staffName').reset();
+                                		top.Ext.Msg.show({title:'提示', msg:responseArray.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+                                	}
+                                },
+                                failure:function(response,options){
+                                	top.Ext.Msg.show({title:'提示', msg:'错误！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+                                }
+                            })
+					}}
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '员工姓名',
@@ -317,18 +354,18 @@ Ext.onReady(function() {
 				}, {
 					xtype : 'combo',
 					fieldLabel : '国家',
-					valueField:'departmentId',
-					displayField : 'departmentName',
-					store : dept,
+					valueField:'id',
+					displayField : 'name',
+					store : operatemode,
 					typeAhead : true,
 					name:'country',
 					value:1
 				}, {
 					xtype : 'combo',
 					fieldLabel : '省市',
-					valueField:'departmentId',
-					displayField : 'departmentName',
-					store : dept,
+					valueField:'id',
+					displayField : 'name',
+					store : operatemode,
 					typeAhead : true,
 					name:'province',
 					value:1
@@ -382,7 +419,7 @@ Ext.onReady(function() {
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人邮箱',
-					vtype : 'email',
+					//vtype : 'email',
 					name:'contactEmail',
 					value:'33@123.com'
 				}, {
@@ -431,7 +468,11 @@ Ext.onReady(function() {
 		items : form
     });
 	     
-     
+    //查询日志
+    function searchJournal(){
+    	alert(dr.getForm().findField('staffSelected').getValue());
+    }
+    
     //增加日志
     function addJournal(){   	
     	form.form.reset();
@@ -505,16 +546,16 @@ Ext.onReady(function() {
 			    			grid.getView().refresh();
 			    		}
 			    	}
-    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+    				top.Ext.Msg.show({title:'提示', msg:'删除日志信息成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
     			}else{
-    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+    				top.Ext.Msg.show({title:'提示', msg:'删除日志信息失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
     			}
     		}
     	});
     };
     
     function submitForm(){
-    	//if(form.form.isValid()){
+    	if(form.form.isValid()){
     	if(form.isAdd){
     		form.form.submit({
 	    		waitMsg:'正在提交数据，请稍后...',
@@ -546,7 +587,7 @@ Ext.onReady(function() {
 				}
     		});
     	}
-    	//}
+    	}else{alert('验证不通过');}
     };
     
     function updateGrid(workId){
