@@ -10,6 +10,8 @@ public class Journal implements java.io.Serializable {
 
 	// Fields
 
+	private static final long serialVersionUID = 1L;
+	
 	private Integer workId;
 	private Staff staff;
 	private Date recordDate;
@@ -105,7 +107,6 @@ public class Journal implements java.io.Serializable {
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.workContent = workContent;	
-		// TODO Auto-generated constructor stub
 	}
 
 	public Integer getWorkId() {

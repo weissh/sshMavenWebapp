@@ -10,7 +10,8 @@ import java.util.Set;
 public class Right implements java.io.Serializable {
 
 	// Fields
-
+	private static final long serialVersionUID = 1L;
+	
 	private Integer rightId;
 	private String rightName;
 	private String mark;
@@ -22,7 +23,7 @@ public class Right implements java.io.Serializable {
 	private String prop5;
 	
 	//不需要通过权限查找相应的角色，故可不需要 private Set roles = new HashSet(0);
-	private Set roles = new HashSet(0);
+	private Set<Role> roles = new HashSet<Role>(0);
 
 	// Constructors
 
@@ -33,7 +34,7 @@ public class Right implements java.io.Serializable {
 	/** full constructor */
 	public Right(String rightName, String mark, String description,
 			String prop1, String prop2, String prop3, String prop4,
-			String prop5, Set roles) {
+			String prop5, Set<Role> roles) {
 		this.rightName = rightName;
 		this.mark = mark;
 		this.description = description;
@@ -119,11 +120,11 @@ public class Right implements java.io.Serializable {
 		this.prop5 = prop5;
 	}
 
-	public Set getRoles() {
+	public Set<Role> getRoles() {
 		return this.roles;
 	}
 
-	public void setRoles(Set roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 

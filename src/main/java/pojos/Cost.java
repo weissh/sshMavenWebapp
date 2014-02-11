@@ -10,6 +10,8 @@ public class Cost implements java.io.Serializable {
 
 	// Fields
 
+	private static final long serialVersionUID = 1L;
+	
 	private Integer costId;
 	private Staff staff;
 	private Date recordDate;

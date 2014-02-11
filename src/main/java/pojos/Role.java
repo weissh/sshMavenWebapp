@@ -10,7 +10,8 @@ import java.util.Set;
 public class Role implements java.io.Serializable {
 
 	// Fields
-
+	private static final long serialVersionUID = 1L;
+	
 	private Integer roleId;
 	private String roleName;
 	private String description;
@@ -20,9 +21,9 @@ public class Role implements java.io.Serializable {
 	private String prop4;
 	private String prop5;
 	//不需要通过角色查找相应的员工，故可不需要 private Set staffs = new HashSet(0);
-	private Set staffs = new HashSet(0);
+	private Set<Staff> staffs = new HashSet<Staff>(0);
 	
-	private Set rights = new HashSet(0);
+	private Set<Right> rights = new HashSet<Right>(0);
 
 	// Constructors
 
@@ -32,8 +33,8 @@ public class Role implements java.io.Serializable {
 
 	/** full constructor */
 	public Role(String roleName, String description, String prop1,
-			String prop2, String prop3, String prop4, String prop5, Set staffs,
-			Set rights) {
+			String prop2, String prop3, String prop4, String prop5, Set<Staff> staffs,
+			Set<Right> rights) {
 		this.roleName = roleName;
 		this.description = description;
 		this.prop1 = prop1;
@@ -111,19 +112,19 @@ public class Role implements java.io.Serializable {
 		this.prop5 = prop5;
 	}
 
-	public Set getStaffs() {
+	public Set<Staff> getStaffs() {
 		return this.staffs;
 	}
 
-	public void setStaffs(Set staffs) {
+	public void setStaffs(Set<Staff> staffs) {
 		this.staffs = staffs;
 	}
 
-	public Set getRights() {
+	public Set<Right> getRights() {
 		return this.rights;
 	}
 
-	public void setRights(Set rights) {
+	public void setRights(Set<Right> rights) {
 		this.rights = rights;
 	}
 

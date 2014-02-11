@@ -12,10 +12,8 @@ public class Department implements java.io.Serializable {
 
 	// Fields
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	
 	private Integer departmentId;
 	private String departmentName;
 	private Date createTime;
@@ -27,7 +25,7 @@ public class Department implements java.io.Serializable {
 	private String prop3;
 	private String prop4;
 	private String prop5;
-	private Set staffs = new HashSet(0);
+	private Set<Staff> staffs = new HashSet<Staff>(0);
 
 	// Constructors
 
@@ -51,7 +49,7 @@ public class Department implements java.io.Serializable {
 	/** full constructor */
 	public Department(String departmentName, Date createTime, Integer managerId,
 			Integer totalStaff, String description, String prop1, String prop2,
-			String prop3, String prop4, String prop5, Set staffs) {
+			String prop3, String prop4, String prop5, Set<Staff> staffs) {
 		this.departmentName = departmentName;
 		this.createTime=createTime;
 		this.managerId = managerId;
@@ -155,11 +153,11 @@ public class Department implements java.io.Serializable {
 		this.prop5 = prop5;
 	}
 
-	public Set getStaffs() {
+	public Set<Staff> getStaffs() {
 		return this.staffs;
 	}
 
-	public void setStaffs(Set staffs) {
+	public void setStaffs(Set<Staff> staffs) {
 		this.staffs = staffs;
 	}
 

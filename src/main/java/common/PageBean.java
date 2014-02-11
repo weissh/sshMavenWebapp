@@ -78,7 +78,7 @@ public class PageBean {
 		this.lastPage = lastPage;
 	}
 
-	public void setList(List list) {
+	public void setList(List<Object> list) {
 		this.list = list;
 	}
 
