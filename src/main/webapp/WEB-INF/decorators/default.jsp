@@ -70,13 +70,10 @@
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu" id="themes">
-						<li><a data-value="classic" href="#"><i class="icon-blank"></i> Classic</a></li>
 						<li><a data-value="cerulean" href="#"><i class="icon-blank"></i> Cerulean</a></li>
-						<li><a data-value="cyborg" href="#"><i class="icon-blank"></i> Cyborg</a></li>
 						<li><a data-value="redy" href="#"><i class="icon-blank"></i> Redy</a></li>
 						<li><a data-value="journal" href="#"><i class="icon-blank"></i> Journal</a></li>
 						<li><a data-value="simplex" href="#"><i class="icon-blank"></i> Simplex</a></li>
-						<li><a data-value="slate" href="#"><i class="icon-blank"></i> Slate</a></li>
 						<li><a data-value="spacelab" href="#"><i class="icon-blank"></i> Spacelab</a></li>
 						<li><a data-value="united" href="#"><i class="icon-blank"></i> United</a></li>
 					</ul>
@@ -120,6 +117,7 @@
 					<ul class="nav nav-tabs nav-stacked main-menu">
 						<li class="nav-header hidden-tablet">Main</li>
 						<li><a class="ajax-link" href="index.html"><i class="icon-home"></i><span class="hidden-tablet"> Dashboard</span></a></li>
+					    <li><a class="ajax-link" href="day_report.html"><i class="icon-edit"></i><span class="hidden-tablet">日报情况</span></a></li>
 						<li><a class="ajax-link" href="ui.html"><i class="icon-eye-open"></i><span class="hidden-tablet"> UI Features</span></a></li>
 						<li><a class="ajax-link" href="form.html"><i class="icon-edit"></i><span class="hidden-tablet"> Forms</span></a></li>
 						<li><a class="ajax-link" href="chart.html"><i class="icon-list-alt"></i><span class="hidden-tablet"> Charts</span></a></li>
@@ -148,18 +146,7 @@
 			</noscript>
 			
 			<div id="content" class="span10">
-			<!-- content starts -->
 			
-			<div>
-				<ul class="breadcrumb">
-					<li>
-						<a href="#">Home</a> <span class="divider">/</span>
-					</li>
-					<li>
-						<a href="#">Calendar</a>
-					</li>
-				</ul>
-			</div>
 
 			 <decorator:body />
 		
