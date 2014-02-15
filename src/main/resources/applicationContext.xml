@@ -96,6 +96,7 @@
 		<!-- 配置事务属性 -->
 		<property name="transactionAttributes">
 			<props>
+				<prop key="attachDirty*">PROPAGATION_REQUIRED</prop>
 				<prop key="delete*">PROPAGATION_REQUIRED</prop>
 				<prop key="remove*">PROPAGATION_REQUIRED</prop>
 				<prop key="add*">PROPAGATION_REQUIRED</prop>
@@ -146,7 +147,7 @@
 	</bean>
 	
 	<bean id="dssQuestionService" class="service.impl.DssQuestionServiceImpl"> 
-		<property name="genericDao"> <ref bean="userDAO" />  </property>
+		<property name="genericDao"> <ref bean="dssQuestionDAO" />  </property>
 		<property name="dssQuestionDao"> <ref bean="dssQuestionDAO" />  </property>
 	</bean>
 

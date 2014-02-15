@@ -73,9 +73,7 @@ public class UserAction extends ActionSupport {
 	
 	public String save(){
 		TblUser tblUsers=new TblUser();
-		tblUsers.setUserUsername("test");
-		tblUsers.setUserPassword("aaaa");
-		userService.save(tblUsers);
+		
 		return "SUCCESS";
 	}
 }

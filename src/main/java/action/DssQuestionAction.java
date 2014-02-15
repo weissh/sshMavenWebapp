@@ -24,11 +24,13 @@ public class DssQuestionAction {
 	
 	public String save(){
 		DssQuestion dssQuestion=new DssQuestion();
+		dssQuestion=(DssQuestion)(dssQuestionService.findByProperty("id", 1).get(0));
 		dssQuestion.setDataDate("201401122");
 		dssQuestion.setQuesContent("tes");
 		dssQuestion.setQuesProv("安徽");
-		dssQuestion.setQuesReply("no");
-		dssQuestionService.save(dssQuestion);
+		dssQuestion.setQuesReply("n3o");
+		dssQuestionService.attachDirty(dssQuestion);
+		
 		return "SUCCESS";
 	}
 	
