@@ -11,36 +11,76 @@ Ext.require([
 
 Ext.onReady(function(){
     Ext.QuickTips.init();
-	
-    var dept=new Ext.data.Store({
-    	autoLoad: true,
-    	fields:[
+    
+    //定义部门数据类型，用于下拉列表
+	Ext.define('deptForSelector', {
+        extend: 'Ext.data.Model',
+        fields:[
         	{name:'departmentId'},
         	{name:'departmentName'}
-    	],
+    	]
+	});
+	
+	//定义部门数据源，作为下拉列表的数据源
+    var dept=new Ext.data.Store({
+    	autoLoad: true,
+    	model:deptForSelector,
     	proxy:{
         	type:'ajax',
         	url:'dept_getForSelector.action',
+        	method:'POST',
         	reader:{
         		type:'json',
         		root:'infoList',
         		idProperty:'departmentId'
         	}
+        },
+        listeners:{
+        	load:function(store,records,options){
+        		var rs=Ext.ModelMgr.create({
+        			departmentId:0,
+        			departmentName:"所有部门"
+        		},'deptForSelector');
+        		store.insert(0,rs);
+        	}
+        }
+    });
+	
+    //定义员工数据类型，作为下拉列表框
+    Ext.define('staffForSelector', {
+        extend: 'Ext.data.Model',
+        fields:[
+        	{name:'staffId'},
+        	{name:'staffName'}
+    	]
+	});
+	
+	//定义员工数据源，作为下拉列表的数据源
+    var staff=new Ext.data.Store({
+    	autoLoad: true,
+        model:staffForSelector,
+        proxy:{
+        	type:'ajax',
+        	url:'staff_getForSelector.action',
+        	method:'POST',
+        	reader:{
+        		type:'json',
+        		root:'infoList',
+        		idProperty:'staffId'
+        	}
+        },
+        listeners:{
+        	load:function(store,records,options){
+        		var rs=Ext.ModelMgr.create({
+        			staffId:0,
+        			staffName:"所有员工"
+        		},'staffForSelector');
+        		store.insert(0,rs);
+        	}
         }
     });
 
-    var user=new Ext.data.Store({
-    	autoLoad: true,
-        fields:['id','name'],
-        data:[
-            ['1','小闫'],
-            ['2','小祖'],
-            ['3','小蔡'],
-            ['4','小宋'],
-            ['5','小吴']
-        ]
-    });
-
+    //定义角色数据源，作为下拉列表的数据源
     var role=new Ext.data.Store({
         fields:['id','name'],
         data:[
@@ -51,6 +91,7 @@ Ext.onReady(function(){
         ]
     });
 
+    //定义数据源，作为下拉列表的数据源
     var position=new Ext.data.Store({
     	autoLoad: true,
         fields:['id','name'],
@@ -61,6 +102,7 @@ Ext.onReady(function(){
         ]
     });
     
+    //定义婚姻情况数据源
     var maritalStatus=new Ext.data.Store({
     	autoLoad: true,
         fieldLabel:30,
@@ -73,6 +115,7 @@ Ext.onReady(function(){
         ]
     });
     
+    //定义最高学历数据源
     var highestEdu=new Ext.data.Store({
     	autoLoad: true,
         fieldLabel:30,
@@ -85,6 +128,7 @@ Ext.onReady(function(){
         ]
     });
     
+    //定义最高学位数据源
     var highestDegree=new Ext.data.Store({
     	autoLoad: true,
         fieldLabel:30,
@@ -96,6 +140,7 @@ Ext.onReady(function(){
         ]
     });
     
+    //定义学制数据源
     var schoolSystem=new Ext.data.Store({
     	autoLoad: true,
         fieldLabel:30,
@@ -107,6 +152,7 @@ Ext.onReady(function(){
         ]
     });
     
+    //定义政治面貌数据源
     var politicalStatus=new Ext.data.Store({
     	autoLoad: true,
         fieldLabel:30,
@@ -119,6 +165,7 @@ Ext.onReady(function(){
         ]
     });
     
+    //定义性别数据源
     var gender=new Ext.data.Store({
         fieldLabel:30,
         autoLoad: true,
@@ -127,7 +174,9 @@ Ext.onReady(function(){
 	        {'id':'1','name':'男'},
 	        {'id':'2','name':'女'}
         ]
-    });    
+    });
+    
+    //定义员工数据类型
     Ext.define('staff', {
         extend: 'Ext.data.Model',
         fields: [
@@ -165,21 +214,98 @@ Ext.onReady(function(){
          ]
     });
 
+    //定义员工数据源，作为表格数据源
     var staffStore = Ext.create('Ext.data.Store', {
         model: 'staff',
-        autoLoad: true,
+        pageSize:20,
+//        autoLoad:true,
         proxy:{
         	type:'ajax',
         	url:'staff_getAll.action',
         	reader:{
         		type:'json',
         		root:'infoList',
-        		idProperty:'userId'
+        		idProperty:'staffId',
+        		totalProperty:'totalProperty'
         	}
         }
     });
-
-    //创建用户表格
+    
+    //员工表格数据源载入，默认为第一页前20条记录，当点击下一页（第二页）时参数自动改变为{start:20,limit:20}，store的pagesize为20时
+	staffStore.load({url:'staff_getAll.action',params:{start:0,limit:20}});
+    
+	//创建工具栏表单，作为grid的上工具栏
+	var formForTbar=Ext.create('Ext.form.Panel',{
+		border:false,
+		width:'100%',
+		tbar:[{
+            xtype:'combo',
+            name:'deptCombo',
+            store:dept,
+            fieldLabel:'<b>部门</b>',
+            forceSelection:true,
+        	valueField:'departmentId',
+        	displayField:'departmentName',
+            typeAhead:true,
+            width:150,
+            labelWidth:30,
+            margins:'0 10 0 0',
+            mode:'local',
+            listeners:{
+            	select:function(combo,record,index){
+            		Ext.getCmp('staffCombo').reset();
+            		staff.load({
+            			url:'staff_getForSelector.action',
+            			params:{departmentId:combo.value}
+            		});
+            	}
+            }
+        },{
+            xtype:'combo',
+            id:'staffCombo',
+            name:'staffCombo',
+            store:staff,
+            fieldLabel:'<b>员工</b>',
+            forceSelection:true,
+            valueField:'staffId',
+        	displayField:'staffName',
+            typeAhead:true,
+            width:150,
+            labelWidth:30,
+            margins:'0 10 0 0',
+            mode:'local'
+        },{
+            xtype:'combo',
+            name:'roleCombo',
+            store:role,
+            fieldLabel:'<b>角色</b>',
+            valueField:'id',
+            displayField:'name',
+            forceSelection:true,
+            typeAhead:true,
+            width:150,
+            labelWidth:30,
+            margins:'0 10 0 0',
+            mode:'local'
+        },
+            {xtype:'button',text:'查询',iconCls:'search',listeners:{
+            	click:function(){
+            		var dept=formForTbar.getForm().findField('deptCombo').getValue();
+            		var staff=formForTbar.getForm().findField('staffCombo').getValue();
+            		var role=formForTbar.getForm().findField('roleCombo').getValue();
+            		alert(role);
+            		staffStore.load({url:'staff_search.action',params:{start:0,limit:20,departmentId:dept,staffId:staff,roleId:role}});
+            	}
+            }},
+            '-','->',
+        	{xtype:'button',text:'新增',iconCls: 'user_add',handler:addStaffInfo},
+            {xtype:'button',text:'修改',iconCls: 'user_edit',handler:editStaffInfo},
+            {xtype:'button',text:'删除',iconCls: 'user_delete',handler:deleteStaffInfo},
+            {xtype:'button',text:'导出',iconCls:'file_export'}
+		]
+	})
+	
+	//创建员工表格
     var grid = Ext.create('Ext.grid.Panel', {
         width: document.body.clientWidth,
         height: document.body.clientHeight,
@@ -191,49 +317,7 @@ Ext.onReady(function(){
         viewConfig:{
             forceFit:true
         },
-        tbar:[{
-            xtype:'combo',
-            store:dept,
-            fieldLabel:'<b>部门</b>',
-            displayField:'name',
-            forceSelection:true,
-        	valueField:'departmentId',
-        	displayField:'departmentName',
-            typeAhead:true,
-            width:150,
-            labelWidth:30,
-            margins:'0 10 0 0',
-            mode:'local'
-        },{
-            xtype:'combo',
-            store:user,
-            fieldLabel:'<b>员工</b>',
-            displayField:'name',
-            forceSelection:true,
-            typeAhead:true,
-            width:150,
-            labelWidth:30,
-            margins:'0 10 0 0',
-            mode:'local'
-        },{
-            xtype:'combo',
-            store:role,
-            fieldLabel:'<b>角色</b>',
-            displayField:'name',
-            forceSelection:true,
-            typeAhead:true,
-            width:150,
-            labelWidth:30,
-            margins:'0 10 0 0',
-            mode:'local'
-        },
-            {xtype:'button',text:'查询',iconCls:'search'},
-            '-','->',
-        	{xtype:'button',text:'新增',iconCls: 'user_add',handler:addStaffInfo},
-            {xtype:'button',text:'修改',iconCls: 'user_edit',handler:editStaffInfo},
-            {xtype:'button',text:'删除',iconCls: 'user_delete',handler:deleteStaffInfo},
-            {xtype:'button',text:'导出',iconCls:'file_export'}
-        ],
+        tbar:[formForTbar],
         columns: [
             Ext.create('Ext.grid.RowNumberer'),
             {text: "工号", width: 120, sortable: true,dataIndex: 'staffId'},
@@ -326,15 +410,11 @@ Ext.onReady(function(){
             {text: "邮编", width: 120, sortable: true, dataIndex: 'zipCode',hidden:true},
             {text: "紧急电话", width: 120, sortable: true, dataIndex: 'ucPhone',hidden:true}
         ],
-        dockedItems: [{
-	        xtype: 'pagingtoolbar',
-	        autoScroll:false,
-	        store: staffStore,   // same user_store GridPanel is using
-	        dock: 'bottom',
-	        pageSize:5,
-	        displayInfo: true,
-	        autoScroll:false
-	    }],
+        bbar:new Ext.PagingToolbar({
+        	pageSize:20,
+            store: staffStore,
+            displayInfo: true
+        }),
 //        listeners: {
 //            'selectionchange': function(view, records) {
 //                grid.down('#removeEmployee').setDisabled(!records.length);
@@ -343,11 +423,9 @@ Ext.onReady(function(){
 //        },
         renderTo: Ext.getBody()
     });
-    
     grid.addListener('itemdblclick', editStaffInfo, this);
     
-    //user_store.load({ params: { start: 0, limit: 2} })
-    //创建表单
+    //新增、修改员工表单
 	var form = top.Ext.create('Ext.form.Panel', {
         width:'100%',
         height:'100%',
@@ -673,6 +751,7 @@ Ext.onReady(function(){
 		}]
     });
     
+    //新增、修改员工弹出框
     var win = new top.Ext.Window({
     	layout : 'fit',
 		width :750,
@@ -715,12 +794,13 @@ Ext.onReady(function(){
     		top.Ext.Msg.show({title:'错误', msg:'请至少选择一条记录进行删除！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
     		return;
     	}
-    	Ext.Msg.confirm('提示','您确定要删除所选用户吗？',function(btnID){
+    	top.Ext.Msg.confirm('提示','您确定要删除所选用户吗？',function(btnID){
     		if(btnID=='yes'){
     			deleteStaffs(records);
     		}
     	});
-    }
+    };
+    
     //执行删除操作
     function deleteStaffs(records){
     	var staffIds="";
@@ -761,6 +841,7 @@ Ext.onReady(function(){
     	});
     };
     
+    //新增、修改员工时，向后台发送请求
     function submitForm(){
     	if(form.form.isValid()){
 	    	if(form.isAdd){
@@ -842,9 +923,10 @@ Ext.onReady(function(){
     		},'staff');
     		staffStore.add(rec);
     	}
+    	staffStore.reload();
     };
     
-    //
+    //用于渲染grid中的与form中下拉列表框对应的值，使其显示的是name字段而不是id字段
     function getText(record){
     	var text="";
 		if(record==null){
@@ -853,5 +935,5 @@ Ext.onReady(function(){
 			text=record.data['name'];
 		}
 		return text;
-    }
-});
+    };
+})

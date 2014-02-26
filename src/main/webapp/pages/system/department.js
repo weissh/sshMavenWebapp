@@ -90,6 +90,7 @@ Ext.onReady(function () {
         }];
     }
 
+    //定义部门数据类型
     Ext.define('department',{
     	extend: 'Ext.data.Model',
     	fields:[
@@ -102,6 +103,7 @@ Ext.onReady(function () {
 		]
     });
     
+    //定义部门数据源，充当页面表格的数据来源
     var departmentStore = Ext.create('Ext.data.Store', {
         model: 'department',
         autoLoad: true,
@@ -111,30 +113,36 @@ Ext.onReady(function () {
         	reader:{
         		type:'json',
         		root:'infoList',
+        		totalProperty:'totalProperty',
         		idProperty:'departmentId'
         	}
         }
     });
 
-    //创建表格
-    var grid = Ext.create('Ext.grid.Panel', {
-        width: document.body.clientWidth,
-        height: document.body.clientHeight,
-        border:false,
-        autoScroll:false,
-        multiSelect: true,
-        selModel:{selType:'checkboxmodel'},
-        store: departmentStore,
-        viewConfig:{
-            forceFit:true
-        },
-        tbar:[
+    //用表单制作部门表格的工具栏
+    var formForTbar=Ext.create('Ext.form.Panel',{
+    	border:false,
+    	width:'100%',
+    	tbar:[
         	{xtype:'button',text:'新增部门',iconCls: 'user_add',handler:addDepartmentInfo},
             {xtype:'button',text:'修改部门',iconCls: 'user_edit',handler:editDepartmentInfo},
             {xtype:'button',text:'删除部门',iconCls: 'user_delete',handler:deleteDepartmentInfo},
             {xtype:'button',text:'员工管理',iconCls: 'user_delete',handler:userManagement},
-            {xtype:'button',text:'导出',iconCls:'file_export'}
-        ],
+            {xtype:'button',text:'导出',iconCls:'file_export',handler:exportDeartmentInfo}
+        ]
+    });
+    //创建部门表格
+    var grid = Ext.create('Ext.grid.Panel', {
+        height: '100%',
+        border:false,
+        multiSelect: true,
+        selModel:{selType:'checkboxmodel'},
+        store: departmentStore,
+//        margin: '0 0 2 0',	
+        viewConfig:{
+            forceFit:false
+        },
+        tbar:[formForTbar],
         columns: [
             Ext.create('Ext.grid.RowNumberer'),
             {text: "部门编号", flex: 0.2, sortable: true, dataIndex: 'departmentId'},
@@ -152,15 +160,13 @@ Ext.onReady(function () {
         ],
         dockedItems: [{
 	        xtype: 'pagingtoolbar',
-	        autoScroll:false,
 	        store: departmentStore,
 	        dock: 'bottom',
-	        pageSize:5,
-	        displayInfo: true,
-	        autoScroll:false
+	        displayInfo: true
 	    }],
         renderTo: Ext.getBody()
     });
+    
     var ds = Ext.create('Ext.data.ArrayStore', {
         fields: ['value', 'text'],
         proxy: {
@@ -229,7 +235,6 @@ Ext.onReady(function () {
 	var form = top.Ext.create('Ext.form.Panel', {
         width:'100%',
         height:'100%',
-        autoScroll:true,
         bodyPadding: 10,
         border:false,
         bodyStyle: 'background:#dfe9f5',
@@ -273,6 +278,7 @@ Ext.onReady(function () {
 		}]
     });
     
+    //新增、修改部门的弹出框
     var win = new top.Ext.Window({
     	layout : 'fit',
 		width :350,
@@ -283,14 +289,16 @@ Ext.onReady(function () {
 		modal : true,
 		items : form
     });
-  //员工管理
+    
+    //员工管理
     function userManagement(){
     	isForm.form.reset();
     	isForm.isAdd=true;
     	wind.setTitle('员工管理');
     	wind.show();
     };
-  //增加新部门
+    
+	//增加新部门
     function addDepartmentInfo(){
     	form.form.reset();
     	form.isAdd=true;
@@ -359,15 +367,16 @@ Ext.onReady(function () {
 			    	}
     				top.Ext.Msg.show({title:'提示', msg:'删除用户信息成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
     			}else{
-    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+    				top.Ext.Msg.show({title:'提示', msg:result.msg,icon:Ext.Msg.ERROR,maxWidth:250,buttons:Ext.Msg.OK});
     			}
     		}
     	});
     };
     
+    //新增、修改表单提交后想后台发送请求
     function submitForm(){
     	if(form.form.isValid()){
-	    	if(form.isAdd){
+	    	if(form.isAdd){//新增
 	    		form.form.submit({
 		    		waitMsg:'正在提交数据，请稍后...',
 					waitTitle:'提示',
@@ -382,7 +391,7 @@ Ext.onReady(function () {
 	    				top.Ext.Msg.show({title:'提示', msg:'新增部门失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
 	    			}
 	    		});
-	    	}else{
+	    	}else{//修改
 	    		form.form.submit({
 		    		waitMsg:'正在提交数据，请稍后...',
 					waitTitle:'提示',
@@ -401,6 +410,7 @@ Ext.onReady(function () {
     	}
     };
     
+    //新增、修改后更新前端的数据
     function updateGrid(departmentId){
     	var values=form.form.getValues();
     	var index=departmentStore.find('departmentId',values['departmentId']);
@@ -421,4 +431,28 @@ Ext.onReady(function () {
     	}
     }
 
+    //导出部门信息到excel
+    function exportDeartmentInfo(){
+    	var records=grid.getSelectionModel().getSelection();
+    	var msg;
+    	var departmentIds="";
+    	if(records.length==0){
+    		msg="您确定要导出所有部门信息吗？";
+    	}else{
+    		msg="您确定要导出所选的部门信息吗？";
+	    	for(var i=0;i<records.length;i++){
+	    		var id=records[i].get('departmentId');
+	    		if(i==0){
+	    			departmentIds+=id;
+	    		}else{
+	    			departmentIds=departmentIds+','+id;
+	    		}
+			}
+    	}
+    	top.Ext.Msg.confirm('提示',msg,function(btnID){
+    		if(btnID=='yes'){
+    			window.location.href='byjx/dept_export.action?departmentIds='+departmentIds;
+    		}
+		});
+    }
 });
