@@ -74,8 +74,8 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 	 * @date:2014-2-10 上午10:50:45
 	 *
 	 */
-	public T find(Class<T> clazz,int id){
-		return (T)getHibernateTemplate().get(clazz, id);
+	public T find(int id){
+		return (T)getHibernateTemplate().get(type, id);
 	}
 
 	@SuppressWarnings("unchecked")

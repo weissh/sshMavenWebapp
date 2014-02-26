@@ -53,8 +53,8 @@ public class GenericServiceImpl<T> implements GenericService<T> {
 		genericDao.update(entity);
 	}
 
-	public T find(Class<T> clazz,int id){
-		return genericDao.find(clazz, id);
+	public T find(int id){
+		return genericDao.find(id);
 	}
 	
 	@Override

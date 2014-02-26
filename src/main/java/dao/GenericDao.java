@@ -73,7 +73,7 @@ public interface GenericDao<T> {
 	 * @param id: id
 	 * @return 找到的实体
 	 */
-	public T find(Class<T> clazz,int id);
+	public T find(int id);
 	
 	/**
 	 * <p/>

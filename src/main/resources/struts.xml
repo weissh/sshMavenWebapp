@@ -28,20 +28,18 @@
 		<action name="dept_getForSelector" method="getDeptForSelector" class="departmentAction" >
 			<result name="success" type="json"/>
 		</action>
+		<action name="dept_export" method="exportDept" class="departmentAction" >
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">excelStream</param>
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
 	</package>
 	
 	<package name="staff" extends="json-default" >
 		<action name="staff_add" method="addStaff" class="staffAction" >
-			<!--
-			<interceptor-ref name="fileUpload">
-				<param name="allowedTypes">jpg</param>
-				<param name="maximumSize">20000000</param>
-			</interceptor-ref>
-			
-			<interceptor-ref name="defaultStack">
-				<param name=""></param>
-			</interceptor-ref>
-			  -->
 			<result name="success" type="json"/>
 		</action>
 		<action name="staff_update" method="updateStaff" class="staffAction" >
@@ -53,14 +51,12 @@
 		<action name="staff_getAll" method="getAllStaff" class="staffAction" >
 			<result name="success" type="json"/>
 		</action>
-		<!-- smz_start -->
-		<action name="staff_getNameById" method="getStaffNameById" class="staffAction" >
+		<action name="staff_search" method="searchStaff" class="staffAction" >
 			<result name="success" type="json"/>
 		</action>
 		<action name="staff_getForSelector" method="getStaffForSelector" class="staffAction" >
 			<result name="success" type="json"/>
 		</action>
-		<!-- smz_end -->
 	</package>
 	
 	<package name="admin" namespace="/admin" extends="struts-default">

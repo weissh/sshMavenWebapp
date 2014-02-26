@@ -21,9 +21,4 @@ public class StaffDaoHib extends GenericDaoHib<Staff> implements StaffDao{
 		}
 		return null;
 	}
-
-	public Staff find(Integer id){
-		return this.find(Staff.class, id);
-	}
-	
 }

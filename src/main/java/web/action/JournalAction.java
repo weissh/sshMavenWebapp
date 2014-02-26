@@ -237,7 +237,7 @@ public class JournalAction extends BaseAction{
 			this.printString(false, "联系人电话的位数有误！");
 			return null;
 		}
-		Journal journal =this.journalService.find(Journal.class, workId);
+		Journal journal =this.journalService.find(workId);
 		journal.setAddress(address);
 		journal.setContactEmail(contactEmail);
 		journal.setContactName(contactName);
@@ -267,7 +267,7 @@ public class JournalAction extends BaseAction{
 		ArrayList<Journal> journals= new ArrayList<Journal>();
 		//遍历id，并实例化类型，在add到List
 		for(int i=0;i<str.length;i++){
-			Journal journal = this.journalService.find(Journal.class, Integer.parseInt(str[i]));
+			Journal journal = this.journalService.find(Integer.parseInt(str[i]));
 			journals.add(journal);
 		}
 		this.journalService.removeAll(journals);

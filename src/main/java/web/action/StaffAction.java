@@ -48,6 +48,8 @@ public class StaffAction extends BaseAction{
 	/**前端表单的所有字段 */
 	private String staffIds;
 	private int staffId;
+	private int start;
+	private int limit;
 	private String photo;
 	private File photoImg;
 	private String photoImgFileName;
@@ -113,6 +115,18 @@ public class StaffAction extends BaseAction{
 	}
 	public void setStaffId(int staffId) {
 		this.staffId = staffId;
+	}
+	public int getStart() {
+		return start;
+	}
+	public void setStart(int start) {
+		this.start = start;
+	}
+	public int getLimit() {
+		return limit;
+	}
+	public void setLimit(int limit) {
+		this.limit = limit;
 	}
 	public String getPhoto() {
 		return photo;
@@ -337,7 +351,7 @@ public class StaffAction extends BaseAction{
 	 * 2014-2-10    caiwenming      v1.0.0         create
 	 */
 	public String addStaff() throws Exception{
-		Department department =this.departmentService.find(Department.class, departmentId);
+		Department department =this.departmentService.find(departmentId);
 //		Role role =this.roleService.find(Role.class, roleId);
 		Staff staff=new Staff(department, null, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, null, password, null, null, null, null, null, null, null, null);
 		savePhoto(staff);
@@ -400,7 +414,7 @@ public class StaffAction extends BaseAction{
 	 * 2014-2-10    caiwenming      v1.0.0         create
 	 */
 	public String updateStaff(){
-		Department department =this.departmentService.find(Department.class, departmentId);
+		Department department =this.departmentService.find(departmentId);
 //		Role role =this.roleService.find(Role.class, roleId);
 		Staff staff=new Staff(department, photo, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, password);
 		staff.setStaffId(staffId);
@@ -430,7 +444,7 @@ public class StaffAction extends BaseAction{
 		ArrayList<Staff> staffs=new ArrayList<Staff>();
 		/**遍历id数组，查找相应记录并add到ArrayList中 */
 		for(int i=0;i<ids.length;i++){
-			Staff staff = this.staffService.find(Staff.class, Integer.parseInt(ids[i]));
+			Staff staff = this.staffService.find(Integer.parseInt(ids[i]));
 			staffs.add(staff);
 		}
 		this.staffService.removeAll(staffs);
@@ -440,7 +454,11 @@ public class StaffAction extends BaseAction{
 	
 	/**
 	 *
-	 * @Description:获取所有的员工记录，充当前端grid的数据源
+	 * @Description:获取所有的员工记录，充当前端grid的数据源，同时具有分页功能
+	 * 分页：action类有两个属性：start和limit。
+	 * start：表示起始的记录位置，即数据表的第几条记录
+	 * limit：表示从start开始之后的几条记录
+	 * 例子：（0,20）表示提取数据表的前20条，（20,20）表示数据表中的第21条至40条的记录
 	 *
 	 * @return
 	 *
@@ -454,7 +472,17 @@ public class StaffAction extends BaseAction{
 	 * 2014-2-10    caiwenming      v1.0.0         create
 	 */
 	public String getAllStaff(){
-		List<Staff> staffs=this.staffService.findAll();
+		/**
+		 *  page表示分页查询时的当前页码，前端一页显示记录数（limit）已经设置为20，
+		 * 所以每一次点击“下一页”是时，传到后台的start都+20
+		 */
+		int page=start/limit+1;
+		/**
+		 * findByPage方法的参数是（当前页码,每页记录数），所以需先通过start和limit计算得出请求的当前页码
+		 */
+		List<Staff> staffs=this.staffService.findByPage(page,limit);
+		int total=this.staffService.getTotalRows();
+//		this.staffService.findAll();
 		JsonConfig jsonConfig =new JsonConfig();
 		/** 结果转换成json对象是避免出现hibernate死循环，过滤掉引起死循环的字段，保留有用字段 */
 		jsonConfig.registerJsonValueProcessor(Department.class, new ObjectJsonValueProcessor(new String[]{"departmentId"}, Department.class));
@@ -469,38 +497,41 @@ public class StaffAction extends BaseAction{
 				}
 			}
 		});
-		this.printList(0, 0, 0, staffs, jsonConfig);
+		this.printList(start, limit, total, staffs, jsonConfig);
 		return null;
 	}
-	/**smz_start**/
-	//根据staffId获得staffName
-	public String getStaffNameById(){
-		Staff staff=this.staffService.find(Staff.class, staffId);
-		if(staff==null){
-			this.printString(false, "员工不存在");
-			return null;
-		}
-		this.printString(true, staff.getStaffName());
+	
+	public String searchStaff(){
+		String sql="select * from staff where 1=1";
+		if(departmentId!=0);
+		System.out.println(departmentId);
+		System.out.println(staffId);
+		System.out.println(roleId);
 		return null;
 	}
-	//获得员工的下拉框数据
 	public String getStaffForSelector(){
-		Department department =this.departmentService.find(Department.class, departmentId);
-		List<Staff> staffs=new ArrayList(department.getStaffs());
-		List<Staff> simpleStaffs=new ArrayList();
-		for(Staff st:staffs){
-			Staff staff=new Staff();
-			staff.setStaffId(st.getStaffId());
-			staff.setStaffName(st.getStaffName());
-			simpleStaffs.add(staff);
+		System.out.println(departmentId);
+		List<Staff> staffs;
+		if (departmentId==0) {
+			staffs=this.staffService.findAll();
+		}else{
+			Department department =this.departmentService.find(departmentId);
+			staffs =this.staffService.findByProperty("department", department);
 		}
-        		
-		//List<Staff> staffs=this.staffService.findByProperty("department",department);
-		//String sql="select new Staff(staff.department,staff.staffName) from Staff staff where " +
-		//		"Department_DepartmentID="+departmentId;
-		//List<Staff> staffs=this.staffService.findBysql(sql);
-		this.printList(0, 0, 0, simpleStaffs);		
+		JsonConfig jsonConfig =new JsonConfig();
+		/** 同样是为了避免出现hibernate死循环，过滤掉引起死循环的整个对象，不需要任何字段 */
+		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
+			@Override
+			public boolean apply(Object arg0, String arg1, Object arg2) {
+				if(arg1.equals("department")){
+					return true;
+				}else{
+					return false;
+				}
+			}
+		});
+		this.printList(0, 0, 0, staffs,jsonConfig);
 		return null;
 	}
-	/**smz_end**/
+	
 }
