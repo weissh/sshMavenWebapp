@@ -3,21 +3,59 @@
 <struts>
 	<constant name="struts.objectFactory" value="spring" /> 
 
+
+	<!--package中的每个action的class指定的是applicationContext.xml中配置的Action的id  -->
 	<package name="loginout" extends="struts-default" namespace="/">
 		<action name="login" method="login" class="web.action.LoginAction">
 			<result name="SUCCESS">index.jsp</result>
 			<result name="INPUT">login.jsp</result>
 		</action>
-		
-		<action name="logout" method="logout" class="web.action.LoginAction">
-			<result name="INPUT">login.jsp</result>
+	</package>
+	
+	<package name="department" extends="json-default" >
+		<action name="dept_add" method="addDept" class="departmentAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="dept_update" method="updateDept" class="departmentAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="dept_delete" method="deleteDept" class="departmentAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="dept_getAll" method="getAllDept" class="departmentAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="dept_getForSelector" method="getDeptForSelector" class="departmentAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="dept_export" method="exportDept" class="departmentAction" >
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">excelStream</param>
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				<param name="bufferSize">1024</param>
+			</result>
 		</action>
 	</package>
-
-	<package name="department" extends="struts-default">
-		<action name="dept_add" method="save" class="web.action.DepartmentAction">
-			<result name="SUCCESS">index.jsp</result>
-			<result name="INPUT">login.jsp</result>
+	
+	<package name="staff" extends="json-default" >
+		<action name="staff_add" method="addStaff" class="staffAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="staff_update" method="updateStaff" class="staffAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="staff_delete" method="deleteStaff" class="staffAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="staff_getAll" method="getAllStaff" class="staffAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="staff_search" method="searchStaff" class="staffAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="staff_getForSelector" method="getStaffForSelector" class="staffAction" >
+			<result name="success" type="json"/>
 		</action>
 	</package>
 	
@@ -28,6 +66,23 @@
 		
     </package>
     
+    <!-- smz_start -->
+	<package name="journal" extends="json-default" >
+		<action name="jour_add" method="addJour" class="journalAction" >
+		<result name="success" type="json"/>
+		</action>
+		<action name="jour_update" method="updateJour" class="journalAction" >
+		<result name="success" type="json"/>
+		</action>
+		<action name="jour_delete" method="deleteJour" class="journalAction" >
+		<result name="success" type="json"/>
+		</action>
+		<action name="jour_getAll" method="getAllJour" class="journalAction" >
+		<result name="success" type="json"/>
+		</action>
+	</package>
+	<!-- smz_end -->
+	
     <package name="json" namespace="/" extends="struts-default,json-default" >  
         <action name="json" class="showUser" method="showUser">  
             <result name="SUCCESS" type="json">  

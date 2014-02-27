@@ -50,6 +50,7 @@ public class StaffAction extends BaseAction{
 	private int staffId;
 	private int start;
 	private int limit;
+	private String query;
 	private String photo;
 	private File photoImg;
 	private String photoImgFileName;
@@ -127,6 +128,12 @@ public class StaffAction extends BaseAction{
 	}
 	public void setLimit(int limit) {
 		this.limit = limit;
+	}
+	public String Query() {
+		return query;
+	}
+	public void setQuery(String query) {
+		this.query = query;
 	}
 	public String getPhoto() {
 		return photo;
@@ -477,12 +484,30 @@ public class StaffAction extends BaseAction{
 		 * 所以每一次点击“下一页”是时，传到后台的start都+20
 		 */
 		int page=start/limit+1;
-		/**
-		 * findByPage方法的参数是（当前页码,每页记录数），所以需先通过start和limit计算得出请求的当前页码
-		 */
-		List<Staff> staffs=this.staffService.findByPage(page,limit);
-		int total=this.staffService.getTotalRows();
-//		this.staffService.findAll();
+		List<Staff> staffs=null;
+		int total;
+		System.out.println(departmentId!=0);
+		if(query!=null){
+			StringBuffer sql=new StringBuffer("from Staff where 1=1");
+			if(departmentId!=0){
+				sql.append(" and Department_DepartmentID="+departmentId);
+			}
+			if(staffId!=0){
+				sql.append(" and staffId="+staffId);
+			}
+//			if(roleId!=0){
+//				sql.append(" and roleId="+roleId);
+//			}
+			staffs=this.staffService.findByPage(page, limit, sql.toString());
+			System.out.println(sql.toString());
+			total=staffs.size();
+		}else{
+			/**
+			 * findByPage方法的参数是（当前页码,每页记录数），所以需先通过start和limit计算得出请求的当前页码
+			 */
+			staffs=this.staffService.findByPage(page,limit);
+			total=this.staffService.getTotalRows();
+		}
 		JsonConfig jsonConfig =new JsonConfig();
 		/** 结果转换成json对象是避免出现hibernate死循环，过滤掉引起死循环的字段，保留有用字段 */
 		jsonConfig.registerJsonValueProcessor(Department.class, new ObjectJsonValueProcessor(new String[]{"departmentId"}, Department.class));
@@ -501,16 +526,7 @@ public class StaffAction extends BaseAction{
 		return null;
 	}
 	
-	public String searchStaff(){
-		String sql="select * from staff where 1=1";
-		if(departmentId!=0);
-		System.out.println(departmentId);
-		System.out.println(staffId);
-		System.out.println(roleId);
-		return null;
-	}
 	public String getStaffForSelector(){
-		System.out.println(departmentId);
 		List<Staff> staffs;
 		if (departmentId==0) {
 			staffs=this.staffService.findAll();

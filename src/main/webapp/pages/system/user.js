@@ -23,7 +23,6 @@ Ext.onReady(function(){
 	
 	//定义部门数据源，作为下拉列表的数据源
     var dept=new Ext.data.Store({
-    	autoLoad: true,
     	model:deptForSelector,
     	proxy:{
         	type:'ajax',
@@ -45,7 +44,7 @@ Ext.onReady(function(){
         	}
         }
     });
-	
+    
     //定义员工数据类型，作为下拉列表框
     Ext.define('staffForSelector', {
         extend: 'Ext.data.Model',
@@ -57,7 +56,6 @@ Ext.onReady(function(){
 	
 	//定义员工数据源，作为下拉列表的数据源
     var staff=new Ext.data.Store({
-    	autoLoad: true,
         model:staffForSelector,
         proxy:{
         	type:'ajax',
@@ -79,7 +77,7 @@ Ext.onReady(function(){
         	}
         }
     });
-
+    
     //定义角色数据源，作为下拉列表的数据源
     var role=new Ext.data.Store({
         fields:['id','name'],
@@ -218,7 +216,7 @@ Ext.onReady(function(){
     var staffStore = Ext.create('Ext.data.Store', {
         model: 'staff',
         pageSize:20,
-//        autoLoad:true,
+      	remoteSort:true,
         proxy:{
         	type:'ajax',
         	url:'staff_getAll.action',
@@ -234,8 +232,10 @@ Ext.onReady(function(){
     //员工表格数据源载入，默认为第一页前20条记录，当点击下一页（第二页）时参数自动改变为{start:20,limit:20}，store的pagesize为20时
 	staffStore.load({url:'staff_getAll.action',params:{start:0,limit:20}});
     
+	dept.load();
+	staff.load();
 	//创建工具栏表单，作为grid的上工具栏
-	var formForTbar=Ext.create('Ext.form.Panel',{
+	var formForTbar=new Ext.form.FormPanel({
 		border:false,
 		width:'100%',
 		tbar:[{
@@ -246,6 +246,8 @@ Ext.onReady(function(){
             forceSelection:true,
         	valueField:'departmentId',
         	displayField:'departmentName',
+        	triggerAction : 'all',
+        	value:0,
             typeAhead:true,
             width:150,
             labelWidth:30,
@@ -269,11 +271,13 @@ Ext.onReady(function(){
             forceSelection:true,
             valueField:'staffId',
         	displayField:'staffName',
+        	triggerAction : 'all',
+        	value:0,
             typeAhead:true,
             width:150,
             labelWidth:30,
             margins:'0 10 0 0',
-            mode:'local'
+            mode:'remote'
         },{
             xtype:'combo',
             name:'roleCombo',
@@ -290,11 +294,14 @@ Ext.onReady(function(){
         },
             {xtype:'button',text:'查询',iconCls:'search',listeners:{
             	click:function(){
-            		var dept=formForTbar.getForm().findField('deptCombo').getValue();
-            		var staff=formForTbar.getForm().findField('staffCombo').getValue();
-            		var role=formForTbar.getForm().findField('roleCombo').getValue();
-            		alert(role);
-            		staffStore.load({url:'staff_search.action',params:{start:0,limit:20,departmentId:dept,staffId:staff,roleId:role}});
+            		var departmentId=formForTbar.getForm().findField('deptCombo').getValue();
+            		var staffId=formForTbar.getForm().findField('staffCombo').getValue();
+            		var roleId=formForTbar.getForm().findField('roleCombo').getValue();
+            		staffStore.on('beforeload',function(store,options){
+            			var new_params={departmentId:departmentId,staffId:staffId,roleId:roleId,query:'true'};
+            			Ext.apply(staffStore.proxy.extraParams,new_params);
+            		});
+            		staffStore.reload();
             	}
             }},
             '-','->',
@@ -303,7 +310,7 @@ Ext.onReady(function(){
             {xtype:'button',text:'删除',iconCls: 'user_delete',handler:deleteStaffInfo},
             {xtype:'button',text:'导出',iconCls:'file_export'}
 		]
-	})
+	});
 	
 	//创建员工表格
     var grid = Ext.create('Ext.grid.Panel', {

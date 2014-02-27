@@ -358,7 +358,12 @@ public class GenericDaoHib<T> extends HibernateDaoSupport implements GenericDao<
 						: 0;
 				/** Query query = session.createSQLQuery(sql+" limit "+startRow+" , "+ actualSize); */
 				/** 设置第一条记录 */
-				return session.createSQLQuery(sql+" limit "+startRow+" , "+ actualSize).addEntity(type.getName()).list();
+				Query query = session.createQuery(sql);
+				/** 设置第一条记录 */
+				query.setFirstResult(startRow);
+				query.setMaxResults(actualSize);
+				return (List<T>) query.list();
+//				return session.createSQLQuery(sql+" limit "+startRow+" , "+ actualSize).addEntity(type.getName()).list();
 			}
 		});
 	}

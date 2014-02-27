@@ -324,6 +324,5 @@ public class DepartmentAction extends BaseAction {
 	public void download(String fileName) throws Exception{
 		this.fileName=fileName;
 		this.excelStream=ServletActionContext.getServletContext().getResourceAsStream("excel/"+fileName);
-		System.out.println(this.fileName+this.excelStream);
 	}
 }
