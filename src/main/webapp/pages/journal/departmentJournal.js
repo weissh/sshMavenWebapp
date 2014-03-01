@@ -58,10 +58,18 @@ Ext.onReady(function() {
         }
     });
     
-	
-	//定义下拉框中的字段变量
-    
+	//定义部门数据类型，用于下拉列表
+	Ext.define('deptForSelector', {
+        extend: 'Ext.data.Model',
+        fields:[
+        	{name:'departmentId'},
+        	{name:'departmentName'}
+    	]
+	})
+
+    //定义部门数据源，作为下拉列表的数据源
     var deptStore=new Ext.data.Store({
+    	model:deptForSelector,
     	autoLoad: true,   	
     	proxy:{
         	type:'ajax',
@@ -72,24 +80,44 @@ Ext.onReady(function() {
         		idProperty:'departmentId'
         	}
         },
-        fields:[
-        	{name:'departmentId'},
-        	{name:'departmentName'}
-    	]
+        listeners:{
+        	load:function(store,records,options){
+        		var rs=Ext.ModelMgr.create({
+        			departmentId:0,
+        			departmentName:"所有部门"
+        		},'deptForSelector');
+        		store.insert(0,rs);
+        	}
+        }
     });
 
-    var staffStore=new Ext.data.Store({
-    	fields:[
+    //定义员工数据类型，作为下拉列表框
+    Ext.define('staffForSelector', {
+        extend: 'Ext.data.Model',
+        fields:[
         	{name:'staffId'},
         	{name:'staffName'}
-    	],
+    	]
+	});
+	
+	//定义员工数据源，作为下拉列表的数据源
+    var staffStore=new Ext.data.Store({
     	proxy:{
         	type:'ajax',
-        	url:'staff_getForSelector.action?departmentId=1',
+        	url:'staff_getForSelector.action',
         	reader:{
         		type:'json',
         		root:'infoList',
         		idProperty:'staffId'
+        	}
+        },
+        listeners:{
+        	load:function(store,records,options){
+        		var rs=Ext.ModelMgr.create({
+        			staffId:0,
+        			staffName:"所有员工"
+        		},'staffForSelector');
+        		store.insert(0,rs);
         	}
         }
     });
@@ -206,12 +234,14 @@ Ext.onReady(function() {
 				store : deptStore,
 				typeAhead : true,
 				margins : '0 10 0 0',
-				name : 'deptSelected',
-				listeners:{  
-                    select : function(combo, record,index){
-                    staffStore.proxy= new Ext.data.HttpProxy({url: 'staff_getForSelector.action?departmentId=' + combo.value, 
-                                                             reader:{type:'json',root:'infoList',idProperty:'staffId'}});   
-                    staffStore.load();
+				name : 'deptCombo',
+				listeners:{
+                    select : function(combo,record,index){
+                    Ext.getCmp('staffCombo').reset();	
+                    staffStore.load({
+            			url:'staff_getForSelector.action',
+            			params:{departmentId:combo.value}
+            		});
                     }   
                 }
 			}, {
@@ -224,7 +254,8 @@ Ext.onReady(function() {
 				store : staffStore,
 				typeAhead : true,
 				margins : '0 10 0 0',
-				name : 'staffSelected'
+				name : 'staffCombo',
+				id:'staffCombo'
 			},
 			{xtype:'button',text:'查询',iconCls: 'search',handler : searchJournal},'-','->',
 			{xtype:'button',text:'新建',iconCls: 'journal_add',handler : addJournal},
