@@ -539,7 +539,7 @@ public class StaffAction extends BaseAction{
 		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
 			@Override
 			public boolean apply(Object arg0, String arg1, Object arg2) {
-				if(arg1.equals("department")){
+				if(arg1.equals("department")||arg1.equals("costs")||arg1.equals("roles")||arg1.equals("journals")){
 					return true;
 				}else{
 					return false;
