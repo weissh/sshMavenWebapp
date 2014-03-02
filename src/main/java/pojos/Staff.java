@@ -43,6 +43,9 @@ public class Staff implements java.io.Serializable {
 	private String schoolSystem;
 	private String userName;
 	private String password;
+	private String staffDesc;
+	private Integer enabled;
+	private Integer isSuper;
 	private String prop1;
 	private String prop2;
 	private String prop3;
@@ -399,6 +402,30 @@ public class Staff implements java.io.Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Integer getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Integer enabled) {
+		this.enabled = enabled;
+	}
+
+	public Integer getIsSuper() {
+		return isSuper;
+	}
+
+	public void setIsSuper(Integer isSuper) {
+		this.isSuper = isSuper;
+	}
+
+	public String getStaffDesc() {
+		return staffDesc;
+	}
+
+	public void setStaffDesc(String staffDesc) {
+		this.staffDesc = staffDesc;
 	}
 
 	public String getProp1() {

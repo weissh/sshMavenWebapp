@@ -97,6 +97,15 @@
         <property name="password" type="java.lang.String">
             <column name="Password" length="20" />
         </property>
+        <property name="StaffDesc" type="java.lang.String">
+            <column name="StaffDesc" length="10" />
+        </property>
+        <property name="enabled" type="java.lang.Integer">
+            <column name="Enabled"/>
+        </property>
+        <property name="isSuper" type="java.lang.Integer">
+            <column name="IsSuper"/>
+        </property>
         <property name="prop1" type="java.lang.String">
             <column name="Prop1" length="45" />
         </property>

@@ -14,6 +14,9 @@ public class Role implements java.io.Serializable {
 	
 	private Integer roleId;
 	private String roleName;
+	private String roleDesc;
+	private Integer enabled;
+	private Integer isSuper;
 	private String description;
 	private String prop1;
 	private String prop2;
@@ -62,6 +65,30 @@ public class Role implements java.io.Serializable {
 
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
+	}
+
+	public String getRoleDesc() {
+		return roleDesc;
+	}
+
+	public void setRoleDesc(String roleDesc) {
+		this.roleDesc = roleDesc;
+	}
+
+	public Integer getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Integer enabled) {
+		this.enabled = enabled;
+	}
+
+	public Integer getIsSuper() {
+		return isSuper;
+	}
+
+	public void setIsSuper(Integer isSuper) {
+		this.isSuper = isSuper;
 	}
 
 	public String getDescription() {

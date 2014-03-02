@@ -13,6 +13,15 @@
         <property name="roleName" type="java.lang.String">
             <column name="RoleName" length="10" />
         </property>
+        <property name="roleDesc" type="java.lang.String">
+            <column name="RoleDesc" length="10" />
+        </property>
+        <property name="enabled" type="java.lang.Integer">
+            <column name="Enabled"/>
+        </property>
+        <property name="isSuper" type="java.lang.Integer">
+            <column name="IsSuper"/>
+        </property>
         <property name="description" type="java.lang.String">
             <column name="Description" length="200" />
         </property>

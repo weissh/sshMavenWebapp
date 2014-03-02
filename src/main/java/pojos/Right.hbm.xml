@@ -13,6 +13,15 @@
         <property name="rightName" type="java.lang.String">
             <column name="RightName" length="45" />
         </property>
+        <property name="rightDesc" type="java.lang.String">
+            <column name="RightDesc" length="10" />
+        </property>
+        <property name="enabled" type="java.lang.Integer">
+            <column name="Enabled"/>
+        </property>
+        <property name="isSuper" type="java.lang.Integer">
+            <column name="IsSuper"/>
+        </property>
         <property name="mark" type="java.lang.String">
             <column name="Mark" length="45" />
         </property>

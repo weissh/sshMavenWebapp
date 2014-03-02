@@ -16,6 +16,9 @@ public class Right implements java.io.Serializable {
 	
 	private Integer rightId;
 	private String rightName;
+	private String rightDesc;
+	private Integer enabled;
+	private Integer isSuper;
 	private String mark;
 	private String description;
 	private String prop1;
@@ -66,6 +69,30 @@ public class Right implements java.io.Serializable {
 
 	public void setRightName(String rightName) {
 		this.rightName = rightName;
+	}
+
+	public String getRightDesc() {
+		return rightDesc;
+	}
+
+	public void setRightDesc(String rightDesc) {
+		this.rightDesc = rightDesc;
+	}
+
+	public Integer getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Integer enabled) {
+		this.enabled = enabled;
+	}
+
+	public Integer getIsSuper() {
+		return isSuper;
+	}
+
+	public void setIsSuper(Integer isSuper) {
+		this.isSuper = isSuper;
 	}
 
 	public String getMark() {
