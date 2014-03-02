@@ -3,6 +3,8 @@ package pojos;
 import java.util.HashSet;
 import java.util.Set;
 
+import javassist.expr.NewArray;
+
 /**
  * Right entity. @author MyEclipse Persistence Tools
  */
@@ -24,6 +26,7 @@ public class Right implements java.io.Serializable {
 	
 	//不需要通过权限查找相应的角色，故可不需要 private Set roles = new HashSet(0);
 	private Set<Role> roles = new HashSet<Role>(0);
+	private Set<Resource> resources =new HashSet<Resource>(0);
 
 	// Constructors
 
@@ -34,7 +37,7 @@ public class Right implements java.io.Serializable {
 	/** full constructor */
 	public Right(String rightName, String mark, String description,
 			String prop1, String prop2, String prop3, String prop4,
-			String prop5, Set<Role> roles) {
+			String prop5, Set<Role> roles, Set<Resource>resources) {
 		this.rightName = rightName;
 		this.mark = mark;
 		this.description = description;
@@ -44,6 +47,7 @@ public class Right implements java.io.Serializable {
 		this.prop4 = prop4;
 		this.prop5 = prop5;
 		this.roles = roles;
+		this.resources=resources;
 	}
 
 	// Property accessors
@@ -126,6 +130,14 @@ public class Right implements java.io.Serializable {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public Set<Resource> getResources() {
+		return resources;
+	}
+
+	public void setResources(Set<Resource> resources) {
+		this.resources = resources;
 	}
 
 }

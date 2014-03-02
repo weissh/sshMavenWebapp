@@ -76,6 +76,7 @@
  				<value>pojos/Journal.hbm.xml</value>
  				<value>pojos/Cost.hbm.xml</value>
  				<value>pojos/Role.hbm.xml</value>
+ 				<value>pojos/Resource.hbm.xml</value>
  				<value>pojos/Right.hbm.xml</value>
 			</list>
 		</property>
@@ -146,6 +147,11 @@
 	<bean id="rightDao" class="dao.hibernate.RightDaoHib ">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
+	
+	<!-- 配置ResourceDaoHib -->
+	<bean id="resourceDao" class="dao.hibernate.ResourceDaoHib ">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
 	<!-- 配置所有的**DaoHib 作者：cai ——end -->
 	
 	
@@ -185,6 +191,12 @@
 		<property name="genericDao" ref="rightDao"/>
 		<property name="rightDao" ref="rightDao"/>
 	</bean>
+	
+	<!-- 配置resourceService -->
+	<bean id="resourceService" class="service.impl.ResourceServiceImpl">
+		<property name="genericDao" ref="resourceDao"/>
+		<property name="resourceDao" ref="resourceDao"/>
+	</bean>
 	<!-- 配置所有的**Service 作者：cai ——end -->
 	
 	
@@ -216,6 +228,11 @@
 	<!-- 配置rightServiceDaoProxy -->
 	<bean id="rightServiceDaoProxy" parent="transactionBase">
 		<property name="target" ref="rightService"/>
+	</bean>
+	
+	<!-- 配置resourceServiceDaoProxy -->
+	<bean id="resourceServiceDaoProxy" parent="transactionBase">
+		<property name="target" ref="resourceService"/>
 	</bean>
 	<!-- 配置所有的**ServiceDaoProxy 作者：cai ——end -->
 	
