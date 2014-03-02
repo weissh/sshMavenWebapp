@@ -530,7 +530,10 @@ public class StaffAction extends BaseAction{
 		List<Staff> staffs;
 		if (departmentId==0) {
 			staffs=this.staffService.findAll();
-		}else{
+		}else if(departmentId==-1){
+			staffs=new ArrayList<Staff>();
+		}
+		else{
 			Department department =this.departmentService.find(departmentId);
 			staffs =this.staffService.findByProperty("department", department);
 		}

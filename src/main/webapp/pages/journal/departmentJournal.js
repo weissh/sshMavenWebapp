@@ -69,8 +69,7 @@ Ext.onReady(function() {
 
     //定义部门数据源，作为下拉列表的数据源
     var deptStore=new Ext.data.Store({
-    	model:deptForSelector,
-    	autoLoad: true,   	
+    	model:deptForSelector,  	
     	proxy:{
         	type:'ajax',
         	url:'dept_getForSelector.action',
@@ -102,9 +101,10 @@ Ext.onReady(function() {
 	
 	//定义员工数据源，作为下拉列表的数据源
     var staffStore=new Ext.data.Store({
+    	model:staffForSelector,
     	proxy:{
         	type:'ajax',
-        	url:'staff_getForSelector.action',
+        	url:'staff_getForSelector.action?departmentId=-1',
         	reader:{
         		type:'json',
         		root:'infoList',
