@@ -16,48 +16,7 @@ Ext.require([
 Ext.onReady(function() {
 	
 	Ext.tip.QuickTipManager.init();
-	
-	//定义表格的填充模型journal
-	Ext.define('journal',{
-		extend: 'Ext.data.Model',
-		fields: [
-		    {name:'workId',type:'string'},
-            {name:'recordDate',type:'date',dateFormat:'Y-m-d'},
-            {name:'staffId',type:'int',mapping:'staff.staffId'},
-            {name:'staffName',type:'string',mapping:'staff.staffName'},
-	        {name:'executeDate',type:'date',dateFormat:'Y-m-d'},
-	        {name:'operateMode',type:'string'},
-	        {name:'unitName',type:'string'},
-	        {name:'country',type:'string'},
-	        {name:'province',type:'string'},
-	        {name:'address',type:'string'},
-	        {name:'contactObject',type:'string'},
-	        {name:'level',type:'string'},
-	        {name:'contactWay',type:'string'},
-	        {name:'contactName',type:'string'},
-	        {name:'contactPosition',type:'string'},
-	        {name:'contactPhone',type:'string'},
-	        {name:'contactEmail',type:'string'},
-	        {name:'startTime',type:'string'},
-	        {name:'endTime',type:'string'},
-	        {name:'workContent',type:'string'}		
-         ]
-	})
-	//定义表格的填充数据
-	 var journalStore = Ext.create('Ext.data.Store', {
-        model: 'journal',
-        autoLoad: true,
-        proxy:{
-        	type:'ajax',
-        	url:'jour_getAll.action',
-        	reader:{
-        		type:'json',
-        		root:'infoList',
-        		idProperty:'workId'
-        	}
-        }
-    });
-    
+	   
 	//定义部门数据类型，用于下拉列表
 	Ext.define('deptForSelector', {
         extend: 'Ext.data.Model',
@@ -104,7 +63,7 @@ Ext.onReady(function() {
     	model:staffForSelector,
     	proxy:{
         	type:'ajax',
-        	url:'staff_getForSelector.action?departmentId=-1',
+        	url:'staff_getForSelector.action',
         	reader:{
         		type:'json',
         		root:'infoList',
@@ -163,6 +122,50 @@ Ext.onReady(function() {
         ]
     });
     
+    //定义表格的填充模型journal
+	Ext.define('journal',{
+		extend: 'Ext.data.Model',
+		fields: [
+		    {name:'workId',type:'string'},
+            {name:'recordDate',type:'date',dateFormat:'Y-m-d'},
+            {name:'staffId',type:'int',mapping:'staff.staffId'},
+            {name:'staffName',type:'string',mapping:'staff.staffName'},
+	        {name:'executeDate',type:'date',dateFormat:'Y-m-d'},
+	        {name:'operateMode',type:'string'},
+	        {name:'unitName',type:'string'},
+	        {name:'country',type:'string'},
+	        {name:'province',type:'string'},
+	        {name:'address',type:'string'},
+	        {name:'contactObject',type:'string'},
+	        {name:'level',type:'string'},
+	        {name:'contactWay',type:'string'},
+	        {name:'contactName',type:'string'},
+	        {name:'contactPosition',type:'string'},
+	        {name:'contactPhone',type:'string'},
+	        {name:'contactEmail',type:'string'},
+	        {name:'startTime',type:'string'},
+	        {name:'endTime',type:'string'},
+	        {name:'workContent',type:'string'}		
+         ]
+	})
+	//定义表格的填充数据
+	 var journalStore = Ext.create('Ext.data.Store', {
+        model: 'journal',
+        pageSize:20,
+        remoteSort:true,
+        proxy:{
+        	type:'ajax',
+        	url:'jour_getAll.action',
+        	reader:{
+        		type:'json',
+        		root:'infoList',
+        		idProperty:'workId',
+        		totalProperty:'totalProperty'
+        	}
+        }
+    });
+    //日志表格数据源载入，默认为第一页前20条记录，当点击下一页（第二页）时参数自动改变为{start:20,limit:20}，store的pagesize为20时
+    journalStore.load({url:'jour_getAll.action',params:{start:0,limit:20}});
 
     //添加日期控件的验证，保证结束日期在开始时期之后
     Ext.apply(Ext.form.field.VTypes, {
@@ -204,11 +207,13 @@ Ext.onReady(function() {
 				width:170,
 				labelWidth:60,
 				allowBlank: false,
+				//value: '2014-01-01',
 				maxValue: new Date(),
 				name: 'startdt',
 				itemId: 'startdt',
 				vtype: 'daterange',
 				endDateField: 'enddt', // id of the end date field
+				format : 'Y-m-d',
 				margins:'0 10 0 0',
 				mode:'local'
 			},{
@@ -217,11 +222,13 @@ Ext.onReady(function() {
 				width:170,
 				labelWidth:60,
 				allowBlank: false,
+				//value: new Date(),
 				maxValue: new Date(),
 				name: 'enddt',
 				itemId: 'enddt',
 				vtype: 'daterange',
 				startDateField: 'startdt', // id of the start date field
+				format : 'Y-m-d',
 				margins:'0 10 0 0',
 				mode:'local'
 			}, {
@@ -257,7 +264,21 @@ Ext.onReady(function() {
 				name : 'staffCombo',
 				id:'staffCombo'
 			},
-			{xtype:'button',text:'查询',iconCls: 'search',handler : searchJournal},'-','->',
+			{xtype:'button',text:'查询',iconCls: 'search', listeners:{
+				click:function(){
+					var startDate=dr.getForm().findField('startdt').getValue();
+					var endDate=dr.getForm().findField('enddt').getValue();
+            		var departmentId=dr.getForm().findField('deptCombo').getValue();
+            		var staffId=dr.getForm().findField('staffCombo').getValue();
+            		//var roleId=dr.getForm().findField('roleCombo').getValue();
+            		journalStore.on('beforeload',function(store,options){
+            			var new_params={startDate:startDate,endDate:endDate,staffId:staffId,query:'true'};
+            			Ext.apply(journalStore.proxy.extraParams,new_params);
+            		});
+            		journalStore.reload();
+            	}
+			
+			}},'-','->',
 			{xtype:'button',text:'新建',iconCls: 'journal_add',handler : addJournal},
 			{xtype:'button',text:'修改',iconCls: 'journal_edit',handler : editJournal},
 			{xtype:'filefield',buttonOnly: true,buttonText:'导入',buttonConfig:{iconCls:'file_in'}},
@@ -302,9 +323,17 @@ Ext.onReady(function() {
             {text: "结束时间", width: 70, sortable: true, dataIndex: 'endTime'},
             {text: "商谈主要内容及结果", width: 120, sortable: true, dataIndex: 'workContent'}],
 		bbar:new Ext.PagingToolbar({
-
-		}),
-		renderTo:Ext.getBody()
+        	pageSize:20,
+            store: journalStore,
+            displayInfo: true
+        }),
+//        listeners: {
+//            'selectionchange': function(view, records) {
+//                grid.down('#removeEmployee').setDisabled(!records.length);
+//                alert(1);
+//            }
+//        },
+        renderTo: Ext.getBody()
 	}) 
 	
 
@@ -501,7 +530,7 @@ Ext.onReady(function() {
 	     
     //查询日志
     function searchJournal(){
-    	alert(dr.getForm().findField('staffSelected').getValue());
+    	alert(dr.getForm().findField('staffCombo').getValue());
     }
     
     //增加日志
@@ -547,13 +576,13 @@ Ext.onReady(function() {
     
     //执行删除操作
     function deleteJRecords(records){
-    	var journalIds="";
+    	var workIds="";
     	for(var i=0;i<records.length;i++){
     		var id=records[i].get('workId');
     		if(i==0){
-    			journalIds+=id;
+    			workIds+=id;
     		}else{
-    			journalIds=journalIds+','+id;
+    			workIds=workIds+','+id;
     		}
     	}
     	var msgTip =top.Ext.Msg.show({
@@ -563,7 +592,7 @@ Ext.onReady(function() {
     	});
     	Ext.Ajax.request({
     		url:'jour_delete.action',
-    		params:{journalIds:journalIds},
+    		params:{workIds:workIds},
     		method:'POST',
     		success:function(response,options){
     			msgTip.hide();
@@ -655,6 +684,7 @@ Ext.onReady(function() {
     		},'journal');
     		journalStore.add(rec);
     	}
+    	journalStore.reload();
     }
    
 });

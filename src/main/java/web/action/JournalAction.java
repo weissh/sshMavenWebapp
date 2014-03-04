@@ -1,5 +1,7 @@
 package web.action;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,44 +17,20 @@ import net.sf.json.JsonConfig;
 
 public class JournalAction extends BaseAction{
 	private static final long serialVersionUID = 1L;
-
-	private JournalService journalService;
-
-	private Journal journal;
-
-	private String journalIds;
 	
-	private StaffService staffService;
-	
+	/** 获取对日志进行增、改、查操作所需要的服务 */
+	private JournalService journalService;	
+	private StaffService staffService;	
 
-	public JournalService getJournalService() {
-		return journalService;
-	}
-	public void setJournalService(JournalService journalService) {
-		this.journalService = journalService;
-	}
-	public Journal getJournal() {
-		return journal;
-	}
-	public void setJournal(Journal journal) {
-		this.journal = journal;
-	}
-	public String getJournalIds() {
-		return journalIds;
-	}
-	public void setJournalIds(String journalIds) {
-		this.journalIds = journalIds;
-	}
-	public StaffService getStaffService() {
-		return staffService;
-	}
-	public void setStaffService(StaffService staffService) {
-		this.staffService = staffService;
-	}
-
-	//获取前段表单start
-	private Integer workId;
-	private Integer staffId;
+	/**前端表单的所有字段 */
+	private int workId;
+	private String workIds;
+	private int staffId;
+	private int start;
+	private int limit;
+	private String query;
+	private Date startDate;
+	private Date endDate;
 	private String staffName;
 	private Date executeDate;
 	private String operateMode;
@@ -71,17 +49,68 @@ public class JournalAction extends BaseAction{
 	private String endTime;
 	private String workContent;
 	
+	/** 各种服务相对应的get和set方法 */
+	public JournalService getJournalService() {
+		return journalService;
+	}
+	public void setJournalService(JournalService journalService) {
+		this.journalService = journalService;
+	}
+	public StaffService getStaffService() {
+		return staffService;
+	}
+	public void setStaffService(StaffService staffService) {
+		this.staffService = staffService;
+	}
+	
+	/**前端表单所有字段的get和set方法 */
 	public int getWorkId() {
 		return workId;
 	}
 	public void setWorkId(int workId) {
 		this.workId = workId;
 	}
+	public String getWorkIds() {
+		return workIds;
+	}
+	public void setWorkIds(String workIds) {
+		this.workIds = workIds;
+	}
 	public int getStaffId() {
 		return staffId;
 	}
 	public void setStaffId(int staffId) {
 		this.staffId = staffId;
+	}
+	public int getStart() {
+		return start;
+	}
+	public void setStart(int start) {
+		this.start = start;
+	}
+	public int getLimit() {
+		return limit;
+	}
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+	public String getQuery() {
+		return query;
+	}
+	public void setQuery(String query) {
+		this.query = query;
+	}
+	public Date getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+	public Date getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 	public String getStaffName() {
 		return staffName;
@@ -186,13 +215,40 @@ public class JournalAction extends BaseAction{
 		this.workContent = workContent;
 	}
 	
-	// 获取前端表单属性 end
 	
 
 	
 	//获取日志信息列表
 	public String getAllJour() {
-		List<Journal> journals = this.journalService.findAll();
+		int page=start/limit+1;
+		List<Journal> journals = null;
+		int total;
+		if(query!=null){
+			StringBuffer sql=new StringBuffer("from Journal where 1=1");
+			if(startDate!=null  && endDate != null){							
+				SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+				String start=df.format(startDate);
+				String end=df.format(endDate);
+				System.out.println(start);
+				sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
+				+end+"'");
+			}
+//			if(departmentId!=0){
+//				sql.append(" and Department_DepartmentID="+departmentId);
+//			}
+			if(staffId!=0){
+				sql.append(" and Staff_StaffID="+staffId);
+			}
+			journals=this.journalService.findByPage(page, limit, sql.toString());
+			System.out.println(sql.toString());
+			total=journals.size();
+		}else{
+			/**
+			 * findByPage方法的参数是（当前页码,每页记录数），所以需先通过start和limit计算得出请求的当前页码
+			 */
+			journals=this.journalService.findByPage(page,limit);
+			total=this.journalService.getTotalRows();
+		}
 		JsonConfig jsonConfig =new JsonConfig();
 		jsonConfig.registerJsonValueProcessor(Staff.class, new ObjectJsonValueProcessor(new String[]{"staffId","staffName"}, Staff.class));
 		/*jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
@@ -206,23 +262,24 @@ public class JournalAction extends BaseAction{
 				}
 			}
 		});*/
-		this.printList(0, 0, 0, journals, jsonConfig);
+		System.out.println(total);
+		this.printList(start, limit, total, journals, jsonConfig);
 		return null;
 	}
 	
 	// 新增日志
-	public String addJour(){
-		if (this.staffService.findByProperty("staffId",staffId).size() == 0) {			
+	public String addJour() {
+		Staff staff = this.staffService.find(staffId);
+		if (staff == null) {
 			this.printString(false, "员工不存在");
-			return null;
+		} else {
+			Journal journal = new Journal(staff, executeDate, operateMode,
+					unitName, country, province, address, contactObject, level,
+					contactWay, contactName, contactPosition, contactPhone,
+					contactEmail, startTime, endTime, workContent);
+			int workId = this.journalService.save(journal);
+			this.printString(true, workId + "");
 		}
-		Staff staff=this.staffService.findByProperty("staffId",staffId).get(0);	
-		Journal journal = new Journal(staff, executeDate, operateMode, unitName,
-				country, province, address, contactObject, level, contactWay,
-				contactName, contactPosition, contactPhone, contactEmail, startTime, 
-				endTime, workContent);	
-		int workId = this.journalService.save(journal);
-		this.printString(true, workId + "");
 		return null;
 	}
 	
@@ -262,8 +319,9 @@ public class JournalAction extends BaseAction{
 	
 	//删除日志
 	public String deleteJour() {
-		//如果有多个id，则获取到的journalIds格式是：id1,id2,id3,id4....
-		String[] str=this.journalIds.split(",");
+		//如果有多个id，则获取到的workIds格式是：id1,id2,id3,id4....
+		//this.printString(true, workIds+"get it!");
+		String[] str=this.workIds.split(",");
 		ArrayList<Journal> journals= new ArrayList<Journal>();
 		//遍历id，并实例化类型，在add到List
 		for(int i=0;i<str.length;i++){
