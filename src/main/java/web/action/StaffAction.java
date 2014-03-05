@@ -553,4 +553,14 @@ public class StaffAction extends BaseAction{
 		return null;
 	}
 	
+	public String getNameById(){
+		Staff staff = this.staffService.find(staffId);
+		if(staff==null){
+			this.printString(false, staffId+"号员工不存在");
+		}else{
+			this.printString(true, staff.getStaffName());
+		}	
+		return null;		
+	}
+	
 }

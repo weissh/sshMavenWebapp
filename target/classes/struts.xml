@@ -57,6 +57,9 @@
 		<action name="staff_getForSelector" method="getStaffForSelector" class="staffAction" >
 			<result name="success" type="json"/>
 		</action>
+		<action name="staff_getNameById" method="getNameById" class="staffAction" >
+			<result name="success" type="json"/>
+		</action>
 	</package>
 	
 	<package name="admin" namespace="/admin" extends="struts-default">
