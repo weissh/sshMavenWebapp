@@ -52,7 +52,8 @@ public class Staff implements java.io.Serializable {
 	private String prop4;
 	private String prop5;
 	private Set<Cost> costs = new HashSet<Cost>(0);
-	private Set<Role> roles = new HashSet<Role>(0);
+//	private Set<Role> roles = new HashSet<Role>(0);
+	private Role role;
 	private Set<Journal> journals = new HashSet<Journal>(0);
 
 	// Constructors
@@ -122,7 +123,7 @@ public class Staff implements java.io.Serializable {
 			String zipCode, String graduateSchool, String hightestEdu,
 			String hightestDegree, String major, String schoolSystem,String userName,
 			String password, String prop1, String prop2, String prop3,
-			String prop4, String prop5, Set<Cost> costs, Set<Role> roles, Set<Journal> journals) {
+			String prop4, String prop5, Set<Cost> costs, Role role, Set<Journal> journals) {
 		this.department = department;
 		this.photo=photo;
 		this.staffName = staffName;
@@ -158,7 +159,7 @@ public class Staff implements java.io.Serializable {
 		this.prop4 = prop4;
 		this.prop5 = prop5;
 		this.costs = costs;
-		this.roles = roles;
+		this.role = role;
 		this.journals = journals;
 	}
 
@@ -476,12 +477,20 @@ public class Staff implements java.io.Serializable {
 		this.costs = costs;
 	}
 
-	public Set<Role> getRoles() {
-		return this.roles;
+//	public Set<Role> getRoles() {
+//		return this.roles;
+//	}
+//
+//	public void setRoles(Set<Role> roles) {
+//		this.roles = roles;
+//	}
+
+	public Role getRole() {
+		return role;
 	}
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	public Set<Journal> getJournals() {

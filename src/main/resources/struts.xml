@@ -5,12 +5,6 @@
 
 
 	<!--package中的每个action的class指定的是applicationContext.xml中配置的Action的id  -->
-	<package name="loginout" extends="struts-default" namespace="/">
-		<action name="login" method="login" class="web.action.LoginAction">
-			<result name="SUCCESS">index.jsp</result>
-			<result name="INPUT">login.jsp</result>
-		</action>
-	</package>
 	
 	<package name="department" extends="json-default" >
 		<action name="dept_add" method="addDept" class="departmentAction" >
@@ -60,6 +54,9 @@
 		<action name="staff_getNameById" method="getNameById" class="staffAction" >
 			<result name="success" type="json"/>
 		</action>
+		<action name="staff_login" method="login" class="staffAction" >
+			<result name="success" type="json"/>
+		</action>
 	</package>
 	
 	<package name="resource" extends="json-default" >
@@ -76,6 +73,45 @@
 			<result name="success" type="json"/>
 		</action>
 		<action name="resource_getForSelector" method="getResourceForSelector" class="resourceAction" >
+			<result name="success" type="json"/>
+		</action>
+	</package>
+	
+	<package name="role" extends="json-default" >
+		<action name="role_add" method="addRole" class="roleAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="role_update" method="updateRole" class="roleAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="role_delete" method="deleteRole" class="roleAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="role_getAll" method="getAllRole" class="roleAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="role_getForSelector" method="getRoleForSelector" class="roleAction" >
+			<result name="success" type="json"/>
+		</action>
+	</package>
+	
+	<package name="right" extends="json-default" >
+		<action name="right_add" method="addRight" class="rightAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="right_update" method="updateRight" class="rightAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="right_delete" method="deleteRight" class="rightAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="right_getAll" method="getAllRight" class="rightAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="right_getForSelector" method="getRightForSelector" class="rightAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="right_getByRole" method="getRightByRole" class="rightAction" >
 			<result name="success" type="json"/>
 		</action>
 	</package>

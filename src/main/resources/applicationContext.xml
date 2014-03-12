@@ -260,15 +260,21 @@
 		<property name="costService" ref="costServiceDaoProxy"/>
 	</bean>
 	
-	<!-- 配置
+	<!-- 配置roleAction -->
 	<bean id="roleAction" class="web.action.RoleAction" scope="prototype">
 		<property name="roleService" ref="roleServiceDaoProxy"/>
 	</bean>
-	roleAction -->
-	<!-- 配置
+	
+	<!-- 配置rightAction -->
 	<bean id="rightAction" class="web.action.RightAction" scope="prototype">
 		<property name="rightService" ref="rightServiceDaoProxy"/>
 	</bean>
-	rightAction -->
+	
+	<!-- 配置resourceAction -->
+	<bean id="resourceAction" class="web.action.ResourceAction" scope="prototype">
+		<property name="resourceService" ref="resourceServiceDaoProxy"/>
+		<property name="rightService" ref="rightServiceDaoProxy"/>
+	</bean>
 	<!-- 配置所有的**Action 作者：cai ——end -->
+	
 </beans>

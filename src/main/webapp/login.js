@@ -44,7 +44,7 @@ Ext.onReady(function() {
     				password:pwd.getValue()
 				};
 				
-				if(params.username==''){
+				if(params.userName==''){
 					//MsgTip.msg('请输入用户名','');
 					userName.focus();
 					return;
@@ -58,7 +58,7 @@ Ext.onReady(function() {
 				loginMask.show();
 				
 				Ext.Ajax.request({
-					url : 'login.action',
+					url : 'staff_login.action',
 					method : 'POST',
 					customer:'自定义属性',
 					params : params,
@@ -70,11 +70,11 @@ Ext.onReady(function() {
 //					},
 					success : function(response,o) {
 						// 处理返回信息
-						var responseObj = Ext.decode(response.responseText);
-						if (responseObj.success) {
-							window.top.location = responseObj.msg;
+						var result=Ext.JSON.decode(response.responseText);
+						if (result.success) {
+							window.top.location = result.msg;
 						} else {
-							Ext.example.msg('登录失败',responseObj.msg);
+							top.Ext.Msg.show({title:'提示', msg:'用户名或密码错误！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
 							//隐藏mask
 							loginMask.hide();
 						}

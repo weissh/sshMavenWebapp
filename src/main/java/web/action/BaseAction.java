@@ -25,6 +25,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts2.ServletActionContext;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -191,6 +192,28 @@ public class BaseAction extends ActionSupport implements Serializable {
 			System.out.println(jsonArray.toString());
 		}
 		String jsonString ="{start:"+start+",limit:"+limit+",totalProperty:"+total+",infoList:"+jsonArray.toString()+"}";
+		try{
+			this.getResponse().getWriter().write(jsonString);
+			this.getResponse().flushBuffer();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void printList(List<?> list,JsonConfig jsonConfig){
+		this.getResponse().setContentType("text/html;charset=UTF-8");
+		this.getResponse().setCharacterEncoding("UTF-8");
+//		JSONObject jsonObject = new JSONObject();
+		JSONArray jsonArray=new JSONArray();
+		//改变所有Date字段的形式为"yyyy--MM--dd"
+		jsonConfig.registerJsonValueProcessor(Date.class, new ObjectJsonValueProcessor("yyyy-MM-dd"));
+		if(list!=null&&list.size()>0){
+//			jsonObject=JSONObject.fromObject(list, jsonConfig);
+			jsonArray=JSONArray.fromObject(list,jsonConfig);
+//			System.out.println(jsonObject.toString());
+			System.out.println(jsonArray.toString());
+		}
+		String jsonString ="{infoList:"+jsonArray.toString()+"}";
 		try{
 			this.getResponse().getWriter().write(jsonString);
 			this.getResponse().flushBuffer();

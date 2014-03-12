@@ -10,6 +10,9 @@
             <column name="ResourceID" />
             <generator class="identity" />
         </id>
+        <many-to-one name="right" class="pojos.Right">
+        	<column name="Right_RightID" not-null="true"/>
+        </many-to-one>
         <property name="resourceName" type="java.lang.String">
             <column name="ResourceName" length="45" />
         </property>
@@ -22,33 +25,7 @@
         <property name="url" type="java.lang.String">
             <column name="Url" length="45" />
         </property>
-        <property name="proiority" type="java.lang.String">
-            <column name="Proiority" length="45" />
-        </property>
-        <property name="enabled" type="java.lang.Integer">
-            <column name="Enabled" />
-        </property>
-        <property name="isSuper" type="java.lang.Integer">
-            <column name="IsSuper" />
-        </property>
-        <property name="module" type="java.lang.String">
-            <column name="Module" length="45" />
-        </property>
-        <property name="prop1" type="java.lang.String">
-            <column name="Prop1" length="45" />
-        </property>
-        <property name="prop2" type="java.lang.String">
-            <column name="Prop2" length="45" />
-        </property>
-        <property name="prop3" type="java.lang.String">
-            <column name="Prop3" length="45" />
-        </property>
-        <property name="prop4" type="java.lang.String">
-            <column name="Prop4" length="45" />
-        </property>
-        <property name="prop5" type="java.lang.String">
-            <column name="Prop5" length="45" />
-        </property>
+        <!-- 
         <set name="rights" inverse="true" table="right_has_resource" catalog="byjx">
             <key>
                 <column name="Resource_ResourceID" not-null="true" />
@@ -57,5 +34,6 @@
                 <column name="Right_RightID" not-null="true" />
             </many-to-many>
         </set>
+         -->
     </class>
 </hibernate-mapping>

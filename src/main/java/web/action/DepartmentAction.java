@@ -186,7 +186,7 @@ public class DepartmentAction extends BaseAction {
 			Department department = this.departmentService.find(Integer.parseInt(str[i]));
 //			/** 因为Department与其他实体类不存在多对一的关系，即数据表中没有外键，所有新建对象只许设置id即可 */
 //			department.setDepartmentId(Integer.parseInt(str[i]));
-			if(department.getStaffs()!=null){
+			if(department.getStaffs().size()>0){
 				if(i==0){
 					name+=department.getDepartmentName();
 				}else {

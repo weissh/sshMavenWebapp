@@ -6,44 +6,26 @@
 -->
 <hibernate-mapping>
     <class name="pojos.Right" table="right" catalog="byjx">
-        <id name="rightId" type="java.lang.Integer">
+        <id name="id" type="java.lang.Integer">
             <column name="RightID" />
             <generator class="identity" />
         </id>
-        <property name="rightName" type="java.lang.String">
+        <property name="text" type="java.lang.String">
             <column name="RightName" length="45" />
         </property>
-        <property name="rightDesc" type="java.lang.String">
-            <column name="RightDesc" length="10" />
+        <property name="hrefTarget" type="java.lang.String">
+            <column name="Url" length="100" />
         </property>
-        <property name="enabled" type="java.lang.Integer">
-            <column name="Enabled"/>
+        <property name="leaf" type="java.lang.Boolean">
+        	<column name="Leaf"></column>
         </property>
-        <property name="isSuper" type="java.lang.Integer">
-            <column name="IsSuper"/>
+        <property name="expanded" type="java.lang.Boolean">
+        	<column name="Expanded"></column>
         </property>
-        <property name="mark" type="java.lang.String">
-            <column name="Mark" length="45" />
+        <property name="menu" type="java.lang.Boolean">
+        	<column name="Menu"></column>
         </property>
-        <property name="description" type="java.lang.String">
-            <column name="Description" length="200" />
-        </property>
-        <property name="prop1" type="java.lang.String">
-            <column name="Prop1" length="45" />
-        </property>
-        <property name="prop2" type="java.lang.String">
-            <column name="Prop2" length="45" />
-        </property>
-        <property name="prop3" type="java.lang.String">
-            <column name="Prop3" length="45" />
-        </property>
-        <property name="prop4" type="java.lang.String">
-            <column name="Prop4" length="45" />
-        </property>
-        <property name="prop5" type="java.lang.String">
-            <column name="Prop5" length="45" />
-        </property>
-        <set name="roles" inverse="true" table="role_has_right" catalog="byjx">
+        <set name="roles" inverse="true" table="role_has_right" lazy="false" catalog="byjx">
             <key>
                 <column name="Right_RightID" not-null="true" />
             </key>
@@ -51,6 +33,7 @@
                 <column name="Role_RoleID" not-null="true" />
             </many-to-many>
         </set>
+        <!-- 
         <set name="resources" table="right_has_resource" catalog="byjx">
             <key>
                 <column name="Right_RightID" not-null="true" />
@@ -58,6 +41,19 @@
             <many-to-many entity-name="pojos.Resource">
                 <column name="Resource_ResourceID" not-null="true" />
             </many-to-many>
+        </set>
+         -->
+         <set name="resources" inverse="true" lazy="false">
+            <key>
+                <column name="Right_RightID" not-null="true" />
+            </key>
+            <one-to-many class="pojos.Resource"/>
+        </set>
+        <set name="children" inverse="true" lazy="false">
+            <key>
+                <column name="ParentID" not-null="true" />
+            </key>
+            <one-to-many class="pojos.Right"/>
         </set>
     </class>
 </hibernate-mapping>

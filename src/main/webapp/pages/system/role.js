@@ -2,26 +2,32 @@ Ext.onReady(function(){
 	
 	Ext.QuickTips.init();
 	
-	Ext.define('role',{
-		extend:'Ext.data.Model',
-		fields:[
-            {name: 'roleNo', type: 'int'},
-			{name: 'roleName'},
-            {name: 'roleDescription'}
-		]
+	//定义部门数据类型，用于下拉列表
+	Ext.define('role', {
+        extend: 'Ext.data.Model',
+        fields:[
+        	{name:'roleId',type:'int'},
+        	{name:'roleName'},
+        	{name:'roleDesc'}
+    	]
 	});
 	
-	Ext.grid.dummyData = [
-        [001,'普通员工','限制操作'],
-        [002,'管理员','最大权限']
-    ];
+	//定义部门数据源，作为下拉列表的数据源
+    var roleStore=new Ext.data.Store({
+    	model:role,
+    	proxy:{
+        	type:'ajax',
+        	url:'role_getAll.action',
+        	method:'POST',
+        	reader:{
+        		type:'json',
+        		root:'infoList',
+        		idProperty:'roleId'
+        	}
+        }
+    });
 	
-	var roleStore=Ext.create('Ext.data.Store',{
-		model:'role',
-		autoLoad:true,
-		data:Ext.grid.dummyData
-	});
-	
+    roleStore.load();
 	//定义角色表格
 	var grid=Ext.create('Ext.grid.Panel', {
 		width:'40%',
@@ -50,9 +56,9 @@ Ext.onReady(function(){
 	    }],
 		columns:[
 			Ext.create('Ext.grid.RowNumberer'),
-			{text:'角色编号',width:80,sortable:true,dataIndex:'roleNo'},
+			{text:'角色编号',width:80,sortable:true,dataIndex:'roleId'},
 			{text:'角色名称',width:80,sortable:true,dataIndex:'roleName'},
-			{text:'角色描述',flex:1,sortable:true,dataIndex:'roleDescription'}
+			{text:'角色描述',flex:1,sortable:true,dataIndex:'roleDesc'}
 		],
 		listeners:{
 			itemclick:function(view,rec,item,index,e,eOpts){
@@ -63,106 +69,106 @@ Ext.onReady(function(){
 	});
 	
 	//定义角色权限列表：复选框
-	var authorityList={
-		layout:'form',
-		width:'100%',
-		frame:false,
-		border:false,
-		bodyStyle: 'background:#dfe9f5',
-		height:'100%',
-		defaults:{
-			columns:4
-		},
-		items:[{
-			xtype:'checkboxgroup',
-			fieldLabel:'基本信息 -个人',
-			vertical:true,
-			items:[
-				{boxLabel:'查看',name:'personalInfo',inputValue:'1',checked:true},
-				{boxLabel:'修改密码',name:'personalInfo',inputValue:'2'}
-			]
-		},{
-			xtype:'checkboxgroup',
-			fieldLabel:'基本信息 -部门',
-			vertical:true,
-			items:[
-				{boxLabel:'查看',name:'departmentInfo',inputValue:'1',checked:true},
-				{boxLabel:'导出',name:'departmentInfo',inputValue:'2'}
-			]
-		},{
-			xtype:'checkboxgroup',
-			fieldLabel:'工作日志 -个人',
-			vertical:true,
-			items:[
-				{boxLabel:'查看',name:'personalJournal',inputValue:'1',checked:true},
-				{boxLabel:'新建',name:'personalJournal',inputValue:'2'},
-				{boxLabel:'导入',name:'personalJournal',inputValue:'3'},
-				{boxLabel:'导出',name:'personalJournal',inputValue:'4'},
-				{boxLabel:'修改',name:'personalJournal',inputValue:'5'},
-				{boxLabel:'查找',name:'personalJournal',inputValue:'6'}
-			]
-		},{
-			xtype:'checkboxgroup',
-			fieldLabel:'工作日志 -部门',
-			vertical:true,
-			items:[
-				{boxLabel:'查看',name:'departmentJournal',inputValue:'1',checked:true},
-				{boxLabel:'新建',name:'departmentJournal',inputValue:'2'},
-				{boxLabel:'导入',name:'departmentJournal',inputValue:'3'},
-				{boxLabel:'导出',name:'departmentJournal',inputValue:'4'},
-				{boxLabel:'修改',name:'departmentJournal',inputValue:'5'},
-				{boxLabel:'删除',name:'departmentJournal',inputValue:'6'},
-				{boxLabel:'查找',name:'departmentJournal',inputValue:'7'}
-			]
-		},{
-			xtype:'checkboxgroup',
-			fieldLabel:'费用支出 -个人',
-			vertical:true,
-			items:[
-				{boxLabel:'查看',name:'personalCost',inputValue:'1',checked:true},
-				{boxLabel:'新建',name:'personalCost',inputValue:'2'},
-				{boxLabel:'导入',name:'personalCost',inputValue:'3'},
-				{boxLabel:'导出',name:'personalCost',inputValue:'4'},
-				{boxLabel:'修改',name:'personalCost',inputValue:'5'},
-				{boxLabel:'查找',name:'personalCost',inputValue:'6'}
-			]
-		},{
-			xtype:'checkboxgroup',
-			fieldLabel:'费用支出 -部门',
-			vertical:true,
-			items:[
-				{boxLabel:'查看',name:'departmentCost',inputValue:'1',checked:true},
-				{boxLabel:'新建',name:'departmentCost',inputValue:'2'},
-				{boxLabel:'导入',name:'departmentCost',inputValue:'3'},
-				{boxLabel:'导出',name:'departmentCost',inputValue:'4'},
-				{boxLabel:'修改',name:'departmentCost',inputValue:'5'},
-				{boxLabel:'删除',name:'departmentCost',inputValue:'6'},
-				{boxLabel:'查找',name:'departmentCost',inputValue:'7'}
-			]
-		},{
-			xtype:'checkboxgroup',
-			fieldLabel:'系统管理 -用户',
-			vertical:true,
-			items:[
-				{boxLabel:'查看',name:'userManage',inputValue:'1',checked:true},
-				{boxLabel:'新增',name:'userManage',inputValue:'2'},
-				{boxLabel:'导出',name:'userManage',inputValue:'3'},
-				{boxLabel:'修改',name:'userManage',inputValue:'4'},
-				{boxLabel:'删除',name:'userManage',inputValue:'5'},
-				{boxLabel:'查找',name:'userManage',inputValue:'6'}
-			]
-		},{
-			xtype:'checkboxgroup',
-			fieldLabel:'系统管理 -角色',
-			vertical:true,
-			items:[
-				{boxLabel:'查看',name:'roleManage',inputValue:'1',checked:true},
-				{boxLabel:'新增',name:'roleManage',inputValue:'2'},
-				{boxLabel:'修改',name:'roleManage',inputValue:'3'},
-				{boxLabel:'删除',name:'roleManage',inputValue:'4'}
-			]
-		}]
-	};
+//	var authorityList={
+//		layout:'form',
+//		width:'100%',
+//		frame:false,
+//		border:false,
+//		bodyStyle: 'background:#dfe9f5',
+//		height:'100%',
+//		defaults:{
+//			columns:4
+//		},
+//		items:[{
+//			xtype:'checkboxgroup',
+//			fieldLabel:'基本信息 -个人',
+//			vertical:true,
+//			items:[
+//				{boxLabel:'查看',name:'personalInfo',inputValue:'1',checked:true},
+//				{boxLabel:'修改密码',name:'personalInfo',inputValue:'2'}
+//			]
+//		},{
+//			xtype:'checkboxgroup',
+//			fieldLabel:'基本信息 -部门',
+//			vertical:true,
+//			items:[
+//				{boxLabel:'查看',name:'departmentInfo',inputValue:'1',checked:true},
+//				{boxLabel:'导出',name:'departmentInfo',inputValue:'2'}
+//			]
+//		},{
+//			xtype:'checkboxgroup',
+//			fieldLabel:'工作日志 -个人',
+//			vertical:true,
+//			items:[
+//				{boxLabel:'查看',name:'personalJournal',inputValue:'1',checked:true},
+//				{boxLabel:'新建',name:'personalJournal',inputValue:'2'},
+//				{boxLabel:'导入',name:'personalJournal',inputValue:'3'},
+//				{boxLabel:'导出',name:'personalJournal',inputValue:'4'},
+//				{boxLabel:'修改',name:'personalJournal',inputValue:'5'},
+//				{boxLabel:'查找',name:'personalJournal',inputValue:'6'}
+//			]
+//		},{
+//			xtype:'checkboxgroup',
+//			fieldLabel:'工作日志 -部门',
+//			vertical:true,
+//			items:[
+//				{boxLabel:'查看',name:'departmentJournal',inputValue:'1',checked:true},
+//				{boxLabel:'新建',name:'departmentJournal',inputValue:'2'},
+//				{boxLabel:'导入',name:'departmentJournal',inputValue:'3'},
+//				{boxLabel:'导出',name:'departmentJournal',inputValue:'4'},
+//				{boxLabel:'修改',name:'departmentJournal',inputValue:'5'},
+//				{boxLabel:'删除',name:'departmentJournal',inputValue:'6'},
+//				{boxLabel:'查找',name:'departmentJournal',inputValue:'7'}
+//			]
+//		},{
+//			xtype:'checkboxgroup',
+//			fieldLabel:'费用支出 -个人',
+//			vertical:true,
+//			items:[
+//				{boxLabel:'查看',name:'personalCost',inputValue:'1',checked:true},
+//				{boxLabel:'新建',name:'personalCost',inputValue:'2'},
+//				{boxLabel:'导入',name:'personalCost',inputValue:'3'},
+//				{boxLabel:'导出',name:'personalCost',inputValue:'4'},
+//				{boxLabel:'修改',name:'personalCost',inputValue:'5'},
+//				{boxLabel:'查找',name:'personalCost',inputValue:'6'}
+//			]
+//		},{
+//			xtype:'checkboxgroup',
+//			fieldLabel:'费用支出 -部门',
+//			vertical:true,
+//			items:[
+//				{boxLabel:'查看',name:'departmentCost',inputValue:'1',checked:true},
+//				{boxLabel:'新建',name:'departmentCost',inputValue:'2'},
+//				{boxLabel:'导入',name:'departmentCost',inputValue:'3'},
+//				{boxLabel:'导出',name:'departmentCost',inputValue:'4'},
+//				{boxLabel:'修改',name:'departmentCost',inputValue:'5'},
+//				{boxLabel:'删除',name:'departmentCost',inputValue:'6'},
+//				{boxLabel:'查找',name:'departmentCost',inputValue:'7'}
+//			]
+//		},{
+//			xtype:'checkboxgroup',
+//			fieldLabel:'系统管理 -用户',
+//			vertical:true,
+//			items:[
+//				{boxLabel:'查看',name:'userManage',inputValue:'1',checked:true},
+//				{boxLabel:'新增',name:'userManage',inputValue:'2'},
+//				{boxLabel:'导出',name:'userManage',inputValue:'3'},
+//				{boxLabel:'修改',name:'userManage',inputValue:'4'},
+//				{boxLabel:'删除',name:'userManage',inputValue:'5'},
+//				{boxLabel:'查找',name:'userManage',inputValue:'6'}
+//			]
+//		},{
+//			xtype:'checkboxgroup',
+//			fieldLabel:'系统管理 -角色',
+//			vertical:true,
+//			items:[
+//				{boxLabel:'查看',name:'roleManage',inputValue:'1',checked:true},
+//				{boxLabel:'新增',name:'roleManage',inputValue:'2'},
+//				{boxLabel:'修改',name:'roleManage',inputValue:'3'},
+//				{boxLabel:'删除',name:'roleManage',inputValue:'4'}
+//			]
+//		}]
+//	};
 	
 	//定义角色基本信息
 	var roleInfo={
@@ -205,27 +211,112 @@ Ext.onReady(function(){
 	}
 	
 	//定义角色信息表单：包括角色基本信息以及其权限信息
-	var roleForm=Ext.create('Ext.form.Panel', {
-		frame:false,
-		border:true,
-		bodyStyle: 'background:#dfe9f5;border-width:1px 0 0 1px',
-		width:'59.9%',
-		bodyPadding:'5px 40px 0 40px',
-		height:'100%',
-		items:[roleInfo,authorityList],
-		dockedItems: [{
-	        xtype: 'toolbar',
-	        margin:'-1 -1 0 0',
-	        dock: 'top',
-	        items:[
-				{xtype:'button',text:'保存',iconCls: 'save',handler:saveRoleInfo}
-			]
-	    }]
+//	var roleForm=Ext.create('Ext.form.Panel', {
+//		frame:false,
+//		border:true,
+//		bodyStyle: 'background:#dfe9f5;border-width:1px 0 0 1px',
+//		width:'59.9%',
+//		bodyPadding:'5px 40px 0 40px',
+//		height:'100%',
+//		items:[roleInfo,authorityList],
+//		dockedItems: [{
+//	        xtype: 'toolbar',
+//	        margin:'-1 -1 0 0',
+//	        dock: 'top',
+//	        items:[
+//				{xtype:'button',text:'保存',iconCls: 'save',handler:saveRoleInfo}
+//			]
+//	    }]
+//	});
+	
+//	var record=grid.getStore().getAt(0);
+//	roleForm.getForm().loadRecord(record);
+
+	var children;
+	Ext.Ajax.request({
+		
+		url:'right_getAll.action',
+		method:'POST',
+		dataType:'json', 
+		async:false,
+		success:function(response,options){
+			var result=Ext.JSON.decode(response.responseText);
+			children=result.infoList;
+		}
+	});
+
+
+	
+	var treeStore = Ext.create('Ext.data.TreeStore', {
+		autoLoad:true,
+		root : {
+            expanded : false,
+	        children:children
+		}
+
+	});
+	var tree=Ext.create('Ext.tree.Panel', {
+		title:'权限列表',
+	    width: '59.9%',
+	    height: '100%',
+	    margin:'-1 -1 -1 0',
+	    store: treeStore,
+	    rootVisible: false,
+		viewConfig:{
+		    onCheckboxChange: function(e, t) {
+		         var item = e.getTarget(this.getItemSelector(), this.getTargetEl()), record;
+		         if (item) {
+		             record = this.getRecord(item);
+		             var check = !record.get('checked');
+		             record.set('checked', check);
+		             if (check) {
+		                 record.bubble(function(parentNode) {
+		                     parentNode.set('checked', true);
+		                 });
+		                 record.cascadeBy(function(node) {
+		                     node.set('checked', true);
+		                 });
+		                 record.expand();
+		                 record.expandChildren();
+		             } else {
+		                 record.collapse();
+		                 record.collapseChildren();
+		                 record.cascadeBy(function(node) {
+		                     node.set('checked', false);
+		                 });
+		                 record.bubble(function(parentNode) {
+		                    var childHasChecked=false;
+		                    var childNodes = parentNode.childNodes;
+		                    if(childNodes || childNodes.length>0){
+		                        for(var i=0;i<childNodes.length;i++){
+		                            if(childNodes[i].data.checked){
+		                                childHasChecked= true;
+		                                break;
+		                            }
+		                        }
+		                    }
+		                    if(!childHasChecked){
+		                         parentNode.set('checked', false);
+		                     }
+		                 });
+		                 
+		             }
+		         }
+		     }
+		},
+	    renderTo: Ext.getBody()
 	});
 	
-	var record=grid.getStore().getAt(0);
-	roleForm.getForm().loadRecord(record);
-	
+	tree.on('checkchange', function(node, checked) {   
+		node.expand();   
+		node.attributes.checked = checked;   
+		node.eachChild(function(child) {   
+			child.ui.toggleCheck(checked);   
+			child.attributes.checked = checked;   
+			child.fireEvent('checkchange', child, checked);   
+		});   
+	}, tree);
+    
 	//定义另一个表单，用于新增、修改角色信息；定义角色信息表单：包括角色基本信息以及其权限信息,
 	var form=top.Ext.create('Ext.form.Panel',{
 		border:false,
@@ -233,7 +324,7 @@ Ext.onReady(function(){
 		bodyPadding:15,
 		width:'100%',
 		height:'100%',
-		items:[roleInfo,authorityList],
+		items:[roleInfo],
 		fbar:[{
 			xtype:'button',
 			text:'提交',
@@ -364,6 +455,6 @@ Ext.onReady(function(){
 		layout:'hbox',
 		border:false,
 		bodyStyle: 'background:#f0f0f0',
-		items:[grid,roleForm]
+		items:[grid,tree]
 	});
 });

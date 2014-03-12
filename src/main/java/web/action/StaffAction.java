@@ -22,7 +22,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.util.ServletContextAware;
 import org.hibernate.Hibernate;
 
 import net.sf.json.JsonConfig;
@@ -60,6 +64,7 @@ public class StaffAction extends BaseAction{
 	private String position;
 	private String phone;
 	private int roleId;
+	private String userName;
 	private String password;
 	private String gender;
 	private int age;
@@ -82,6 +87,7 @@ public class StaffAction extends BaseAction{
 	private String email;
 	private String ucPhone;
 	private String zipCode;
+	
 	
 	/** 各种服务相对应的get和set方法 */
 	public StaffService getStaffService() {
@@ -129,7 +135,7 @@ public class StaffAction extends BaseAction{
 	public void setLimit(int limit) {
 		this.limit = limit;
 	}
-	public String Query() {
+	public String getQuery() {
 		return query;
 	}
 	public void setQuery(String query) {
@@ -188,6 +194,12 @@ public class StaffAction extends BaseAction{
 	}
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getPassword() {
 		return password;
@@ -515,7 +527,7 @@ public class StaffAction extends BaseAction{
 		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
 			@Override
 			public boolean apply(Object arg0, String arg1, Object arg2) {
-				if(arg1.equals("costs")||arg1.equals("roles")||arg1.equals("journals")){
+				if(arg1.equals("costs")||arg1.equals("role")||arg1.equals("journals")){
 					return true;
 				}else{
 					return false;
@@ -542,7 +554,7 @@ public class StaffAction extends BaseAction{
 		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
 			@Override
 			public boolean apply(Object arg0, String arg1, Object arg2) {
-				if(arg1.equals("department")||arg1.equals("costs")||arg1.equals("roles")||arg1.equals("journals")){
+				if(arg1.equals("department")||arg1.equals("costs")||arg1.equals("role")||arg1.equals("journals")){
 					return true;
 				}else{
 					return false;
@@ -563,4 +575,18 @@ public class StaffAction extends BaseAction{
 		return null;		
 	}
 	
+	public String login(){
+//		ServletContext context= ServletActionContext.getRequest().getSession().getServletContext();
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		Staff staff=this.staffService.getStaffByUserNamePwd(userName, password);
+		if(staff!=null){
+			System.out.println(staff.getStaffName());
+			session.setAttribute("staff", staff);
+			session.setAttribute("staffName", staff.getStaffName());
+			this.printString(true, "index.jsp");
+		}else{
+			this.printString(false, "");
+		}
+		return null;
+	}
 }

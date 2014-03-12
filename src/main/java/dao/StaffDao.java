@@ -6,7 +6,7 @@ import pojos.Staff;
 
 public interface StaffDao extends GenericDao<Staff>{
 
-	public Staff getStaffByUserNamePassword(String userName,String password);
+//	public Staff getStaffByUserNamePassword(String userName,String password);
 	
 	public Staff loginStaff(String userName);
 	

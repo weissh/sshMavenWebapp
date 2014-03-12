@@ -13,6 +13,9 @@
         <many-to-one name="department" class="pojos.Department" fetch="select">
             <column name="Department_DepartmentID" not-null="true" />
         </many-to-one>
+        <many-to-one name="role" class="pojos.Role" fetch="join" lazy="false">
+            <column name="Role_RoleID" not-null="true" />
+        </many-to-one>
         <property name="photo" type="java.lang.String">
             <column name="Photo" length="100" />
         </property>
@@ -128,7 +131,7 @@
             </key>
             <one-to-many class="pojos.Cost" />
         </set>
-        
+       	<!--
         <set name="roles" table="staff_has_role" catalog="byjx">
             <key>
                 <column name="Staff_StaffID"/>
@@ -137,7 +140,7 @@
                 <column name="Role_RoleID"/>
             </many-to-many>
         </set>
-        
+          -->
         <set name="journals" inverse="true">
             <key>
                 <column name="Staff_StaffID" not-null="true" />

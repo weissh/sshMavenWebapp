@@ -2,6 +2,7 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String staffName=session.getAttribute("staffName").toString();
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -26,7 +27,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <iframe id="iframeContent" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
     </div>
     <div id="south" class="x-hide-display">
-        <p align="center">south - generally for informational stuff, also could be for status bar</p>
+        <p align="right">south - generally for informational stuff, also could be for status bar</p>
+    </div>
+    <div id="north" class="x-hide-display">
+        <p align="right"><strong>用户名：</strong><%=staffName==null?"":staffName%>
+        <%if(staffName!=null){%>
+        <strong><a href="">注销</a></strong>
+        <%}%>
+        </p>
+
     </div>
   </body>
 </html>
