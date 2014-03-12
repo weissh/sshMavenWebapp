@@ -24,6 +24,7 @@ public class Right implements java.io.Serializable,Cloneable {
 	private boolean expanded;
 //	private String description;
 	private boolean menu;
+	private Boolean checked;
 	
 	
 	//不需要通过权限查找相应的角色，故可不需要 private Set roles = new HashSet(0);
@@ -124,6 +125,14 @@ public class Right implements java.io.Serializable,Cloneable {
 		this.children = children;
 	}
 	
+	public Boolean getChecked() {
+		return checked;
+	}
+
+	public void setChecked(Boolean checked) {
+		this.checked = checked;
+	}
+
 	@Override
     public Right clone(){
         Right right = null;

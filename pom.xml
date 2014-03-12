@@ -92,6 +92,11 @@
 		<!-- spring over -->
 
 		<!-- spring security 3 -->
+		<dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>3.2.0.RELEASE</version>
+        </dependency>
 	    <dependency>
 	        <groupId>org.springframework.security</groupId>
 	        <artifactId>spring-security-web</artifactId>
@@ -212,6 +217,11 @@
 			<artifactId>json-lib</artifactId>
 			<version>2.2.3</version>
 			<classifier>jdk15</classifier>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ezmorph</groupId>
+			<artifactId>ezmorph</artifactId>
+			<version>1.0.4</version>
 		</dependency>
 		<!-- 配置json-lib 作者：cai end -->
 		
