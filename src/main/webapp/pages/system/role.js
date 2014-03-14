@@ -252,7 +252,12 @@ Ext.onReady(function(){
 		root : {
             expanded : false,
 	        children:children
-		}
+		},
+		fields:['id','text'],
+		sorters: [{
+             property: 'id',
+             direction: 'ASC'
+         }]
 
 	});
 	var tree=Ext.create('Ext.tree.Panel', {
