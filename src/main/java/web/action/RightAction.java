@@ -17,10 +17,13 @@ package web.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
+
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
 import pojos.Right;
 import service.RightService;
+import web.ui.TreeNode;
 
 public class RightAction extends BaseAction {
 
@@ -43,7 +46,7 @@ public class RightAction extends BaseAction {
 
 
 	public String getAllRight(){
-
+		List<TreeNode> list=this.rightService.getCheckedTree();
 		List<Right> rights=(ArrayList<Right>) this.rightService.findBysql("from Right where menu=1");
 		JsonConfig jsonConfig =new JsonConfig();
 //		jsonConfig.registerJsonValueProcessor(Resource.class, new ObjectJsonValueProcessor(new String[]{"url"}, Resource.class));
@@ -65,16 +68,7 @@ public class RightAction extends BaseAction {
 	
 	public String getRightByRole(){
 		List<Right> rights=this.rightService.getRightByRole();
-//		HttpSession session = ServletActionContext.getRequest().getSession();
-//		Staff staff =(Staff) session.getAttribute("staff");
-//		Role role = staff.getRole();
-//		List<Right> rights=new ArrayList<Right>();
-//		Set<Right> rightSet =role.getRights();
-//		for(Right right:rightSet){
-//			rights.add(right);
-//		}
 		JsonConfig jsonConfig =new JsonConfig();
-//		jsonConfig.registerJsonValueProcessor(Resource.class, new ObjectJsonValueProcessor(new String[]{"url"}, Resource.class));
 		/** 同样是为了避免出现hibernate死循环，过滤掉引起死循环的整个对象，不需要任何字段 */
 		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
 			@Override

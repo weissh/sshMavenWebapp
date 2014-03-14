@@ -25,7 +25,7 @@
         <property name="menu" type="java.lang.Boolean">
         	<column name="Menu"></column>
         </property>
-        <set name="roles" inverse="true" table="role_has_right" lazy="false" catalog="byjx">
+        <set name="roles" inverse="true" table="role_has_right" fetch="join" lazy="false" catalog="byjx">
             <key>
                 <column name="Right_RightID" not-null="true" />
             </key>

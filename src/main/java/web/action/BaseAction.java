@@ -28,6 +28,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
+import com.alibaba.fastjson.JSON;
 import com.opensymphony.xwork2.ActionSupport;
 
 import common.ObjectJsonValueProcessor;
@@ -203,19 +204,31 @@ public class BaseAction extends ActionSupport implements Serializable {
 	public void printList(List<?> list,JsonConfig jsonConfig){
 		this.getResponse().setContentType("text/html;charset=UTF-8");
 		this.getResponse().setCharacterEncoding("UTF-8");
-//		JSONObject jsonObject = new JSONObject();
+//		String jsonString=JSON.toJSONString(list, true);
+//		String jsonString=data;
 		JSONArray jsonArray=new JSONArray();
 		//改变所有Date字段的形式为"yyyy--MM--dd"
 		jsonConfig.registerJsonValueProcessor(Date.class, new ObjectJsonValueProcessor("yyyy-MM-dd"));
 		if(list!=null&&list.size()>0){
-//			jsonObject=JSONObject.fromObject(list, jsonConfig);
 			jsonArray=JSONArray.fromObject(list,jsonConfig);
-//			System.out.println(jsonObject.toString());
 			System.out.println(jsonArray.toString());
 		}
 		String jsonString ="{infoList:"+jsonArray.toString()+"}";
 		try{
 			this.getResponse().getWriter().write(jsonString);
+			this.getResponse().flushBuffer();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void printString(List<?> list){
+		this.getResponse().setContentType("text/html;charset=UTF-8");
+		this.getResponse().setCharacterEncoding("UTF-8");
+		
+		String jsonText = JSON.toJSONString(list, true);
+		try{
+			this.getResponse().getWriter().write(jsonText);
 			this.getResponse().flushBuffer();
 		}catch (Exception e) {
 			e.printStackTrace();

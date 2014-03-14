@@ -8,12 +8,11 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
-import common.TreeNode;
-
 import pojos.Right;
 import pojos.Role;
 import pojos.Staff;
 import service.RightService;
+import web.ui.TreeNode;
 import dao.RightDao;
 import dao.RoleDao;
 
@@ -63,20 +62,41 @@ public class RightServiceImpl extends GenericServiceImpl<Right> implements
 	}
 
 	@Override
-	public List<Right> getCheckedTree() {
+	public List<TreeNode> getCheckedTree() {
+		List<TreeNode> tree=new ArrayList<TreeNode>();
 		List<Right> rightMenu=this.rightDao.findBySql("from Right where menu=1");
-		Set<Right> userRights=getRightByUser();
+		List<TreeNode> nodes=new ArrayList<TreeNode>();
 		for(Right right:rightMenu){
-			TreeNode node=(TreeNode) right;
-			node.getChildren();
-			Set<Right> childrenRights=right.getChildren();
-			for(Right right2:userRights){
-				if(childrenRights.contains(right2)){
-					
-				}
-			}
+			TreeNode node=TreeNode.toNode(right);
+			nodes.add(node);
 		}
-		return null;
+		List<TreeNode> list=new ArrayList<TreeNode>();
+		Set<Right> userRights=getRightByUser();
+		for(Right right:userRights){
+			TreeNode node=TreeNode.toNode(right);
+			list.add(node);
+		}
+		for (TreeNode node : nodes) {
+			List<TreeNode> children=node.getChildren();
+			TreeNode nodeClone=node.clone();
+//			nodeClone.getChildren().clear();
+			for (TreeNode node2 : list) {
+				TreeNode node2Clone=node2.clone();
+				List<TreeNode> deList=new ArrayList<TreeNode>();
+				for(TreeNode node3:node.getChildren()){
+					if(node3.getId()==node2.getId()){
+						deList.add(node2);
+						node2Clone.setChecked(true);
+						children.add(node2Clone);
+					}
+				}
+//				children.add(node2Clone);
+				children.removeAll(deList);
+			}
+			nodeClone.getChildren().addAll(children);
+			tree.add(nodeClone);
+		}
+		return nodes;
 	}
 
 	private Set<Right> getRightByUser(){

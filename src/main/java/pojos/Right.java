@@ -19,12 +19,11 @@ public class Right implements java.io.Serializable,Cloneable {
 	private Integer id;
 	private String text;
 	private String hrefTarget;
-	private boolean leaf;
+	private Boolean leaf;
 //	private boolean checked;
-	private boolean expanded;
+	private Boolean expanded;
 //	private String description;
 	private boolean menu;
-	private Boolean checked;
 	
 	
 	//不需要通过权限查找相应的角色，故可不需要 private Set roles = new HashSet(0);
@@ -68,27 +67,19 @@ public class Right implements java.io.Serializable,Cloneable {
 		this.hrefTarget = hrefTarget;
 	}
 
-	public boolean isLeaf() {
+	public Boolean getLeaf() {
 		return leaf;
 	}
 
-	public void setLeaf(boolean leaf) {
+	public void setLeaf(Boolean leaf) {
 		this.leaf = leaf;
 	}
-//
-//	public boolean isChecked() {
-//		return checked;
-//	}
-//
-//	public void setChecked(boolean checked) {
-//		this.checked = checked;
-//	}
 
-	public boolean isExpanded() {
+	public Boolean getExpanded() {
 		return expanded;
 	}
 
-	public void setExpanded(boolean expanded) {
+	public void setExpanded(Boolean expanded) {
 		this.expanded = expanded;
 	}
 
@@ -123,14 +114,6 @@ public class Right implements java.io.Serializable,Cloneable {
 
 	public void setChildren(Set<Right> children) {
 		this.children = children;
-	}
-	
-	public Boolean getChecked() {
-		return checked;
-	}
-
-	public void setChecked(Boolean checked) {
-		this.checked = checked;
 	}
 
 	@Override
