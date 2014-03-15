@@ -17,7 +17,7 @@ Ext.onReady(function() {
 	
 	Ext.tip.QuickTipManager.init();
 	   
-	//定义部门数据类型，用于下拉列表
+	// 定义部门数据类型，用于下拉列表
 	Ext.define('deptForSelector', {
         extend: 'Ext.data.Model',
         fields:[
@@ -26,7 +26,7 @@ Ext.onReady(function() {
     	]
 	})
 
-    //定义部门数据源，作为下拉列表的数据源
+    // 定义部门数据源，作为下拉列表的数据源
     var deptStore=new Ext.data.Store({
     	model:deptForSelector,  	
     	proxy:{
@@ -49,7 +49,7 @@ Ext.onReady(function() {
         }
     });
 
-    //定义员工数据类型，作为下拉列表框
+    // 定义员工数据类型，作为下拉列表框
     Ext.define('staffForSelector', {
         extend: 'Ext.data.Model',
         fields:[
@@ -58,7 +58,7 @@ Ext.onReady(function() {
     	]
 	});
 	
-	//定义员工数据源，作为下拉列表的数据源
+	// 定义员工数据源，作为下拉列表的数据源
     var staffStore=new Ext.data.Store({
     	model:staffForSelector,
     	proxy:{
@@ -80,6 +80,29 @@ Ext.onReady(function() {
         	}
         }
     });
+    
+    var country=new Ext.data.Store({
+        fields:['id','name'],
+        data:[
+        {'id':'CN','name':'中国'},
+        {'id':'CA','name':'加拿大'},
+        {'id':'AU','name':'澳大利亚'},
+        {'id':'JP','name':'日本'}
+        ]
+    });
+    
+    var province=new Ext.data.Store({
+        fields:['id','name'],
+        data:[
+        {'id':'CNBJ','name':'北京'},
+        {'id':'CNTJ','name':'天津'},
+        {'id':'CAAB','name':'亚伯达省'},
+        {'id':'CABC','name':'卑斯省'},
+        {'id':'JP40','name':'东京'},
+        {'id':'AUVIC','name':'Victoria'}
+        ]
+    });
+    var newProvince = new Ext.data.Store({fields: ['id', 'name']});
     
     var operatemode=new Ext.data.Store({
         fields:['id','name'],
@@ -122,7 +145,7 @@ Ext.onReady(function() {
         ]
     });
     
-    //定义表格的填充模型journal
+    // 定义表格的填充模型journal
 	Ext.define('journal',{
 		extend: 'Ext.data.Model',
 		fields: [
@@ -148,7 +171,7 @@ Ext.onReady(function() {
 	        {name:'workContent',type:'string'}		
          ]
 	})
-	//定义表格的填充数据
+	// 定义表格的填充数据
 	 var journalStore = Ext.create('Ext.data.Store', {
         model: 'journal',
         pageSize:20,
@@ -164,10 +187,10 @@ Ext.onReady(function() {
         	}
         }
     });
-    //日志表格数据源载入，默认为第一页前20条记录，当点击下一页（第二页）时参数自动改变为{start:20,limit:20}，store的pagesize为20时
+    // 日志表格数据源载入，默认为第一页前20条记录，当点击下一页（第二页）时参数自动改变为{start:20,limit:20}，store的pagesize为20时
     journalStore.load({url:'jour_getAll.action',params:{start:0,limit:20}});
 
-    //添加日期控件的验证，保证结束日期在开始时期之后
+    // 添加日期控件的验证，保证结束日期在开始时期之后
     Ext.apply(Ext.form.field.VTypes, {
         daterange: function(val, field) {
             var date = field.parseDate(val);
@@ -197,7 +220,7 @@ Ext.onReady(function() {
     });    
     
 
-	//定义表单，用作表格的工具栏
+	// 定义表单，用作表格的工具栏
     var dr = Ext.create('Ext.form.Panel', {
         border:false,
         width:'100%',    
@@ -207,7 +230,7 @@ Ext.onReady(function() {
 				width:170,
 				labelWidth:60,
 				allowBlank: false,
-				//value: '2014-01-01',
+				// value: '2014-01-01',
 				maxValue: new Date(),
 				name: 'startdt',
 				itemId: 'startdt',
@@ -222,7 +245,6 @@ Ext.onReady(function() {
 				width:170,
 				labelWidth:60,
 				allowBlank: false,
-				//value: new Date(),
 				maxValue: new Date(),
 				name: 'enddt',
 				itemId: 'enddt',
@@ -265,12 +287,11 @@ Ext.onReady(function() {
 				id:'staffCombo'
 			},
 			{xtype:'button',text:'查询',iconCls: 'search', listeners:{
-				click:function(){
+			    click:function(){
 					var startDate=dr.getForm().findField('startdt').getValue();
 					var endDate=dr.getForm().findField('enddt').getValue();
             		var departmentId=dr.getForm().findField('deptCombo').getValue();
             		var staffId=dr.getForm().findField('staffCombo').getValue();
-            		//var roleId=dr.getForm().findField('roleCombo').getValue();
             		journalStore.on('beforeload',function(store,options){
             			var new_params={startDate:startDate,endDate:endDate,staffId:staffId,query:'true'};
             			Ext.apply(journalStore.proxy.extraParams,new_params);
@@ -288,7 +309,7 @@ Ext.onReady(function() {
     });
    
 
-    //定义表格
+    // 定义表格
 	var grid=Ext.create('Ext.grid.Panel',{
 		width:document.body.clientWidth,
 		height:'100%',
@@ -307,14 +328,44 @@ Ext.onReady(function() {
             {text: "员工编号", width: 70, sortable: true, align:'center', dataIndex: 'staffId'},
             {text: "员工姓名", width: 70, sortable: true, align:'center', dataIndex: 'staffName'},
             {text: "工作日期", width: 80, sortable: true, align:'center', renderer: Ext.util.Format.dateRenderer('Y-m-d'), dataIndex: 'executeDate'},
-            {text: "工作方式", width: 90, sortable: true, align:'center', dataIndex: 'operateMode'},
+            {text: "工作方式", width: 90, sortable: true, align:'center', dataIndex: 'operateMode',
+            renderer:function(value){// 根据当前单元格的值，调用相应的store，并显示displayField；
+            		var index=operatemode.find('id',value);
+            		var record=operatemode.getAt(index);
+            		return getText(record);// 当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
+            	}},
             {text: "单位名称", width: 120, sortable: true, align:'center', dataIndex: 'unitName'},
-            {text: "国家", width: 50, sortable: true, align:'center', dataIndex: 'country'},
-            {text: "省市", width: 50, sortable: true, align:'center', dataIndex: 'province'},
+            {text: "国家", width: 80, sortable: true, align:'center', dataIndex: 'country',
+            renderer:function(value){// 根据当前单元格的值，调用相应的store，并显示displayField；
+            		var index=country.find('id',value);
+            		var record=country.getAt(index);
+            		return getText(record);// 当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
+            	}},
+            {text: "省市", width: 70, sortable: true, align:'center', dataIndex: 'province',
+            renderer:function(value){// 根据当前单元格的值，调用相应的store，并显示displayField；
+            		var index=province.find('id',value);
+            		var record=province.getAt(index);
+            		return getText(record);// 当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
+            	}},
             {text: "详细地址", width: 120, sortable: true, align:'center', dataIndex: 'address'},
-            {text: "客户/经销商", width: 120, sortable: true, align:'center', dataIndex: 'contactObject'},
-            {text: "重要级别", width: 60, sortable: true, align:'center', dataIndex: 'level'},
-            {text: "联系途径", width: 60, sortable: true, align:'center', dataIndex: 'contactWay'},
+            {text: "客户/经销商", width: 120, sortable: true, align:'center', dataIndex: 'contactObject',
+             renderer:function(value){// 根据当前单元格的值，调用相应的store，并显示displayField；
+            		var index=contactobject.find('id',value);
+            		var record=contactobject.getAt(index);
+            		return getText(record);// 当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
+            	}},
+            {text: "重要级别", width: 60, sortable: true, align:'center', dataIndex: 'level',
+             renderer:function(value){// 根据当前单元格的值，调用相应的store，并显示displayField；
+            		var index=level.find('id',value);
+            		var record=level.getAt(index);
+            		return getText(record);// 当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
+            	}},
+            {text: "联系途径", width: 60, sortable: true, align:'center', dataIndex: 'contactWay',
+             renderer:function(value){// 根据当前单元格的值，调用相应的store，并显示displayField；
+            		var index=contactway.find('id',value);
+            		var record=contactway.getAt(index);
+            		return getText(record);// 当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
+            	}},
             {text: "联系人姓名", width: 70, sortable: true, align:'center', dataIndex: 'contactName'},
             {text: "联系人职务", width: 70, sortable: true, align:'center', dataIndex: 'contactPosition'},
             {text: "联系人电话", width: 85, sortable: true, align:'center', dataIndex: 'contactPhone'},
@@ -327,16 +378,10 @@ Ext.onReady(function() {
             store: journalStore,
             displayInfo: true
         }),
-//        listeners: {
-//            'selectionchange': function(view, records) {
-//                grid.down('#removeEmployee').setDisabled(!records.length);
-//                alert(1);
-//            }
-//        },
         renderTo: Ext.getBody()
 	}) 
 	
-
+    
 	var form = new top.Ext.FormPanel({
 				width : '100%',
 				height : '100%',
@@ -348,10 +393,10 @@ Ext.onReady(function() {
 					// anchor: '100%',
 					allowBlank : false,
 					blankText : '不允许为空',
-					//msgTarget : 'qtip',
+					// msgTarget : 'qtip',
 					labelWidth : 80
 				},
-				//frame : true,
+				// frame : true,
 
 				items : [{
 					xtype:'textfield',
@@ -365,7 +410,6 @@ Ext.onReady(function() {
 					listeners:{ 
                         blur:function(tf) {
                         	var Id=tf.getRawValue();
-                        	//alert(staffId)
                             Ext.Ajax.request({
                             	params:{staffId:Id},
                                 url:'staff_getNameById',
@@ -416,19 +460,33 @@ Ext.onReady(function() {
 					fieldLabel : '国家',
 					valueField:'id',
 					displayField : 'name',
-					store : operatemode,
+					store : country,
 					typeAhead : true,
 					name:'country',
-					value:1
+					value:'CN',
+					listeners:{        
+                        select : function(combo, record, index){   
+                        // 清除省市下拉框的现存值
+                        var provinceField = form.getForm().findField('province');   
+                        provinceField.setValue('');
+                        // 获取当前选择的国家代码，然后在province过滤出所有属于这个国家的省
+                        var codeHead = record[0].get('id');                       
+                        province.filter('id', codeHead);            
+                        // 清除newProvince中之前的数据，把过滤出来的结果添加到这个newProvince中
+                        newProvince.removeAll();
+                        newProvince.add(province.getRange()); 
+                        province.clearFilter();
+                    }}
 				}, {
 					xtype : 'combo',
 					fieldLabel : '省市',
 					valueField:'id',
 					displayField : 'name',
-					store : operatemode,
+					store : newProvince,
 					typeAhead : true,
 					name:'province',
-					value:1
+					mode:'local',
+					value:'CNBJ'
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '详细地址',
@@ -479,7 +537,7 @@ Ext.onReady(function() {
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人邮箱',
-					//vtype : 'email',
+					// vtype : 'email',
 					name:'contactEmail',
 					value:'33@123.com'
 				}, {
@@ -527,13 +585,8 @@ Ext.onReady(function() {
 		modal : true,
 		items : form
     });
-	     
-    //查询日志
-    function searchJournal(){
-    	alert(dr.getForm().findField('staffCombo').getValue());
-    }
     
-    //增加日志
+    // 增加日志
     function addJournal(){   	
     	form.form.reset();
     	form.isAdd=true;
@@ -542,7 +595,7 @@ Ext.onReady(function() {
     	win.show();
     };
     
-    //修改日志
+    // 修改日志
     function editJournal(){
     	var record=grid.getSelectionModel().getSelection();
 		if (record.length==1) {
@@ -557,10 +610,10 @@ Ext.onReady(function() {
 		}
     };
     
-    //双击进行修改
+    // 双击进行修改
     grid.addListener('itemdblclick', editJournal, this);
     
-    //删除日志
+    // 删除日志
     function deleteJournal(){
     	var records=grid.getSelectionModel().getSelection();
     	if(records.length==0){
@@ -574,7 +627,7 @@ Ext.onReady(function() {
     	});
     };
     
-    //执行删除操作
+    // 执行删除操作
     function deleteJRecords(records){
     	var workIds="";
     	for(var i=0;i<records.length;i++){
@@ -686,5 +739,16 @@ Ext.onReady(function() {
     	}
     	journalStore.reload();
     }
+    
+    // 用于渲染grid中的与form中下拉列表框对应的值，使其显示的是name字段而不是id字段
+    function getText(record){
+    	var text="";
+		if(record==null){
+			text=value;
+		}else{
+			text=record.data['name'];
+		}
+		return text;
+    };
    
 });
