@@ -230,7 +230,6 @@ Ext.onReady(function() {
 				width:170,
 				labelWidth:60,
 				allowBlank: false,
-				// value: '2014-01-01',
 				maxValue: new Date(),
 				name: 'startdt',
 				itemId: 'startdt',
@@ -293,7 +292,7 @@ Ext.onReady(function() {
             		var departmentId=dr.getForm().findField('deptCombo').getValue();
             		var staffId=dr.getForm().findField('staffCombo').getValue();
             		journalStore.on('beforeload',function(store,options){
-            			var new_params={startDate:startDate,endDate:endDate,staffId:staffId,query:'true'};
+            			var new_params={startDate:startDate,endDate:endDate,departmentId:departmentId,staffId:staffId,query:'true'};
             			Ext.apply(journalStore.proxy.extraParams,new_params);
             		});
             		journalStore.reload();
@@ -485,8 +484,7 @@ Ext.onReady(function() {
 					store : newProvince,
 					typeAhead : true,
 					name:'province',
-					mode:'local',
-					value:'CNBJ'
+					mode:'local'
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '详细地址',
