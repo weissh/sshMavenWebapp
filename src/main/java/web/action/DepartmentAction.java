@@ -1,6 +1,6 @@
 package web.action;
-
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,11 +11,14 @@ import net.sf.json.util.PropertyFilter;
 
 import org.apache.struts2.ServletActionContext;
 
+import pojos.Cost;
 import pojos.Department;
+import pojos.Staff;
 import service.DepartmentService;
 import web.ui.DepartmentUI;
 
 import common.ExcelUtil;
+import common.ObjectJsonValueProcessor;
 
 public class DepartmentAction extends BaseAction {
 
@@ -58,6 +61,9 @@ public class DepartmentAction extends BaseAction {
 	private String departmentName;
 	private Date createTime;
 	private String description;
+	private String query;
+	private int start;
+	private int limit;
 
 	/** 前端表单所有字段的get和set方法  */
 	public String getDepartmentIds() {
@@ -99,7 +105,25 @@ public class DepartmentAction extends BaseAction {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	public int getStart() {
+		return start;
+	}
+	public void setStart(int start) {
+		this.start = start;
+	}
+	public int getLimit() {
+		return limit;
+	}
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+	public String getQuery() {
+		return query;
+	}
+	public void setQuery(String query) {
+		this.query = query;
+	}
+	
 	/**
 	 *
 	 * @Description:新增部门
@@ -186,7 +210,7 @@ public class DepartmentAction extends BaseAction {
 			Department department = this.departmentService.find(Integer.parseInt(str[i]));
 //			/** 因为Department与其他实体类不存在多对一的关系，即数据表中没有外键，所有新建对象只许设置id即可 */
 //			department.setDepartmentId(Integer.parseInt(str[i]));
-			if(department.getStaffs().size()>0){
+			if(department.getStaffs()!=null){
 				if(i==0){
 					name+=department.getDepartmentName();
 				}else {
@@ -221,8 +245,48 @@ public class DepartmentAction extends BaseAction {
 	 * 2014-2-11    caiwenming      v1.0.0         create
 	 */
 	public String getAllDept() {
-		List<Department> departments = this.departmentService.findAll();
+//		List<Department> departments = this.departmentService.findAll();
+//		JsonConfig jsonConfig =new JsonConfig();
+//		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
+//			@Override
+//			public boolean apply(Object arg0, String arg1, Object arg2) {
+//				if(arg1.equals("staffs")){
+//					return true;
+//				}else{
+//					return false;
+//				}
+//			}
+//		});
+//		this.printList(0, 0, 0, departments, jsonConfig);
+//		return null;
+		int page=start/limit+1;
+		List<Department> departments = null;
+		int total;
+		System.out.println(departmentId!=0);
+		if(query!=null){
+			StringBuffer sql=new StringBuffer("from Department where 1=1");
+			
+			if(departmentId!=0){
+				sql.append(" and DepartmentID="+departmentId);
+			}
+			departments=this.departmentService.findByPage(page, limit, sql.toString());
+			System.out.println(sql.toString());
+			total=departments.size();
+//			if(roleId!=0){
+//				sql.append(" and roleId="+roleId);
+//			}
+
+		}else{
+			/**
+			 * findByPage方法的参数是（当前页码,每页记录数），所以需先通过start和limit计算得出请求的当前页码
+			 */
+			departments = this.departmentService.findByPage(page,limit);
+			total=this.departmentService.getTotalRows();
+		}
 		JsonConfig jsonConfig =new JsonConfig();
+		/** 结果转换成json对象是避免出现hibernate死循环，过滤掉引起死循环的字段，保留有用字段 */
+		//jsonConfig.registerJsonValueProcessor(Department.class, new ObjectJsonValueProcessor(new String[]{"departmentId"}, Department.class));
+		/** 同样是为了避免出现hibernate死循环，过滤掉引起死循环的整个对象，不需要任何字段 */
 		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
 			@Override
 			public boolean apply(Object arg0, String arg1, Object arg2) {
@@ -233,7 +297,7 @@ public class DepartmentAction extends BaseAction {
 				}
 			}
 		});
-		this.printList(0, 0, 0, departments, jsonConfig);
+		this.printList(start, limit, total, departments, jsonConfig);
 		return null;
 	}
 	
