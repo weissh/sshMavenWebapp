@@ -258,6 +258,7 @@
 	<!-- 配置costAction -->
 	<bean id="costAction" class="web.action.CostAction" scope="prototype">
 		<property name="costService" ref="costServiceDaoProxy"/>
+		<property name="staffService" ref="staffServiceDaoProxy"/>
 	</bean>
 	
 	<!-- 配置roleAction -->

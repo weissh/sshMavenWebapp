@@ -140,6 +140,35 @@
 	</package>
 	<!-- smz_end -->
 	
+	<package name="cost" extends="json-default" >
+		<action name="cost_add" method="addCost" class="costAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="cost_update" method="updateCost" class="costAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="cost_delete" method="deleteCost" class="costAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="cost_getAll" method="getAllCost" class="costAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="cost_getAllper" method="getAllCostPer" class="costAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="cost_getForSelector" method="getcostForSelector" class="costAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="costdept_export" method="exportCostDept" class="costAction" >
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">excelStream</param>
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+	</package>
+	
     <package name="json" namespace="/" extends="struts-default,json-default" >  
         <action name="json" class="showUser" method="showUser">  
             <result name="SUCCESS" type="json">  
