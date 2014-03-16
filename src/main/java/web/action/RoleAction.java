@@ -16,17 +16,14 @@ package web.action;
 
 import java.util.List;
 
-import com.alibaba.fastjson.JSON;
-
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
-
 import pojos.Role;
 import service.RoleService;
 
 public class RoleAction extends BaseAction{
 	private RoleService roleService;
-	
+	private int id=76;
 
 	public RoleService getRoleService() {
 		return roleService;
@@ -34,6 +31,14 @@ public class RoleAction extends BaseAction{
 
 	public void setRoleService(RoleService roleService) {
 		this.roleService = roleService;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**
@@ -56,6 +61,7 @@ public class RoleAction extends BaseAction{
 				}
 			}
 		});
+		setId(87);
 		this.printList(roles,jsonConfig);
 		return null;
 	}

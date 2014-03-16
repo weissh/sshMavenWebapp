@@ -4,10 +4,11 @@ import java.util.List;
 
 import pojos.Right;
 import web.ui.TreeNode;
+import web.ui.TreeStore;
 
 public interface RightService extends GenericService<Right>{
 
-	public List<Right> getRightByRole();
+	public TreeStore getRightByRole();
 	
-	public List<TreeNode> getCheckedTree();
+	public List<TreeNode> getCheckedTree(int roleId);
 }

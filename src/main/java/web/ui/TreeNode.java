@@ -94,6 +94,7 @@ public class TreeNode implements Cloneable{
 		node.setText(right.getText());
 		node.setHrefTarget(right.getHrefTarget());
 		node.setLeaf(right.getLeaf());
+		node.setChecked(null);
 		node.setExpanded(right.getExpanded());
 		Set<Right>rights=right.getChildren();
 		if(rights.size()>0){
@@ -107,6 +108,21 @@ public class TreeNode implements Cloneable{
 		return node;
 	}
 	
+	public void visitTree(Set<Integer> ids){
+		if(children==null||children.isEmpty()){
+			return;
+		}
+		int size=children.size();
+		for(int i=0;i<size;i++){
+			TreeNode child=children.get(i);
+			if(ids.contains(child.getId())){
+				child.setChecked(true);
+			}else {
+				child.setChecked(false);
+			}
+			child.visitTree(ids);
+		}
+	}
 	
 	@Override
     public TreeNode clone(){
@@ -118,4 +134,5 @@ public class TreeNode implements Cloneable{
         }
         return treeNode;
     }
+	
 }

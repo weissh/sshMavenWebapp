@@ -10,6 +10,9 @@
             <column name="RightID" />
             <generator class="identity" />
         </id>
+        <property name="parentId" type="java.lang.Integer">
+            <column name="ParentID"  />
+        </property>
         <property name="text" type="java.lang.String">
             <column name="RightName" length="45" />
         </property>

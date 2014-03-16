@@ -17,6 +17,7 @@ public class Right implements java.io.Serializable,Cloneable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
+	private Integer parentId;
 	private String text;
 	private String hrefTarget;
 	private Boolean leaf;
@@ -49,6 +50,14 @@ public class Right implements java.io.Serializable,Cloneable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
 	}
 
 	public String getText() {

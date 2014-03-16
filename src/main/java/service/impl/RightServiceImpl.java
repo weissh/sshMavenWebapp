@@ -1,18 +1,24 @@
 package service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.alibaba.fastjson.JSONObject;
+import com.opensymphony.xwork2.ActionContext;
+
 import pojos.Right;
 import pojos.Role;
 import pojos.Staff;
 import service.RightService;
 import web.ui.TreeNode;
+import web.ui.TreeStore;
 import dao.RightDao;
 import dao.RoleDao;
 
@@ -40,14 +46,24 @@ public class RightServiceImpl extends GenericServiceImpl<Right> implements
 	}
 
 	@Override
-	public List<Right> getRightByRole() {
+	public TreeStore getRightByRole() {
+		
 		List<Right> tree = new ArrayList<Right>();
+		
+		List<Right> menus=new ArrayList<Right>();
+		Set<Right> rightList=new HashSet<Right>();
 		Set<Right> rights =  getRightByUser();
-		List<Right> menus = this.rightDao.findBySql("from Right where menu=1");
+		for(Right right:rights){
+			if(right.isMenu()){
+				menus.add(right);
+			}else{
+				rightList.add(right);
+			}
+		}
 		for (Right menu : menus) {
 			Right menuTemp=menu.clone();
 			menu.getChildren().clear();
-			for (Right right : rights) {
+			for (Right right : rightList) {
 				int rightId=right.getId();
 				System.out.println(rightId);
 				for(Right right2:menuTemp.getChildren()){
@@ -58,51 +74,54 @@ public class RightServiceImpl extends GenericServiceImpl<Right> implements
 			}
 			tree.add(menu);
 		}
-		return tree;
+		//==================
+		List<TreeNode> nodes=new ArrayList<TreeNode>();
+		TreeNode root=new TreeNode();
+		for(Right right:tree){
+			TreeNode node=TreeNode.toNode(right);
+			nodes.add(node);
+		}
+		root.setText("root");
+		root.setChecked(null);
+		root.setChildren(nodes);
+		TreeStore treeStore=new TreeStore();
+		treeStore.setRoot(root);
+		return treeStore;
 	}
 
 	@Override
-	public List<TreeNode> getCheckedTree() {
-		List<TreeNode> tree=new ArrayList<TreeNode>();
+	public List<TreeNode> getCheckedTree(int roleId) {
 		List<Right> rightMenu=this.rightDao.findBySql("from Right where menu=1");
 		List<TreeNode> nodes=new ArrayList<TreeNode>();
 		for(Right right:rightMenu){
 			TreeNode node=TreeNode.toNode(right);
 			nodes.add(node);
 		}
-		List<TreeNode> list=new ArrayList<TreeNode>();
-		Set<Right> userRights=getRightByUser();
-		for(Right right:userRights){
-			TreeNode node=TreeNode.toNode(right);
-			list.add(node);
-		}
-		for (TreeNode node : nodes) {
-			List<TreeNode> children=node.getChildren();
-			TreeNode nodeClone=node.clone();
-//			nodeClone.getChildren().clear();
-			for (TreeNode node2 : list) {
-				TreeNode node2Clone=node2.clone();
-				List<TreeNode> deList=new ArrayList<TreeNode>();
-				for(TreeNode node3:node.getChildren()){
-					if(node3.getId()==node2.getId()){
-						deList.add(node2);
-						node2Clone.setChecked(true);
-						children.add(node2Clone);
-					}
-				}
-//				children.add(node2Clone);
-				children.removeAll(deList);
+		TreeNode root=new TreeNode();
+		root.setChildren(nodes);
+		Set<Integer> rightIds=new HashSet<Integer>();
+		Set<Right> userRights=getRightByRoleId(roleId);
+		if(userRights!=null){
+			for(Right right:userRights){
+				rightIds.add(right.getId());
 			}
-			nodeClone.getChildren().addAll(children);
-			tree.add(nodeClone);
 		}
-		return nodes;
+		root.visitTree(rightIds);
+		TreeStore treeStore=new TreeStore();
+		treeStore.setRoot(root);
+		Map<String, Object> sessionMap=ActionContext.getContext().getSession();
+		sessionMap.put("treeStoreForRole", JSONObject.toJSONString(treeStore));
+		return root.getChildren();
 	}
 
 	private Set<Right> getRightByUser(){
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		Staff staff = (Staff) session.getAttribute("staff");
 		Role role = staff.getRole();
+		return role.getRights();
+	}
+	private Set<Right> getRightByRoleId(int roleId){
+		Role role=this.roleDao.find(roleId);
 		return role.getRights();
 	}
 }

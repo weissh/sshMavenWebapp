@@ -213,7 +213,7 @@ public class BaseAction extends ActionSupport implements Serializable {
 			jsonArray=JSONArray.fromObject(list,jsonConfig);
 			System.out.println(jsonArray.toString());
 		}
-		String jsonString ="{infoList:"+jsonArray.toString()+"}";
+		String jsonString =jsonArray.toString();
 		try{
 			this.getResponse().getWriter().write(jsonString);
 			this.getResponse().flushBuffer();

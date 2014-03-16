@@ -14,6 +14,7 @@ Ext.onReady(function(){
 	
 	//定义部门数据源，作为下拉列表的数据源
     var roleStore=new Ext.data.Store({
+    	autoLoad:true,
     	model:role,
     	proxy:{
         	type:'ajax',
@@ -26,11 +27,11 @@ Ext.onReady(function(){
         	}
         }
     });
-	
-    roleStore.load();
+//    roleStore.load();
+    var roleId=1;
 	//定义角色表格
 	var grid=Ext.create('Ext.grid.Panel', {
-		width:'40%',
+		width:'50%',
 		margins:'0 20 0 -1',
 		height:document.body.clientHeight,
 		bodyStyle:'border-width:0 1px 1px 0',
@@ -62,113 +63,19 @@ Ext.onReady(function(){
 		],
 		listeners:{
 			itemclick:function(view,rec,item,index,e,eOpts){
-                    roleForm.getForm().loadRecord(rec);
+				roleId= rec.get('roleId');
+				Ext.Ajax.request({
+					url:'right_getAll.action',
+					method:'POST',
+					params:{roleId:roleId},
+					dataType:'json', 
+					async:false
+				});
+				treeStore.reload();
             }
 		},
 		renderTo:Ext.getBody()
 	});
-	
-	//定义角色权限列表：复选框
-//	var authorityList={
-//		layout:'form',
-//		width:'100%',
-//		frame:false,
-//		border:false,
-//		bodyStyle: 'background:#dfe9f5',
-//		height:'100%',
-//		defaults:{
-//			columns:4
-//		},
-//		items:[{
-//			xtype:'checkboxgroup',
-//			fieldLabel:'基本信息 -个人',
-//			vertical:true,
-//			items:[
-//				{boxLabel:'查看',name:'personalInfo',inputValue:'1',checked:true},
-//				{boxLabel:'修改密码',name:'personalInfo',inputValue:'2'}
-//			]
-//		},{
-//			xtype:'checkboxgroup',
-//			fieldLabel:'基本信息 -部门',
-//			vertical:true,
-//			items:[
-//				{boxLabel:'查看',name:'departmentInfo',inputValue:'1',checked:true},
-//				{boxLabel:'导出',name:'departmentInfo',inputValue:'2'}
-//			]
-//		},{
-//			xtype:'checkboxgroup',
-//			fieldLabel:'工作日志 -个人',
-//			vertical:true,
-//			items:[
-//				{boxLabel:'查看',name:'personalJournal',inputValue:'1',checked:true},
-//				{boxLabel:'新建',name:'personalJournal',inputValue:'2'},
-//				{boxLabel:'导入',name:'personalJournal',inputValue:'3'},
-//				{boxLabel:'导出',name:'personalJournal',inputValue:'4'},
-//				{boxLabel:'修改',name:'personalJournal',inputValue:'5'},
-//				{boxLabel:'查找',name:'personalJournal',inputValue:'6'}
-//			]
-//		},{
-//			xtype:'checkboxgroup',
-//			fieldLabel:'工作日志 -部门',
-//			vertical:true,
-//			items:[
-//				{boxLabel:'查看',name:'departmentJournal',inputValue:'1',checked:true},
-//				{boxLabel:'新建',name:'departmentJournal',inputValue:'2'},
-//				{boxLabel:'导入',name:'departmentJournal',inputValue:'3'},
-//				{boxLabel:'导出',name:'departmentJournal',inputValue:'4'},
-//				{boxLabel:'修改',name:'departmentJournal',inputValue:'5'},
-//				{boxLabel:'删除',name:'departmentJournal',inputValue:'6'},
-//				{boxLabel:'查找',name:'departmentJournal',inputValue:'7'}
-//			]
-//		},{
-//			xtype:'checkboxgroup',
-//			fieldLabel:'费用支出 -个人',
-//			vertical:true,
-//			items:[
-//				{boxLabel:'查看',name:'personalCost',inputValue:'1',checked:true},
-//				{boxLabel:'新建',name:'personalCost',inputValue:'2'},
-//				{boxLabel:'导入',name:'personalCost',inputValue:'3'},
-//				{boxLabel:'导出',name:'personalCost',inputValue:'4'},
-//				{boxLabel:'修改',name:'personalCost',inputValue:'5'},
-//				{boxLabel:'查找',name:'personalCost',inputValue:'6'}
-//			]
-//		},{
-//			xtype:'checkboxgroup',
-//			fieldLabel:'费用支出 -部门',
-//			vertical:true,
-//			items:[
-//				{boxLabel:'查看',name:'departmentCost',inputValue:'1',checked:true},
-//				{boxLabel:'新建',name:'departmentCost',inputValue:'2'},
-//				{boxLabel:'导入',name:'departmentCost',inputValue:'3'},
-//				{boxLabel:'导出',name:'departmentCost',inputValue:'4'},
-//				{boxLabel:'修改',name:'departmentCost',inputValue:'5'},
-//				{boxLabel:'删除',name:'departmentCost',inputValue:'6'},
-//				{boxLabel:'查找',name:'departmentCost',inputValue:'7'}
-//			]
-//		},{
-//			xtype:'checkboxgroup',
-//			fieldLabel:'系统管理 -用户',
-//			vertical:true,
-//			items:[
-//				{boxLabel:'查看',name:'userManage',inputValue:'1',checked:true},
-//				{boxLabel:'新增',name:'userManage',inputValue:'2'},
-//				{boxLabel:'导出',name:'userManage',inputValue:'3'},
-//				{boxLabel:'修改',name:'userManage',inputValue:'4'},
-//				{boxLabel:'删除',name:'userManage',inputValue:'5'},
-//				{boxLabel:'查找',name:'userManage',inputValue:'6'}
-//			]
-//		},{
-//			xtype:'checkboxgroup',
-//			fieldLabel:'系统管理 -角色',
-//			vertical:true,
-//			items:[
-//				{boxLabel:'查看',name:'roleManage',inputValue:'1',checked:true},
-//				{boxLabel:'新增',name:'roleManage',inputValue:'2'},
-//				{boxLabel:'修改',name:'roleManage',inputValue:'3'},
-//				{boxLabel:'删除',name:'roleManage',inputValue:'4'}
-//			]
-//		}]
-//	};
 	
 	//定义角色基本信息
 	var roleInfo={
@@ -209,60 +116,26 @@ Ext.onReady(function(){
 			allowBlank : false
 		}]
 	}
-	
-	//定义角色信息表单：包括角色基本信息以及其权限信息
-//	var roleForm=Ext.create('Ext.form.Panel', {
-//		frame:false,
-//		border:true,
-//		bodyStyle: 'background:#dfe9f5;border-width:1px 0 0 1px',
-//		width:'59.9%',
-//		bodyPadding:'5px 40px 0 40px',
-//		height:'100%',
-//		items:[roleInfo,authorityList],
-//		dockedItems: [{
-//	        xtype: 'toolbar',
-//	        margin:'-1 -1 0 0',
-//	        dock: 'top',
-//	        items:[
-//				{xtype:'button',text:'保存',iconCls: 'save',handler:saveRoleInfo}
-//			]
-//	    }]
-//	});
-	
-//	var record=grid.getStore().getAt(0);
-//	roleForm.getForm().loadRecord(record);
-
-	var children;
+//	
 	Ext.Ajax.request({
-		
 		url:'right_getAll.action',
 		method:'POST',
+		params:{roleId:roleId},
 		dataType:'json', 
-		async:false,
-		success:function(response,options){
-			var result=Ext.JSON.decode(response.responseText);
-			children=result.infoList;
-		}
+		async:false
 	});
+//		success:function(response,options){
+//			var result=Ext.JSON.decode(response.responseText);
+//			children=result.infoList;
+//		}
+//	});
 
-
-	
-	var treeStore = Ext.create('Ext.data.TreeStore', {
-		autoLoad:true,
-		root : {
-            expanded : false,
-	        children:children
-		},
-		fields:['id','text'],
-		sorters: [{
-             property: 'id',
-             direction: 'ASC'
-         }]
-
-	});
+	var treeStore=new Ext.data.TreeStore(eval(storeForRole));
+	treeStore.sort('id','ASC');
+          
 	var tree=Ext.create('Ext.tree.Panel', {
-		title:'权限列表',
-	    width: '59.9%',
+		title:'设置角色权限',
+	    width: '49.9%',
 	    height: '100%',
 	    margin:'-1 -1 -1 0',
 	    store: treeStore,
@@ -284,7 +157,7 @@ Ext.onReady(function(){
 		                 record.expand();
 		                 record.expandChildren();
 		             } else {
-		                 record.collapse();
+//		                 record.collapse();
 		                 record.collapseChildren();
 		                 record.cascadeBy(function(node) {
 		                     node.set('checked', false);
@@ -309,18 +182,21 @@ Ext.onReady(function(){
 		         }
 		     }
 		},
+		bbar:['->',
+			{xtype:'button',text:'保存',iconCls: 'role_add',handler:saveRight}
+		],
 	    renderTo: Ext.getBody()
 	});
-	
-	tree.on('checkchange', function(node, checked) {   
-		node.expand();   
-		node.attributes.checked = checked;   
-		node.eachChild(function(child) {   
-			child.ui.toggleCheck(checked);   
-			child.attributes.checked = checked;   
-			child.fireEvent('checkchange', child, checked);   
-		});   
-	}, tree);
+//	
+//	tree.on('checkchange', function(node, checked) {   
+//		node.expand();   
+//		node.attributes.checked = checked;   
+//		node.eachChild(function(child) {   
+//			child.ui.toggleCheck(checked);   
+//			child.attributes.checked = checked;   
+//			child.fireEvent('checkchange', child, checked);   
+//		});   
+//	}, tree);
     
 	//定义另一个表单，用于新增、修改角色信息；定义角色信息表单：包括角色基本信息以及其权限信息,
 	var form=top.Ext.create('Ext.form.Panel',{
@@ -365,7 +241,7 @@ Ext.onReady(function(){
 		constrainHeader:true,
 		plain:true,
 		modal:true,
-		items:[form]
+		items:[form,tree]
 	});
 
 	//增加角色
@@ -462,4 +338,27 @@ Ext.onReady(function(){
 		bodyStyle: 'background:#f0f0f0',
 		items:[grid,tree]
 	});
+	
+	function saveRight(){
+		var check=tree.getChecked();
+		var ids=new Array();
+		var rightIds;
+		Ext.each(check,function(node){
+			ids.push(node.get('id'));
+		});
+		rightIds=ids.join(',');
+		alert(rightIds);
+		Ext.Ajax.request({
+			url:'role_saveRight.action',
+			method:'POST',
+			params:{rightIds:rightIds},
+			success:function(response,options){
+    			if(result.success){
+    				top.Ext.Msg.show({title:'提示', msg:'保存角色权限成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+    			}else{
+    				top.Ext.Msg.show({title:'提示', msg:'保存角色权限失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+    			}
+    		}
+		});
+	}
 });

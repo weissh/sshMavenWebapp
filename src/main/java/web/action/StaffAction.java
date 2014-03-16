@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -29,14 +30,20 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.util.ServletContextAware;
 import org.hibernate.Hibernate;
 
+import com.opensymphony.xwork2.ActionContext;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
 import pojos.Department;
 import pojos.Role;
 import pojos.Staff;
 import service.DepartmentService;
+import service.RightService;
 import service.RoleService;
 import service.StaffService;
+import web.ui.TreeStore;
 
 import common.ObjectJsonValueProcessor;
 
@@ -48,6 +55,7 @@ public class StaffAction extends BaseAction{
 	private StaffService staffService;
 	private DepartmentService departmentService;
 	private RoleService roleService;
+	private RightService rightService;
 	
 	/**前端表单的所有字段 */
 	private String staffIds;
@@ -109,7 +117,12 @@ public class StaffAction extends BaseAction{
 		this.roleService = roleService;
 	}
 	
-	
+	public RightService getRightService() {
+		return rightService;
+	}
+	public void setRightService(RightService rightService) {
+		this.rightService = rightService;
+	}
 	/**前端表单所有字段的get和set方法 */
 	public String getStaffIds() {
 		return staffIds;
@@ -577,16 +590,42 @@ public class StaffAction extends BaseAction{
 	
 	public String login(){
 //		ServletContext context= ServletActionContext.getRequest().getSession().getServletContext();
-		HttpSession session=ServletActionContext.getRequest().getSession();
-		Staff staff=this.staffService.getStaffByUserNamePwd(userName, password);
-		if(staff!=null){
-			System.out.println(staff.getStaffName());
-			session.setAttribute("staff", staff);
-			session.setAttribute("staffName", staff.getStaffName());
+//		HttpSession session=ServletActionContext.getRequest().getSession();
+//		Map<String, Object> sessionMap=ActionContext.getContext().getSession();
+//		Staff staff=this.staffService.getStaffByUserNamePwd(userName, password);
+		if(this.staffService.login(userName, password)){
+//			System.out.println(staff.getStaffName());
+//			session.setAttribute("staff", staff);
+//			session.setAttribute("staffName", staff.getStaffName());
+////			TreeStore treeStore=this.rightService.getRightByRole(staff.getRole().getRoleId());
+////			sessionMap.put("treeStore", treeStore);
+//			session.setAttribute("roleId",staff.getRole().getRoleId());
 			this.printString(true, "index.jsp");
 		}else{
 			this.printString(false, "");
 		}
+		return null;
+	}
+	
+	public String getCurrentStaff(){
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		Staff staff =(Staff)session.getAttribute("staff");
+		JsonConfig jsonConfig=new JsonConfig();
+		//改变所有Date字段的形式为"yyyy--MM--dd"
+		jsonConfig.registerJsonValueProcessor(Date.class, new ObjectJsonValueProcessor("yyyy-MM-dd"));
+		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
+			@Override
+			public boolean apply(Object arg0, String arg1, Object arg2) {
+				if(arg1.equals("costs")||arg1.equals("department")||arg1.equals("role")||arg1.equals("journals")){
+					return true;
+				}else{
+					return false;
+				}
+			}
+		});
+		JSONObject jsonObject=new JSONObject();
+		jsonObject=JSONObject.fromObject(staff,jsonConfig);
+		this.printString(true, jsonObject.toString());
 		return null;
 	}
 }

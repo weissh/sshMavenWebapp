@@ -14,16 +14,24 @@
  */
 package web.action;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
+
+import com.alibaba.fastjson.JSONObject;
+import com.opensymphony.xwork2.ActionContext;
+
 
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
 import pojos.Right;
 import service.RightService;
 import web.ui.TreeNode;
+import web.ui.TreeStore;
+
 
 public class RightAction extends BaseAction {
 
@@ -33,8 +41,7 @@ public class RightAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 
 	private RightService rightService;
-	
-	
+	private int roleId;
 	public RightService getRightService() {
 		return rightService;
 	}
@@ -44,10 +51,18 @@ public class RightAction extends BaseAction {
 		this.rightService = rightService;
 	}
 
+	public int getRoleId() {
+		return roleId;
+	}
+
+
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
+	}
+
 
 	public String getAllRight(){
-		List<TreeNode> list=this.rightService.getCheckedTree();
-		List<Right> rights=(ArrayList<Right>) this.rightService.findBysql("from Right where menu=1");
+		List<TreeNode> nodes=this.rightService.getCheckedTree(roleId);
 		JsonConfig jsonConfig =new JsonConfig();
 //		jsonConfig.registerJsonValueProcessor(Resource.class, new ObjectJsonValueProcessor(new String[]{"url"}, Resource.class));
 		/** 同样是为了避免出现hibernate死循环，过滤掉引起死循环的整个对象，不需要任何字段 */
@@ -61,13 +76,13 @@ public class RightAction extends BaseAction {
 				}
 			}
 		});
-		this.printList(rights,jsonConfig);
-		
+		this.printList(nodes,jsonConfig);
 		return null;
 	}
 	
 	public String getRightByRole(){
-		List<Right> rights=this.rightService.getRightByRole();
+		TreeStore treeStore=this.rightService.getRightByRole();
+//		List<Right> rights=this.rightService.getRightByRole();
 		JsonConfig jsonConfig =new JsonConfig();
 		/** 同样是为了避免出现hibernate死循环，过滤掉引起死循环的整个对象，不需要任何字段 */
 		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
@@ -80,7 +95,11 @@ public class RightAction extends BaseAction {
 				}
 			}
 		});
-		this.printList(rights,jsonConfig);
+		Map<String, Object> sessionMap=ActionContext.getContext().getSession();
+		HttpSession session =ServletActionContext.getRequest().getSession();
+		session.setAttribute("1", JSONObject.toJSONString(treeStore));
+		sessionMap.put("treeStore", JSONObject.toJSONString(treeStore));
+		this.printString(JSONObject.toJSONString(treeStore));
 		return null;
 	}
 	

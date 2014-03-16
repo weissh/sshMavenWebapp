@@ -190,6 +190,7 @@
 	<bean id="rightService" class="service.impl.RightServiceImpl">
 		<property name="genericDao" ref="rightDao"/>
 		<property name="rightDao" ref="rightDao"/>
+		<property name="roleDao" ref="roleDao"/>
 	</bean>
 	
 	<!-- 配置resourceService -->
