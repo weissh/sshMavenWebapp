@@ -1,5 +1,6 @@
 package pojos;
 
+
 import java.util.Date;
 
 /**
@@ -12,13 +13,13 @@ public class Cost implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer costId;
+	private int costId;
 	private Staff staff;
 	private Date recordDate;
 	private Date executeDate;
 	private String payWay;
 	private String currency;
-	private Integer money;
+	private float money;
 	private String costUnitName;
 	private String costCountry;
 	private String costProvince;
@@ -27,7 +28,8 @@ public class Cost implements java.io.Serializable {
 	private String costContactPosition;
 	private String costContactPhone;
 	private String costContactEmail;
-	private String useDescription;
+	private String usage1;	
+	private String description1;	
 	private String prop1;
 	private String prop2;
 	private String prop3;
@@ -46,15 +48,15 @@ public class Cost implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Cost(Staff staff, Date recordDate, Date executeDate, String payWay,
-			String currency, Integer money, String costUnitName,
+	public Cost(Staff staff,Date executeDate, String payWay,
+			String currency, float money, String costUnitName,
 			String costCountry, String costProvince, String costAddress,
 			String costContactName, String costContactPosition,
 			String costContactPhone, String costContactEmail,
-			String useDescription, String prop1, String prop2, String prop3,
+			String usage1,String description1, String prop1, String prop2, String prop3,
 			String prop4, String prop5) {
 		this.staff = staff;
-		this.recordDate = recordDate;
+		this.recordDate = new Date();
 		this.executeDate = executeDate;
 		this.payWay = payWay;
 		this.currency = currency;
@@ -67,7 +69,8 @@ public class Cost implements java.io.Serializable {
 		this.costContactPosition = costContactPosition;
 		this.costContactPhone = costContactPhone;
 		this.costContactEmail = costContactEmail;
-		this.useDescription = useDescription;
+		this.usage1 = usage1;
+		this.description1 = description1;
 		this.prop1 = prop1;
 		this.prop2 = prop2;
 		this.prop3 = prop3;
@@ -75,13 +78,36 @@ public class Cost implements java.io.Serializable {
 		this.prop5 = prop5;
 	}
 
+	public Cost(Staff staff, Date executeDate, String payWay,
+			String currency, float money, String costUnitName,
+			String costCountry, String costProvince, String costAddress,
+			String costContactName, String costContactPosition,
+			String costContactPhone, String costContactEmail,
+			String usage1,String description1) {
+		this.staff = staff;
+		this.recordDate = new Date();
+		this.executeDate = executeDate;
+		this.payWay = payWay;
+		this.currency = currency;
+		this.money = money;
+		this.costUnitName = costUnitName;
+		this.costCountry = costCountry;
+		this.costProvince = costProvince;
+		this.costAddress = costAddress;
+		this.costContactName = costContactName;
+		this.costContactPosition = costContactPosition;
+		this.costContactPhone = costContactPhone;
+		this.costContactEmail = costContactEmail;
+		this.usage1 = usage1;
+		this.description1 = description1;
+	}
 	// Property accessors
 
-	public Integer getCostId() {
+	public int getCostId() {
 		return this.costId;
 	}
 
-	public void setCostId(Integer costId) {
+	public void setCostId(int costId) {
 		this.costId = costId;
 	}
 
@@ -125,11 +151,11 @@ public class Cost implements java.io.Serializable {
 		this.currency = currency;
 	}
 
-	public Integer getMoney() {
+	public float getMoney() {
 		return this.money;
 	}
 
-	public void setMoney(Integer money) {
+	public void setMoney(float money) {
 		this.money = money;
 	}
 
@@ -196,15 +222,18 @@ public class Cost implements java.io.Serializable {
 	public void setCostContactEmail(String costContactEmail) {
 		this.costContactEmail = costContactEmail;
 	}
-
-	public String getUseDescription() {
-		return this.useDescription;
+	public String getUsage1() {
+		return usage1;
 	}
-
-	public void setUseDescription(String useDescription) {
-		this.useDescription = useDescription;
+	public void setUsage1(String usage1) {
+		this.usage1 = usage1;
 	}
-
+	public String getDescription1() {
+		return description1;
+	}
+	public void setDescription1(String description1) {
+		this.description1 = description1;
+	}
 	public String getProp1() {
 		return this.prop1;
 	}
