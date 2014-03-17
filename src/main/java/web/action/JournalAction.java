@@ -1,5 +1,6 @@
 package web.action;
 
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -7,7 +8,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
+import org.apache.struts2.ServletActionContext;
+
+import common.ExcelUtil;
 import common.ObjectJsonValueProcessor;
 
 import pojos.Department;
@@ -15,17 +20,54 @@ import pojos.Journal;
 import pojos.Staff;
 import service.JournalService;
 import service.StaffService;
+import web.ui.JournalUI;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
 
 public class JournalAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
-
-	/** 获取对日志进行增、改、查操作所需要的服务 */
+	
+	/** 获取对日志进行增、改、查操作所需要的服务,以及get和set方法 */
 	private JournalService journalService;
 	private StaffService staffService;
+	
+	public JournalService getJournalService() {
+		return journalService;
+	}
 
-	/** 前端表单的所有字段 */
+	public void setJournalService(JournalService journalService) {
+		this.journalService = journalService;
+	}
+
+	public StaffService getStaffService() {
+		return staffService;
+	}
+
+	public void setStaffService(StaffService staffService) {
+		this.staffService = staffService;
+	}
+	
+	/** 导出excel表时的输入流、文件名称;以及get和set方法  */
+	private InputStream excelStream;
+	private String fileName;
+
+	public InputStream getExcelStream() {
+		return ServletActionContext.getServletContext().getResourceAsStream("excel/"+this.fileName);
+	}
+
+	public void setExcelStream(InputStream excelStream) {
+		this.excelStream = excelStream;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	/** 前端表单的所有字段，以及get和set方法 */
 	private int workId;
 	private String workIds;
 	private int staffId;
@@ -37,6 +79,7 @@ public class JournalAction extends BaseAction {
 	private Date endDate;
 	private String staffName;
 	private Date executeDate;
+	private Date recordDate;
 	private String operateMode;
 	private String unitName;
 	private String country;
@@ -53,24 +96,6 @@ public class JournalAction extends BaseAction {
 	private String endTime;
 	private String workContent;
 
-	/** 各种服务相对应的get和set方法 */
-	public JournalService getJournalService() {
-		return journalService;
-	}
-
-	public void setJournalService(JournalService journalService) {
-		this.journalService = journalService;
-	}
-
-	public StaffService getStaffService() {
-		return staffService;
-	}
-
-	public void setStaffService(StaffService staffService) {
-		this.staffService = staffService;
-	}
-
-	/** 前端表单所有字段的get和set方法 */
 	public int getWorkId() {
 		return workId;
 	}
@@ -157,6 +182,14 @@ public class JournalAction extends BaseAction {
 
 	public void setExecuteDate(Date executeDate) {
 		this.executeDate = executeDate;
+	}
+
+	public Date getRecordDate() {
+		return recordDate;
+	}
+
+	public void setRecordDate(Date recordDate) {
+		this.recordDate = recordDate;
 	}
 
 	public String getOperateMode() {
@@ -406,5 +439,41 @@ public class JournalAction extends BaseAction {
 		this.journalService.removeAll(journals);
 		this.printString(true, "");
 		return null;
+	}
+	
+	//导出日志
+	public String exportJour() throws Exception{
+		System.out.println(workIds);
+		List<Journal> journals= new ArrayList<Journal>();
+		if(workIds.equals("")){
+			journals = this.journalService.findAll();
+		}else{
+			/**如果有多个id，则获取到的departmentIds格式是：id1,id2,id3,id4.... */
+			String[] str=this.workIds.split(",");
+			
+			/**遍历id，并实例化类型，在add到List */
+			for(int i=0;i<str.length;i++){
+				Journal journal = this.journalService.find(Integer.parseInt(str[i]));
+				journals.add(journal);
+			}
+		}
+		Vector<String> head=JournalUI.getHead();
+		List<Vector<String>> dataList=JournalUI.getDataList(journals);
+		String downLoadPath =ServletActionContext.getServletContext().getRealPath("/")+"excel\\";
+		String fileName=ExcelUtil.createFileName("Journal")+".xls";
+		if(ExcelUtil.printExcel(head, dataList, downLoadPath+fileName)){
+			download(fileName);
+			//System.out.println(ServletActionContext.getServletContext().getRealPath("excel/Department201402131756458884286.xls"));
+			return "success";
+		}else {
+			this.printString(false, "");
+		}
+		
+		return null;
+	}
+	
+	public void download(String fileName) throws Exception{
+		this.fileName=fileName;
+		this.excelStream=ServletActionContext.getServletContext().getResourceAsStream("excel/"+fileName);
 	}
 }
