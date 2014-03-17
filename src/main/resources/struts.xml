@@ -137,6 +137,14 @@
 		<action name="jour_getAll" method="getAllJour" class="journalAction" >
 		<result name="success" type="json"/>
 		</action>
+		<action name="jour_export" method="exportJour" class="journalAction" >
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">excelStream</param>
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
 	</package>
 	<!-- smz_end -->
 	
