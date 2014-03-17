@@ -315,6 +315,7 @@ Ext.onReady(function() {
 		border:false,
 		layout:'fit',
 		store:journalStore,
+		selModel:{selType:'checkboxmodel'},
 		viewConfig:{
 			forceFit:true
 		},
@@ -462,7 +463,6 @@ Ext.onReady(function() {
 					store : country,
 					typeAhead : true,
 					name:'country',
-					value:'CN',
 					listeners:{        
                         select : function(combo, record, index){   
                         // 清除省市下拉框的现存值
