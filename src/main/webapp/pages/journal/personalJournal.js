@@ -599,22 +599,12 @@ Ext.onReady(function() {
     	var record=grid.getSelectionModel().getSelection();
 		if (record.length==1) {
 			var recorddate=record[0].get("recordDate");
-			var today=new Date();
-			var yesterday=new Date(2014,3,17);
-			alert(recorddate);
-			//alert(today-yesterday);
-			//alert("today:"+today);
-			if(recorddate==today){
-				form.form.reset();
+			form.form.reset();
 	    	form.isAdd=false;
 	    	form.getForm().findField('staffId').setReadOnly(true);
 	    	win.setTitle('修改日志');
 	    	win.show();
-			form.getForm().loadRecord(record[0]);
-			}else{
-				top.Ext.Msg.show({title:'错误', msg:'不可修改今天之前的日志！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
-			}
-						
+			form.getForm().loadRecord(record[0]);						
 		} else {
 			top.Ext.Msg.show({title:'错误', msg:'请仅选择一条记录进行编辑！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
 		}
