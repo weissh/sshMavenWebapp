@@ -78,15 +78,38 @@ Ext.onReady(function(){
         }
     });
     
+    
+    //定义员工数据类型，作为下拉列表框
+    Ext.define('roleForSelector', {
+        extend: 'Ext.data.Model',
+        fields:[
+        	{name:'roleId'},
+        	{name:'roleName'}
+    	]
+	});
+	
     //定义角色数据源，作为下拉列表的数据源
     var role=new Ext.data.Store({
-        fields:['id','name'],
-        data:[
-            {'id':'1','name':'员工'},
-	        {'id':'2','name':'部门经理'},
-	        {'id':'3','name':'总经理'},
-	        {'id':'4','name':'管理员'}
-        ]
+        model:roleForSelector,
+        proxy:{
+        	type:'ajax',
+        	url:'role_getForSelector.action',
+        	method:'POST',
+        	reader:{
+        		type:'json',
+        		root:'infoList',
+        		idProperty:'roleId'
+        	}
+        },
+        listeners:{
+        	load:function(store,records,options){
+        		var rs=Ext.ModelMgr.create({
+        			roleId:0,
+        			roleName:"所有角色"
+        		},'roleForSelector');
+        		store.insert(0,rs);
+        	}
+        }
     });
 
     //定义数据源，作为下拉列表的数据源
@@ -182,11 +205,13 @@ Ext.onReady(function(){
             {name: 'photoImg'},
             {name: 'staffName'},
             //mapping 用于获取嵌套json中的摸个属性
-            {name: 'departmentId', type: 'int',mapping:'department.departmentId'},
+            {name: 'departmentId', type: 'int'},
+            {name: 'departmentName'},
             {name: 'position'},
             {name: 'entryTime', type: 'date', dateFormat: 'Y-m-d'},
             {name: 'phone'},
             {name: 'roleId', type: 'int'},
+            {name: 'roleName'},
             {name: 'password'},
             {name: 'gender'},
             {name: 'age', type: 'int'},
@@ -234,6 +259,7 @@ Ext.onReady(function(){
     
 	dept.load();
 	staff.load();
+	role.load();
 	//创建工具栏表单，作为grid的上工具栏
 	var formForTbar=new Ext.form.FormPanel({
 		border:false,
@@ -247,7 +273,6 @@ Ext.onReady(function(){
         	valueField:'departmentId',
         	displayField:'departmentName',
         	triggerAction : 'all',
-        	value:0,
             typeAhead:true,
             width:150,
             labelWidth:30,
@@ -272,7 +297,6 @@ Ext.onReady(function(){
             valueField:'staffId',
         	displayField:'staffName',
         	triggerAction : 'all',
-        	value:0,
             typeAhead:true,
             width:150,
             labelWidth:30,
@@ -283,8 +307,8 @@ Ext.onReady(function(){
             name:'roleCombo',
             store:role,
             fieldLabel:'<b>角色</b>',
-            valueField:'id',
-            displayField:'name',
+            valueField:'roleId',
+            displayField:'roleName',
             forceSelection:true,
             typeAhead:true,
             width:150,
@@ -308,7 +332,7 @@ Ext.onReady(function(){
         	{xtype:'button',text:'新增',iconCls: 'user_add',handler:addStaffInfo},
             {xtype:'button',text:'修改',iconCls: 'user_edit',handler:editStaffInfo},
             {xtype:'button',text:'删除',iconCls: 'user_delete',handler:deleteStaffInfo},
-            {xtype:'button',text:'导出',iconCls:'file_export'}
+            {xtype:'button',text:'导出',iconCls:'file_export',handler:exportStaffInfo}
 		]
 	});
 	
@@ -330,22 +354,23 @@ Ext.onReady(function(){
             {text: "工号", width: 120, sortable: true,dataIndex: 'staffId'},
             {text: "姓名", flex: 1, sortable: true, dataIndex: 'staffName'},
             {text: "照片路径", width: 120, sortable: true,dataIndex: 'photoImg',hidden:true},
+            {text: "部门编号", width: 120, sortable: true,dataIndex: 'departmentId',hidden:true},
             {
             	text: "部门", 
             	width: 120, 
             	sortable: true, 
-            	dataIndex: 'departmentId',
-            	renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-            		var index=dept.find('departmentId',value);
-            		var record=dept.getAt(index);
-            		var text="";
-            		if(record==null){
-            			text=value;
-            		}else{
-            			text=record.data['departmentName'];
-            		}
-            		return text;
-            	}
+            	dataIndex: 'departmentName'
+//            	renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
+//            		var index=dept.find('departmentId',value);
+//            		var record=dept.getAt(index);
+//            		var text="";
+//            		if(record==null){
+//            			text=value;
+//            		}else{
+//            			text=record.data['departmentName'];
+//            		}
+//            		return text;
+//            	}
         	},
             {
             	text: "职务",
@@ -360,15 +385,22 @@ Ext.onReady(function(){
         	},
             {text: "入职时间", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('Y-m-d'), dataIndex: 'entryTime'},
             {text: "联系电话", width: 120, sortable: true, dataIndex: 'phone'},
+            {text: "角色编号", width: 120, sortable: true, dataIndex: 'roleId',hidden:true},
             {
             	text: "角色", 
             	width: 120, 
             	sortable: true, 
-            	dataIndex: 'roleId'
+            	dataIndex: 'roleName'
 //            	renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-//            		var index=role.find('id',value);
+//            		var index=role.find('roleId',value);
 //            		var record=role.getAt(index);
-//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
+//            		var text="";
+//            		if(record==null){
+//            			text=value;
+//            		}else{
+//            			text=record.data['roleName'];
+//            		}
+//            		return text;
 //            	}
         	},
             {text: "密码", width: 120, sortable: true, dataIndex: 'password'},
@@ -522,9 +554,9 @@ Ext.onReady(function(){
                     	xtype: 'combo',
                     	name: 'roleId',
                     	store:role,
-                    	valueField:'id',
-                    	displayField:'name',
-                    	value:'1',
+                    	valueField:'roleId',
+                    	displayField:'roleName',
+                    	value:1,
                     	allowBlank: false
                 	},
                     {width:'33%',fieldLabel: '密码',name: 'password',margins:'0 4 0 0',value:'123',allowBlank: false}
@@ -784,7 +816,7 @@ Ext.onReady(function(){
     	var record=grid.getSelectionModel().getSelection();
 		if (record.length==1) {
 			form.form.reset();
-			//form.getForm().findField('email').setReadOnly (true);
+			form.getForm().findField('password').setReadOnly (true);
 	    	form.isAdd=false;
 	    	win.setTitle('修改用户');
 	    	win.show();
@@ -878,7 +910,7 @@ Ext.onReady(function(){
 						top.Ext.Msg.show({title:'提示', msg:'修改员工成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
 					},
 					failure:function(form,action){
-						top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+						top.Ext.Msg.show({title:'提示', msg:"请联系管理员！",icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
 					}
 	    		});
 	    	}
@@ -901,10 +933,12 @@ Ext.onReady(function(){
     			photoImg:values['photoImg'],
     			staffName:values['staffName'],
     			departmentId:values['departmentId'],
+    			department:values['department'],
     			position:values['position'],
     			entryTime:values['entryTime'],
     			phone:values['phone'],
     			roleId:values['roleId'],
+    			role:values['role'],
     			password:values['password'],
     			gender:values['gender'],
     			age:values['age'],
@@ -933,6 +967,30 @@ Ext.onReady(function(){
     	staffStore.reload();
     };
     
+    //导出部门信息到excel
+    function exportStaffInfo(){
+    	var records=grid.getSelectionModel().getSelection();
+    	var msg;
+    	var staffIds="";
+    	if(records.length==0){
+    		msg="您确定要导出所有的员工信息吗？";
+    	}else{
+    		msg="您确定要导出所选的员工信息吗？";
+    		for(var i=0;i<records.length;i++){
+    			var id=records[i].get('staffId');
+    			if(i==0){
+    				staffIds+=id;
+    			}else{
+    				staffIds=staffIds+","+id;
+    			}
+    		}
+    	}
+    	top.Ext.Msg.confirm('提示',msg,function(btnID){
+    		if(btnID='yes'){
+    			window.location.href='byjx/staff_export.action?staffIds='+staffIds;
+    		}
+    	});
+    }
     //用于渲染grid中的与form中下拉列表框对应的值，使其显示的是name字段而不是id字段
     function getText(record){
     	var text="";

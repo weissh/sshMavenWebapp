@@ -57,6 +57,14 @@
 		<action name="staff_login" method="login" class="staffAction" >
 			<result name="success" type="json"/>
 		</action>
+		<action name="staff_export" method="exportStaff" class="staffAction" >
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel,charset=ISO8859-1</param>
+				<param name="inputName">excelStream</param>
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
 	</package>
 	
 	<package name="resource" extends="json-default" >
@@ -91,6 +99,9 @@
 			<result name="success" type="json"/>
 		</action>
 		<action name="role_getForSelector" method="getRoleForSelector" class="roleAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="role_saveRight" method="saveRights" class="roleAction" >
 			<result name="success" type="json"/>
 		</action>
 	</package>

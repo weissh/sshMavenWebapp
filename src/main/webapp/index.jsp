@@ -35,13 +35,12 @@ var ob=eval('('+'${treeStore}'+')');
         <p align="right">south - generally for informational stuff, also could be for status bar</p>
     </div>
     <div id="north" class="x-hide-display">
-        <p align="right"><strong>用户名：</strong><%=staffName==null?"":staffName%>${treeStoreForRole}
+        <p align="right"><strong>用户名：</strong><%=staffName==null?"":staffName%>
         <%if(staffName!=null){%>
         <strong><a href="">注销</a></strong>
         <%}%>
         </p>
 
     </div>
-    <input type="hidden" name="hidden" id="hidden" value="${treeStore}"/>
   </body>
 </html>

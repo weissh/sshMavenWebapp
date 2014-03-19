@@ -17,25 +17,20 @@ package web.action;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.Vector;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
-import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.util.ServletContextAware;
-import org.hibernate.Hibernate;
-
-import com.opensymphony.xwork2.ActionContext;
-
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
+
+import org.apache.struts2.ServletActionContext;
+
 import pojos.Department;
 import pojos.Role;
 import pojos.Staff;
@@ -43,8 +38,10 @@ import service.DepartmentService;
 import service.RightService;
 import service.RoleService;
 import service.StaffService;
-import web.ui.TreeStore;
+import web.ui.StaffModel;
+import web.ui.StaffUI;
 
+import common.ExcelUtil;
 import common.ObjectJsonValueProcessor;
 
 public class StaffAction extends BaseAction{
@@ -96,6 +93,11 @@ public class StaffAction extends BaseAction{
 	private String ucPhone;
 	private String zipCode;
 	
+	/** 导出excel表时的输入流、文件名称;以及get和set方法  */
+	@SuppressWarnings("unused")
+	private InputStream excelStream;
+	private String fileName;
+
 	
 	/** 各种服务相对应的get和set方法 */
 	public StaffService getStaffService() {
@@ -347,6 +349,21 @@ public class StaffAction extends BaseAction{
 		this.zipCode = zipCode;
 	}
 	
+	public InputStream getExcelStream() {
+		return ServletActionContext.getServletContext().getResourceAsStream("excel/"+this.fileName);
+	}
+
+	public void setExcelStream(InputStream excelStream) {
+		this.excelStream = excelStream;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 	/**
 	 *
 	 * @Description:上传员工照片时，获取保存照片的路径
@@ -384,8 +401,9 @@ public class StaffAction extends BaseAction{
 	 */
 	public String addStaff() throws Exception{
 		Department department =this.departmentService.find(departmentId);
-//		Role role =this.roleService.find(Role.class, roleId);
-		Staff staff=new Staff(department, null, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, null, password, null, null, null, null, null, null, null, null);
+		System.out.println(roleId);
+		Role role =this.roleService.find(roleId);
+		Staff staff=new Staff(department, null, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, null, password, null, null, null, null, null, null, role, null);
 		savePhoto(staff);
 		int staffId=this.staffService.save(staff);
 		this.printString(true, staffId+"");
@@ -447,11 +465,12 @@ public class StaffAction extends BaseAction{
 	 */
 	public String updateStaff(){
 		Department department =this.departmentService.find(departmentId);
-//		Role role =this.roleService.find(Role.class, roleId);
+		Role role =this.roleService.find(roleId);
 		Staff staff=new Staff(department, photo, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, password);
 		staff.setStaffId(staffId);
+		staff.setRole(role);
 		/**将对象从瞬时状态改成脱管状态（merge），之后再更新（update）*/
-		this.staffService.update(this.staffService.merge(staff));
+		this.staffService.update(staff);
 		this.printString(true, staffId+"");
 		return null;
 	}
@@ -472,15 +491,9 @@ public class StaffAction extends BaseAction{
 	 * 2014-2-10    caiwenming      v1.0.0         create
 	 */
 	public String deleteStaff(){
-		String[] ids=this.staffIds.split(",");
-		ArrayList<Staff> staffs=new ArrayList<Staff>();
-		/**遍历id数组，查找相应记录并add到ArrayList中 */
-		for(int i=0;i<ids.length;i++){
-			Staff staff = this.staffService.find(Integer.parseInt(ids[i]));
-			staffs.add(staff);
+		if(this.staffService.deleteStaff(staffIds)){
+			this.printString(true, "");
 		}
-		this.staffService.removeAll(staffs);
-		this.printString(true, "");
 		return null;
 	}
 	
@@ -511,7 +524,6 @@ public class StaffAction extends BaseAction{
 		int page=start/limit+1;
 		List<Staff> staffs=null;
 		int total;
-		System.out.println(departmentId!=0);
 		if(query!=null){
 			StringBuffer sql=new StringBuffer("from Staff where 1=1");
 			if(departmentId!=0){
@@ -520,9 +532,9 @@ public class StaffAction extends BaseAction{
 			if(staffId!=0){
 				sql.append(" and staffId="+staffId);
 			}
-//			if(roleId!=0){
-//				sql.append(" and roleId="+roleId);
-//			}
+			if(roleId!=0){
+				sql.append(" and Role_RoleID="+roleId);
+			}
 			staffs=this.staffService.findByPage(page, limit, sql.toString());
 			System.out.println(sql.toString());
 			total=staffs.size();
@@ -533,21 +545,8 @@ public class StaffAction extends BaseAction{
 			staffs=this.staffService.findByPage(page,limit);
 			total=this.staffService.getTotalRows();
 		}
-		JsonConfig jsonConfig =new JsonConfig();
-		/** 结果转换成json对象是避免出现hibernate死循环，过滤掉引起死循环的字段，保留有用字段 */
-		jsonConfig.registerJsonValueProcessor(Department.class, new ObjectJsonValueProcessor(new String[]{"departmentId"}, Department.class));
-		/** 同样是为了避免出现hibernate死循环，过滤掉引起死循环的整个对象，不需要任何字段 */
-		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
-			@Override
-			public boolean apply(Object arg0, String arg1, Object arg2) {
-				if(arg1.equals("costs")||arg1.equals("role")||arg1.equals("journals")){
-					return true;
-				}else{
-					return false;
-				}
-			}
-		});
-		this.printList(start, limit, total, staffs, jsonConfig);
+		List<StaffModel> staffModels=StaffModel.toStaffModels(staffs);
+		this.printList(start, limit, total, staffModels);
 		return null;
 	}
 	
@@ -589,17 +588,7 @@ public class StaffAction extends BaseAction{
 	}
 	
 	public String login(){
-//		ServletContext context= ServletActionContext.getRequest().getSession().getServletContext();
-//		HttpSession session=ServletActionContext.getRequest().getSession();
-//		Map<String, Object> sessionMap=ActionContext.getContext().getSession();
-//		Staff staff=this.staffService.getStaffByUserNamePwd(userName, password);
 		if(this.staffService.login(userName, password)){
-//			System.out.println(staff.getStaffName());
-//			session.setAttribute("staff", staff);
-//			session.setAttribute("staffName", staff.getStaffName());
-////			TreeStore treeStore=this.rightService.getRightByRole(staff.getRole().getRoleId());
-////			sessionMap.put("treeStore", treeStore);
-//			session.setAttribute("roleId",staff.getRole().getRoleId());
 			this.printString(true, "index.jsp");
 		}else{
 			this.printString(false, "");
@@ -627,5 +616,36 @@ public class StaffAction extends BaseAction{
 		jsonObject=JSONObject.fromObject(staff,jsonConfig);
 		this.printString(true, jsonObject.toString());
 		return null;
+	}
+	
+	public String exportStaff() throws Exception{
+		System.out.println(staffIds);
+		List<Staff> staffs=new ArrayList<Staff>();
+		if(staffIds.equals("")){
+			staffs=this.staffService.findAll();
+		}else {
+			String[] str=staffIds.split(",");
+			for(int i=0;i<str.length;i++){
+				Staff staff=this.staffService.find(Integer.parseInt(str[i]));
+				staffs.add(staff);
+			}
+		}
+		Vector<String> head=StaffUI.getHead();
+		List<StaffModel> staffModels=StaffModel.toStaffModels(staffs);
+		List<Vector<String>> dataList=StaffUI.getDataList(staffModels);
+		String downLoadPath=ServletActionContext.getServletContext().getRealPath("/")+"excel\\";
+		String fileName=ExcelUtil.createFileName("Staff_")+".xls";
+		if(ExcelUtil.printExcel(head, dataList, downLoadPath+fileName)){
+			download(fileName);
+			return "success";
+		}else{
+			this.printString(false, "");
+		}
+		return null;
+	}
+	
+	public void download(String fileName) throws Exception{
+		this.fileName=fileName;
+		this.excelStream=ServletActionContext.getServletContext().getResourceAsStream("excel/"+fileName);
 	}
 }

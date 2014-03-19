@@ -15,14 +15,6 @@ public class Role implements java.io.Serializable {
 	private Integer roleId;
 	private String roleName;
 	private String roleDesc;
-	private Integer enabled;
-	private Integer isSuper;
-	private String description;
-	private String prop1;
-	private String prop2;
-	private String prop3;
-	private String prop4;
-	private String prop5;
 	//不需要通过角色查找相应的员工，故可不需要 private Set staffs = new HashSet(0);
 	private Set<Staff> staffs = new HashSet<Staff>(0);
 	
@@ -35,16 +27,10 @@ public class Role implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Role(String roleName, String description, String prop1,
-			String prop2, String prop3, String prop4, String prop5, Set<Staff> staffs,
+	public Role(String roleName, String roleDesc, Set<Staff> staffs,
 			Set<Right> rights) {
 		this.roleName = roleName;
-		this.description = description;
-		this.prop1 = prop1;
-		this.prop2 = prop2;
-		this.prop3 = prop3;
-		this.prop4 = prop4;
-		this.prop5 = prop5;
+		this.roleDesc=roleDesc;
 		this.staffs = staffs;
 		this.rights = rights;
 	}
@@ -73,70 +59,6 @@ public class Role implements java.io.Serializable {
 
 	public void setRoleDesc(String roleDesc) {
 		this.roleDesc = roleDesc;
-	}
-
-	public Integer getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Integer enabled) {
-		this.enabled = enabled;
-	}
-
-	public Integer getIsSuper() {
-		return isSuper;
-	}
-
-	public void setIsSuper(Integer isSuper) {
-		this.isSuper = isSuper;
-	}
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getProp1() {
-		return this.prop1;
-	}
-
-	public void setProp1(String prop1) {
-		this.prop1 = prop1;
-	}
-
-	public String getProp2() {
-		return this.prop2;
-	}
-
-	public void setProp2(String prop2) {
-		this.prop2 = prop2;
-	}
-
-	public String getProp3() {
-		return this.prop3;
-	}
-
-	public void setProp3(String prop3) {
-		this.prop3 = prop3;
-	}
-
-	public String getProp4() {
-		return this.prop4;
-	}
-
-	public void setProp4(String prop4) {
-		this.prop4 = prop4;
-	}
-
-	public String getProp5() {
-		return this.prop5;
-	}
-
-	public void setProp5(String prop5) {
-		this.prop5 = prop5;
 	}
 
 	public Set<Staff> getStaffs() {

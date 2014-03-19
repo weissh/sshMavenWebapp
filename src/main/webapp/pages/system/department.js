@@ -123,7 +123,7 @@ Ext.onReady(function () {
     var formForTbar=Ext.create('Ext.form.Panel',{
     	border:false,
     	width:'100%',
-    	tbar:[
+    	tbar:['->',
         	{xtype:'button',text:'新增部门',iconCls: 'user_add',handler:addDepartmentInfo},
             {xtype:'button',text:'修改部门',iconCls: 'user_edit',handler:editDepartmentInfo},
             {xtype:'button',text:'删除部门',iconCls: 'user_delete',handler:deleteDepartmentInfo},

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
+import pojos.Department;
 import pojos.Right;
 import pojos.Role;
 import pojos.Staff;
@@ -83,7 +84,7 @@ public class StaffServiceImpl extends GenericServiceImpl<Staff> implements Staff
 	}
 	
 	
-public TreeStore getRightByRole(Role role) {
+	public TreeStore getRightByRole(Role role) {
 		
 		List<Right> tree = new ArrayList<Right>();
 		
@@ -125,4 +126,17 @@ public TreeStore getRightByRole(Role role) {
 		treeStore.setRoot(root);
 		return treeStore;
 	}
+
+@Override
+public boolean deleteStaff(String staffIds) {
+	String[] ids=staffIds.split(",");
+	ArrayList<Staff> staffs=new ArrayList<Staff>();
+	/**遍历id数组，查找相应记录并add到ArrayList中 */
+	for(int i=0;i<ids.length;i++){
+		Staff staff = this.staffDao.find(Integer.parseInt(ids[i]));
+		staffs.add(staff);
+	}
+	this.staffDao.removeAll(staffs);
+	return true;
+}
 }

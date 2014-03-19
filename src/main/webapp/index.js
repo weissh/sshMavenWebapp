@@ -12,44 +12,26 @@ Ext.onReady(function() {
     Ext.QuickTips.init();
     
     Ext.state.Manager.setProvider(Ext.create('Ext.state.CookieProvider'));
-//    Ext.define('treeModel', {
-//        extend: 'Ext.data.Model',
-//        fields:[
-//        	{name:'id',type:'int'},
-//        	{name:'text'},
-//        	{name:'expanded',type:'boolean'},
-//        	{name:'leaf',type:'boolean'},
-//        	{name:'hrefTarget'}
-//    	]
-//	});
-	
-//    var treeStore = Ext.create('Ext.data.TreeStore', {
-////    	autoLoad:true,
-////    	model:treeModel,
-//		proxy:{
-//			type:'ajax',
-//			url:'right_getByRole.action',
-//			method:'POST',
-//			reader:{
-//				type:'json',
-//				root:'smg'
-//			}
-//		}
-////		root : {
-////            id : 0,
-////            expanded : true
-////        },
-////		fields:['id','text'],
-////		sorters: [{
-////             property: 'id',
-////             direction: 'ASC'
-////         }]
-//	});
-    var treeStore=new Ext.data.TreeStore(eval(ob));
+    
+    var forTree;
+    Ext.Ajax.request({
+		url:'right_getByRole.action',
+		method:'POST',
+//		params:{roleId:roleId},
+		dataType:'json', 
+		async:false,
+		success:function(response,options){
+			forTree=response.responseText;
+//			alert(forTree);
+		}
+	});
+    
+    var treeStore=new Ext.data.TreeStore(eval('('+forTree+')'));
           treeStore.sort('id','ASC');
 	var tree=Ext.create('Ext.tree.Panel', {
 	    width: '59.9%',
 	    height: 150,
+	    margins : '-1 0 0 0',
 	    border:false,
 	    store: treeStore,
 	    rootVisible: false,

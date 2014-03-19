@@ -150,8 +150,11 @@ public class BaseAction extends ActionSupport implements Serializable {
 		this.getResponse().setContentType("text/html;charset=UTF-8");
 		this.getResponse().setCharacterEncoding("UTF-8");
 		JSONArray jsonArray=new JSONArray();
+		//改变所有Date字段的形式为"yyyy--MM--dd"
+		JsonConfig jsonConfig =new JsonConfig();
+		jsonConfig.registerJsonValueProcessor(Date.class, new ObjectJsonValueProcessor("yyyy-MM-dd"));
 		if(list!=null&&list.size()>0){
-			jsonArray=JSONArray.fromObject(list);
+			jsonArray=JSONArray.fromObject(list,jsonConfig);
 			System.out.println(jsonArray.toString());
 		}
 		String jsonString ="{start:"+start+",limit:"+limit+",totalProperty:"+total+",infoList:"+jsonArray.toString()+"}";

@@ -16,16 +16,17 @@ package web.ui;
 
 public class TreeStore {
 
-//	private int id;
+	private String id;
 //	private String model;
 	private TreeNode root;
-//	public int getId() {
-//		return id;
-//	}
-//	public void setId(int id) {
-//		this.id = id;
-//	}
-//	public String getModel() {
+
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	//	public String getModel() {
 //		return model;
 //	}
 //	public void setModel(String model) {

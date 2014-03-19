@@ -248,6 +248,8 @@
 	<bean id="staffAction" class="web.action.StaffAction" scope="prototype">
 		<property name="staffService" ref="staffServiceDaoProxy"/>
 		<property name="departmentService" ref="departmentServiceDaoProxy"/>
+		<property name="roleService" ref="roleServiceDaoProxy"/>
+		
 	</bean>
 	
 	<!-- 配置journalAction -->

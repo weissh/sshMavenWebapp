@@ -90,7 +90,7 @@ public class RightServiceImpl extends GenericServiceImpl<Right> implements
 	}
 
 	@Override
-	public List<TreeNode> getCheckedTree(int roleId) {
+	public TreeStore getCheckedTree(int roleId) {
 		List<Right> rightMenu=this.rightDao.findBySql("from Right where menu=1");
 		List<TreeNode> nodes=new ArrayList<TreeNode>();
 		for(Right right:rightMenu){
@@ -107,17 +107,21 @@ public class RightServiceImpl extends GenericServiceImpl<Right> implements
 			}
 		}
 		root.visitTree(rightIds);
+		root.setChecked(false);
 		TreeStore treeStore=new TreeStore();
+		treeStore.setId("treeStoreForRole");
 		treeStore.setRoot(root);
 		Map<String, Object> sessionMap=ActionContext.getContext().getSession();
 		sessionMap.put("treeStoreForRole", JSONObject.toJSONString(treeStore));
-		return root.getChildren();
+//		Map<String, Object> requestMap=ActionContext.getContext().get
+//		return root.getChildren();
+		return treeStore;
 	}
 
 	private Set<Right> getRightByUser(){
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		Staff staff = (Staff) session.getAttribute("staff");
-		Role role = staff.getRole();
+		Role role = this.roleDao.find(staff.getRole().getRoleId());
 		return role.getRights();
 	}
 	private Set<Right> getRightByRoleId(int roleId){

@@ -62,7 +62,8 @@ public class RightAction extends BaseAction {
 
 
 	public String getAllRight(){
-		List<TreeNode> nodes=this.rightService.getCheckedTree(roleId);
+//		List<TreeNode> nodes=this.rightService.getCheckedTree(roleId);
+		TreeStore treeStore =this.rightService.getCheckedTree(roleId);
 		JsonConfig jsonConfig =new JsonConfig();
 //		jsonConfig.registerJsonValueProcessor(Resource.class, new ObjectJsonValueProcessor(new String[]{"url"}, Resource.class));
 		/** 同样是为了避免出现hibernate死循环，过滤掉引起死循环的整个对象，不需要任何字段 */
@@ -76,7 +77,7 @@ public class RightAction extends BaseAction {
 				}
 			}
 		});
-		this.printList(nodes,jsonConfig);
+		this.printString(JSONObject.toJSONString(treeStore));
 		return null;
 	}
 	
@@ -96,8 +97,8 @@ public class RightAction extends BaseAction {
 			}
 		});
 		Map<String, Object> sessionMap=ActionContext.getContext().getSession();
-		HttpSession session =ServletActionContext.getRequest().getSession();
-		session.setAttribute("1", JSONObject.toJSONString(treeStore));
+//		HttpSession session =ServletActionContext.getRequest().getSession();
+//		session.setAttribute("1", JSONObject.toJSONString(treeStore));
 		sessionMap.put("treeStore", JSONObject.toJSONString(treeStore));
 		this.printString(JSONObject.toJSONString(treeStore));
 		return null;
