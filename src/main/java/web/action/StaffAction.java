@@ -404,7 +404,7 @@ public class StaffAction extends BaseAction{
 		Department department =this.departmentService.find(departmentId);
 		System.out.println(roleId);
 		Role role =this.roleService.find(roleId);
-		Staff staff=new Staff(department, null, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, null, password, null, null, null, null, null, null, role, null);
+		Staff staff=new Staff(department, null, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password, null, null, null, null, null, null, role, null);
 		savePhoto(staff);
 		int staffId=this.staffService.save(staff);
 		this.printString(true, staffId+"");
@@ -467,7 +467,7 @@ public class StaffAction extends BaseAction{
 	public String updateStaff(){
 		Department department =this.departmentService.find(departmentId);
 		Role role =this.roleService.find(roleId);
-		Staff staff=new Staff(department, photo, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, password);
+		Staff staff=new Staff(department, photo, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password);
 		staff.setStaffId(staffId);
 		staff.setRole(role);
 		/**将对象从瞬时状态改成脱管状态（merge），之后再更新（update）*/
@@ -549,6 +549,49 @@ public class StaffAction extends BaseAction{
 		List<StaffModel> staffModels=StaffModel.toStaffModels(staffs);
 		this.printList(start, limit, total, staffModels);
 		return null;
+	}
+	
+	public String getAllStaffByRole(){
+		List<Staff> staffs=new ArrayList<Staff>();
+		int page=start/limit+1;
+		int total = 0;
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff staff =(Staff) session.getAttribute("staff");
+		Role role=staff.getRole();
+		String roleName=role.getRoleName().trim();
+		
+		
+		
+		if(query!=null){
+			StringBuffer buffer=new StringBuffer("from Staff where 1=1");
+			if(departmentId!=0){
+				buffer.append(" and Department_DepartmentID="+departmentId);
+			}
+			if(staffName!=null&&!staffName.equals("")){
+				buffer.append(" and StaffName="+staffName);
+			}
+			staffs=this.staffService.findByPage(page, limit, buffer.toString());
+			total=staffs.size();
+		}else {
+			if(roleName.equals("部门经理")){
+				String sql="from Staff where Department_DepartmentID="+staff.getDepartment().getDepartmentId();
+				staffs=this.staffService.findByPage(page, limit, sql);
+				total=staffs.size();
+			}else if (roleName.equals("管理员")||roleName.equals("人事经理")||roleName.equals("总经理")) {
+				staffs=this.staffService.findByPage(page, limit);
+				total=this.staffService.getTotalRows();
+			}
+		}
+		
+		
+		List<StaffModel> staffModels;
+		if(staffs.size()>0){
+			staffModels=StaffModel.toStaffModels(staffs);
+		}else {
+			staffModels=null;
+		}
+		this.printList(start, limit, total, staffModels);
+		return  null;
 	}
 	
 	public String getStaffForSelector(){

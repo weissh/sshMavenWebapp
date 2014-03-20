@@ -81,7 +81,7 @@ public class Staff implements java.io.Serializable {
 			String maritalStatus, String idNo, String passportNo,
 			String nativePlace, String domicilePlace, Date dateOfRecruitment, String currentAddress,
 			String zipCode, String graduateSchool, String hightestEdu,
-			String hightestDegree, String major, String schoolSystem,
+			String hightestDegree, String major, String schoolSystem,String userName,
 			String password) {
 		this.department = department;
 		this.photo=photo;
@@ -110,6 +110,7 @@ public class Staff implements java.io.Serializable {
 		this.hightestDegree = hightestDegree;
 		this.major = major;
 		this.schoolSystem = schoolSystem;
+		this.userName=userName;
 		this.password = password;
 	}
 	

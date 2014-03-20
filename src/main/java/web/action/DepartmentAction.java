@@ -1,25 +1,25 @@
 package web.action;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
 
 import org.apache.struts2.ServletActionContext;
 
-import pojos.Cost;
 import pojos.Department;
+import pojos.Role;
 import pojos.Staff;
 import service.DepartmentService;
 import web.ui.DepartmentUI;
 
 import common.ExcelUtil;
-import common.ObjectJsonValueProcessor;
 
 public class DepartmentAction extends BaseAction {
 
@@ -249,6 +249,40 @@ public class DepartmentAction extends BaseAction {
 			 * findByPage方法的参数是（当前页码,每页记录数），所以需先通过start和limit计算得出请求的当前页码
 			 */
 			departments = this.departmentService.findByPage(page,limit);
+			total=this.departmentService.getTotalRows();
+		}
+		JsonConfig jsonConfig =new JsonConfig();
+		/** 结果转换成json对象是避免出现hibernate死循环，过滤掉引起死循环的字段，保留有用字段 */
+		//jsonConfig.registerJsonValueProcessor(Department.class, new ObjectJsonValueProcessor(new String[]{"departmentId"}, Department.class));
+		/** 同样是为了避免出现hibernate死循环，过滤掉引起死循环的整个对象，不需要任何字段 */
+		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
+			@Override
+			public boolean apply(Object arg0, String arg1, Object arg2) {
+				if(arg1.equals("staffs")){
+					return true;
+				}else{
+					return false;
+				}
+			}
+		});
+		this.printList(start, limit, total, departments, jsonConfig);
+		return null;
+	}
+	
+	public String getAllDeptByRole(){
+		List<Department> departments=new ArrayList<Department>();
+		int page=start/limit+1;
+		int total = 0;
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff staff =(Staff) session.getAttribute("staff");
+		Role role=staff.getRole();
+		String roleName=role.getRoleName().trim();
+		if(roleName.equals("部门经理")){
+			Department department=this.departmentService.find(staff.getDepartment().getDepartmentId());
+			departments.add(department);
+			total=1;
+		}else if (roleName.equals("管理员")||roleName.equals("人事经理")||roleName.equals("总经理")) {
+			departments=this.departmentService.findByPage(page, limit);
 			total=this.departmentService.getTotalRows();
 		}
 		JsonConfig jsonConfig =new JsonConfig();

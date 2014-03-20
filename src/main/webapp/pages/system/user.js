@@ -212,6 +212,7 @@ Ext.onReady(function(){
             {name: 'phone'},
             {name: 'roleId', type: 'int'},
             {name: 'roleName'},
+            {name: 'userName'},
             {name: 'password'},
             {name: 'gender'},
             {name: 'age', type: 'int'},
@@ -351,7 +352,8 @@ Ext.onReady(function(){
         tbar:[formForTbar],
         columns: [
             Ext.create('Ext.grid.RowNumberer'),
-            {text: "工号", width: 120, sortable: true,dataIndex: 'staffId'},
+        	{text: "员工编号", width: 120, sortable: true,dataIndex: 'staffId',hidden:true},
+            {text: "用户名", width: 120, sortable: true,dataIndex: 'userName'},
             {text: "姓名", flex: 1, sortable: true, dataIndex: 'staffName'},
             {text: "照片路径", width: 120, sortable: true,dataIndex: 'photoImg',hidden:true},
             {text: "部门编号", width: 120, sortable: true,dataIndex: 'departmentId',hidden:true},
@@ -478,7 +480,7 @@ Ext.onReady(function(){
         },
         items: [{
         	xtype:'textfield',
-        	name:'userId',
+        	name:'staffId',
         	hidden:true
         },{
             xtype: 'fieldset',
@@ -515,7 +517,7 @@ Ext.onReady(function(){
                     xtype:'textfield'
                 },
                 items: [
-                    {width:'33%',fieldLabel: '工号',xtype: 'combo',name: 'staffId',value:123,allowBlank: false}, 
+                    {width:'33%',fieldLabel: '用户名',name: 'userName',value:'123',allowBlank: false}, 
                     {
                     	width:'33%',
                     	fieldLabel: '部门',
@@ -926,6 +928,7 @@ Ext.onReady(function(){
     			phone:values['phone'],
     			roleId:values['roleId'],
     			role:values['role'],
+    			userName:values['userName'],
     			password:values['password'],
     			gender:values['gender'],
     			age:values['age'],

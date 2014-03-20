@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
-import pojos.Department;
 import pojos.Right;
 import pojos.Role;
 import pojos.Staff;
