@@ -104,20 +104,23 @@ Ext.onReady(function(){
 			xtype:'button',
 			text:'取消',
 			handler:function(){
-				var form1   = this.up('form').getForm(),
-                    encode = Ext.String.htmlEncode,
-                    s      = '';
-
-                if (form1.isValid()) {
-                    Ext.iterate(form1.getValues(), function(key, value) {
-                        value = encode(value);
-                        
-                        s += Ext.util.Format.format("{0} = {1}<br />", key, value);
-                    }, this);
-
-                    top.Ext.Msg.alert('Form Values', s);
-                }
+				win.close();
 			}
+//			function(){
+//				var form1   = this.up('form').getForm(),
+//                    encode = Ext.String.htmlEncode,
+//                    s      = '';
+//
+//                if (form1.isValid()) {
+//                    Ext.iterate(form1.getValues(), function(key, value) {
+//                        value = encode(value);
+//                        
+//                        s += Ext.util.Format.format("{0} = {1}<br />", key, value);
+//                    }, this);
+//
+//                    top.Ext.Msg.alert('Form Values', s);
+//                }
+//			}
 		}]
 	});
 	

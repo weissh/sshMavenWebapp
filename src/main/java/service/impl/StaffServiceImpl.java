@@ -139,4 +139,13 @@ public boolean deleteStaff(String staffIds) {
 	this.staffDao.removeAll(staffs);
 	return true;
 }
+
+@Override
+public boolean modifyPassword(int staffId, String password) {
+	HttpSession session = ServletActionContext.getRequest().getSession();
+	Staff staff=(Staff)session.getAttribute("staff");
+	staff.setPassword(password);
+	this.staffDao.update(staff);
+	return true;
+}
 }

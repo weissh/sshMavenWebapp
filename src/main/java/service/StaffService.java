@@ -11,4 +11,6 @@ public interface StaffService extends GenericService<Staff>{
 	public boolean login(String userName,String password);
 	
 	public boolean deleteStaff(String staffIds);
+	
+	public boolean modifyPassword(int staffId,String password);
 }

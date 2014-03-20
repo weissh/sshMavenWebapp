@@ -1,5 +1,6 @@
 package web.action;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,8 +49,8 @@ public class DepartmentAction extends BaseAction {
 		this.excelStream = excelStream;
 	}
 
-	public String getFileName() {
-		return fileName;
+	public String getFileName() throws UnsupportedEncodingException {
+		return new String(fileName.getBytes(),"ISO8859-1");
 	}
 
 	public void setFileName(String fileName) {
@@ -324,7 +325,7 @@ public class DepartmentAction extends BaseAction {
 		Vector<String> head=DepartmentUI.getHead();
 		List<Vector<String>> dataList=DepartmentUI.getDataList(departments);
 		String downLoadPath =ServletActionContext.getServletContext().getRealPath("/")+"excel\\";
-		String fileName=ExcelUtil.createFileName("Department_")+".xls";
+		String fileName=ExcelUtil.createFileName("部门信息")+".xls";
 		if(ExcelUtil.printExcel(head, dataList, downLoadPath+fileName)){
 			download(fileName);
 			//System.out.println(ServletActionContext.getServletContext().getRealPath("excel/Department201402131756458884286.xls"));

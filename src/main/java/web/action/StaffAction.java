@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -357,8 +358,8 @@ public class StaffAction extends BaseAction{
 		this.excelStream = excelStream;
 	}
 
-	public String getFileName() {
-		return fileName;
+	public String getFileName() throws UnsupportedEncodingException {
+		return new String(fileName.getBytes(),"ISO8859-1");
 	}
 
 	public void setFileName(String fileName) {
@@ -599,22 +600,22 @@ public class StaffAction extends BaseAction{
 	public String getCurrentStaff(){
 		HttpSession session=ServletActionContext.getRequest().getSession();
 		Staff staff =(Staff)session.getAttribute("staff");
+		Staff currentStaff=this.staffService.find(staff.getStaffId());
+		StaffModel staffModel=new StaffModel();
+		staffModel.toStaffModel(currentStaff);
 		JsonConfig jsonConfig=new JsonConfig();
 		//改变所有Date字段的形式为"yyyy--MM--dd"
 		jsonConfig.registerJsonValueProcessor(Date.class, new ObjectJsonValueProcessor("yyyy-MM-dd"));
-		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
-			@Override
-			public boolean apply(Object arg0, String arg1, Object arg2) {
-				if(arg1.equals("costs")||arg1.equals("department")||arg1.equals("role")||arg1.equals("journals")){
-					return true;
-				}else{
-					return false;
-				}
-			}
-		});
 		JSONObject jsonObject=new JSONObject();
-		jsonObject=JSONObject.fromObject(staff,jsonConfig);
+		jsonObject=JSONObject.fromObject(staffModel,jsonConfig);
 		this.printString(true, jsonObject.toString());
+		return null;
+	}
+	
+	public String modifyPassword(){
+		if(this.staffService.modifyPassword(staffId, password)){
+			this.printString(true, "");
+		}
 		return null;
 	}
 	
@@ -634,7 +635,7 @@ public class StaffAction extends BaseAction{
 		List<StaffModel> staffModels=StaffModel.toStaffModels(staffs);
 		List<Vector<String>> dataList=StaffUI.getDataList(staffModels);
 		String downLoadPath=ServletActionContext.getServletContext().getRealPath("/")+"excel\\";
-		String fileName=ExcelUtil.createFileName("Staff_")+".xls";
+		String fileName=ExcelUtil.createFileName("员工信息")+".xls";
 		if(ExcelUtil.printExcel(head, dataList, downLoadPath+fileName)){
 			download(fileName);
 			return "success";

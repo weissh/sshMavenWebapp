@@ -129,10 +129,10 @@ Ext.onReady(function(){
         fieldLabel:30,
         fields:['id','name'],
         data:[
-	        {'id':'1','name':'未婚'},
-	        {'id':'2','name':'已婚'},
-	        {'id':'3','name':'离异'},
-	        {'id':'4','name':'丧偶'}
+	        {'id':'未婚','name':'未婚'},
+	        {'id':'已婚','name':'已婚'},
+	        {'id':'离异','name':'离异'},
+	        {'id':'丧偶','name':'丧偶'}
         ]
     });
     
@@ -142,10 +142,10 @@ Ext.onReady(function(){
         fieldLabel:30,
         fields:['id','name'],
         data:[
-	        {'id':'1','name':'专科'},
-	        {'id':'2','name':'本科'},
-	        {'id':'3','name':'硕士研究生'},
-	        {'id':'4','name':'博士研究生'}
+	        {'id':'专科','name':'专科'},
+	        {'id':'本科','name':'本科'},
+	        {'id':'硕士研究生','name':'硕士研究生'},
+	        {'id':'博士研究生','name':'博士研究生'}
         ]
     });
     
@@ -155,9 +155,9 @@ Ext.onReady(function(){
         fieldLabel:30,
         fields:['id','name'],
         data:[
-	        {'id':'1','name':'学士学位'},
-	        {'id':'2','name':'硕士学位'},
-	        {'id':'3','name':'博士学位'}
+	        {'id':'学士学位','name':'学士学位'},
+	        {'id':'硕士学位','name':'硕士学位'},
+	        {'id':'博士学位','name':'博士学位'}
         ]
     });
     
@@ -167,9 +167,9 @@ Ext.onReady(function(){
         fieldLabel:30,
         fields:['id','name'],
         data:[
-	        {'id':'1','name':'单轨制'},
-	        {'id':'2','name':'双轨制'},
-	        {'id':'3','name':'分支制学制'}
+	        {'id':'单轨制','name':'单轨制'},
+	        {'id':'双轨制','name':'双轨制'},
+	        {'id':'分支制学制','name':'分支制学制'}
         ]
     });
     
@@ -179,10 +179,10 @@ Ext.onReady(function(){
         fieldLabel:30,
         fields:['id','name'],
         data:[
-	        {'id':'1','name':'中共党员'},
-	        {'id':'2','name':'预备党员'},
-	        {'id':'3','name':'共青团员'},
-	        {'id':'4','name':'群众'}
+	        {'id':'中共党员','name':'中共党员'},
+	        {'id':'预备党员','name':'预备党员'},
+	        {'id':'共青团员','name':'共青团员'},
+	        {'id':'群众','name':'群众'}
         ]
     });
     
@@ -192,8 +192,8 @@ Ext.onReady(function(){
         autoLoad: true,
         fields:['id','name'],
         data:[
-	        {'id':'1','name':'男'},
-	        {'id':'2','name':'女'}
+	        {'id':'男','name':'男'},
+	        {'id':'女','name':'女'}
         ]
     });
     
@@ -257,8 +257,8 @@ Ext.onReady(function(){
     //员工表格数据源载入，默认为第一页前20条记录，当点击下一页（第二页）时参数自动改变为{start:20,limit:20}，store的pagesize为20时
 	staffStore.load({url:'staff_getAll.action',params:{start:0,limit:20}});
     
-	dept.load();
 	staff.load();
+	dept.load();
 	role.load();
 	//创建工具栏表单，作为grid的上工具栏
 	var formForTbar=new Ext.form.FormPanel({
@@ -769,20 +769,7 @@ Ext.onReady(function(){
 		},{
 			text:'取消',
 			handler:function(){
-				//win.close();
-				var form1   = this.up('form').getForm(),
-                    encode = Ext.String.htmlEncode,
-                    s      = '';
-
-                if (form1.isValid()) {
-                    Ext.iterate(form1.getValues(), function(key, value) {
-                        value = encode(value);
-                        
-                        s += Ext.util.Format.format("{0} = {1}<br />", key, value);
-                    }, this);
-
-                    top.Ext.Msg.alert('Form Values', s);
-                }
+				win.close();
 			}
 //			handler:function(){
 //				win.close();
