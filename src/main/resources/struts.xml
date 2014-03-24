@@ -178,6 +178,9 @@
 		<action name="cost_add" method="addCost" class="costAction" >
 			<result name="success" type="json"/>
 		</action>
+		<action name="cost_addper" method="addCostPer" class="costAction" >
+			<result name="success" type="json"/>
+		</action>
 		<action name="cost_update" method="updateCost" class="costAction" >
 			<result name="success" type="json"/>
 		</action>
@@ -200,6 +203,12 @@
 				<param name="contentDisposition">attachment;filename="${fileName}"</param>
 				<param name="bufferSize">1024</param>
 			</result>
+		</action>
+		<action name="cost_countper" method="CountPer" class="costAction" >
+			<result name="success" type="json"/>
+		</action>
+		<action name="cost_countDep" method="CountDep" class="costAction" >
+			<result name="success" type="json"/>
 		</action>
 	</package>
 	
