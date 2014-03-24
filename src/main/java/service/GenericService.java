@@ -96,6 +96,8 @@ public interface GenericService<T> {
 	 */
 	public int getTotalRows();
 	
+	public int getTotalRows(String sql);
+	
 	public int getTotalRows(String propertyName,Object value);
 	/**
 	 * <p>

@@ -137,12 +137,13 @@ Ext.onReady(function() {
 //    });
     //定义部门信息表
      var deptGrid=Ext.create('Ext.grid.Panel',{
+     	title:'部门列表',
 		width:'40%',
 		height:'100%',
 //		border:false,
 		bodyStyle:'border-width:1 1 1 0',
 		layout:'fit',
-		margins:'-1 20 0 0',
+		margins:'-1 0 -1 0',
 		store:dept,
 		viewConfig:{
 			forceFit:true
@@ -177,8 +178,7 @@ Ext.onReady(function() {
         ],
         bbar:new Ext.PagingToolbar({
 //        	border:false,
-        	bodyStyle:'border-width:1 1 0 0',
-        	margins:'0 0 -1 0',
+//        	bodyStyle:'border-width:1 1 0 0',
         	pageSize:20,
             store: dept,
             displayInfo: true
@@ -196,6 +196,7 @@ Ext.onReady(function() {
             name:'stafftext',
             //store:staff,
             fieldLabel:'<b>员工</b>',
+            border:false,
             width:150,
             labelWidth:40,
             margins:'0 10 0 0',
@@ -221,7 +222,7 @@ Ext.onReady(function() {
     var staffGrid=Ext.create('Ext.grid.Panel',{
 		width:'59.9%',
 		height:document.body.clientHeight,
-		bodyStyle:'border-width:1 0 1 1',
+		border:false,
 		layout:'fit',
 		store:staffStore,
 		viewConfig:{
@@ -266,6 +267,7 @@ Ext.onReady(function() {
             {text: "紧急电话", width: 120, sortable: true, dataIndex: 'ucPhone',hidden:true}
         ],
 		 bbar:new Ext.PagingToolbar({
+		 	border:true,
         	pageSize:20,
             store: staffStore,
             displayInfo: true

@@ -353,7 +353,7 @@ Ext.onReady(function(){
         tbar:[formForTbar],
         columns: [
             Ext.create('Ext.grid.RowNumberer'),
-        	{text: "员工编号", width: 120, sortable: true,dataIndex: 'staffId',hidden:true},
+        	{text: "员工编号", width: 120, sortable: true,dataIndex: 'staffId'},
             {text: "用户名", width: 120, sortable: true,dataIndex: 'userName'},
             {text: "姓名", flex: 1, sortable: true, dataIndex: 'staffName'},
             {text: "照片路径", width: 120, sortable: true,dataIndex: 'photoImg',hidden:true},

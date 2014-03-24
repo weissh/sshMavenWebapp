@@ -97,6 +97,8 @@ public interface GenericDao<T> {
 	
 	public void attachClean(T instance);
 	
+	public int getTotalRows(String sql);
+	
 	public int getTotalRows(String propertyName,Object value);
 	
 	/**

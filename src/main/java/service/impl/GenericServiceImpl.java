@@ -76,6 +76,11 @@ public class GenericServiceImpl<T> implements GenericService<T> {
 	public int getTotalRows() {
 		return genericDao.getTotalRows();
 	}
+	
+	@Override
+	public int getTotalRows(String sql){
+		return genericDao.getTotalRows(sql);
+	}
 
 	@Override
 	public int getTotalRows(String propertyName, Object value) {
