@@ -117,9 +117,8 @@ Ext.onReady(function(){
     	autoLoad: true,
         fields:['id','name'],
         data:[
-            {'id':'1','name':'员工'},
-	        {'id':'2','name':'部门经理'},
-	        {'id':'3','name':'总经理'}
+            {'id':'普通员工','name':'普通员工'},
+	        {'id':'部门经理','name':'部门经理'}
         ]
     });
     
@@ -204,7 +203,6 @@ Ext.onReady(function(){
             {name: 'staffId', type: 'int'},
             {name: 'photoImg'},
             {name: 'staffName'},
-            //mapping 用于获取嵌套json中的摸个属性
             {name: 'departmentId', type: 'int'},
             {name: 'departmentName'},
             {name: 'position'},
@@ -274,6 +272,7 @@ Ext.onReady(function(){
         	valueField:'departmentId',
         	displayField:'departmentName',
         	triggerAction : 'all',
+        	value:0,
             typeAhead:true,
             width:150,
             labelWidth:30,
@@ -298,6 +297,7 @@ Ext.onReady(function(){
             valueField:'staffId',
         	displayField:'staffName',
         	triggerAction : 'all',
+        	value:0,
             typeAhead:true,
             width:150,
             labelWidth:30,
@@ -311,6 +311,7 @@ Ext.onReady(function(){
             valueField:'roleId',
             displayField:'roleName',
             forceSelection:true,
+            value:0,
             typeAhead:true,
             width:150,
             labelWidth:30,
@@ -481,6 +482,8 @@ Ext.onReady(function(){
         items: [{
         	xtype:'textfield',
         	name:'staffId',
+        	inputType:'int',
+        	value:0,
         	hidden:true
         },{
             xtype: 'fieldset',
@@ -538,7 +541,7 @@ Ext.onReady(function(){
                 		valueField:'id',
                 		displayField:'name',
                 		margins:'0 4 0 0',
-                		value:'1',
+                		value:'普通员工',
                 		allowBlank: false
             		}
                 ]
@@ -863,7 +866,7 @@ Ext.onReady(function(){
     				}
     				top.Ext.Msg.show({title:'提示', msg:'删除用户信息成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
     			}else{
-    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+    				top.Ext.Msg.show({title:'提示', msg:result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
     			}
     		}
     	});
@@ -880,11 +883,11 @@ Ext.onReady(function(){
 	    			method:'POST',
 	    			success:function(form,action){
 	    				win.hide();
-	    				updateGrid(action.result.msg);
-	    				top.Ext.Msg.show({title:'提示', msg:'新增员工成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+    					updateGrid(action.result.msg);
+    					top.Ext.Msg.show({title:'提示', msg:'新增员工成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
 	    			},
 	    			failure:function(form,action){
-	    				top.Ext.Msg.show({title:'提示', msg:'新增员工失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});	
+	    				top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});	
 	    			}
 	    		});
 	    	}else{
@@ -899,7 +902,7 @@ Ext.onReady(function(){
 						top.Ext.Msg.show({title:'提示', msg:'修改员工成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
 					},
 					failure:function(form,action){
-						top.Ext.Msg.show({title:'提示', msg:"请联系管理员！",icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+						top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
 					}
 	    		});
 	    	}

@@ -15,6 +15,23 @@ Ext.onReady(function () {
     
     Ext.tip.QuickTipManager.init();
     
+//    ===============================================================================
+//    var add=true;
+//	  var update=true;
+//    var drop=true;
+//    var manage=true;
+//    var exportExcel=true; 
+//
+//    if(roleName=='部门经理'||roleName=='管理员'){
+//	    var add=false;
+//	    var update=false;
+//	    var drop=false;
+//	    var manage=false;
+//	    var exportExcel=false;
+//    }else{
+//    	var exportExcel=false;
+//    }
+    
     //创建员工移动选择器
     function createDockedItems(fieldId) {
         return [{
@@ -119,6 +136,39 @@ Ext.onReady(function () {
         }
     });
 
+	//定义员工数据类型，作为下拉列表框
+    Ext.define('staffForSelector', {
+        extend: 'Ext.data.Model',
+        fields:[
+        	{name:'staffId'},
+        	{name:'staffName'}
+    	]
+	});
+	
+	//定义员工数据源，作为下拉列表的数据源
+    var staff=new Ext.data.Store({
+        model:staffForSelector,
+        proxy:{
+        	type:'ajax',
+        	url:'staff_getForSelector.action',
+        	method:'POST',
+        	reader:{
+        		type:'json',
+        		root:'infoList',
+        		idProperty:'staffId'
+        	}
+        },
+        listeners:{
+        	load:function(store,records,options){
+        		var rs=Ext.ModelMgr.create({
+        			staffId:0,
+        			staffName:"无"
+        		},'staffForSelector');
+        		store.insert(0,rs);
+        	}
+        }
+    });
+    staff.load();
     //用表单制作部门表格的工具栏
     var formForTbar=Ext.create('Ext.form.Panel',{
     	border:false,
@@ -147,7 +197,19 @@ Ext.onReady(function () {
             Ext.create('Ext.grid.RowNumberer'),
             {text: "部门编号", flex: 0.2, sortable: true, dataIndex: 'departmentId'},
             {text: "部门名称", flex: 0.2, sortable: true,dataIndex: 'departmentName'},
-            {text: "部门经理", flex: 0.2, sortable: true, dataIndex: 'managerNo'},
+            {text: "部门经理", flex: 0.2, sortable: true, dataIndex: 'managerId',
+            	  	renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
+            		var index=staff.find('staffId',value);
+            		var record=staff.getAt(index);
+            		var text="";
+            		if(record==null){
+            			text=value;
+            		}else{
+            			text=record.data['staffName'];
+            		}
+            		return text;
+            	}
+            },
             {text: "总员工数",flex: 0.2, sortable: true, dataIndex: 'totalStaff'},
             {
         		text: "成立时间", 

@@ -3,7 +3,6 @@ package service.impl;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -16,10 +15,6 @@ import pojos.Staff;
 import service.StaffService;
 import web.ui.TreeNode;
 import web.ui.TreeStore;
-
-import com.alibaba.fastjson.JSONObject;
-import com.opensymphony.xwork2.ActionContext;
-
 import dao.RightDao;
 import dao.StaffDao;
 
@@ -71,12 +66,13 @@ public class StaffServiceImpl extends GenericServiceImpl<Staff> implements Staff
 		List<Staff> staffs=this.findByProperty("userName", userName);
 		if(staffs.size()>0&&staffs.get(0).getPassword().equals(password)){
 			HttpSession session=ServletActionContext.getRequest().getSession();
-			Map<String, Object> sessionMap=ActionContext.getContext().getSession();
-			TreeStore treeStore=getRightByRole(staffs.get(0).getRole());
+//			Map<String, Object> sessionMap=ActionContext.getContext().getSession();
+//			TreeStore treeStore=getRightByRole(staffs.get(0).getRole());
 			session.setAttribute("staff", staffs.get(0));
 			session.setAttribute("staffName", staffs.get(0).getStaffName());
-			sessionMap.put("treeStore", JSONObject.toJSONString(treeStore));
+//			sessionMap.put("treeStore", JSONObject.toJSONString(treeStore));
 			session.setAttribute("roleId",staffs.get(0).getRole().getRoleId());
+			session.setAttribute("roleName", staffs.get(0).getRole().getRoleName());
 			return true;
 		}
 		return false;
@@ -129,6 +125,11 @@ public class StaffServiceImpl extends GenericServiceImpl<Staff> implements Staff
 @Override
 public boolean deleteStaff(String staffIds) {
 	String[] ids=staffIds.split(",");
+	HttpSession session=ServletActionContext.getRequest().getSession();
+	Staff staffTemp=(Staff) session.getAttribute("staff");
+	if(staffIds.contains(staffTemp.getStaffId().toString())){
+		return false;
+	}
 	ArrayList<Staff> staffs=new ArrayList<Staff>();
 	/**遍历id数组，查找相应记录并add到ArrayList中 */
 	for(int i=0;i<ids.length;i++){

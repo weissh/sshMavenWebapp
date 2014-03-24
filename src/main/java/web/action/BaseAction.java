@@ -31,6 +31,7 @@ import net.sf.json.JsonConfig;
 import com.alibaba.fastjson.JSON;
 import com.opensymphony.xwork2.ActionSupport;
 
+import common.DateJsonValueProcessor;
 import common.ObjectJsonValueProcessor;
 
 @SuppressWarnings("unused")
@@ -152,7 +153,7 @@ public class BaseAction extends ActionSupport implements Serializable {
 		JSONArray jsonArray=new JSONArray();
 		//改变所有Date字段的形式为"yyyy--MM--dd"
 		JsonConfig jsonConfig =new JsonConfig();
-		jsonConfig.registerJsonValueProcessor(Date.class, new ObjectJsonValueProcessor("yyyy-MM-dd"));
+		jsonConfig.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd"));
 		if(list!=null&&list.size()>0){
 			jsonArray=JSONArray.fromObject(list,jsonConfig);
 			System.out.println(jsonArray.toString());
@@ -190,7 +191,7 @@ public class BaseAction extends ActionSupport implements Serializable {
 		this.getResponse().setCharacterEncoding("UTF-8");
 		JSONArray jsonArray=new JSONArray();
 		//改变所有Date字段的形式为"yyyy--MM--dd"
-		jsonConfig.registerJsonValueProcessor(Date.class, new ObjectJsonValueProcessor("yyyy-MM-dd"));
+		jsonConfig.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd"));
 		if(list!=null&&list.size()>0){
 			jsonArray=JSONArray.fromObject(list,jsonConfig);
 			System.out.println(jsonArray.toString());

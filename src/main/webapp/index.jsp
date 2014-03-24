@@ -3,12 +3,10 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 String staffName=session.getAttribute("staffName").toString();
-// String treeStore=session.getAttribute("1").toString();
+
 %>
-<script language="javaScript">
-var ob=eval('('+'${treeStore}'+')');
-</script>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
 <html>
   <head>
     <base href="<%=basePath%>">
@@ -24,9 +22,6 @@ var ob=eval('('+'${treeStore}'+')');
   <script type="text/javascript" src="extjs/ext-lang-zh_CN.js"></script>
   <script type="text/javascript" src="index.js"></script>
   </head>
-  <script language="javaScript">
-      
-  </script>
   <body>
     <div id="center" class="x-hide-display">
         <iframe id="iframeContent" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
@@ -37,7 +32,7 @@ var ob=eval('('+'${treeStore}'+')');
     <div id="north" class="x-hide-display">
         <p align="right"><strong>用户名：</strong><%=staffName==null?"":staffName%>
         <%if(staffName!=null){%>
-        <strong><a href="">注销</a></strong>
+        <strong><a href="staff_logout.action">注销</a></strong>
         <%}%>
         </p>
 

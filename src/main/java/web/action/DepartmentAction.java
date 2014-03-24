@@ -152,6 +152,7 @@ public class DepartmentAction extends BaseAction {
 			return null;
 		}
 		Department department = new Department(departmentName, createTime, description);
+		department.setTotalStaff(0);
 		int departmentId = this.departmentService.save(department);
 		this.printString(true, departmentId + "");
 		return null;

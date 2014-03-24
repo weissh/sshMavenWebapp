@@ -9,7 +9,10 @@
 		}
 		
 		#sessionOut {
-            margin-top: 50px;
+			align:center;
+			MARGIN-RIGHT: auto;
+			MARGIN-LEFT: auto;
+            margin-top: 200px;
 			padding: 15px 50px;
 			width: 500px;
 			border: 2px solid green;
@@ -28,7 +31,7 @@
 
 <body>
 
-	<div id ="sessionOut" algin="center">
+	<div id ="sessionOut">
 		您长时间未操作系统，为确保您的资料及数据信息安全，
 		系统自动超时退出，请重新<a href="http://<%=request.getRemoteAddr()%>:<%= request.getServerPort()%>/byjx/login.jsp">登录</a>系统！
 		

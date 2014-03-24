@@ -111,8 +111,8 @@ public class RightServiceImpl extends GenericServiceImpl<Right> implements
 		TreeStore treeStore=new TreeStore();
 		treeStore.setId("treeStoreForRole");
 		treeStore.setRoot(root);
-		Map<String, Object> sessionMap=ActionContext.getContext().getSession();
-		sessionMap.put("treeStoreForRole", JSONObject.toJSONString(treeStore));
+//		Map<String, Object> sessionMap=ActionContext.getContext().getSession();
+//		sessionMap.put("treeStoreForRole", JSONObject.toJSONString(treeStore));
 //		Map<String, Object> requestMap=ActionContext.getContext().get
 //		return root.getChildren();
 		return treeStore;

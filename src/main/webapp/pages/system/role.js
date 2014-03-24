@@ -286,7 +286,8 @@ Ext.onReady(function(){
 				     }
 				},
 				bbar:['->',
-					{xtype:'button',text:'保存',iconCls: 'role_add',handler:saveRight}
+					{xtype:'button',text:'保存',handler:saveRight},
+					{xtype:'button',text:'取消',handler:function(){winForRight.close() }}
 				],
 			    renderTo: Ext.getBody()
 			});

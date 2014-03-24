@@ -15,13 +15,10 @@
 package web.action;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
-import pojos.Right;
 import pojos.Role;
 import service.RoleService;
 

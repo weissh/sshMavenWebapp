@@ -17,20 +17,14 @@ package web.action;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
-import org.apache.struts2.ServletActionContext;
-
-import com.alibaba.fastjson.JSONObject;
-import com.opensymphony.xwork2.ActionContext;
-
-
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
 import pojos.Right;
 import service.RightService;
-import web.ui.TreeNode;
 import web.ui.TreeStore;
+
+import com.alibaba.fastjson.JSONObject;
+import com.opensymphony.xwork2.ActionContext;
 
 
 public class RightAction extends BaseAction {

@@ -28,7 +28,6 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
-import net.sf.json.util.PropertyFilter;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -42,8 +41,8 @@ import service.StaffService;
 import web.ui.StaffModel;
 import web.ui.StaffUI;
 
+import common.DateJsonValueProcessor;
 import common.ExcelUtil;
-import common.ObjectJsonValueProcessor;
 
 public class StaffAction extends BaseAction{
 
@@ -402,12 +401,16 @@ public class StaffAction extends BaseAction{
 	 */
 	public String addStaff() throws Exception{
 		Department department =this.departmentService.find(departmentId);
-		System.out.println(roleId);
-		Role role =this.roleService.find(roleId);
-		Staff staff=new Staff(department, null, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password, null, null, null, null, null, null, role, null);
-		savePhoto(staff);
-		int staffId=this.staffService.save(staff);
-		this.printString(true, staffId+"");
+		if((department.getManagerId()!=null&&department.getManagerId()!=0)&&position.equals("部门经理")){
+			this.printString(false, "该部门已存在部门经理！");
+		}else{
+			Role role =this.roleService.find(roleId);
+			Staff staff=new Staff(department, null, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password, null, null, null, null, null, null, role, null);
+			savePhoto(staff);
+			int staffId=this.staffService.save(staff);
+			this.printString(true, staffId+"");
+		}
+		
 		return null;
 	}
 	
@@ -466,13 +469,17 @@ public class StaffAction extends BaseAction{
 	 */
 	public String updateStaff(){
 		Department department =this.departmentService.find(departmentId);
-		Role role =this.roleService.find(roleId);
-		Staff staff=new Staff(department, photo, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password);
-		staff.setStaffId(staffId);
-		staff.setRole(role);
-		/**将对象从瞬时状态改成脱管状态（merge），之后再更新（update）*/
-		this.staffService.update(staff);
-		this.printString(true, staffId+"");
+		if((department.getManagerId()!=null&&department.getManagerId()!=0)&&position.equals("部门经理")){
+			this.printString(false, "该部门已存在部门经理！");
+		}else{
+			Role role =this.roleService.find(roleId);
+			Staff staff=new Staff(department, photo, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password);
+			staff.setStaffId(staffId);
+			staff.setRole(role);
+			/**将对象从瞬时状态改成脱管状态（merge），之后再更新（update）*/
+			this.staffService.update(staff);
+			this.printString(true, staffId+"");
+		}
 		return null;
 	}
 	
@@ -494,6 +501,8 @@ public class StaffAction extends BaseAction{
 	public String deleteStaff(){
 		if(this.staffService.deleteStaff(staffIds)){
 			this.printString(true, "");
+		}else {
+			this.printString(false, "当前用户不能删除自己！");
 		}
 		return null;
 	}
@@ -605,19 +614,9 @@ public class StaffAction extends BaseAction{
 			Department department =this.departmentService.find(departmentId);
 			staffs =this.staffService.findByProperty("department", department);
 		}
-		JsonConfig jsonConfig =new JsonConfig();
-		/** 同样是为了避免出现hibernate死循环，过滤掉引起死循环的整个对象，不需要任何字段 */
-		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
-			@Override
-			public boolean apply(Object arg0, String arg1, Object arg2) {
-				if(arg1.equals("department")||arg1.equals("costs")||arg1.equals("role")||arg1.equals("journals")){
-					return true;
-				}else{
-					return false;
-				}
-			}
-		});
-		this.printList(0, 0, 0, staffs,jsonConfig);
+		List<StaffModel> staffModels=StaffModel.toStaffModels(staffs);
+		JsonConfig jsonConfig=new JsonConfig();
+		this.printList(0, 0, 0, staffModels,jsonConfig);
 		return null;
 	}
 	
@@ -640,6 +639,15 @@ public class StaffAction extends BaseAction{
 		return null;
 	}
 	
+	public String logout(){
+		HttpSession session =ServletActionContext.getRequest().getSession();
+		session.removeAttribute("staff");
+		session.removeAttribute("staffName");
+		session.removeAttribute("roleId");
+		session.removeAttribute("roleName");
+		return "success";
+	}
+	
 	public String getCurrentStaff(){
 		HttpSession session=ServletActionContext.getRequest().getSession();
 		Staff staff =(Staff)session.getAttribute("staff");
@@ -648,7 +656,7 @@ public class StaffAction extends BaseAction{
 		staffModel.toStaffModel(currentStaff);
 		JsonConfig jsonConfig=new JsonConfig();
 		//改变所有Date字段的形式为"yyyy--MM--dd"
-		jsonConfig.registerJsonValueProcessor(Date.class, new ObjectJsonValueProcessor("yyyy-MM-dd"));
+		jsonConfig.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd"));
 		JSONObject jsonObject=new JSONObject();
 		jsonObject=JSONObject.fromObject(staffModel,jsonConfig);
 		this.printString(true, jsonObject.toString());
