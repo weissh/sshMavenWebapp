@@ -154,6 +154,9 @@
 		<action name="jour_add" method="addJour" class="journalAction" >
 		<result name="success" type="json"/>
 		</action>
+		<action name="jour_addPer" method="addJourPer" class="journalAction" >
+		<result name="success" type="json"/>
+		</action>
 		<action name="jour_update" method="updateJour" class="journalAction" >
 		<result name="success" type="json"/>
 		</action>
@@ -161,6 +164,9 @@
 		<result name="success" type="json"/>
 		</action>
 		<action name="jour_getAll" method="getAllJour" class="journalAction" >
+		<result name="success" type="json"/>
+		</action>
+		<action name="jour_getAllPer" method="getAllJourPer" class="journalAction" >
 		<result name="success" type="json"/>
 		</action>
 		<action name="jour_export" method="exportJour" class="journalAction" >
