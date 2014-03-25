@@ -319,10 +319,44 @@ public class DepartmentAction extends BaseAction {
 	 * -----------------------------------------------------------------
 	 * 2014-2-11    caiwenming      v1.0.0         create
 	 */
-	public String getDeptForSelector(){
-		String sql="select new Department(dept.departmentId,dept.departmentName) from Department dept";
-		List<Department> departments=this.departmentService.findBysql(sql);
-		this.printList(0, 0, 0, departments);
+//	public String getDeptForSelector(){
+//		String sql="select new Department(dept.departmentId,dept.departmentName) from Department dept";
+//		List<Department> departments=this.departmentService.findBysql(sql);
+//		this.printList(0, 0, 0, departments);
+//		return null;
+//	}
+public String getDeptForSelector(){
+		
+		List<Department> departments=null;
+		String sql=null;
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff staff = (Staff) session.getAttribute("staff");
+		Department depart=staff.getDepartment();
+		int departId=depart.getDepartmentId();
+		pojos.Role role= staff.getRole();
+		String rol = role.getRoleName();
+		if(rol.equals("管理员")){
+		 sql="from Department dept";
+		}
+		else if(rol.equals("部门经理")){
+		 sql="select new Department(dept.departmentId,dept.departmentName) from Department dept where DepartmentID ="+departId;
+		}
+		departments=this.departmentService.findBysql(sql);
+		JsonConfig jsonConfig =new JsonConfig();
+		/** 结果转换成json对象是避免出现hibernate死循环，过滤掉引起死循环的字段，保留有用字段 */
+		//jsonConfig.registerJsonValueProcessor(Department.class, new ObjectJsonValueProcessor(new String[]{"departmentId"}, Department.class));
+		/** 同样是为了避免出现hibernate死循环，过滤掉引起死循环的整个对象，不需要任何字段 */
+		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
+			@Override
+			public boolean apply(Object arg0, String arg1, Object arg2) {
+				if(arg1.equals("staffs")){
+					return true;
+				}else{
+					return false;
+				}
+			}
+		});
+		this.printList(0, 0, 0, departments,jsonConfig);
 		return null;
 	}
 	

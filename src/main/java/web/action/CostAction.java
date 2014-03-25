@@ -20,6 +20,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.struts2.ServletActionContext;
 
 import net.sf.json.JsonConfig;
@@ -32,6 +34,7 @@ import service.CostService;
 import service.DepartmentService;
 import service.StaffService;
 import web.ui.CostDepUI;
+import web.ui.CostModel;
 import web.ui.DepartmentUI;
 
 import common.ExcelUtil;
@@ -293,6 +296,15 @@ public class CostAction extends BaseAction{
 		return null;
 	}
 	
+	public String addCostPer() {
+		//Staff staff = this.staffService.find(staffId);
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff staff = (Staff) session.getAttribute("staff");
+		Cost cost=new Cost(staff,executeDate, payWay, currency, money, costUnitName, costCountry, costProvince, costAddress, costContactName, costContactPosition, costContactPhone, costContactEmail, usage1, description1);
+		int costId=this.costService.save(cost);
+		this.printString(true, costId+"");
+		return null;
+	}
 	/**
 	 *
 	 * @description:更新部门费用信息（目前有两种方法）：
@@ -385,81 +397,77 @@ public class CostAction extends BaseAction{
 	 * -----------------------------------------------------------------
 	 * 2014-2-10    caiwenming      v1.0.0         create
 	 */
-	public String getAllCost(){
-		int page=start/limit+1;
-		List<Cost> costs =new ArrayList<Cost>();
-		int total;
-		if (query != null) {
-			if (departmentId != 0 && staffId == 0) {
-				String sql = new String(
-						"from Staff where Department_DepartmentID="
-								+ departmentId);
-				List<Staff> staffs = this.staffService.findBysql(sql);
-				for (int i = 0; i < staffs.size(); i++) {
-					Staff st = staffs.get(i);
-					List<Cost> cost = null;
-					cost = this.costService.findByProperty("staff", st);
-					costs.addAll(cost);
-				}
-				if (startDate != null && endDate != null) {
-					for (int j = costs.size() - 1; j >= 0; j--) {
-						Cost cos = costs.get(j);
-						Date exdate = cos.getExecuteDate();
-						if (startDate.after(exdate) || endDate.before(exdate)) {
-							costs.remove(cos);
-						}
-					}
-	
-				}
-				total = costs.size();
-			} 
-//		
-		else{
-			StringBuffer sql=new StringBuffer("from Cost where 1=1");
-			if(startDate!=null  && endDate != null){							
-				SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
-				String start=df.format(startDate);
-				String end=df.format(endDate);
-				System.out.println(start);
-				sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
-				+end+"'");
-			}
-			if(staffId!=0){
-				sql.append(" and Staff_StaffID="+staffId);
-			}
-			costs=this.costService.findByPage(page, limit, sql.toString());
-			System.out.println(sql.toString());
-			total=costs.size();
-		}}
-		else{
-			/**
-			 * findByPage方法的参数是（当前页码,每页记录数），所以需先通过start和limit计算得出请求的当前页码
-			 */
-			costs=this.costService.findByPage(page,limit);
-			total=this.costService.getTotalRows();
-		}
-		JsonConfig jsonConfig =new JsonConfig();
-		jsonConfig.registerJsonValueProcessor(Staff.class, new ObjectJsonValueProcessor(new String[]{"staffId","staffName"}, Staff.class));
-		System.out.println(total);
-		this.printList(start, limit, total, costs, jsonConfig);
-		return null;
-	}
-
-//	int page=start/limit+1;
-//	List<Cost> costs = new ArrayList<Cost>();
-//	int total;
-//	if (query != null) {
-//		if (departmentId != 0 && staffId == 0) {
-//			String sql = new String(
-//					"from Staff where Department_DepartmentID="
-//							+ departmentId);
-//			List<Staff> staffs = this.staffService.findBysql(sql);
-//			for (int i = 0; i < staffs.size(); i++) {
-//				Staff st = staffs.get(i);
-//				List<Cost> cost = null;
-//				cost = this.costService.findByProperty("staff", st);
-//				costs.addAll(cost);
-//			}
+//	public String getAllCost(){
+//		int page=start/limit+1;
+//		List<Cost> costs =new ArrayList<Cost>();
+//		int total;
+//		HttpSession session = ServletActionContext.getRequest().getSession();
+//		Staff staff = (Staff) session.getAttribute("staff");
+//		Department depart=staff.getDepartment();
+//		int departId=depart.getDepartmentId();
+////		String sqll = new String("from Staff where Department_DepartmentID="+ departId);
+////		List<Staff> staf = this.staffService.findBysql(sqll);
+//		pojos.Role role= staff.getRole();
+//		String rol = role.getRoleName();
+//		if (query != null) {
+//			if (departmentId != 0 && staffId == 0) {
+//				String sql = new String(
+//						"from Staff where Department_DepartmentID="
+//								+ departmentId);
+//				List<Staff> staffs = this.staffService.findBysql(sql);
+//				for (int i = 0; i < staffs.size(); i++) {
+//					Staff st = staffs.get(i);
+//					List<Cost> cost = null;
+//					cost = this.costService.findByProperty("staff", st);
+//					costs.addAll(cost);
+//				}
+//				if (startDate != null && endDate != null) {
+//					for (int j = costs.size() - 1; j >= 0; j--) {
+//						Cost cos = costs.get(j);
+//						Date exdate = cos.getExecuteDate();
+//						if (startDate.after(exdate) || endDate.before(exdate)) {
+//							costs.remove(cos);
+//						}
+//					}
+//	
+//				}
+//				total = costs.size();
+//			} 
+////		
+//		else{
+//			StringBuffer sql=null;
+//			StringBuffer sqll=null;
+//			if(rol.equals("管理员")){
+//				sql=new StringBuffer("from Cost where 1=1");
+//				if(staffId!=0){
+//					sql.append(" and Staff_StaffID="+staffId);
+//				}
+//				costs=this.costService.findByPage(page, limit, sql.toString());
+//				
+//				}
+//			else if(rol.equals("部门经理")){
+//				 sqll=new StringBuffer("from Staff where Department_DepartmentID="+departId);
+//				 if(staffId!=0){
+//					 sqll.append(" and StaffID="+staffId);
+//					}
+//				 List<Staff> staffs =this.staffService.findBysql(sqll.toString());
+//				 for (int i = 0; i < staffs.size(); i++) {
+//						Staff st = staffs.get(i);
+//						List<Cost> cost = null;
+//						cost = this.costService.findByProperty("staff", st);
+//						costs.addAll(cost);
+//					}
+//				 
+//				}
+//
+////			if(startDate!=null  && endDate != null){							
+////				SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+////				String start=df.format(startDate);
+////				String end=df.format(endDate);
+////				System.out.println(start);
+////				sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
+////				+end+"'");
+////			}
 //			if (startDate != null && endDate != null) {
 //				for (int j = costs.size() - 1; j >= 0; j--) {
 //					Cost cos = costs.get(j);
@@ -470,45 +478,137 @@ public class CostAction extends BaseAction{
 //				}
 //
 //			}
-//			total = costs.size();
-//		} else {
-//			StringBuffer sql = new StringBuffer("from Journal where 1=1");
-//			if (startDate != null && endDate != null) {
-//				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//				String start = df.format(startDate);
-//				String end = df.format(endDate);
-//				sql.append(" and executeDate>='" + start + "'"
-//						+ " and executeDate<='" + end + "'");
-//			}
-//			if (staffId != 0) {
-//				sql.append(" and Staff_StaffID=" + staffId);
-//			}
-//			costs=this.costService.findByPage(page, limit, sql.toString());
-//			System.out.println(sql.toString());
 //			total=costs.size();
+//		}}
+//		else{
+//			/**
+//			 * findByPage方法的参数是（当前页码,每页记录数），所以需先通过start和limit计算得出请求的当前页码
+//			 */
+//			StringBuffer sql=new StringBuffer("from Cost where 1=1");
+////			if(rol.equals("部门经理")){
+////				sql.append(" and Staff_StaffID in"+staf);
+////			}
+//			costs=this.costService.findByPage(page, limit, sql.toString());
+////			costs=this.costService.findByPage(page,limit);
+//			total=costs.size();
+////			total=this.costService.getTotalRows();
 //		}
-//	}else{
-//		/**
-//		 * findByPage方法的参数是（当前页码,每页记录数），所以需先通过start和limit计算得出请求的当前页码
-//		 */
-//		costs=this.costService.findByPage(page,limit);
-//		total=this.costService.getTotalRows();
+//		JsonConfig jsonConfig =new JsonConfig();
+//		jsonConfig.registerJsonValueProcessor(Staff.class, new ObjectJsonValueProcessor(new String[]{"staffId","staffName"}, Staff.class));
+//		System.out.println(total);
+//		this.printList(start, limit, total, costs, jsonConfig);
+//		return null;
 //	}
-//	JsonConfig jsonConfig =new JsonConfig();
-//	jsonConfig.registerJsonValueProcessor(Staff.class, new ObjectJsonValueProcessor(new String[]{"staffId","staffName"}, Staff.class));
-//	System.out.println(total);
-//	this.printList(start, limit, total, costs, jsonConfig);
-//	return null;
+
+	
+	public String getAllCost()
+	{
+		int page=start/limit+1;
+		List<Cost> costs = new ArrayList<Cost>();
+		int total;
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff staff = (Staff) session.getAttribute("staff");
+		Integer staf = staff.getStaffId();
+		String roleName=staff.getRole().getRoleName();
+		StringBuffer sql=null;
+		
+		//如果是部门经理
+		if(roleName.equals("部门经理")){
+			Integer departmentid=staff.getDepartment().getDepartmentId();	
+			//System.out.println(departmentid);
+			String sqll = new String("from Staff where Department_DepartmentID="+ departmentid);
+			List<Staff> staff2 = this.staffService.findBysql(sqll);
+			String staffid=null;
+			for(int i=0;i<staff2.size();i++)
+			{
+				if(staffid==null)
+				{
+					staffid=staff2.get(i).getStaffId()+"";
+				}else{
+					staffid=staffid+","+staff2.get(i).getStaffId()+"";
+				}			
+			}
+			sql=new StringBuffer("from Cost where Staff_StaffID in (" +staffid+")");
+			//如果存在其他查询条件
+			if(query!=null)
+			{
+				if(startDate!=null  && endDate != null){							
+					SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+					String start=df.format(startDate);
+					String end=df.format(endDate);
+					System.out.println(start);
+					sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
+					+end+"'");
+				}
+				if(staffId!=0){
+					sql.append(" and Staff_StaffID="+staffId);
+				}
+			}
+			
+			
+		}
+		//如果是管理员或者财务部员工或者财务部经理
+		if(roleName.equals("管理员")||roleName.equals("财务部员工")||roleName.equals("财务部经理"))
+		{
+			sql=new StringBuffer("from Cost where 1=1");
+			if(query!=null)
+			{
+				if(startDate!=null  && endDate != null){							
+					SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+					String start=df.format(startDate);
+					String end=df.format(endDate);
+					System.out.println(start);
+					sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
+					+end+"'");
+				}
+				if(departmentId!=0)
+				{
+					String sqll = new String("from Staff where Department_DepartmentID="+ departmentId);
+					List<Staff> staff2 = this.staffService.findBysql(sqll);
+					String staffid=null;
+					for(int i=0;i<staff2.size();i++)
+					{
+						if(staffid==null)
+						{
+							staffid=staff2.get(i).getStaffId()+"";
+						}else{
+							staffid=staffid+","+staff2.get(i).getStaffId()+"";
+						}			
+					}
+					sql.append("and Staff_StaffID in (" +staffid+")");
+				}
+				if(staffId!=0){
+					sql.append(" and Staff_StaffID="+staffId);
+				}
+			}
+		}
+		
+		//System.out.println(sql);
+		costs=this.costService.findByPage(page,limit, sql.toString());
+		total=this.costService.getTotalRows(sql.toString());
+		//System.out.println(total);
+		List<CostModel> costModels;
+		if(costs.size()>0){
+			costModels=CostModel.toCostModels(costs);
+		}
+		else{
+			costModels=null;
+		}	
+		//System.out.println(costs.get(0).getStaff().getStaffId() );
+		JsonConfig jsonConfig =new JsonConfig();
+		this.printList(start, limit, total, costModels,jsonConfig);
+		return null;
+	}
 	
 	public String getAllCostPer(){
 		int page=start/limit+1;
 		List<Cost> costs = null;
 		int total;
-		
-		StringBuffer sql=new StringBuffer("from Cost where Staff_StaffID='1'");
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff staff = (Staff) session.getAttribute("staff");
+		Integer staf = staff.getStaffId();
+		StringBuffer sql=new StringBuffer("from Cost where Staff_StaffID="+staf);
 		if(query!=null){
-//			Department department=this.departmentService.find(departmentId);
-//			List<Staff> staffs=this.staffService.findBysql("from Staff where department="+department);
 						
 			if(startDate!=null  && endDate != null){							
 				SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
@@ -518,23 +618,27 @@ public class CostAction extends BaseAction{
 				sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
 				+end+"'");
 			}
-//			if(staffId!=0){
-//				sql.append(" and Staff_StaffID="+staffId);
-//			}
-			costs=this.costService.findByPage(page, limit, sql.toString());
+			costs=this.costService.findByPage(page, limit, sql.toString());			
 			System.out.println(sql.toString());
-			total=costs.size();
+			total=this.costService.getTotalRows(sql.toString());
 		}else{
 			/**
 			 * findByPage方法的参数是（当前页码,每页记录数），所以需先通过start和limit计算得出请求的当前页码
 			 */
 			costs=this.costService.findByPage(page,limit, sql.toString());
-			total=costs.size();
+			total=this.costService.getTotalRows();
+		}
+		List<CostModel> costModels;
+		if(costs.size()>0){
+			costModels=CostModel.toCostModels(costs);
+		}
+		else{
+			costModels=null;
 		}
 		JsonConfig jsonConfig =new JsonConfig();
-		jsonConfig.registerJsonValueProcessor(Staff.class, new ObjectJsonValueProcessor(new String[]{"staffId","staffName"}, Staff.class));
-		System.out.println(total);
-		this.printList(start, limit, total, costs, jsonConfig);
+//		jsonConfig.registerJsonValueProcessor(Staff.class, new ObjectJsonValueProcessor(new String[]{"staffId","staffName"}, Staff.class));
+//		System.out.println(total);
+		this.printList(start, limit, total, costModels,jsonConfig);
 		return null;
 	}
 	
@@ -573,39 +677,128 @@ public class CostAction extends BaseAction{
 		this.fileName=fileName;
 		this.excelStream=ServletActionContext.getServletContext().getResourceAsStream("excel/"+fileName);
 	}
-//	public String searchCost(){
-//		String sql="select * from cost where 1=1";
-//		if(departmentId!=0);
-//		if(staffId!=0);
-//		System.out.println(departmentId);
-//		System.out.println(staffId);
-//		System.out.println(costId);
-//		return null;
-//	}
-//	public String getcostForSelector(){
-//		System.out.println(departmentId);
-//		List<Cost> costs;
-//		if (departmentId==0) {
-//			costs=this.costService.findAll();
-//		}else{
-//			Department department =this.departmentService.find(departmentId);
-//			Staff staff=this.staffService.find(staffId);
-//			costs =this.costService.findByProperty("staff", staff);
-//		}
-//		JsonConfig jsonConfig =new JsonConfig();
-//		/** 同样是为了避免出现hibernate死循环，过滤掉引起死循环的整个对象，不需要任何字段 */
-//		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
-//			@Override
-//			public boolean apply(Object arg0, String arg1, Object arg2) {
-//				if(arg1.equals("staff")){
-//					return true;
-//				}else{
-//					return false;
-//				}
-//			}
-//		});
-//		this.printList(0, 0, 0, costs,jsonConfig);
-//		return null;
-//	}
 	
+	
+	public String CountPer()
+	{
+		List<Cost> costs = null;
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff staff = (Staff) session.getAttribute("staff");
+		Integer staf = staff.getStaffId();
+		StringBuffer sql=new StringBuffer("from Cost where Staff_StaffID="+staf);
+		
+		if(query!=null){
+			
+			if(startDate!=null  && endDate != null){							
+				SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+				String start=df.format(startDate);
+				String end=df.format(endDate);
+				System.out.println(start);
+				sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
+				+end+"'");
+			}
+		}		
+		costs=this.costService.findBysql(sql.toString());
+		System.out.print("size:"+costs.size());
+		float count=0;
+		for(int i=0;i<costs.size();i++)
+		{
+			count=costs.get(i).getMoney()+count;
+		}
+		this.printString(count+"");
+		return null;
+	}
+	public String CountDep()
+	{
+		
+		List<Cost> costs = new ArrayList<Cost>();
+		int total;
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff staff = (Staff) session.getAttribute("staff");
+		Integer staf = staff.getStaffId();
+		String roleName=staff.getRole().getRoleName();
+		StringBuffer sql=null;
+		
+		//如果是部门经理
+		if(roleName.equals("部门经理")){
+			Integer departmentid=staff.getDepartment().getDepartmentId();	
+			//System.out.println(departmentid);
+			String sqll = new String("from Staff where Department_DepartmentID="+ departmentid);
+			List<Staff> staff2 = this.staffService.findBysql(sqll);
+			String staffid=null;
+			for(int i=0;i<staff2.size();i++)
+			{
+				if(staffid==null)
+				{
+					staffid=staff2.get(i).getStaffId()+"";
+				}else{
+					staffid=staffid+","+staff2.get(i).getStaffId()+"";
+				}			
+			}
+			sql=new StringBuffer("from Cost where Staff_StaffID in (" +staffid+")");
+			//如果存在其他查询条件
+			if(query!=null)
+			{
+				if(startDate!=null  && endDate != null){							
+					SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+					String start=df.format(startDate);
+					String end=df.format(endDate);
+					System.out.println(start);
+					sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
+					+end+"'");
+				}
+				if(staffId!=0){
+					sql.append(" and Staff_StaffID="+staffId);
+				}
+			}
+			
+			
+		}
+		//如果是管理员或者财务部员工或者财务部经理
+		if(roleName.equals("管理员")||roleName.equals("财务部员工")||roleName.equals("财务部经理"))
+		{
+			sql=new StringBuffer("from Cost where 1=1");
+			if(query!=null)
+			{
+				if(startDate!=null  && endDate != null){							
+					SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+					String start=df.format(startDate);
+					String end=df.format(endDate);
+					System.out.println(start);
+					sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
+					+end+"'");
+				}
+				if(departmentId!=0)
+				{
+					String sqll = new String("from Staff where Department_DepartmentID="+ departmentId);
+					List<Staff> staff2 = this.staffService.findBysql(sqll);
+					String staffid=null;
+					for(int i=0;i<staff2.size();i++)
+					{
+						if(staffid==null)
+						{
+							staffid=staff2.get(i).getStaffId()+"";
+						}else{
+							staffid=staffid+","+staff2.get(i).getStaffId()+"";
+						}			
+					}
+					sql.append("and Staff_StaffID in (" +staffid+")");
+				}
+				if(staffId!=0){
+					sql.append(" and Staff_StaffID="+staffId);
+				}
+			}
+		}
+		
+		//System.out.println(sql);
+		costs=this.costService.findBysql(sql.toString());
+//		System.out.print("size:"+costs.size());
+		float count=0;
+		for(int i=0;i<costs.size();i++)
+		{
+			count=costs.get(i).getMoney()+count;
+		}
+		this.printString(count+"");
+		return null;
+	}
 }
