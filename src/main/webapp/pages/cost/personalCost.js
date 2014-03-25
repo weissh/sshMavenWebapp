@@ -38,83 +38,82 @@ Ext.require([
         ]
     });
     
+     
     //币种数据源
     var currency=new Ext.data.Store({
     	autoLoad: true,
         fieldLabel:30,
         fields:['id','name'],
         data:[
-	        {'id':'1','name':'人民币'},
-	        {'id':'2','name':'美元'},
-	        {'id':'3','name':'英镑'},
-	        {'id':'4','name':'欧元'},
-	        {'id':'5','name':'港元'},
-	        {'id':'6','name':'加元'},
-	        {'id':'7','name':'日元'},
-	        {'id':'8','name':'澳大利亚元'},
-	        {'id':'9','name':'瑞士法郎'},
-	        {'id':'10','name':'法国法郎'},
-	        {'id':'11','name':'德国马克'},
-	        {'id':'12','name':'新西兰元'},
-	        {'id':'13','name':'越南盾'},
-	        {'id':'14','name':'泰铢'},
-	        {'id':'15','name':'韩国元'},
-	        {'id':'16','name':'卢森堡法郎'},
-	        {'id':'17','name':'俄罗斯卢布'},
-	        {'id':'18','name':'卢森堡法郎'},
-	        {'id':'19','name':'马来西亚林吉特 '},
-	        {'id':'20','name':'奥地利先令 '},
-	        {'id':'21','name':'芬兰马克 '},
-	        {'id':'22','name':'比利时法郎 '},
-	        {'id':'23','name':'新加坡元'},
-	        {'id':'24','name':'西班牙比塞塔'},
-	        {'id':'25','name':'菲律宾比索'},
-	        {'id':'26','name':'印尼盾 	'},
-	        {'id':'27','name':'爱尔兰镑'},
-	        {'id':'28','name':'印度卢比'}
+	         {'id':'CN','name':'人民币'},
+        {'id':'US','name':'美元'},
+        {'id':'KOR','name':'韩元'},
+        {'id':'GER','name':'欧元'},
+        {'id':'BRA','name':'雷亚尔'},
+        {'id':'IND','name':'卢比'},
+        {'id':'CAN','name':'加元'},
+        {'id':'AU','name':'澳元'},
+        {'id':'JP','name':'日元'}
         ]
     });
     
     //国家数据源
-    var costCountry=new Ext.data.Store({
-    	autoLoad: true,
-        fieldLabel:30,
+       var costCountry=new Ext.data.Store({
         fields:['id','name'],
         data:[
-	        {'id':'1','name':'中国'},
-	        {'id':'2','name':'韩国'},
-	        {'id':'3','name':'日本'},
-	        {'id':'4','name':'朝鲜'},
-	        {'id':'5','name':'蒙古'},
-	        {'id':'6','name':'越南'},
-	        {'id':'7','name':'老挝'},
-	        {'id':'8','name':'柬埔寨'},
-	        {'id':'9','name':'缅甸'},
-	        {'id':'10','name':'泰国'},
-	        {'id':'11','name':'马来西亚'},
-	        {'id':'12','name':'新加坡'},
-	        {'id':'13','name':'印度尼西亚'},
-	        {'id':'14','name':'菲律宾'},
-	        {'id':'15','name':'文莱'},
-	        {'id':'16','name':'印度'}
+        {'id':'CN','name':'中国'},
+        {'id':'US','name':'美国'},
+        {'id':'KOR','name':'韩国'},
+        {'id':'GER','name':'德国'},
+        {'id':'BRA','name':'巴西'},
+        {'id':'IND','name':'印度'},
+        {'id':'CAN','name':'加拿大'},
+        {'id':'AU','name':'澳大利亚'},
+        {'id':'JP','name':'日本'}
         ]
     });
     
     //省份数据源
-    var costProvince=new Ext.data.Store({
-    	autoLoad: true,
-        fieldLabel:30,
+       var costProvince=new Ext.data.Store({
         fields:['id','name'],
         data:[
-	        {'id':'1','name':'安徽省'},
-	        {'id':'2','name':'河北省'},
-	        {'id':'3','name':'河南省'},
-	        {'id':'4','name':'湖北省'},
-	        {'id':'5','name':'湖南省'},
-	        {'id':'6','name':'内蒙古'},
-	        {'id':'7','name':'广东省'}
+        {'id':'CNBJ','name':'北京'},
+        {'id':'CNTJ','name':'天津'},
+        {'id':'CNSH','name':'上海'},
+        {'id':'CNCQ','name':'重庆'},
+        {'id':'CNHB','name':'河北'},
+        {'id':'CNHN','name':'河南'},
+        {'id':'CNYN','name':'云南'},
+        {'id':'CNLN','name':'辽宁'},
+        {'id':'CNHLJ','name':'黑龙江'},
+        {'id':'CNHN2','name':'湖南'},
+        {'id':'CNAH','name':'安徽'},
+        {'id':'CNSD','name':'山东'},
+        {'id':'CNXJ','name':'新疆'},
+        {'id':'CNJS','name':'江苏'},
+        {'id':'CNZJ','name':'浙江'},
+        {'id':'CNJX','name':'江西'},
+        {'id':'CNHB','name':'湖北'},
+        {'id':'CNGX','name':'广西'},
+        {'id':'CNGS','name':'甘肃'},
+        {'id':'CNSX','name':'山西'},
+        {'id':'CNNM','name':'内蒙'},
+        {'id':'CNSX2','name':'陕西'},
+        {'id':'CNJL','name':'吉林'},
+        {'id':'CNFJ','name':'福建'},
+        {'id':'CNGZ','name':'贵州'},
+        {'id':'CNGD','name':'广东'},
+        {'id':'CNQH','name':'青海'},
+        {'id':'CNXZ','name':'西藏'},
+        {'id':'CNSC','name':'四川'},
+        {'id':'CNNX','name':'宁夏'},
+        {'id':'CNHN','name':'海南'},
+        {'id':'CNTW','name':'台湾'},
+        {'id':'CNXG','name':'香港'},
+        {'id':'CNAM','name':'澳门'}
         ]
     });
+    var newProvince = new Ext.data.Store({fields: ['id', 'name']});
     //用途数据源
     var usage1=new Ext.data.Store({
     	autoLoad: true,
@@ -268,7 +267,7 @@ Ext.require([
 //						} else {
 //							top.Ext.Msg.show({title:'提示', msg:'用户名或密码错误！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});							
 //						}
-						alert(result);
+						
 						Ext.getCmp("allCout").setValue(result);
 					},
 					failure : function() {
@@ -418,7 +417,6 @@ Ext.require([
 		 valueField : 'name',
 		 displayField : 'name',
 		 mode : 'local',
-		 value:'1',
 		 allowBlank: false
 		 },{
 			xtype : 'combo',
@@ -430,7 +428,6 @@ Ext.require([
 			store:currency,
 			valueField : 'name',
 			displayField : 'name',
-			value:'1',
 			typeAhead : true,
 			mode : 'local',
 			triggerAction : 'all',
@@ -447,40 +444,36 @@ Ext.require([
 				color : 'blue'
 			}
 			//anchor : '95%'
-		},{
-			xtype : 'combo',
-			hiddenName : 'costCountry',
-			name : 'costCountry',
-			fieldLabel : '国家',
-			emptyText : '国家...',
-			//forceSelection : true,
-			store :costCountry,
-			valueField : 'name',
-			displayField : 'name',
-			value:'1',
-			typeAhead : true,
-			mode : 'local',
-			triggerAction : 'all',
-			selectOnFocus : true,
-			allowBlank : false
-			//anchor : '95%'
-		},{
-			xtype : 'combo',
-			hiddenName : 'costProvince',
-			name : 'costProvince',
-			fieldLabel : '省份',
-			emptyText : '省份...',
-			//forceSelection : true,
-			store : costProvince,
-			valueField : 'name',
-			displayField : 'name',
-			value:'1',
-			typeAhead : true,
-			mode : 'local',
-			triggerAction : 'all',
-			selectOnFocus : true,
-			allowBlank : false
-			//anchor : '95%'
+		},{width:'33%',						
+							xtype : 'combo',
+							fieldLabel : '国家',
+							valueField:'name',
+							displayField : 'name',
+							store : costCountry,
+							typeAhead : true,
+							name : 'costCountry',
+							listeners:{        
+                        select : function(combo, record, index){   
+                        // 清除省市下拉框的现存值
+                        var provinceField = form.getForm().findField('costProvince');   
+                        provinceField.setValue('');
+                        newProvince.removeAll();
+                        // 获取当前选择的国家代码，然后在province过滤出所有属于这个国家的省
+                        var codeHead = record[0].get('id'); 
+                        if(codeHead=='CN'){                      	
+                            newProvince.add(costProvince.getRange()); 
+                        }
+	                    }}},{width:'33%',
+						xtype : 'combo',
+						fieldLabel : '省市',
+						valueField:'name',
+						displayField : 'name',
+						store : newProvince,
+						typeAhead : true,
+						blankText : '国外省份请自行填写',
+						name:'costProvince',
+						mode:'local'
+							
 		},{
 			xtype : 'textarea',
 			fieldLabel : '详细地址',
@@ -554,7 +547,6 @@ Ext.require([
 			store :usage1,
 			valueField : 'name',
 			displayField : 'name',
-			value:'1',
 			typeAhead : true,
 			mode : 'local',
 			triggerAction : 'all',
