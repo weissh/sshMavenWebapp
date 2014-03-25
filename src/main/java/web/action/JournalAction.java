@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.struts2.ServletActionContext;
 
 import common.ExcelUtil;
@@ -20,17 +22,19 @@ import pojos.Journal;
 import pojos.Staff;
 import service.JournalService;
 import service.StaffService;
+import web.ui.CostModel;
+import web.ui.JournalModel;
 import web.ui.JournalUI;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
 
 public class JournalAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
-	
+
 	/** 获取对日志进行增、改、查操作所需要的服务,以及get和set方法 */
 	private JournalService journalService;
 	private StaffService staffService;
-	
+
 	public JournalService getJournalService() {
 		return journalService;
 	}
@@ -46,13 +50,14 @@ public class JournalAction extends BaseAction {
 	public void setStaffService(StaffService staffService) {
 		this.staffService = staffService;
 	}
-	
-	/** 导出excel表时的输入流、文件名称;以及get和set方法  */
+
+	/** 导出excel表时的输入流、文件名称;以及get和set方法 */
 	private InputStream excelStream;
 	private String fileName;
 
 	public InputStream getExcelStream() {
-		return ServletActionContext.getServletContext().getResourceAsStream("excel/"+this.fileName);
+		return ServletActionContext.getServletContext().getResourceAsStream(
+				"excel/" + this.fileName);
 	}
 
 	public void setExcelStream(InputStream excelStream) {
@@ -317,64 +322,127 @@ public class JournalAction extends BaseAction {
 		int page = start / limit + 1;
 		List<Journal> journals = new ArrayList<Journal>();
 		int total;
-		if (query != null) {
-			if (departmentId != 0 && staffId == 0) {
-				String sql = new String(
-						"from Staff where Department_DepartmentID="
-								+ departmentId);
-				List<Staff> staffs = this.staffService.findBysql(sql);
-				for (int i = 0; i < staffs.size(); i++) {
-					Staff st = staffs.get(i);
-					List<Journal> tempJs = null;
-					tempJs = this.journalService.findByProperty("staff", st);
-					journals.addAll(tempJs);
-				}
-				if (startDate != null && endDate != null) {
-					for (int j = journals.size() - 1; j >= 0; j--) {
-						Journal jour = journals.get(j);
-						Date exdate = jour.getExecuteDate();
-						if (startDate.after(exdate) || endDate.before(exdate)) {
-							journals.remove(jour);
-						}
-					}
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff tempStaff = (Staff) session.getAttribute("staff");
+		int tempStaffId = tempStaff.getStaffId();
+		String roleName = tempStaff.getRole().getRoleName();
+		StringBuffer sql = null;
 
+		// 如果是部门经理
+		if (roleName.equals("部门经理")) {
+			Integer departmentid = tempStaff.getDepartment().getDepartmentId();
+			String sqll = new String(
+					"from Staff where Department_DepartmentID=" + departmentid);
+			List<Staff> staffs = this.staffService.findBysql(sqll);
+			String staffid = null;
+			for (int i = 0; i < staffs.size(); i++) {
+				if (staffid == null) {
+					staffid = staffs.get(i).getStaffId() + "";
+				} else {
+					staffid = staffid + "," + staffs.get(i).getStaffId() + "";
 				}
-				total = journals.size();
-			} else {
-				StringBuffer sql = new StringBuffer("from Journal where 1=1");
+			}
+			sql = new StringBuffer("from Journal where Staff_StaffID in ("
+					+ staffid + ")");
+			// 如果存在其他查询条件
+			if (query != null) {
 				if (startDate != null && endDate != null) {
 					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 					String start = df.format(startDate);
 					String end = df.format(endDate);
+					System.out.println(start);
 					sql.append(" and executeDate>='" + start + "'"
 							+ " and executeDate<='" + end + "'");
 				}
 				if (staffId != 0) {
 					sql.append(" and Staff_StaffID=" + staffId);
 				}
-				journals = this.journalService.findByPage(page, limit,
-						sql.toString());
-				total = journals.size();
 			}
+
+		}
+		// 如果是管理员或者财务部员工或者财务部经理
+		if (roleName.equals("管理员") || roleName.equals("人力部员工")
+				|| roleName.equals("人力部经理")) {
+			sql = new StringBuffer("from Journal where 1=1");
+			if (query != null) {
+				if (startDate != null && endDate != null) {
+					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+					String start = df.format(startDate);
+					String end = df.format(endDate);
+					System.out.println(start);
+					sql.append(" and executeDate>='" + start + "'"
+							+ " and executeDate<='" + end + "'");
+				}
+				if (departmentId != 0) {
+					String sqll = new String(
+							"from Staff where Department_DepartmentID="
+									+ departmentId);
+					List<Staff> staffs = this.staffService.findBysql(sqll);
+					String staffid = null;
+					for (int i = 0; i < staffs.size(); i++) {
+						if (staffid == null) {
+							staffid = staffs.get(i).getStaffId() + "";
+						} else {
+							staffid = staffid + ","
+									+ staffs.get(i).getStaffId() + "";
+						}
+					}
+					sql.append("and Staff_StaffID in (" + staffid + ")");
+				}
+				if (staffId != 0) {
+					sql.append(" and Staff_StaffID=" + staffId);
+				}
+			}
+		}
+		journals = this.journalService.findByPage(page, limit);
+		total = this.journalService.getTotalRows();
+		List<JournalModel> journalModels;
+		if (journals.size() > 0) {
+			journalModels = JournalModel.toJournalModels(journals);
+		} else {
+			journalModels = null;
+		}
+		JsonConfig jsonConfig = new JsonConfig();
+		this.printList(start, limit, total, journalModels, jsonConfig);
+		return null;
+	}
+
+	// 获取个人日志信息列表
+	public String getAllJourPer() {
+		int page = start / limit + 1;
+		List<Journal> journals = new ArrayList<Journal>();
+		int total;
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff tempStaff = (Staff) session.getAttribute("staff");
+		StringBuffer sql = new StringBuffer("from Journal where Staff_StaffID="
+				+ tempStaff.getStaffId());
+		if (query != null) {
+			if (startDate != null && endDate != null) {
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				String start = df.format(startDate);
+				String end = df.format(endDate);
+				sql.append(" and executeDate>='" + start + "'"
+						+ " and executeDate<='" + end + "'");
+			}
+			journals = this.journalService.findByPage(page, limit,
+					sql.toString());
+			total = this.journalService.getTotalRows(sql.toString());
 		} else {
 			/**
 			 * findByPage方法的参数是（当前页码,每页记录数），所以需先通过start和limit计算得出请求的当前页码
 			 */
-			journals = this.journalService.findByPage(page, limit);
-			total = this.journalService.getTotalRows();
+			journals = this.journalService.findByPage(page, limit,
+					sql.toString());
+			total = this.journalService.getTotalRows(sql.toString());
+		}
+		List<JournalModel> journalModels;
+		if (journals.size() > 0) {
+			journalModels = JournalModel.toJournalModels(journals);
+		} else {
+			journalModels = null;
 		}
 		JsonConfig jsonConfig = new JsonConfig();
-		jsonConfig.registerJsonValueProcessor(Staff.class,
-				new ObjectJsonValueProcessor(new String[] { "staffId",
-						"staffName" }, Staff.class));
-		/*
-		 * jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
-		 * 
-		 * @Override public boolean apply(Object arg0, String arg1, Object arg2)
-		 * { if(arg1.equals("staff")){ return true; }else{ return false; } } });
-		 */
-		System.out.println(total);
-		this.printList(start, limit, total, journals, jsonConfig);
+		this.printList(start, limit, total, journalModels, jsonConfig);
 		return null;
 	}
 
@@ -391,6 +459,20 @@ public class JournalAction extends BaseAction {
 			int workId = this.journalService.save(journal);
 			this.printString(true, workId + "");
 		}
+		return null;
+	}
+
+	// 新增个人日志
+	public String addJourPer() {
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff tempStaff = (Staff) session.getAttribute("staff");
+		Staff staff = this.staffService.find(tempStaff.getStaffId());
+		Journal journal = new Journal(staff, executeDate, operateMode,
+				unitName, country, province, address, contactObject, level,
+				contactWay, contactName, contactPosition, contactPhone,
+				contactEmail, startTime, endTime, workContent);
+		int workId = this.journalService.save(journal);
+		this.printString(true, workId + "");
 		return null;
 	}
 
@@ -440,40 +522,43 @@ public class JournalAction extends BaseAction {
 		this.printString(true, "");
 		return null;
 	}
-	
-	//导出日志
-	public String exportJour() throws Exception{
+
+	// 导出日志
+	public String exportJour() throws Exception {
 		System.out.println(workIds);
-		List<Journal> journals= new ArrayList<Journal>();
-		if(workIds.equals("")){
+		List<Journal> journals = new ArrayList<Journal>();
+		if (workIds.equals("")) {
 			journals = this.journalService.findAll();
-		}else{
-			/**如果有多个id，则获取到的departmentIds格式是：id1,id2,id3,id4.... */
-			String[] str=this.workIds.split(",");
-			
-			/**遍历id，并实例化类型，在add到List */
-			for(int i=0;i<str.length;i++){
-				Journal journal = this.journalService.find(Integer.parseInt(str[i]));
+		} else {
+			/** 如果有多个id，则获取到的departmentIds格式是：id1,id2,id3,id4.... */
+			String[] str = this.workIds.split(",");
+
+			/** 遍历id，并实例化类型，在add到List */
+			for (int i = 0; i < str.length; i++) {
+				Journal journal = this.journalService.find(Integer
+						.parseInt(str[i]));
 				journals.add(journal);
 			}
 		}
-		Vector<String> head=JournalUI.getHead();
-		List<Vector<String>> dataList=JournalUI.getDataList(journals);
-		String downLoadPath =ServletActionContext.getServletContext().getRealPath("/")+"excel\\";
-		String fileName=ExcelUtil.createFileName("Journal")+".xls";
-		if(ExcelUtil.printExcel(head, dataList, downLoadPath+fileName)){
+		Vector<String> head = JournalUI.getHead();
+		List<Vector<String>> dataList = JournalUI.getDataList(journals);
+		String downLoadPath = ServletActionContext.getServletContext()
+				.getRealPath("/") + "excel\\";
+		String fileName = ExcelUtil.createFileName("Journal") + ".xls";
+		if (ExcelUtil.printExcel(head, dataList, downLoadPath + fileName)) {
 			download(fileName);
-			//System.out.println(ServletActionContext.getServletContext().getRealPath("excel/Department201402131756458884286.xls"));
+			// System.out.println(ServletActionContext.getServletContext().getRealPath("excel/Department201402131756458884286.xls"));
 			return "success";
-		}else {
+		} else {
 			this.printString(false, "");
 		}
-		
+
 		return null;
 	}
-	
-	public void download(String fileName) throws Exception{
-		this.fileName=fileName;
-		this.excelStream=ServletActionContext.getServletContext().getResourceAsStream("excel/"+fileName);
+
+	public void download(String fileName) throws Exception {
+		this.fileName = fileName;
+		this.excelStream = ServletActionContext.getServletContext()
+				.getResourceAsStream("excel/" + fileName);
 	}
 }
