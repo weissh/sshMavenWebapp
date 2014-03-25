@@ -603,10 +603,40 @@ public class StaffAction extends BaseAction{
 		return  null;
 	}
 	
+//	public String getStaffForSelector(){
+//		List<Staff> staffs;
+//		if (departmentId==0) {
+//			staffs=this.staffService.findAll();
+//		}else if(departmentId==-1){
+//			staffs=new ArrayList<Staff>();
+//		}
+//		else{
+//			Department department =this.departmentService.find(departmentId);
+//			staffs =this.staffService.findByProperty("department", department);
+//		}
+//		List<StaffModel> staffModels=StaffModel.toStaffModels(staffs);
+//		JsonConfig jsonConfig=new JsonConfig();
+//		this.printList(0, 0, 0, staffModels,jsonConfig);
+//		return null;
+//	}
 	public String getStaffForSelector(){
-		List<Staff> staffs;
+		List<Staff> staffs=null;
+		StringBuffer sql=null;
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff staff = (Staff) session.getAttribute("staff");
+		Department depart=staff.getDepartment();
+		int departId=depart.getDepartmentId();
+		pojos.Role role= staff.getRole();
+		String rol = role.getRoleName();
 		if (departmentId==0) {
-			staffs=this.staffService.findAll();
+			if(rol.equals("管理员")){
+				staffs=this.staffService.findAll();
+				}
+			else if(rol.equals("部门经理")){
+				 sql=new StringBuffer("from Staff where Department_DepartmentID="+departId);
+				 staffs=this.staffService.findBysql(sql.toString());
+				}
+			
 		}else if(departmentId==-1){
 			staffs=new ArrayList<Staff>();
 		}
