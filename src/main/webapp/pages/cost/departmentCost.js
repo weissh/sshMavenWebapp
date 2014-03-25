@@ -20,7 +20,7 @@ Ext.require([
     var importExcel=true;
     var exportExcel=true; 
 
-    if(roleName=='部门经理'||roleName=='财务部经理'||roleName=='人力部员工'){
+    if(roleName=='部门经理'||roleName=='财务部经理'||roleName=='财务部员工'){
 	    exportExcel=false;
     }else{
     	add=false;
@@ -104,13 +104,10 @@ Ext.require([
         fieldLabel:30,
         fields:['id','name'],
         data:[
-	        {'id':'1','name':'现金'},
-	        {'id':'2','name':'银行转账'},
-	        {'id':'3','name':'汇款'},
-	        {'id':'4','name':'支票'},
-	        {'id':'5','name':'本票'},
-	        {'id':'6','name':'汇票'},
-	        {'id':'7','name':'汇兑'}
+	        {'id':'1','name':'支票'},
+	        {'id':'2','name':'信用卡'},
+	        {'id':'3','name':'现金'},
+	        {'id':'4','name':'其他'}
         ]
     });
     
@@ -399,26 +396,7 @@ Ext.require([
 						Ext.example.msg('登录失败','网络故障');
 					}
 				});
-            		//console.info(grid.getStore().getAt(0).getData());
-            		//alert(personalCostStore.getCount());
-//            		var cout=0;
-//            		for(var i=0;i<grid.getStore().getCount();i++)
-//            		{
-//            			if(parseInt(grid.getStore().getAt(i).getData().currency)==1)
-//						cout+=parseInt(grid.getStore().getAt(i).getData().money);
-//            		}
-//            		Ext.getCmp("allCout").setValue(cout);
             	}}
-//            	handler:function(){
-//            		//console.info(grid.getStore().getAt(0).getData());
-//            		var cout=0;
-//            		for(var i=0;i<grid.getStore().getCount();i++)
-//            		{
-//            			if(parseInt(grid.getStore().getAt(i).getData().currency)==1)
-//						cout+=parseInt(grid.getStore().getAt(i).getData().money);
-//            		}
-//            		Ext.getCmp("allCout").setValue(cout);
-//            	}
             },{xtype:'textfield',readOnly:true,width:100,id:"allCout"},'-','->',
             {xtype:'button',text:'新建',iconCls: 'cost_add',handler : addCostInfo,hidden:add},
             {xtype:'button',text:'修改',iconCls: 'cost_edit',handler :editCostInfo,hidden:update},
@@ -448,33 +426,13 @@ Ext.require([
             {text: "员工姓名", width: 120, sortable: true, dataIndex: 'staffName'},
             {text: "支出日期", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('Y-m-d'), dataIndex: 'executeDate'},
             {text: "支出方式", width: 120, sortable: true, dataIndex: 'payWay'
-//            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-//            		var index=payWay.find('id',value);
-//            		var record=payWay.getAt(index);
-//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-//            	}
             	},
             {text: "币种", width: 120, sortable: true, dataIndex: 'currency'
-//            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-//            		var index=currency.find('id',value);
-//            		var record=currency.getAt(index);
-//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-//            	}
             	},
             {text: "支出金额", width: 120, sortable: true,format: '$0,0', dataIndex: 'money'},
 			{text: "国家", width: 120, sortable: true, dataIndex: 'costCountry'
-//            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-//            		var index=costCountry.find('id',value);
-//            		var record=costCountry.getAt(index);
-//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-//            	}
             	},
 			{text: "省市", width: 120, sortable: true, dataIndex: 'costProvince',hidden:true
-//            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-//            		var index=costProvince.find('id',value);
-//            		var record=costProvince.getAt(index);
-//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-//            	}
             	},
 			{text: "详细地址", width: 120, sortable: true, dataIndex: 'costAddress',hidden:true},
 			{text: "相关单位名称", width: 120, sortable: true, dataIndex: 'costUnitName'},
@@ -483,11 +441,6 @@ Ext.require([
 			{text: "联系人电话", width: 120, sortable: true, dataIndex: 'costContactPhone',hidden:true},
 			{text: "联系人邮箱", width: 120, sortable: true, dataIndex: 'costContactEmail',hidden:true},
 			{text: "用途", width: 120, sortable: true, dataIndex: 'usage1',hidden:true
-//            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-//                   		var index=usage1.find('id',value);
-//            		var record=usage1.getAt(index);
-//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-//            	}
             	},
 			{text: "描述", width: 120, sortable: true, dataIndex: 'description1',hidden:true}
         ],
@@ -496,18 +449,6 @@ Ext.require([
             store: departmentCostStore,
             displayInfo: true
         }),
-//        dockedItems: [  
-//                {  
-//                    xtype: 'toolbar',  
-//                    dock: 'top',  
-//                    items: [  
-//                        Ext.create('Ext.ux.exporter.Button', {  
-//                            component: Ext.getCmp('grid'),  
-//                            text: "导出 Excel"  
-//                        })  
-//                    ]  
-//                }  
-//            ] ,
         renderTo: Ext.getBody()
     });
     grid.addListener('itemdblclick', editCostInfo, this);
@@ -540,8 +481,6 @@ Ext.require([
 					hidden:'true'
 				},{
 					xtype : 'textfield',
-//					valueField:'staffId',
-//        			displayField:'staffId',
 					fieldLabel : '员工编号',
 					name:'staffId',
 					listeners:{ 
@@ -570,8 +509,6 @@ Ext.require([
 								emptyText : '员工姓名...',
 							    xtype: 'textfield',
 								name:'staffName',
-//								valueField:'staffId',
-//        						displayField:'staffName',
 								margins:'0 4 0 0',
 								allowBlank:false,
 //								mode:'local',
@@ -597,12 +534,10 @@ Ext.require([
 								fieldLabel : '支出方式',
 								emptyText : '支出方式...',
 								name : 'payWay',
-								//forceSelection : true,
 								store:payWay,
 								valueField : 'name',
 								displayField : 'name',
 								mode : 'local',
-		                   	    value:'1',
 		                   	    allowBlank: false
 							},{width:'33%',
                     		   fieldLabel : '币种',
@@ -614,8 +549,6 @@ Ext.require([
                     		   valueField:'name',
                 			   displayField:'name',
 		                       mode:'local',
-		                       value:'1',
-							   //forceSelection : true,
 							   typeAhead : true,
 							   triggerAction : 'all',
 							   selectOnFocus : true,
@@ -686,7 +619,6 @@ Ext.require([
 								style : {
 									color : 'blue'
 								}
-								//anchor : '95%'
 							},{
 								fieldLabel : '联系人职务',
 								emptyText : '联系人职务...',
@@ -716,18 +648,15 @@ Ext.require([
 								style : {
 									color : 'blue'
 								}
-								//anchor : '95%'
 							},{
 								xtype : 'combo',
 								hiddenName : 'usage1',
 								name : 'usage1',
 								fieldLabel : '用途',
-								emptyText : '用途...',
-								//forceSelection : true,					
+								emptyText : '用途...',				
 								store :usage1,
 								valueField:'name',
                 				displayField:'name',
-								value:'1',
 								typeAhead : true,
 								mode : 'local',
 								triggerAction : 'all',
@@ -761,7 +690,7 @@ Ext.require([
 				                        s += Ext.util.Format.format("{0} = {1}<br />", key, value);
 				                    }, this);
 				
-				                    top.Ext.Msg.alert('Form Values', s);
+//				                    top.Ext.Msg.alert('Form Values', s);
 				                }
 							}
 						}]
@@ -929,8 +858,7 @@ Ext.require([
     		departmentCostStore.add(rec);
     	}
     	departmentCostStore.reload();
-    };
-    
+   };    
    //导出部门费用信息到excel
     function exportCostInfo(){
     	var records=grid.getSelectionModel().getSelection();

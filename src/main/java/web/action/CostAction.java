@@ -515,7 +515,6 @@ public class CostAction extends BaseAction{
 		//如果是部门经理
 		if(roleName.equals("部门经理")){
 			Integer departmentid=staff.getDepartment().getDepartmentId();	
-			//System.out.println(departmentid);
 			String sqll = new String("from Staff where Department_DepartmentID="+ departmentid);
 			List<Staff> staff2 = this.staffService.findBysql(sqll);
 			String staffid=null;
@@ -641,14 +640,71 @@ public class CostAction extends BaseAction{
 		this.printList(start, limit, total, costModels,jsonConfig);
 		return null;
 	}
-	
-	
+	//导出个人费用为excel
+		public String exportCostPer() throws Exception{
+			HttpSession session = ServletActionContext.getRequest().getSession();
+			Staff staff = (Staff) session.getAttribute("staff");
+			Integer staf = staff.getStaffId();
+			List<Cost> costs= new ArrayList<Cost>();
+			if(costIds.equals("")){
+				StringBuffer sql=null;
+				sql=new StringBuffer("from Cost where Staff_StaffID="+staf);
+				costs=this.costService.findBysql(sql.toString());
+			}
+			else{
+				/**如果有多个id，则获取到的costIds格式是：id1,id2,id3,id4.... */
+				String[] str=this.costIds.split(",");
+				
+				/**遍历id，并实例化类型，在add到List */
+				for(int i=0;i<str.length;i++){
+					Cost cost = this.costService.find(Integer.parseInt(str[i]));
+					costs.add(cost);
+				}
+			}
+			Vector<String> head=CostDepUI.getHead();
+			List<Vector<String>> dataList=CostDepUI.getDataList(costs);
+			String downLoadPath =ServletActionContext.getServletContext().getRealPath("/")+"excel\\";
+			String fileName=ExcelUtil.createFileName("Cost")+".xls";
+			if(ExcelUtil.printExcel(head, dataList, downLoadPath+fileName)){
+				download(fileName);
+				//System.out.println(ServletActionContext.getServletContext().getRealPath("excel/Department201402131756458884286.xls"));
+				return "success";
+			}else {
+				this.printString(false, "");
+			}
+			
+			return null;
+		}
+	//导出部门费用为excel
 	public String exportCostDept() throws Exception{
-		System.out.println(costIds);
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff staff = (Staff) session.getAttribute("staff");
+		Integer staf = staff.getStaffId();
+		String roleName=staff.getRole().getRoleName();
 		List<Cost> costs= new ArrayList<Cost>();
+		
 		if(costIds.equals("")){
-			costs = this.costService.findAll();
-		}else{
+			StringBuffer sql=null;
+			if(roleName.equals("管理员")||roleName.equals("财务部员工")||roleName.equals("财务部经理"))
+			{costs = this.costService.findAll();}
+			else if(roleName.equals("部门经理")){
+				Integer departmentid=staff.getDepartment().getDepartmentId();	
+				String sqll = new String("from Staff where Department_DepartmentID="+ departmentid);
+				List<Staff> staff2 = this.staffService.findBysql(sqll);
+				String staffid=null;
+				for(int i=0;i<staff2.size();i++)
+				{
+					if(staffid==null)
+					{
+						staffid=staff2.get(i).getStaffId()+"";
+					}else{
+						staffid=staffid+","+staff2.get(i).getStaffId()+"";
+					}			
+				}
+				sql=new StringBuffer("from Cost where Staff_StaffID in (" +staffid+")");
+				costs=this.costService.findBysql(sql.toString());
+			}}
+		else{
 			/**如果有多个id，则获取到的costIds格式是：id1,id2,id3,id4.... */
 			String[] str=this.costIds.split(",");
 			
@@ -679,8 +735,7 @@ public class CostAction extends BaseAction{
 	}
 	
 	
-	public String CountPer()
-	{
+	public String CountPer(){
 		List<Cost> costs = null;
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		Staff staff = (Staff) session.getAttribute("staff");
@@ -688,7 +743,6 @@ public class CostAction extends BaseAction{
 		StringBuffer sql=new StringBuffer("from Cost where Staff_StaffID="+staf);
 		
 		if(query!=null){
-			
 			if(startDate!=null  && endDate != null){							
 				SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 				String start=df.format(startDate);
@@ -699,30 +753,25 @@ public class CostAction extends BaseAction{
 			}
 		}		
 		costs=this.costService.findBysql(sql.toString());
-		System.out.print("size:"+costs.size());
 		float count=0;
+		String currency=null;
 		for(int i=0;i<costs.size();i++)
 		{
-			count=costs.get(i).getMoney()+count;
-		}
+			currency=costs.get(i).getCurrency();
+			if(currency.equals("人民币")){count=costs.get(i).getMoney()+count;}
+			}
 		this.printString(count+"");
 		return null;
 	}
-	public String CountDep()
-	{
-		
+	public String CountDep(){
 		List<Cost> costs = new ArrayList<Cost>();
-		int total;
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		Staff staff = (Staff) session.getAttribute("staff");
-		Integer staf = staff.getStaffId();
 		String roleName=staff.getRole().getRoleName();
 		StringBuffer sql=null;
-		
 		//如果是部门经理
 		if(roleName.equals("部门经理")){
 			Integer departmentid=staff.getDepartment().getDepartmentId();	
-			//System.out.println(departmentid);
 			String sqll = new String("from Staff where Department_DepartmentID="+ departmentid);
 			List<Staff> staff2 = this.staffService.findBysql(sqll);
 			String staffid=null;
@@ -789,14 +838,11 @@ public class CostAction extends BaseAction{
 				}
 			}
 		}
-		
-		//System.out.println(sql);
 		costs=this.costService.findBysql(sql.toString());
-//		System.out.print("size:"+costs.size());
 		float count=0;
-		for(int i=0;i<costs.size();i++)
-		{
-			count=costs.get(i).getMoney()+count;
+		for(int i=0;i<costs.size();i++){
+			currency=costs.get(i).getCurrency();
+			if(currency.equals("人民币")){count=costs.get(i).getMoney()+count;}
 		}
 		this.printString(count+"");
 		return null;

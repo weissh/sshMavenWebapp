@@ -28,13 +28,10 @@ Ext.require([
         fieldLabel:30,
         fields:['id','name'],
         data:[
-	        {'id':'1','name':'现金'},
-	        {'id':'2','name':'银行转账'},
-	        {'id':'3','name':'汇款'},
-	        {'id':'4','name':'支票'},
-	        {'id':'5','name':'本票'},
-	        {'id':'6','name':'汇票'},
-	        {'id':'7','name':'汇兑'}
+	        {'id':'1','name':'支票'},
+	        {'id':'2','name':'信用卡'},
+	        {'id':'3','name':'现金'},
+	        {'id':'4','name':'其他'}
         ]
     });
     
@@ -579,7 +576,7 @@ Ext.require([
 				  value = encode(value);
 				  s += Ext.util.Format.format("{0} = {1}<br />", key, value);
 				   }, this);
-				 top.Ext.Msg.alert('Form Values', s);
+//				 top.Ext.Msg.alert('Form Values', s);
 				        }
 					}
 				}]
@@ -716,7 +713,7 @@ Ext.require([
     	}
     	top.Ext.Msg.confirm('提示',msg,function(btnID){
     		if(btnID=='yes'){
-    			window.location.href='byjx/costdept_export.action?costIds='+costIds;
+    			window.location.href='byjx/costper_export.action?costIds='+costIds;
     		}
 		});
     }
