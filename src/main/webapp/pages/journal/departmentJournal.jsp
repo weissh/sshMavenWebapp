@@ -2,6 +2,7 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String roleName=session.getAttribute("roleName").toString();
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -16,7 +17,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" charset="utf-8" src="extjs/ext-all-debug.js"></script>
 	<script type="text/javascript" src="extjs/ext-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="pages/journal/departmentJournal.js"></script>
-
+    <script language="javaScript">
+		var roleName='<%=roleName%>';
+	</script>
   </head>
   
   <body>

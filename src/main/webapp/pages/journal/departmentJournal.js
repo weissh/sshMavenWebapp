@@ -16,6 +16,23 @@ Ext.require([
 Ext.onReady(function() {
 	
 	Ext.tip.QuickTipManager.init();
+	
+//  ================================================================================
+    var add=true;
+	var update=true;
+    var drop=true;
+    var importExcel=true;
+    var exportExcel=true; 
+
+    if(roleName=='部门经理'||roleName=='人力部经理'||roleName=='人力部员工'){
+	    exportExcel=false;
+    }else{
+    	add=false;
+	    update=false;
+	    drop=false;
+	    importExcel=false;
+	    exportExcel=false;
+    }
 	   
 	// 定义部门数据类型，用于下拉列表
 	Ext.define('deptForSelector', {
@@ -334,11 +351,11 @@ Ext.onReady(function() {
             	}
 			
 			}},'-','->',
-			{xtype:'button',text:'新建',iconCls: 'journal_add',handler : addJournal},
-			{xtype:'button',text:'修改',iconCls: 'journal_edit',handler : editJournal},
-			{xtype:'button',text:'删除',iconCls:'journal_delete',handler:deleteJournal},
-				{xtype:'filefield',buttonOnly: true,buttonText:'导入',buttonConfig:{iconCls:'file_in'}},
-			{xtype:'button',text:'导出',iconCls:'file_export',handler:exportJournal}]
+			{xtype:'button',text:'新建',iconCls: 'journal_add',handler : addJournal,hidden:add},
+			{xtype:'button',text:'修改',iconCls: 'journal_edit',handler : editJournal,hidden:update},
+			{xtype:'button',text:'删除',iconCls:'journal_delete',handler:deleteJournal,hidden:drop},
+			{xtype:'filefield',buttonOnly: true,buttonText:'导入',buttonConfig:{iconCls:'file_in'},hidden:importExcel},
+			{xtype:'button',text:'导出',iconCls:'file_export',handler:exportJournal,hidden:exportExcel}]
     
     });
    

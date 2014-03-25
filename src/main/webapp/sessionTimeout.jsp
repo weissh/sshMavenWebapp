@@ -1,8 +1,12 @@
-<%@ page contentType="text/html;charset=gbk"%>
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=gbk"/>
-    <title>�û���¼�ѳ�ʱ</title>
+    <title>用户登录已超时</title>
     <style type="text/css">
 	    body{
 			text-align: center;
@@ -22,7 +26,7 @@
 		
 		a{
 			font-weight:bold;
-			font-family:"����";
+			font-family:"宋体";
 			font-size:18px;
 		}
 
@@ -32,8 +36,8 @@
 <body>
 
 	<div id ="sessionOut">
-		����ʱ��δ����ϵͳ��Ϊȷ���������ϼ�������Ϣ��ȫ��
-		ϵͳ�Զ���ʱ�˳���������<a href="http://<%=request.getRemoteAddr()%>:<%= request.getServerPort()%>/byjx/login.jsp">��¼</a>ϵͳ��
+		您长时间未操作系统，为确保您的资料及数据信息安全，
+		系统自动超时退出，请重新<a href="<%=basePath%>login.jsp">登录</a>系统！
 		
 	</div>
 	
