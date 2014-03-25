@@ -76,6 +76,15 @@ public class CostDepUI {
 //					if(j==5){
 //						value=GetCurrency(Integer.parseInt(object.toString())-1);
 //					}
+//					if(j==7){
+//						value=GetCostCountry(Integer.parseInt(object.toString())-1);
+//					}
+//					if(j==8){
+//						value=GetCostProvince(Integer.parseInt(object.toString())-1);
+//					}
+//					if(j==15){
+//						value=GetUsage1(Integer.parseInt(object.toString())-1);
+//					}
 					oneRow.add(value);
 				}										
 			}
@@ -96,6 +105,27 @@ public class CostDepUI {
 //	{
 //		String value;
 //		String[] pay=new String[]{"现金","银行转账","汇款","支票","本票","汇票","汇兑"};
+//		value=pay[i];
+//		return value;
+//	}
+//	public static String GetCostCountry(int i)
+//	{
+//		String value;
+//		String[] pay=new String[]{"中国","韩国","日本","朝鲜","蒙古","越南","老挝","柬埔寨"};
+//		value=pay[i];
+//		return value;
+//	}
+//	public static String GetCostProvince(int i)
+//	{
+//		String value;
+//		String[] pay=new String[]{"安徽省","河北省","河南省","湖北省","湖南省","内蒙古","广东省"};
+//		value=pay[i];
+//		return value;
+//	}
+//	public static String GetUsage1(int i)
+//	{
+//		String value;
+//		String[] pay=new String[]{"住宿","吃饭","坐车","其它"};
 //		value=pay[i];
 //		return value;
 //	}
