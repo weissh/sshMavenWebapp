@@ -133,8 +133,8 @@ Ext.require([
         fields: [
        	    {name: 'costId', type: 'int'},
             {name: 'recordDate', type: 'date', dateFormat: 'Y-m-d'},
-            {name: 'staffId', type: 'int',mapping:'staff.staffId'},
-            {name: 'staffName',type:'string',mapping:'staff.staffName'},
+            {name: 'staffId', type: 'int'},
+            {name: 'staffName',type:'string'},
             {name: 'executeDate', type: 'date', dateFormat: 'Y-m-d'},
             {name: 'payWay',type:'string'},
             {name: 'currency',type:'string'},
@@ -148,8 +148,8 @@ Ext.require([
 			{name: 'costContactPhone',type:'string'},
 			{name: 'costContactEmail',type:'string'},
 			{name: 'usage1',type:'string'},
-			{name: 'description1',type:'string'}
-			
+			{name: 'description1',type:'string'},
+			{name: 'departmentId',type:'int'}
          ]
     });
 
@@ -171,6 +171,7 @@ Ext.require([
     
     //费用表格数据源载入，默认为第一页前20条记录，当点击下一页（第二页）时参数自动改变为{start:20,limit:20}，store的pagesize为20时
 	personalCostStore.load({url:'cost_getAllper.action',params:{start:0,limit:20}});
+
     
 	//添加日期控件的验证，保证结束日期在开始时期之后
     Ext.apply(Ext.form.field.VTypes, {
@@ -247,23 +248,49 @@ Ext.require([
             	}
             }},
             
-            '-', {
+            '-', {xtype:'button',
             	text:'统计',
-            	handler:function(){
+            	listeners:{
+            	click:function(){
+            		var startDate=dr.getForm().findField('startdt').getValue();
+					var endDate=dr.getForm().findField('enddt').getValue();
+            		var new_params={startDate:startDate,endDate:endDate,query:'true'};
+            		Ext.Ajax.request({
+					url : 'cost_countper.action',
+					method : 'POST',
+					customer:'自定义属性',
+					params : new_params,	
+					success : function(response,o) {
+						// 处理返回信息
+						var result=Ext.JSON.decode(response.responseText);
+//						if (result.success) {
+//							window.top.location = result.msg;
+//						} else {
+//							top.Ext.Msg.show({title:'提示', msg:'用户名或密码错误！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});							
+//						}
+						alert(result);
+						Ext.getCmp("allCout").setValue(result);
+					},
+					failure : function() {
+						//显示错误信息
+						Ext.example.msg('登录失败','网络故障');
+					}
+				});
             		//console.info(grid.getStore().getAt(0).getData());
-            		var cout=0;
-            		for(var i=0;i<grid.getStore().getCount();i++)
-            		{
-            			if(parseInt(grid.getStore().getAt(i).getData().currency)==1)
-						cout+=parseInt(grid.getStore().getAt(i).getData().money);
-            		}
-            		Ext.getCmp("allCout").setValue(cout);
-            	}
+            		//alert(personalCostStore.getCount());
+//            		var cout=0;
+//            		for(var i=0;i<grid.getStore().getCount();i++)
+//            		{
+//            			if(parseInt(grid.getStore().getAt(i).getData().currency)==1)
+//						cout+=parseInt(grid.getStore().getAt(i).getData().money);
+//            		}
+//            		Ext.getCmp("allCout").setValue(cout);
+            	}}
             },{xtype:'textfield',readOnly:true,width:100,id:"allCout"},'-','->',
             {xtype:'button',text:'新建',iconCls: 'cost_add',handler : addCostInfo},
             {xtype:'button',text:'修改',iconCls: 'cost_edit',handler :editCostInfo},
             {xtype:'filefield',buttonOnly: true,buttonText:'导入',buttonConfig:{iconCls:'file_in'}},
-			{xtype:'button',text:'导出',iconCls: 'file_export'}]			        
+			{xtype:'button',text:'导出',iconCls: 'file_export',handler:exportCostInfo}]			        
     
     });
     //创建个人费用表格
@@ -287,43 +314,48 @@ Ext.require([
             {text: "记录编号", width: 120, sortable: true, dataIndex: 'costId',hidden:true},
             {text: "记录时间", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('Y-m-d'),dataIndex: 'recordDate'},
             {text: "支出日期", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('Y-m-d'), dataIndex: 'executeDate'},
-            {text: "支出方式", width: 120, sortable: true, dataIndex: 'payWay',
-            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-            		var index=payWay.find('id',value);
-            		var record=payWay.getAt(index);
-            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-            	}},
-            {text: "币种", width: 120, sortable: true, dataIndex: 'currency',
-            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-            		var index=currency.find('id',value);
-            		var record=currency.getAt(index);
-            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-            	}},
+            {text: "支出方式", width: 120, sortable: true, dataIndex: 'payWay'
+//            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
+//            		var index=payWay.find('id',value);
+//            		var record=payWay.getAt(index);
+//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
+//            	}
+            	},
+            {text: "币种", width: 120, sortable: true, dataIndex: 'currency'
+//            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
+//            		var index=currency.find('id',value);
+//            		var record=currency.getAt(index);
+//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
+//            	}
+            	},
             {text: "支出金额", width: 120, sortable: true,format: '$0,0', dataIndex: 'money'},
-			{text: "国家", width: 120, sortable: true, dataIndex: 'costCountry',
-            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-            		var index=costCountry.find('id',value);
-            		var record=costCountry.getAt(index);
-            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-            	}},
-			{text: "省市", width: 120, sortable: true, dataIndex: 'costProvince',hidden:true,
-            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-            		var index=costProvince.find('id',value);
-            		var record=costProvince.getAt(index);
-            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-            	}},
+			{text: "国家", width: 120, sortable: true, dataIndex: 'costCountry'
+//            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
+//            		var index=costCountry.find('id',value);
+//            		var record=costCountry.getAt(index);
+//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
+//            	}
+            	},
+			{text: "省市", width: 120, sortable: true, dataIndex: 'costProvince',hidden:true
+//            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
+//            		var index=costProvince.find('id',value);
+//            		var record=costProvince.getAt(index);
+//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
+//            	}
+            	},
 			{text: "详细地址", width: 120, sortable: true, dataIndex: 'costAddress',hidden:true},
 			{text: "相关单位名称", width: 120, sortable: true, dataIndex: 'costUnitName'},
 			{text: "联系人姓名", width: 120, sortable: true, dataIndex: 'costContactName'},
 			{text: "联系人职务", width: 120, sortable: true, dataIndex: 'costContactPosition',hidden:true},
 			{text: "联系人电话", width: 120, sortable: true, dataIndex: 'costContactPhone',hidden:true},
 			{text: "联系人邮箱", width: 120, sortable: true, dataIndex: 'costContactEmail',hidden:true},
-			{text: "用途", width: 120, sortable: true, dataIndex: 'usage1',hidden:true,
-            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-                   		var index=usage1.find('id',value);
-            		var record=usage1.getAt(index);
-            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-            	}},
+			{text: "用途", width: 120, sortable: true, dataIndex: 'usage1',hidden:true
+//            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
+//                   		var index=usage1.find('id',value);
+//            		var record=usage1.getAt(index);
+//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
+//            	}
+            	},
 			{text: "描述", width: 120, sortable: true, dataIndex: 'description1',hidden:true}
         ], 
         bbar:new Ext.PagingToolbar({
@@ -381,9 +413,9 @@ Ext.require([
 		 fieldLabel : '支出方式',
 		 emptyText : '支出方式...',
 		 name : 'payWay',
-		 forceSelection : true,
+		 //forceSelection : true,
 		 store:payWay,
-		 valueField : 'id',
+		 valueField : 'name',
 		 displayField : 'name',
 		 mode : 'local',
 		 value:'1',
@@ -394,9 +426,9 @@ Ext.require([
 			name : 'currency',
 			fieldLabel : '币种',
 			emptyText : '币种...',
-			forceSelection : true,
+			//forceSelection : true,
 			store:currency,
-			valueField : 'id',
+			valueField : 'name',
 			displayField : 'name',
 			value:'1',
 			typeAhead : true,
@@ -421,9 +453,9 @@ Ext.require([
 			name : 'costCountry',
 			fieldLabel : '国家',
 			emptyText : '国家...',
-			forceSelection : true,
+			//forceSelection : true,
 			store :costCountry,
-			valueField : 'id',
+			valueField : 'name',
 			displayField : 'name',
 			value:'1',
 			typeAhead : true,
@@ -438,9 +470,9 @@ Ext.require([
 			name : 'costProvince',
 			fieldLabel : '省份',
 			emptyText : '省份...',
-			forceSelection : true,
+			//forceSelection : true,
 			store : costProvince,
-			valueField : 'id',
+			valueField : 'name',
 			displayField : 'name',
 			value:'1',
 			typeAhead : true,
@@ -518,9 +550,9 @@ Ext.require([
 			name : 'usage1',
 			fieldLabel : '用途',
 			emptyText : '用途...',
-			forceSelection : true,
+			//forceSelection : true,
 			store :usage1,
-			valueField : 'id',
+			valueField : 'name',
 			displayField : 'name',
 			value:'1',
 			typeAhead : true,
@@ -606,7 +638,7 @@ Ext.require([
 	    		form.form.submit({
 	    			waitMsg:'正在提交数据，请稍后...',
 	    			waitTitle:'提示',
-//	    			url:'cost_add.action',
+	    			url:'cost_addper.action',
 	    			method:'POST',
 	    			success:function(form,action){
 	    				win.hide();
@@ -621,7 +653,7 @@ Ext.require([
 	    		form.form.submit({
 		    		waitMsg:'正在提交数据，请稍后...',
 					waitTitle:'提示',
-//					url:'cost_update.action',
+					url:'cost_update.action',
 					method:'POST',
 					success:function(form,action){
 						win.hide();
@@ -671,7 +703,32 @@ Ext.require([
     	}
     	personalCostStore.reload();
     };
-
+	
+    //导出部门费用信息到excel
+    function exportCostInfo(){
+    	var records=grid.getSelectionModel().getSelection();
+    	var msg;
+    	var costIds="";
+    	if(records.length==0){
+    		msg="您确定要导出所有个人费用信息吗？";
+    	}else{
+    		msg="您确定要导出所选的个人费用信息吗？";
+	    	for(var i=0;i<records.length;i++){
+	    		var id=records[i].get('costId');
+	    		if(i==0){
+	    			costIds+=id;
+	    		}else{
+	    			costIds=costIds+','+id;
+	    		}
+			}
+    	}
+    	top.Ext.Msg.confirm('提示',msg,function(btnID){
+    		if(btnID=='yes'){
+    			window.location.href='byjx/costdept_export.action?costIds='+costIds;
+    		}
+		});
+    }
+    
     //用于渲染grid中的与form中下拉列表框对应的值，使其显示的是name字段而不是id字段
     function getText(record){
     	var text="";
@@ -682,4 +739,6 @@ Ext.require([
 		}
 		return text;
     };
+    
+    
 });
