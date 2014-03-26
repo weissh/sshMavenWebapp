@@ -210,6 +210,14 @@
 				<param name="bufferSize">1024</param>
 			</result>
 		</action>
+		<action name="costper_export" method="exportCostPer" class="costAction" >
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">excelStream</param>
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
 		<action name="cost_countper" method="CountPer" class="costAction" >
 			<result name="success" type="json"/>
 		</action>
