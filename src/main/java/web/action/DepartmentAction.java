@@ -178,7 +178,6 @@ public class DepartmentAction extends BaseAction {
 			this.printString(false, "获取参数错误！");
 			return null;
 		}
-//		Department department =this.departmentService.find(departmentId);
 		Department department=new Department();
 		department.setDepartmentId(departmentId);
 		department.setDepartmentName(departmentName);
@@ -234,7 +233,6 @@ public class DepartmentAction extends BaseAction {
 		int page=start/limit+1;
 		List<Department> departments = null;
 		int total;
-		System.out.println(departmentId!=0);
 		if(query!=null){
 			StringBuffer sql=new StringBuffer("from Department where 1=1");
 			
