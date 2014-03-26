@@ -22,9 +22,9 @@ import pojos.Journal;
 import pojos.Staff;
 import service.JournalService;
 import service.StaffService;
-import web.ui.CostModel;
-import web.ui.JournalModel;
-import web.ui.JournalUI;
+import web.ui.excel.JournalUI;
+import web.ui.model.CostModel;
+import web.ui.model.JournalModel;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
 

@@ -1,5 +1,5 @@
 
-package web.ui;
+package web.ui.excel;
 
 import java.lang.reflect.Method;
 import java.util.List;

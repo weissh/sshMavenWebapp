@@ -25,21 +25,6 @@
         <property name="description" type="java.lang.String">
             <column name="Description" length="200" />
         </property>
-        <property name="prop1" type="java.lang.String">
-            <column name="Prop1" length="45" />
-        </property>
-        <property name="prop2" type="java.lang.String">
-            <column name="Prop2" length="45" />
-        </property>
-        <property name="prop3" type="java.lang.String">
-            <column name="Prop3" length="45" />
-        </property>
-        <property name="prop4" type="java.lang.String">
-            <column name="Prop4" length="45" />
-        </property>
-        <property name="prop5" type="java.lang.String">
-            <column name="Prop5" length="45" />
-        </property>
         <set name="staffs" inverse="true" lazy="false">
             <key>
                 <column name="Department_DepartmentID" not-null="true" />

@@ -17,7 +17,7 @@ import pojos.Department;
 import pojos.Role;
 import pojos.Staff;
 import service.DepartmentService;
-import web.ui.DepartmentUI;
+import web.ui.excel.DepartmentUI;
 
 import common.ExcelUtil;
 
