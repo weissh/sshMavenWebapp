@@ -44,13 +44,6 @@ public class Staff implements java.io.Serializable {
 	private String userName;
 	private String password;
 	private String staffDesc;
-	private Integer enabled;
-	private Integer isSuper;
-	private String prop1;
-	private String prop2;
-	private String prop3;
-	private String prop4;
-	private String prop5;
 	private Set<Cost> costs = new HashSet<Cost>(0);
 //	private Set<Role> roles = new HashSet<Role>(0);
 	private Role role;
@@ -123,8 +116,7 @@ public class Staff implements java.io.Serializable {
 			String nativePlace, String domicilePlace, Date dateOfRecruitment, String currentAddress,
 			String zipCode, String graduateSchool, String hightestEdu,
 			String hightestDegree, String major, String schoolSystem,String userName,
-			String password, String prop1, String prop2, String prop3,
-			String prop4, String prop5, Set<Cost> costs, Role role, Set<Journal> journals) {
+			String password, Set<Cost> costs, Role role, Set<Journal> journals) {
 		this.department = department;
 		this.photo=photo;
 		this.staffName = staffName;
@@ -154,11 +146,6 @@ public class Staff implements java.io.Serializable {
 		this.schoolSystem = schoolSystem;
 		this.userName=userName;
 		this.password = password;
-		this.prop1 = prop1;
-		this.prop2 = prop2;
-		this.prop3 = prop3;
-		this.prop4 = prop4;
-		this.prop5 = prop5;
 		this.costs = costs;
 		this.role = role;
 		this.journals = journals;
@@ -406,68 +393,12 @@ public class Staff implements java.io.Serializable {
 		this.password = password;
 	}
 
-	public Integer getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Integer enabled) {
-		this.enabled = enabled;
-	}
-
-	public Integer getIsSuper() {
-		return isSuper;
-	}
-
-	public void setIsSuper(Integer isSuper) {
-		this.isSuper = isSuper;
-	}
-
 	public String getStaffDesc() {
 		return staffDesc;
 	}
 
 	public void setStaffDesc(String staffDesc) {
 		this.staffDesc = staffDesc;
-	}
-
-	public String getProp1() {
-		return this.prop1;
-	}
-
-	public void setProp1(String prop1) {
-		this.prop1 = prop1;
-	}
-
-	public String getProp2() {
-		return this.prop2;
-	}
-
-	public void setProp2(String prop2) {
-		this.prop2 = prop2;
-	}
-
-	public String getProp3() {
-		return this.prop3;
-	}
-
-	public void setProp3(String prop3) {
-		this.prop3 = prop3;
-	}
-
-	public String getProp4() {
-		return this.prop4;
-	}
-
-	public void setProp4(String prop4) {
-		this.prop4 = prop4;
-	}
-
-	public String getProp5() {
-		return this.prop5;
-	}
-
-	public void setProp5(String prop5) {
-		this.prop5 = prop5;
 	}
 
 	public Set<Cost> getCosts() {

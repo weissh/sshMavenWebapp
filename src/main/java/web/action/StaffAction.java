@@ -38,8 +38,8 @@ import service.DepartmentService;
 import service.RightService;
 import service.RoleService;
 import service.StaffService;
-import web.ui.StaffModel;
-import web.ui.StaffUI;
+import web.ui.excel.StaffUI;
+import web.ui.model.StaffModel;
 
 import common.DateJsonValueProcessor;
 import common.ExcelUtil;
@@ -405,7 +405,7 @@ public class StaffAction extends BaseAction{
 			this.printString(false, "该部门已存在部门经理！");
 		}else{
 			Role role =this.roleService.find(roleId);
-			Staff staff=new Staff(department, null, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password, null, null, null, null, null, null, role, null);
+			Staff staff=new Staff(department, null, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password, null, role, null);
 			savePhoto(staff);
 			int staffId=this.staffService.save(staff);
 			this.printString(true, staffId+"");

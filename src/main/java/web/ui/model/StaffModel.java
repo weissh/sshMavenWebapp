@@ -12,7 +12,7 @@
  * 2014-3-19     caiwenming       v1.0.0         create
  *
  */
-package web.ui;
+package web.ui.model;
 
 import java.util.ArrayList;
 import java.util.Date;

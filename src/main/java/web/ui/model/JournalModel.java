@@ -1,10 +1,9 @@
-package web.ui;
+package web.ui.model;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import pojos.Cost;
 import pojos.Journal;
 
 public class JournalModel {

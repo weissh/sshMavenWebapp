@@ -1,4 +1,4 @@
-package web.ui;
+package web.ui.model;
 
 import java.util.ArrayList;
 import java.util.Date;

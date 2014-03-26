@@ -33,9 +33,9 @@ import pojos.Staff;
 import service.CostService;
 import service.DepartmentService;
 import service.StaffService;
-import web.ui.CostDepUI;
-import web.ui.CostModel;
-import web.ui.DepartmentUI;
+import web.ui.excel.CostDepUI;
+import web.ui.excel.DepartmentUI;
+import web.ui.model.CostModel;
 
 import common.ExcelUtil;
 import common.ObjectJsonValueProcessor;
