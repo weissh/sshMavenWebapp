@@ -78,6 +78,7 @@ public class DepartmentModel {
 		this.departmentName = department.getDepartmentName();
 		this.createTime=department.getCreateTime();
 		this.managerId = department.getManagerId();
+		this.managerName=department.getManagerName();
 		this.totalStaff = department.getTotalStaff();
 		this.description = department.getDescription();
 	}

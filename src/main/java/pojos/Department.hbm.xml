@@ -19,6 +19,9 @@
         <property name="managerId" type="java.lang.Integer">
             <column name="ManagerID" />
         </property>
+        <property name="managerName" type="java.lang.String">
+            <column name="ManagerName" length="20" />
+        </property>
         <property name="totalStaff" type="java.lang.Integer">
             <column name="TotalStaff" />
         </property>

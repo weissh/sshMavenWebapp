@@ -202,6 +202,7 @@ Ext.onReady(function(){
         fields: [
             {name: 'staffId', type: 'int'},
             {name: 'photoImg'},
+            {name: 'photo'},
             {name: 'staffName'},
             {name: 'departmentId', type: 'int'},
             {name: 'departmentName'},
@@ -356,7 +357,7 @@ Ext.onReady(function(){
         	{text: "员工编号", width: 120, sortable: true,dataIndex: 'staffId'},
             {text: "用户名", width: 120, sortable: true,dataIndex: 'userName'},
             {text: "姓名", flex: 1, sortable: true, dataIndex: 'staffName'},
-            {text: "照片路径", width: 120, sortable: true,dataIndex: 'photoImg',hidden:true},
+            {text: "照片路径", width: 120, sortable: true,dataIndex: 'photo',hidden:true},
             {text: "部门编号", width: 120, sortable: true,dataIndex: 'departmentId',hidden:true},
             {
             	text: "部门", 
@@ -520,7 +521,7 @@ Ext.onReady(function(){
                     xtype:'textfield'
                 },
                 items: [
-                    {width:'33%',fieldLabel: '用户名',name: 'userName',value:'123',allowBlank: false}, 
+                    {width:'33%',fieldLabel: '用户名',name: 'userName',allowBlank: false}, 
                     {
                     	width:'33%',
                     	fieldLabel: '部门',
@@ -529,7 +530,6 @@ Ext.onReady(function(){
                     	store:dept,
                     	valueField:'departmentId',
                     	displayField:'departmentName',
-                    	value:17,
                     	mode:'local',
                     	allowBlank: false
                 	},{
@@ -561,10 +561,10 @@ Ext.onReady(function(){
                     	store:role,
                     	valueField:'roleId',
                     	displayField:'roleName',
-                    	value:1,
+                    	value:'管理员',
                     	allowBlank: false
                 	},
-                    {width:'33%',fieldLabel: '密码',name: 'password',margins:'0 4 0 0',value:'123',allowBlank: false}
+                    {width:'33%',fieldLabel: '密码',name: 'password',margins:'0 4 0 0',value:'000000',allowBlank: false}
                 ]
             }]
         },{
@@ -586,7 +586,7 @@ Ext.onReady(function(){
                     xtype:'textfield'
                 },
                 items: [
-                    {width:'33%',fieldLabel: '姓名',name: 'staffName',value:'123',allowBlank: false}, 
+                    {width:'33%',fieldLabel: '姓名',name: 'staffName',allowBlank: false}, 
                     {
                     	width:'33%',
                     	fieldLabel: '性别',
@@ -596,7 +596,7 @@ Ext.onReady(function(){
                     	valueField:'id',
                     	displayField:'name',
                     	mode:'local',
-                    	value:'1',
+                    	value:'男',
                     	allowBlank: false
                 	},{
                 		xtype: 'datefield',
@@ -627,7 +627,7 @@ Ext.onReady(function(){
                     	valueField:'id',
                     	displayField:'name',
                     	margins:'0 4 0 0',
-                    	value:'1',
+                    	value:'群众',
                     	allowBlank: false
                 	}
                 ]
@@ -646,7 +646,7 @@ Ext.onReady(function(){
                     	store:maritalStatus,
                     	valueField:'id',
                     	displayField: 'name',
-                    	value:'1',
+                    	value:'已婚',
                     	allowBlank: false
                 	},
                     {width:'33%',fieldLabel: '籍贯',name: 'nativePlace',value:'123',allowBlank: false},
@@ -693,7 +693,7 @@ Ext.onReady(function(){
                     	store:highestEdu,
                     	valueField:'id',
                     	displayField: 'name',
-                    	value:'1',
+                    	value:'本科',
                     	allowBlank: false
                 	},{	
                     	width:'33%',
@@ -704,7 +704,7 @@ Ext.onReady(function(){
                     	valueField:'id',
                     	displayField: 'name',
                     	margins:'0 4 0 0',
-                    	value:'1',
+                    	value:'学士学位',
                     	allowBlank: false
                 	}
                 ]
@@ -726,7 +726,7 @@ Ext.onReady(function(){
                     	valueField:'id',
                     	displayField: 'name',
                     	margins:'0 3 0 0',
-                    	value:'1',
+                    	value:'单轨制',
                     	allowBlank: false
                 	}
                 ]
@@ -805,14 +805,16 @@ Ext.onReady(function(){
     
     //修改用户
     function editStaffInfo(){
-    	var record=grid.getSelectionModel().getSelection();
-		if (record.length==1) {
+    	var records=grid.getSelectionModel().getSelection();
+		if (records.length==1) {
 			form.form.reset();
 			form.getForm().findField('password').setReadOnly (true);
 	    	form.isAdd=false;
 	    	win.setTitle('修改用户');
 	    	win.show();
-			form.getForm().loadRecord(record[0]);
+			form.getForm().loadRecord(records[0]);
+			var photoPath=records[0].get('photo');
+			form.getForm().findField('photoImg').setRawValue(photoPath);
 		} else {
 			top.Ext.Msg.show({title:'错误', msg:'请仅选择一条记录进行编辑！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
 		}

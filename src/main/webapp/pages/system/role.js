@@ -42,9 +42,9 @@ Ext.onReady(function(){
 	        margin:'-1 0 0 -1',
 	        dock: 'top',
 	        items:['->',
-				{xtype:'button',id:'role_add',text:'新增角色',iconCls: 'role_add',handler:addRoleInfo},
-				{xtype:'button',id:'role_update',text:'修改角色',iconCls: 'role_edit',handler:editRoleInfo},
-				{xtype:'button',id:'role_del',text:'删除角色',iconCls: 'role_delete',handler:deleteRoleInfo},
+				{xtype:'button',id:'role_add',text:'新增',iconCls: 'role_add',handler:addRoleInfo},
+				{xtype:'button',id:'role_update',text:'修改',iconCls: 'role_edit',handler:editRoleInfo},
+				{xtype:'button',id:'role_del',text:'删除',iconCls: 'role_delete',handler:deleteRoleInfo},
 				{xtype:'button',id:'allot_rights',text:'设置权限',iconCls: 'role_delete',handler:allotRights}
 			]
 	    },{

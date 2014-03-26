@@ -18,6 +18,7 @@ public class Department implements java.io.Serializable {
 	private String departmentName;
 	private Date createTime;
 	private Integer managerId;
+	private String managerName;
 	private Integer totalStaff;
 	private String description;
 	private Set<Staff> staffs = new HashSet<Staff>(0);
@@ -80,6 +81,14 @@ public class Department implements java.io.Serializable {
 
 	public Integer getManagerId() {
 		return this.managerId;
+	}
+
+	public String getManagerName() {
+		return managerName;
+	}
+
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
 	}
 
 	public void setManagerId(Integer managerId) {

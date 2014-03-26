@@ -28,7 +28,6 @@ Ext.onReady(function() {
 			staffRecord=(eval('('+result.msg+')'));
 		}
 	});
-    
     //修改密码
     var modifyPwd={
         xtype: 'fieldset',
@@ -117,7 +116,7 @@ Ext.onReady(function() {
     		width:145,
             autoHeight:true,
             bodyPadding: '5px',
-            html:'<img src="../../images/photo.jpg" width="130" height="160">'
+            html:'<img src="images/photo/'+staffRecord.photo+'" width="130" height="160">'
     	},{
     		bodyStyle:'background:#dfe9f5',
     		border:false,

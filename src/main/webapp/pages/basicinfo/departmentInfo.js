@@ -36,6 +36,7 @@ Ext.onReady(function() {
         extend: 'Ext.data.Model',
         fields: [
             {name: 'staffId', type: 'int'},
+            {name: 'photo'},
             {name: 'photoImg'},
             {name: 'staffName'},
             //mapping 用于获取嵌套json中的摸个属性
@@ -233,7 +234,7 @@ Ext.onReady(function() {
             Ext.create('Ext.grid.RowNumberer'),
             {text: "工号", width: 120, sortable: true,dataIndex: 'staffId'},
             {text: "姓名", flex: 1, sortable: true, dataIndex: 'staffName'},
-            {text: "照片路径", width: 120, sortable: true,dataIndex: 'photoImg',hidden:true},
+            {text: "照片路径", width: 120, sortable: true,dataIndex: 'photo',hidden:true},
             {text: "部门编号", width: 120, sortable: true,dataIndex: 'departmentId',hidden:true},
             {text: "部门", width: 120, sortable: true, dataIndex: 'departmentName',hidden:true},
             {text: "职务",width: 120, sortable: true, dataIndex: 'position'},
@@ -324,21 +325,6 @@ Ext.onReady(function() {
 	            },
 	            items: [
 	            	{
-	                defaults: {
-	                    labelWidth:64,
-	                    anchor: '100%',
-	                    xtype:'textfield'
-	                },
-	                items: [{
-	                    xtype: 'filefield',
-	                    width:200,
-	                    emptyText: '请选择上传图片',
-	                    fieldLabel: '请上传图片',
-	                    name: 'photoImg',
-	                    buttonText: '浏览  ',
-	                    labelAlign:'left'
-	                }]
-		            },{
 	                defaults: {
 	                    labelWidth:64,
 	                    anchor: '100%',
@@ -512,7 +498,7 @@ Ext.onReady(function() {
 	    var win = new top.Ext.Window({
 	    	layout : 'fit',
 			width :750,
-			height : 500,
+			height : 475,
 			closeAction:'hide',
 			constrainHeader:true,
 			plain : true,
@@ -525,7 +511,7 @@ Ext.onReady(function() {
 			form.form.reset();
 //			form.getForm().findField('password').setReadOnly (true);
 	    	form.isAdd=false;
-	    	win.setTitle('修改用户');
+	    	win.setTitle('查询用户');
 	    	win.show();
 			form.getForm().loadRecord(record[0]);
 		}

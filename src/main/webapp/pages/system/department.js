@@ -174,10 +174,10 @@ Ext.onReady(function () {
     	border:false,
     	width:'100%',
     	tbar:['->',
-        	{xtype:'button',text:'新增部门',iconCls: 'user_add',handler:addDepartmentInfo},
-            {xtype:'button',text:'修改部门',iconCls: 'user_edit',handler:editDepartmentInfo},
-            {xtype:'button',text:'删除部门',iconCls: 'user_delete',handler:deleteDepartmentInfo},
-            {xtype:'button',text:'员工管理',iconCls: 'user_delete',handler:userManagement},
+        	{xtype:'button',text:'新增',iconCls: 'user_add',handler:addDepartmentInfo},
+            {xtype:'button',text:'修改',iconCls: 'user_edit',handler:editDepartmentInfo},
+            {xtype:'button',text:'删除',iconCls: 'user_delete',handler:deleteDepartmentInfo},
+            {xtype:'button',text:'管理员工',iconCls: 'user_delete',handler:userManagement},
             {xtype:'button',text:'导出',iconCls:'file_export',handler:exportDeartmentInfo}
         ]
     });

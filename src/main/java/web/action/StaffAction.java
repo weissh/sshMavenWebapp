@@ -435,7 +435,7 @@ public class StaffAction extends BaseAction{
 			return ;
 		}
 		/** 文件重命名为"staff_+staffId+后缀"的形式 */
-		photo="staff_"+staffId+photoImgFileName.substring(photoImgFileName.lastIndexOf("."));
+		photo="staff_"+staffName+photoImgFileName.substring(photoImgFileName.lastIndexOf("."));
 		FileOutputStream fos=new FileOutputStream(getPhotoSavePath()+photo);
 		FileInputStream fis=new FileInputStream(photoImg);
 		byte[] b =new byte[512];
@@ -460,6 +460,7 @@ public class StaffAction extends BaseAction{
 	 *
 	 * @version:v1.0
 	 * @author:caiwenming
+	 * @throws Exception 
 	 * @date:2014-2-10 上午8:57:05
 	 *
 	 * Modification History:
@@ -467,7 +468,7 @@ public class StaffAction extends BaseAction{
 	 * -----------------------------------------------------------------
 	 * 2014-2-10    caiwenming      v1.0.0         create
 	 */
-	public String updateStaff(){
+	public String updateStaff() throws Exception{
 		Department department =this.departmentService.find(departmentId);
 		if((department.getManagerId()!=null&&department.getManagerId()!=0)&&position.equals("部门经理")){
 			this.printString(false, "该部门已存在部门经理！");
@@ -475,6 +476,7 @@ public class StaffAction extends BaseAction{
 			Role role =this.roleService.find(roleId);
 			Staff staff=new Staff(department, photo, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password);
 			staff.setStaffId(staffId);
+			savePhoto(staff);
 			staff.setRole(role);
 			/**将对象从瞬时状态改成脱管状态（merge），之后再更新（update）*/
 			this.staffService.update(staff);
