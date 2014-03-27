@@ -407,19 +407,17 @@ Ext.onReady(function() {
 	var form = new top.Ext.FormPanel({
 				width : '100%',
 				height : '100%',
-				autoScroll : true,
+				overflowY:'auto',
 				bodyStyle: 'background:#dfe9f5',
 				bodyPadding : 10,
 				border : false,
 				defaults : {
-					// anchor: '100%',
+					anchor: '100%',
 					allowBlank : false,
 					blankText : '不允许为空',
-					// msgTarget : 'qtip',
+					msgTarget : 'qtip',
 					labelWidth : 80
 				},
-				// frame : true,
-
 				items : [{
 					xtype:'textfield',
 					name:'workId',
@@ -585,20 +583,20 @@ Ext.onReady(function() {
 					value:'A big deal!'
 				}],
 				buttons : [{
-							text : '提交',
-							handler:submitForm
-						}, {
-							text : '取消',
-							handler : function() {
-								win.close();
-							}
-						}]
+					text : '提交',
+					handler:submitForm
+				}, {
+					text : '取消',
+					handler : function() {
+						win.close();
+					}
+				}]
 			});
 			
 	var win = new top.Ext.Window({
     	layout : 'fit',
-		width :300,
-		height : 500,
+		width :380,
+		height : 480,
 		closeAction:'hide',
 		constrainHeader:true,
 		plain : true,

@@ -425,23 +425,18 @@ Ext.require([
             {text: "员工编号", width: 120, sortable: true, dataIndex: 'staffId'},
             {text: "员工姓名", width: 120, sortable: true, dataIndex: 'staffName'},
             {text: "支出日期", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('Y-m-d'), dataIndex: 'executeDate'},
-            {text: "支出方式", width: 120, sortable: true, dataIndex: 'payWay'
-            	},
-            {text: "币种", width: 120, sortable: true, dataIndex: 'currency'
-            	},
+            {text: "支出方式", width: 120, sortable: true, dataIndex: 'payWay'},
+            {text: "币种", width: 120, sortable: true, dataIndex: 'currency'},
             {text: "支出金额", width: 120, sortable: true,format: '$0,0', dataIndex: 'money'},
-			{text: "国家", width: 120, sortable: true, dataIndex: 'costCountry'
-            	},
-			{text: "省市", width: 120, sortable: true, dataIndex: 'costProvince',hidden:true
-            	},
+			{text: "国家", width: 120, sortable: true, dataIndex: 'costCountry'},
+			{text: "省市", width: 120, sortable: true, dataIndex: 'costProvince',hidden:true},
 			{text: "详细地址", width: 120, sortable: true, dataIndex: 'costAddress',hidden:true},
 			{text: "相关单位名称", width: 120, sortable: true, dataIndex: 'costUnitName'},
 			{text: "联系人姓名", width: 120, sortable: true, dataIndex: 'costContactName'},
 			{text: "联系人职务", width: 120, sortable: true, dataIndex: 'costContactPosition',hidden:true},
 			{text: "联系人电话", width: 120, sortable: true, dataIndex: 'costContactPhone',hidden:true},
 			{text: "联系人邮箱", width: 120, sortable: true, dataIndex: 'costContactEmail',hidden:true},
-			{text: "用途", width: 120, sortable: true, dataIndex: 'usage1',hidden:true
-            	},
+			{text: "用途", width: 120, sortable: true, dataIndex: 'usage1',hidden:true},
 			{text: "描述", width: 120, sortable: true, dataIndex: 'description1',hidden:true}
         ],
         bbar:new Ext.PagingToolbar({
@@ -453,258 +448,197 @@ Ext.require([
     });
     grid.addListener('itemdblclick', editCostInfo, this);
     
-    //双击GRID的方法
- 	function click() {  	
-		var sm = grid.getSelectionModel();
-		var record = sm.getSelection();
-		//top.Ext.Msg.alert('错误', '请先选择要编辑的数据行！');
-		form.form.reset();
-    	form.isAdd=false;
-    	win.setTitle('修改费用支出');
-    	win.show();
-		form.getForm().loadRecord(record[0]);
-	 }
+//    //双击GRID的方法
+// 	function click() {  	
+//		var sm = grid.getSelectionModel();
+//		var record = sm.getSelection();
+//		//top.Ext.Msg.alert('错误', '请先选择要编辑的数据行！');
+//		form.form.reset();
+//    	form.isAdd=false;
+//    	win.setTitle('修改费用支出');
+//    	win.show();
+//		form.getForm().loadRecord(record[0]);
+//	 }
     
      //新增、修改部门费用表单
      var form = top.Ext.create('Ext.form.Panel',{
 		labelWidth : 100,
 		border:false,
-		bodyStyle : 'background:#dfe9f5;padding:5px 5px 0',
-		defaultType : 'textfield',
-		defaults :{
+		overflowY:'auto',
+		bodyPadding: 10,
+		bodyStyle : 'background:#dfe9f5',
+		defaults: {
+			xtype:'textfield',
+        	labelWidth:80,
+            anchor: '100%',
+            msgTarget:'qtip'
+        },
+		items : [{
+			xtype:'textfield',
+			name:'costId',
+			allowBlank : true,
+			hidden:'true'
+		},{
+			xtype : 'textfield',
+			fieldLabel : '员工编号',
+			name:'staffId',
+			listeners:{ 
+	            blur:function(tf) {
+	            	var Id=tf.getRawValue();
+	                Ext.Ajax.request({
+	                	params:{staffId:Id},
+	                    url:'staff_getNameById',
+	                    method:'POST',
+	                    success:function(response,options){
+	                    	var responseArray = Ext.JSON.decode(response.responseText);
+	                    	if(responseArray.success==true){
+	                            form.getForm().findField('staffName').setValue(responseArray.msg);
+	                    	}else{
+	                    		form.getForm().findField('staffName').reset();
+	                    		top.Ext.Msg.show({title:'提示', msg:responseArray.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+	                    	}
+	                    },
+	                    failure:function(response,options){
+	                    	top.Ext.Msg.show({title:'提示', msg:'错误！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+	                    }
+	                })
+				}
+			}
+		},{
+			fieldLabel : '员工姓名',
+		    xtype: 'textfield',
+			name:'staffName',
+			margins:'0 4 0 0',
+			allowBlank:false,
+			readOnly : true
+		},{	
+			xtype : 'datefield',
+			fieldLabel : '支出日期 ',
+			name : 'executeDate',
+			format : 'Y-m-d',
+			maxValue: new Date(),
 			allowBlank : false
-		},
-					items : [{
-					xtype:'textfield',
-					name:'costId',
-					allowBlank : true,
-					hidden:'true'
-				},{
-					xtype : 'textfield',
-					fieldLabel : '员工编号',
-					name:'staffId',
-					listeners:{ 
-                        blur:function(tf) {
-                        	var Id=tf.getRawValue();
-                            Ext.Ajax.request({
-                            	params:{staffId:Id},
-                                url:'staff_getNameById',
-                                method:'POST',
-                                success:function(response,options){
-                                	var responseArray = Ext.JSON.decode(response.responseText);
-                                	if(responseArray.success==true){
-                                        form.getForm().findField('staffName').setValue(responseArray.msg);
-                                	}else{
-                                		form.getForm().findField('staffName').reset();
-                                		top.Ext.Msg.show({title:'提示', msg:responseArray.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
-                                	}
-                                },
-                                failure:function(response,options){
-                                	top.Ext.Msg.show({title:'提示', msg:'错误！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
-                                }
-                            })
-					}}
-							},{width:'33%',
-								fieldLabel : '员工姓名',
-								emptyText : '员工姓名...',
-							    xtype: 'textfield',
-								name:'staffName',
-								margins:'0 4 0 0',
-								allowBlank:false,
-//								mode:'local',
-								readOnly : true,
-								style : {
-									 color : 'blue'
-										}
-									},{	width:'33%',
-								xtype : 'datefield',
-								fieldLabel : '支出日期 ',
-								name : 'executeDate',
-								format : 'Y-m-d',
-								emptyText : '支出日期...',
-								maxValue: new Date(),
-								allowBlank : false,
-								mode : 'local',
-								style : {
-									color : 'blue'
-								}
-							},{width:'33%',
-								xtype : 'combo',
-								hiddenName : 'payWay',
-								fieldLabel : '支出方式',
-								emptyText : '支出方式...',
-								name : 'payWay',
-								store:payWay,
-								valueField : 'name',
-								displayField : 'name',
-								mode : 'local',
-		                   	    allowBlank: false
-							},{width:'33%',
-                    		   fieldLabel : '币种',
-							   hiddenName : 'currency',
-                    	       xtype: 'combo',
-                    	       name : 'currency',
-                    	       emptyText : '币种...',
-                    		   store:currency,
-                    		   valueField:'name',
-                			   displayField:'name',
-		                       mode:'local',
-							   typeAhead : true,
-							   triggerAction : 'all',
-							   selectOnFocus : true,
-							   allowBlank : false
-							},{width:'33%',
-								fieldLabel : '支出金额',
-								emptyText : '支出金额...',
-								name : 'money',
-								id :'money',
-								allowBlank : false,					
-								style : {
-									color : 'blue'
-								}
-							},{width:'33%',						
-							xtype : 'combo',
-							fieldLabel : '国家',
-							valueField:'name',
-							displayField : 'name',
-							store : costCountry,
-							typeAhead : true,
-							name : 'costCountry',
-							listeners:{        
-                        select : function(combo, record, index){   
-                        // 清除省市下拉框的现存值
-                        var provinceField = form.getForm().findField('costProvince');   
-                        provinceField.setValue('');
-                        newProvince.removeAll();
-                        // 获取当前选择的国家代码，然后在province过滤出所有属于这个国家的省
-                        var codeHead = record[0].get('id'); 
-                        if(codeHead=='CN'){                      	
-                            newProvince.add(costProvince.getRange()); 
-                        }
-	                    }}},{width:'33%',
-						xtype : 'combo',
-						fieldLabel : '省市',
-						valueField:'name',
-						displayField : 'name',
-						store : newProvince,
-						typeAhead : true,
-						blankText : '国外省份请自行填写',
-						name:'costProvince',
-						mode:'local'
-							},{
-							    xtype : 'textarea',
-								fieldLabel : '详细地址',
-								emptyText : '详细地址...',
-								name : 'costAddress',				
-								id :'costAddress',
-								allowBlank : false,
-								style : {
-									color : 'blue'
-								}
-							},{width:'30',
-								fieldLabel : '相关单位名称',
-								emptyText : '相关单位名称...',
-								name : 'costUnitName',
-								id :'costUnitName',					
-								allowBlank : false,
-								style : {
-									color : 'blue'
-								}
-							},{
-								fieldLabel : '联系人姓名',
-								emptyText : '联系人姓名...',
-								name : 'costContactName',
-								id :'costContactName',					
-								allowBlank : false,
-								style : {
-									color : 'blue'
-								}
-							},{
-								fieldLabel : '联系人职务',
-								emptyText : '联系人职务...',
-								name : 'costContactPosition',					
-								id :'costContactPosition',
-								allowBlank : false,
-								style : {
-									color : 'blue'
-								}
-							},{
-								fieldLabel : '联系人电话',
-								emptyText : '联系人电话...',
-								name : 'costContactPhone',
-								id :'costContactPhone',					
-								allowBlank : false,
-								style : {
-									color : 'blue'
-								}
-							},{
-								fieldLabel : '联系人邮箱',
-								vtype:'email',
-								vtext:'不是有效的邮箱地址',
-								emptyText : '联系人邮箱...',
-								name : 'costContactEmail',					
-								id :'costContactEmail',
-								allowBlank : false,
-								style : {
-									color : 'blue'
-								}
-							},{
-								xtype : 'combo',
-								hiddenName : 'usage1',
-								name : 'usage1',
-								fieldLabel : '用途',
-								emptyText : '用途...',				
-								store :usage1,
-								valueField:'name',
-                				displayField:'name',
-								typeAhead : true,
-								mode : 'local',
-								triggerAction : 'all',
-								selectOnFocus : true,
-								allowBlank : false
-							},{ xtype : 'textarea',
-								fieldLabel : '描述',
-								emptyText : '描述...',
-								name : 'description1',
-								id :'description1',
-								displayField:'name',
-								allowBlank : false,						
-								style : {
-									color : 'blue'
-								}
-							}],buttons:[{
-							text:'提交',
-							handler:submitForm
-						},{
-							text:'取消',
-							handler:function(){
-								win.close();
-								var form1   = this.up('form').getForm(),
-				                    encode = Ext.String.htmlEncode,
-				                    s      = '';
-				
-				                if (form1.isValid()) {
-				                    Ext.iterate(form1.getValues(), function(key, value) {
-				                        value = encode(value);
-				                        
-				                        s += Ext.util.Format.format("{0} = {1}<br />", key, value);
-				                    }, this);
-				
-//				                    top.Ext.Msg.alert('Form Values', s);
-				                }
-							}
-						}]
-});
+		},{
+			xtype : 'combo',
+			hiddenName : 'payWay',
+			fieldLabel : '支出方式',
+			name : 'payWay',
+			store:payWay,
+			valueField : 'name',
+			displayField : 'name',
+       	    allowBlank: false
+		},{
+		   fieldLabel : '币种',
+		   hiddenName : 'currency',
+	       xtype: 'combo',
+	       name : 'currency',
+		   store:currency,
+		   valueField:'name',
+		   displayField:'name',
+		   typeAhead : true,
+		   triggerAction : 'all',
+		   selectOnFocus : true,
+		   allowBlank : false
+		},{
+			fieldLabel : '支出金额',
+			name : 'money',
+			allowBlank : false
+		},{			
+			xtype : 'combo',
+			fieldLabel : '国家',
+			valueField:'name',
+			displayField : 'name',
+			store : costCountry,
+			typeAhead : true,
+			name : 'costCountry',
+			listeners:{        
+		        select : function(combo, record, index){
+			        // 清除省市下拉框的现存值
+			        var provinceField = form.getForm().findField('costProvince');   
+			        provinceField.setValue('');
+			        newProvince.removeAll();
+			        // 获取当前选择的国家代码，然后在province过滤出所有属于这个国家的省
+			        var codeHead = record[0].get('id'); 
+			        if(codeHead=='CN'){
+			            newProvince.add(costProvince.getRange()); 
+		        	}
+		        }
+        	}
+        },{
+			xtype : 'combo',
+			fieldLabel : '省市',
+			valueField:'name',
+			displayField : 'name',
+			store : newProvince,
+			typeAhead : true,
+			blankText : '国外省份请自行填写',
+			name:'costProvince'
+		},{
+		    xtype : 'textarea',
+			fieldLabel : '详细地址',
+			name : 'costAddress',				
+			allowBlank : false
+		},{
+			fieldLabel : '相关单位名称',
+			name : 'costUnitName',
+			allowBlank : false
+		},{
+			fieldLabel : '联系人姓名',
+			name : 'costContactName',
+			allowBlank : false
+		},{
+			fieldLabel : '联系人职务',
+			name : 'costContactPosition',					
+			allowBlank : false
+		},{
+			fieldLabel : '联系人电话',
+			name : 'costContactPhone',
+			allowBlank : false
+		},{
+			fieldLabel : '联系人邮箱',
+			vtype:'email',
+			vtext:'不是有效的邮箱地址',
+			name : 'costContactEmail',					
+			allowBlank : false
+		},{
+			xtype : 'combo',
+			hiddenName : 'usage1',
+			name : 'usage1',
+			fieldLabel : '用途',
+			store :usage1,
+			valueField:'name',
+			displayField:'name',
+			typeAhead : true,
+			mode : 'local',
+			triggerAction : 'all',
+			selectOnFocus : true,
+			allowBlank : false
+		},{ 
+			xtype : 'textarea',
+			fieldLabel : '描述',
+			name : 'description1',
+			allowBlank : false
+		}],
+		buttons:[{
+			text:'提交',
+			handler:submitForm
+		},{
+			text:'取消',
+			handler:function(){
+				win.close();
+			}
+		}]
+	});
     //新增、修改费用弹出框
     var win = new top.Ext.Window({
-		width :350,
+		width :380,
 		height :480,
-		overflowY:'auto',
+		layout:'fit',
 		closeAction:'hide',
 		constrainHeader:true,
 		plain : true,
 		modal : true,
-		items : form
+		items : [form]
     });
     
     //增加新费用

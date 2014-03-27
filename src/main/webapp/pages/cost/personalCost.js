@@ -352,7 +352,7 @@ Ext.require([
 //            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
 //            	}
             	},
-			{text: "描述", width: 120, sortable: true, dataIndex: 'description1',hidden:true}
+			{text: "描述", flex:1, sortable: true, dataIndex: 'description1'}
         ], 
         bbar:new Ext.PagingToolbar({
         	pageSize:20,
@@ -363,65 +363,59 @@ Ext.require([
     });
 	grid.addListener('itemdblclick', editCostInfo, this);
 	
-	 //双击GRID的方法
- 	function click() {  	
-		var sm = grid.getSelectionModel();
-		var record = sm.getSelection();
-		//top.Ext.Msg.alert('错误', '请先选择要编辑的数据行！');
-		form.form.reset();
-    	form.isAdd=false;
-    	win.setTitle('修改费用支出');
-    	win.show();
-		form.getForm().loadRecord(record[0]);
-	 }
+//	 //双击GRID的方法
+// 	function click() {  	
+//		var sm = grid.getSelectionModel();
+//		var record = sm.getSelection();
+//		//top.Ext.Msg.alert('错误', '请先选择要编辑的数据行！');
+//		form.form.reset();
+//    	form.isAdd=false;
+//    	win.setTitle('修改费用支出');
+//    	win.show();
+//		form.getForm().loadRecord(record[0]);
+//	 }
 
 	//新增、修改个人费用表单
 	var form = top.Ext.create('Ext.form.Panel', {
 		labelWidth : 100,
-		//frame : true,
+		overflowY:'auto',
 		border:false,
-		bodyStyle : 'background:#dfe9f5;padding:5px 5px 0',
+		bodyPadding:10,
+		bodyStyle : 'background:#dfe9f5',
 		defaultType : 'textfield',
-		defaults :{ //anchor : '95%',
-			allowBlank : false
-		},
-		//fileUpload : true,
+		defaults: {
+			xtype:'textfield',
+        	labelWidth:80,
+            anchor: '100%',
+            msgTarget:'qtip'
+        },
 		items : [{
 					xtype:'textfield',
 					name:'costId',
 					allowBlank : true,
 					hidden:'true'
-				},{
+		},{
 			xtype : 'datefield',
 			fieldLabel : '支出日期 ',
 			name : 'executeDate',
 			format : 'Y-m-d',
-			emptyText : '支出日期...',
 			maxValue: new Date(),
-			allowBlank : false,
-			style : {
-				color : 'blue'
-			}
-			//anchor : '95%'
-		},{width:'33%',
-		 xtype : 'combo',
-		 hiddenName : 'payWay',
-		 fieldLabel : '支出方式',
-		 emptyText : '支出方式...',
-		 name : 'payWay',
-		 //forceSelection : true,
-		 store:payWay,
-		 valueField : 'name',
-		 displayField : 'name',
-		 mode : 'local',
-		 allowBlank: false
+			allowBlank : false
+		},{
+			xtype : 'combo',
+			hiddenName : 'payWay',
+			fieldLabel : '支出方式',
+			name : 'payWay',
+			store:payWay,
+			valueField : 'name',
+			displayField : 'name',
+			mode : 'local',
+			allowBlank: false
 		 },{
 			xtype : 'combo',
 			hiddenName : 'currency',
 			name : 'currency',
 			fieldLabel : '币种',
-			emptyText : '币种...',
-			//forceSelection : true,
 			store:currency,
 			valueField : 'name',
 			displayField : 'name',
@@ -430,117 +424,72 @@ Ext.require([
 			triggerAction : 'all',
 			selectOnFocus : true,
 			allowBlank : false
-			//anchor : '95%'
 		},{
 			fieldLabel : '支出金额',
-			emptyText : '支出金额...',
 			name : 'money',
-			id :'money',
-			allowBlank : false,
-			style : {
-				color : 'blue'
-			}
-			//anchor : '95%'
-		},{width:'33%',						
-							xtype : 'combo',
-							fieldLabel : '国家',
-							valueField:'name',
-							displayField : 'name',
-							store : costCountry,
-							typeAhead : true,
-							name : 'costCountry',
-							listeners:{        
-                        select : function(combo, record, index){   
-                        // 清除省市下拉框的现存值
-                        var provinceField = form.getForm().findField('costProvince');   
-                        provinceField.setValue('');
-                        newProvince.removeAll();
-                        // 获取当前选择的国家代码，然后在province过滤出所有属于这个国家的省
-                        var codeHead = record[0].get('id'); 
-                        if(codeHead=='CN'){                      	
-                            newProvince.add(costProvince.getRange()); 
-                        }
-	                    }}},{width:'33%',
-						xtype : 'combo',
-						fieldLabel : '省市',
-						valueField:'name',
-						displayField : 'name',
-						store : newProvince,
-						typeAhead : true,
-						blankText : '国外省份请自行填写',
-						name:'costProvince',
-						mode:'local'
-							
+			allowBlank : false
+		},{
+			xtype : 'combo',
+			fieldLabel : '国家',
+			valueField:'name',
+			displayField : 'name',
+			store : costCountry,
+			typeAhead : true,
+			name : 'costCountry',
+			listeners:{        
+		        select : function(combo, record, index){   
+		        // 清除省市下拉框的现存值
+			        var provinceField = form.getForm().findField('costProvince');   
+			        provinceField.setValue('');
+			        newProvince.removeAll();
+			        // 获取当前选择的国家代码，然后在province过滤出所有属于这个国家的省
+			        var codeHead = record[0].get('id'); 
+			        if(codeHead=='CN'){                      	
+			            newProvince.add(costProvince.getRange()); 
+			        }
+    			}		
+        	}
+        },{
+			xtype : 'combo',
+			fieldLabel : '省市',
+			valueField:'name',
+			displayField : 'name',
+			store : newProvince,
+			typeAhead : true,
+			name:'costProvince',
+			mode:'local'
 		},{
 			xtype : 'textarea',
 			fieldLabel : '详细地址',
-			emptyText : '详细地址...',
 			name : 'costAddress',
-			id :'costAddress',
-			allowBlank : false,
-			style : {
-				color : 'blue'
-			}
-			//anchor : '95%'
+			allowBlank : false
 		},{
 			fieldLabel : '相关单位名称',
-			emptyText : '相关单位名称...',
 			name : 'costUnitName',
-			id :'costUnitName',
-			allowBlank : false,
-			style : {
-				color : 'blue'
-			}
-			//anchor : '95%'
+			allowBlank : false
 		},{
 			fieldLabel : '联系人姓名',
-			emptyText : '联系人姓名...',
 			name : 'costContactName',
-			id :'costContactName',
-			allowBlank : false,
-			style : {
-				color : 'blue'
-			}
-			//anchor : '95%'
+			allowBlank : false
 		},{
 			fieldLabel : '联系人职务',
-			emptyText : '联系人职务...',
 			name : 'costContactPosition',
-			id :'costContactPosition',
-			allowBlank : false,
-			style : {
-				color : 'blue'
-			}
-			//anchor : '95%'
+			allowBlank : false
 		},{
 			fieldLabel : '联系人电话',
-			emptyText : '联系人电话...',
 			name : 'costContactPhone',
-			id :'costContactPhone',
-			allowBlank : false,
-			style : {
-				color : 'blue'
-			}
-			//anchor : '95%'
+			allowBlank : false
 		},{
 			fieldLabel : '联系人邮箱',
 			vtype:'email',
 			vtext:'不是有效的邮箱地址',
-			emptyText : '联系人邮箱...',
 			name : 'costContactEmail',
-			id :'costContactEmail',
-			allowBlank : false,
-			style : {
-				color : 'blue'
-			}
-			//anchor : '95%'
+			allowBlank : false
 		},{
 			xtype : 'combo',
 			hiddenName : 'usage1',
 			name : 'usage1',
 			fieldLabel : '用途',
-			emptyText : '用途...',
-			//forceSelection : true,
 			store :usage1,
 			valueField : 'name',
 			displayField : 'name',
@@ -549,44 +498,27 @@ Ext.require([
 			triggerAction : 'all',
 			selectOnFocus : true,
 			allowBlank : false
-			//anchor : '95%'
 		},{
+			xtype : 'textarea',
 			fieldLabel : '描述',
-			emptyText : '描述...',
 			name : 'description1',
-			id :'description1',
-			allowBlank : false,
-			style : {
-				color : 'blue'
-			}
-			//anchor : '95%'
+			allowBlank : false
 		}],
 		buttons:[{
-				text:'提交',
-				handler:submitForm
-				},{
+			text:'提交',
+			handler:submitForm
+			},{
 				text:'取消',
-				handler:function(){
+			handler:function(){
 				win.close();
-				var form1   = this.up('form').getForm(),
-				encode = Ext.String.htmlEncode,
-				 s  = '';
-				 if (form1.isValid()) {
-				 Ext.iterate(form1.getValues(), function(key, value) {
-				  value = encode(value);
-				  s += Ext.util.Format.format("{0} = {1}<br />", key, value);
-				   }, this);
-//				 top.Ext.Msg.alert('Form Values', s);
-				        }
-					}
-				}]
+			}
+		}]
 	});
 	
 	var win = new top.Ext.Window({
-    	//layout : 'fit',
-		width :350,
+    	layout : 'fit',
+		width :380,
 		height :480,
-		overflowY:'auto',
 		closeAction:'hide',
 		constrainHeader:true,
 		plain : true,
@@ -598,9 +530,7 @@ Ext.require([
     function addCostInfo(){
     	form.form.reset();
     	form.isAdd=true;
-//    	form.getForm().findField('staffId').setReadOnly(false);
     	win.setTitle('新增费用支出');
-    	//form.getForm().findField('Money').setReadOnly(false);
     	win.show();
     };
     
@@ -610,9 +540,7 @@ Ext.require([
 		if (record.length==1) {
 			form.form.reset();
 	    	form.isAdd=false;
-//	    	form.getForm().findField('staffId').setReadOnly(true);
 	    	win.setTitle('修改费用支出');
-	    	//form.getForm().findField('Money').setReadOnly(true);	    	
 	    	win.show();
 			form.getForm().loadRecord(record[0]);
 		} else {
