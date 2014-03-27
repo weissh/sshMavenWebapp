@@ -18,7 +18,8 @@ Ext.require([
 	var update=true;
     var drop=true;
     var importExcel=true;
-    var exportExcel=true; 
+    var exportExcel=true;
+    var commit=true;
 
     if(roleName=='部门经理'||roleName=='财务部经理'||roleName=='财务部员工'){
 	    exportExcel=false;
@@ -28,6 +29,7 @@ Ext.require([
 	    drop=false;
 	    importExcel=false;
 	    exportExcel=false;
+	    commit=false;
     }
     
     //定义部门数据类型，用于下拉列表
@@ -621,7 +623,8 @@ Ext.require([
 		}],
 		buttons:[{
 			text:'提交',
-			handler:submitForm
+			handler:submitForm,
+			hidden:commit
 		},{
 			text:'取消',
 			handler:function(){
