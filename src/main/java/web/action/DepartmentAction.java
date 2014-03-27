@@ -60,6 +60,9 @@ public class DepartmentAction extends BaseAction {
 	/** 获取前端表单所有字段  */
 	private String departmentIds;
 	private int departmentId;
+	private int managerId;
+	private String managerName;
+	private int totalStaff;
 	private String departmentName;
 	private Date createTime;
 	private String description;
@@ -82,6 +85,30 @@ public class DepartmentAction extends BaseAction {
 
 	public void setDepartmentId(int departmentId) {
 		this.departmentId = departmentId;
+	}
+
+	public int getManagerId() {
+		return managerId;
+	}
+
+	public void setManagerId(int managerId) {
+		this.managerId = managerId;
+	}
+
+	public String getManagerName() {
+		return managerName;
+	}
+
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+
+	public int getTotalStaff() {
+		return totalStaff;
+	}
+
+	public void setTotalStaff(int totalStaff) {
+		this.totalStaff = totalStaff;
 	}
 
 	public String getDepartmentName() {
@@ -181,7 +208,10 @@ public class DepartmentAction extends BaseAction {
 		Department department=new Department();
 		department.setDepartmentId(departmentId);
 		department.setDepartmentName(departmentName);
+		department.setManagerId(managerId);
+		department.setManagerName(managerName);
 		department.setCreateTime(createTime);
+		department.setTotalStaff(totalStaff);
 		department.setDescription(description);
 		this.departmentService.update(department);
 		this.printString(true, departmentId+"");

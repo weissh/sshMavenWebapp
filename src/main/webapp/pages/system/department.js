@@ -115,6 +115,7 @@ Ext.onReady(function () {
     		{name:'departmentName'},
     		{name:'createTime',type: 'date', dateFormat:'Y-m-d'},
     		{name:'managerId'},
+    		{name:'managerName'},
     		{name:'totalStaff'},
     		{name:'description'}
 		]
@@ -136,39 +137,6 @@ Ext.onReady(function () {
         }
     });
 
-	//定义员工数据类型，作为下拉列表框
-    Ext.define('staffForSelector', {
-        extend: 'Ext.data.Model',
-        fields:[
-        	{name:'staffId'},
-        	{name:'staffName'}
-    	]
-	});
-	
-	//定义员工数据源，作为下拉列表的数据源
-    var staff=new Ext.data.Store({
-        model:staffForSelector,
-        proxy:{
-        	type:'ajax',
-        	url:'staff_getForSelector.action',
-        	method:'POST',
-        	reader:{
-        		type:'json',
-        		root:'infoList',
-        		idProperty:'staffId'
-        	}
-        },
-        listeners:{
-        	load:function(store,records,options){
-        		var rs=Ext.ModelMgr.create({
-        			staffId:0,
-        			staffName:"无"
-        		},'staffForSelector');
-        		store.insert(0,rs);
-        	}
-        }
-    });
-    staff.load();
     //用表单制作部门表格的工具栏
     var formForTbar=Ext.create('Ext.form.Panel',{
     	border:false,
@@ -197,19 +165,8 @@ Ext.onReady(function () {
             Ext.create('Ext.grid.RowNumberer'),
             {text: "部门编号", flex: 0.2, sortable: true, dataIndex: 'departmentId'},
             {text: "部门名称", flex: 0.2, sortable: true,dataIndex: 'departmentName'},
-            {text: "部门经理", flex: 0.2, sortable: true, dataIndex: 'managerId',
-            	  	renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-            		var index=staff.find('staffId',value);
-            		var record=staff.getAt(index);
-            		var text="";
-            		if(record==null){
-            			text=value;
-            		}else{
-            			text=record.data['staffName'];
-            		}
-            		return text;
-            	}
-            },
+            {text: "部门经理工号", flex: 0.2, sortable: true, dataIndex: 'managerId',hidden:true},
+            {text: "部门经理", flex: 0.2, sortable: true, dataIndex: 'managerName'},
             {text: "总员工数",flex: 0.2, sortable: true, dataIndex: 'totalStaff'},
             {
         		text: "成立时间", 
@@ -228,6 +185,7 @@ Ext.onReady(function () {
 	    }],
         renderTo: Ext.getBody()
     });
+    grid.addListener('itemdblclick', editDepartmentInfo, this);
     
     var ds = Ext.create('Ext.data.ArrayStore', {
         fields: ['value', 'text'],
@@ -309,6 +267,18 @@ Ext.onReady(function () {
         	xtype:'textfield',
         	hidden:true,
         	name:'departmentId'
+        },{
+        	xtype:'textfield',
+        	hidden:true,
+        	name:'totalStaff'
+        },{
+        	xtype:'textfield',
+        	hidden:true,
+        	name:'managerId'
+        },{
+        	xtype:'textfield',
+        	hidden:true,
+        	name:'managerName'
         },{
         	xtype:'textfield',
         	fieldLabel : '部门名称',

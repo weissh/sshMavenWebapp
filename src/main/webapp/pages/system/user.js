@@ -513,7 +513,8 @@ Ext.onReady(function(){
                     name: 'photoImg',
                     buttonText: '浏览  ',
                     labelAlign:'left'
-                }]
+                },
+                {width:'33%',fieldLabel: '照片路径',name: 'photoPath',hidden:true}]
 	            },{
                 defaults: {
                     labelWidth:64,
@@ -561,7 +562,6 @@ Ext.onReady(function(){
                     	store:role,
                     	valueField:'roleId',
                     	displayField:'roleName',
-                    	value:'管理员',
                     	allowBlank: false
                 	},
                     {width:'33%',fieldLabel: '密码',name: 'password',margins:'0 4 0 0',value:'000000',allowBlank: false}
@@ -815,6 +815,7 @@ Ext.onReady(function(){
 			form.getForm().loadRecord(records[0]);
 			var photoPath=records[0].get('photo');
 			form.getForm().findField('photoImg').setRawValue(photoPath);
+			form.getForm().findField('photoPath').setValue(photoPath);
 		} else {
 			top.Ext.Msg.show({title:'错误', msg:'请仅选择一条记录进行编辑！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
 		}
@@ -925,6 +926,7 @@ Ext.onReady(function(){
     		var rec =Ext.ModelMgr.create({
     			staffId:staffId,
     			photoImg:values['photoImg'],
+    			photo:values['photo'],
     			staffName:values['staffName'],
     			departmentId:values['departmentId'],
     			department:values['department'],

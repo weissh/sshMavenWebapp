@@ -61,6 +61,7 @@ public class StaffAction extends BaseAction{
 	private int limit;
 	private String query;
 	private String photo;
+	private String photoPath;
 	private File photoImg;
 	private String photoImgFileName;
 	private String staffName;
@@ -161,6 +162,12 @@ public class StaffAction extends BaseAction{
 	}
 	public void setPhoto(String photo) {
 		this.photo = photo;
+	}
+	public String getPhotoPath() {
+		return photoPath;
+	}
+	public void setPhotoPath(String photoPath) {
+		this.photoPath = photoPath;
 	}
 	public File getPhotoImg() {
 		return photoImg;
@@ -470,13 +477,15 @@ public class StaffAction extends BaseAction{
 	 */
 	public String updateStaff() throws Exception{
 		Department department =this.departmentService.find(departmentId);
-		if((department.getManagerId()!=null&&department.getManagerId()!=0)&&position.equals("部门经理")){
+		if(department.getManagerId()!=null&&department.getManagerId()!=staffId&&department.getManagerId()!=0&&position.equals("部门经理")){
 			this.printString(false, "该部门已存在部门经理！");
 		}else{
 			Role role =this.roleService.find(roleId);
-			Staff staff=new Staff(department, photo, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password);
+			Staff staff=new Staff(department, photoPath,staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password);
 			staff.setStaffId(staffId);
-			savePhoto(staff);
+			if(photoImg!=null){
+				savePhoto(staff);
+			}
 			staff.setRole(role);
 			/**将对象从瞬时状态改成脱管状态（merge），之后再更新（update）*/
 			this.staffService.update(staff);

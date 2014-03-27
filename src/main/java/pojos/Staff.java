@@ -107,6 +107,46 @@ public class Staff implements java.io.Serializable {
 		this.password = password;
 	}
 	
+	/** 前端的表单结构 */
+	public Staff(Department department, String staffName, Date entryTime,
+			String position, String phone, String email, String urgentContact,
+			String ucPhone, String gender, String nationality,
+			String politicalStatus,Integer age, Date birthday,
+			String maritalStatus, String idNo, String passportNo,
+			String nativePlace, String domicilePlace, Date dateOfRecruitment, String currentAddress,
+			String zipCode, String graduateSchool, String hightestEdu,
+			String hightestDegree, String major, String schoolSystem,String userName,
+			String password) {
+		this.department = department;
+		this.staffName = staffName;
+		this.entryTime = entryTime;
+		this.position = position;
+		this.phone = phone;
+		this.email = email;
+		this.urgentContact = urgentContact;
+		this.ucPhone = ucPhone;
+		this.gender = gender;
+		this.nationality = nationality;
+		this.politicalStatus = politicalStatus;
+		this.age=age;
+		this.birthday = birthday;
+		this.maritalStatus = maritalStatus;
+		this.idNo = idNo;
+		this.passportNo = passportNo;
+		this.nativePlace = nativePlace;
+		this.domicilePlace = domicilePlace;
+		this.dateOfRecruitment=dateOfRecruitment;
+		this.currentAddress = currentAddress;
+		this.zipCode = zipCode;
+		this.graduateSchool = graduateSchool;
+		this.hightestEdu = hightestEdu;
+		this.hightestDegree = hightestDegree;
+		this.major = major;
+		this.schoolSystem = schoolSystem;
+		this.userName=userName;
+		this.password = password;
+	}
+	
 	/** full constructor */
 	public Staff(Department department, String photo, String staffName, Date entryTime,
 			String position, String phone, String email, String urgentContact,
