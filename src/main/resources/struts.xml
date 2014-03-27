@@ -169,7 +169,15 @@
 		<action name="jour_getAllPer" method="getAllJourPer" class="journalAction" >
 		<result name="success" type="json"/>
 		</action>
-		<action name="jour_export" method="exportJour" class="journalAction" >
+		<action name="jour_exportPer" method="exportJourPer" class="journalAction" >
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel,charset=ISO8859-1</param>
+				<param name="inputName">excelStream</param>
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+		<action name="jour_exportDept" method="exportJourDept" class="journalAction" >
 			<result name="success" type="stream">
 				<param name="contentType">application/vnd.ms-excel,charset=ISO8859-1</param>
 				<param name="inputName">excelStream</param>

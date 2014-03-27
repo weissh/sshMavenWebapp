@@ -650,7 +650,7 @@ Ext.onReady(function() {
     	}
     	top.Ext.Msg.confirm('提示',msg,function(btnID){
     		if(btnID=='yes'){
-    			window.location.href='byjx/jour_export.action?workIds='+workIds;
+    			window.location.href='byjx/jour_exportPer.action?workIds='+workIds;
     		}
 		});
     }
