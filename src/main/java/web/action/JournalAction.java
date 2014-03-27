@@ -394,8 +394,9 @@ public class JournalAction extends BaseAction {
 				}
 			}
 		}
-		journals = this.journalService.findByPage(page, limit);
-		total = this.journalService.getTotalRows();
+		journals = this.journalService.findByPage(page, limit,
+				sql.toString());
+		total = this.journalService.getTotalRows(sql.toString());
 		List<JournalModel> journalModels;
 		if (journals.size() > 0) {
 			journalModels = JournalModel.toJournalModels(journals);
@@ -523,12 +524,75 @@ public class JournalAction extends BaseAction {
 		return null;
 	}
 
-	// 导出日志
-	public String exportJour() throws Exception {
-		System.out.println(workIds);
+	// 导出个人日志
+	public String exportJourPer() throws Exception {
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff tempStaff = (Staff) session.getAttribute("staff");
 		List<Journal> journals = new ArrayList<Journal>();
 		if (workIds.equals("")) {
-			journals = this.journalService.findAll();
+			StringBuffer sql = null;
+			sql = new StringBuffer("from Journal where Staff_StaffID="
+					+ tempStaff.getStaffId());
+			journals = this.journalService.findBysql(sql.toString());
+		} else {
+			/** 如果有多个id，则获取到的departmentIds格式是：id1,id2,id3,id4.... */
+			String[] str = this.workIds.split(",");
+
+			/** 遍历id，并实例化类型，在add到List */
+			for (int i = 0; i < str.length; i++) {
+				Journal journal = this.journalService.find(Integer
+						.parseInt(str[i]));
+				journals.add(journal);
+			}
+		}
+		Vector<String> head = JournalUI.getHead();
+		List<Vector<String>> dataList = JournalUI.getDataList(journals);
+		String downLoadPath = ServletActionContext.getServletContext()
+				.getRealPath("/") + "excel\\";
+		String fileName = ExcelUtil.createFileName("Journal") + ".xls";
+		if (ExcelUtil.printExcel(head, dataList, downLoadPath + fileName)) {
+			download(fileName);
+			// System.out.println(ServletActionContext.getServletContext().getRealPath("excel/Department201402131756458884286.xls"));
+			return "success";
+		} else {
+			this.printString(false, "");
+		}
+
+		return null;
+	}
+
+	// 导出部门日志
+	public String exportJourDept() throws Exception {
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff tempStaff = (Staff) session.getAttribute("staff");
+		int tempStaffId = tempStaff.getStaffId();
+		String roleName = tempStaff.getRole().getRoleName();
+		List<Journal> journals = new ArrayList<Journal>();
+
+		if (workIds.equals("")) {
+			StringBuffer sql = null;
+			if (roleName.equals("管理员") || roleName.equals("人力部员工")
+					|| roleName.equals("人力部经理")) {
+				journals = this.journalService.findAll();
+			} else if (roleName.equals("部门经理")) {
+				int departmentid = tempStaff.getDepartment().getDepartmentId();
+				String sqll = new String(
+						"from Staff where Department_DepartmentID="
+								+ departmentid);
+				List<Staff> staff2 = this.staffService.findBysql(sqll);
+				String staffid = null;
+				for (int i = 0; i < staff2.size(); i++) {
+					if (staffid == null) {
+						staffid = staff2.get(i).getStaffId() + "";
+					} else {
+						staffid = staffid + "," + staff2.get(i).getStaffId()
+								+ "";
+					}
+				}
+				sql = new StringBuffer("from Journal where Staff_StaffID in ("
+						+ staffid + ")");
+				journals = this.journalService.findBysql(sql.toString());
+			}
 		} else {
 			/** 如果有多个id，则获取到的departmentIds格式是：id1,id2,id3,id4.... */
 			String[] str = this.workIds.split(",");
