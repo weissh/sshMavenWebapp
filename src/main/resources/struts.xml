@@ -64,7 +64,7 @@
 			<result name="success" type="json"/>
 		</action>
 		<action name="staff_logout" method="logout" class="staffAction" >
-			<result name="success">/login.jsp</result>
+			<result name="success">/login.html</result>
 		</action>
 		<action name="staff_getCurrent" method="getCurrentStaff" class="staffAction" >
 			<result name="success" type="json"/>
