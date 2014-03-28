@@ -106,7 +106,8 @@ Ext.onReady(function() {
     //定义用户信息，包括照片和员工系统信息
     var userInfo=new Ext.Panel({
     	layout:'column',
-    	anchor:'100%',
+    	height:'100%',
+//    	anchor:'100%',
     	bodyStyle:'background:#dfe9f5',
         bodyPadding: '5px',
     	border:false,
@@ -176,7 +177,7 @@ Ext.onReady(function() {
         autoSrcoll:false,
         items: [{
         	xtype: 'fieldset',
-        	flex:1,
+        	flex:2,
             title: '基本信息',
             collapsible: true,
             defaults: {
@@ -278,7 +279,6 @@ Ext.onReady(function() {
         },{
             xtype: 'fieldset',
             title: '联系信息',
-            flex:1,
             collapsible: true,
             defaults: {
             	bodyStyle:'background:#dfe9f5',
@@ -320,6 +320,8 @@ Ext.onReady(function() {
     
     //定义界面视图
     var viewPort = new Ext.container.Viewport({
+//    	layout:'vbox',
+    	bodyStyle:'background:#dfe9f5',
     	items:[userInfo,form]
     });
 });
