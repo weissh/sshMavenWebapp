@@ -323,7 +323,7 @@ Ext.require([
         	triggerAction : 'all',
         	value:0,
             typeAhead:true,
-            width:150,
+            width:140,
             labelWidth:30,
             margins:'0 10 0 0',
             mode:'local',
@@ -348,7 +348,7 @@ Ext.require([
         	triggerAction : 'all',
         	value:0,
             typeAhead:true,
-            width:150,
+            width:140,
             labelWidth:30,
             margins:'0 10 0 0',
             mode:'remote'

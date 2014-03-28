@@ -1,82 +1,200 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-		<meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-        <title>JQUERY用户登陆界面</title>
-        <meta name="author" content="Codrops" />
-        <link rel="shortcut icon" href="../favicon.ico"> 
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <script src="js/modernizr.custom.63321.js"></script>
-        <!--[if lte IE 7]><style>.main{display:none;} .support-note .note-ie{display:block;}</style>
-		<![endif]-->
-		<style>
-			body {
-				background: #e1c192 url(images/wood_pattern.jpg);
-			}
-		</style>
-    </head>
-    <body>
-        <div class="container">
-			
-			<header>
-				<div class="support-note">
-					<span class="note-ie">Sorry, only modern browsers.</span>
-				</div>
-				
-			</header>
-			
-			<section class="main">
-				<form class="form-2" action="login.action" method="post">
-					<h1><span class="log-in">Log in</span> or <span class="sign-up">sign up</span></h1>
-					<p class="float">
-						<label for="login"><i class="icon-user"></i>Username</label>
-						<input type="text" name="cname" placeholder="Username or email">
-					</p>
-					<p class="float">
-						<label for="password"><i class="icon-lock"></i>Password</label>
-						<input type="password" name="cteacher" placeholder="Password" class="showpassword">
-					</p>
-					<p class="clearfix"> 
-						<a href="#" class="log-twitter">sign up</a>    
-						<input type="submit" name="submit" value="Log in">
-					</p>
-				</form></section>
-			
-        </div>
-		<!-- jQuery if needed -->
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-		<script type="text/javascript">
-			$(function(){
-			    $(".showpassword").each(function(index,input) {
-			        var $input = $(input);
-			        $("<p class='opt'/>").append(
-			            $("<input type='checkbox' class='showpasswordcheckbox' id='showPassword' />").click(function() {
-			                var change = $(this).is(":checked") ? "text" : "password";
-			                var rep = $("<input placeholder='Password' type='" + change + "' />")
-			                    .attr("id", $input.attr("id"))
-			                    .attr("name", $input.attr("name"))
-			                    .attr('class', $input.attr('class'))
-			                    .val($input.val())
-			                    .insertBefore($input);
-			                $input.remove();
-			                $input = rep;
-			             })
-			        ).append($("<label for='showPassword'/>").text("Show password")).insertAfter($input.parent());
-			    });
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>登陆界面</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	overflow:hidden;
+}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css">
+  <script type="text/javascript" charset="utf-8" src="extjs/ext-all-debug.js"></script>
+  <script type="text/javascript" src="extjs/ext-lang-zh_CN.js"></script>
+<script type="text/JavaScript">
+<!--
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
 
-			    $('#showPassword').click(function(){
-					if($("#showPassword").is(":checked")) {
-						$('.icon-lock').addClass('icon-unlock');
-						$('.icon-unlock').removeClass('icon-lock');    
-					} else {
-						$('.icon-unlock').addClass('icon-lock');
-						$('.icon-lock').removeClass('icon-unlock');
-					}
-			    });
-			});
-		</script>
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
 
-    </body>
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+//-->
+</script>
+</head>
+
+<body onLoad="MM_preloadImages('images/login_09_1.gif','images/login_10_1.gif')">
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td bgcolor="#02395f">&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="607" align="center" background="images/login_02.gif"><table width="974" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="331" background="images/login_01.jpg">&nbsp;</td>
+      </tr>
+      <tr>
+        <td height="116"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="393" height="116" background="images/login_05.gif">&nbsp;</td>
+            <td width="174"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="81" background="images/login_06.gif"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="30%"><div align="center"><font style="height:1;font-size:9pt; color:#bfdbeb;filter:glow(color=#1070a3,strength=1)">用户</font></div></td>
+                    <td><div id="user"></div></td>
+                  </tr>
+                  <tr height="10"></tr>
+                  <tr>
+                    <td><div align="center"><font style="height:1;font-size:9pt; color:#bfdbeb;filter:glow(color=#1070a3,strength=1)">密码</font></div></td>
+                    <td><div id="pwd"></div></td>
+                  </tr>
+                </table></td>
+              </tr>
+              <tr>
+                <td height="35"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="50" height="35"><img src="images/login_08.gif" width="50" height="35"></td>
+                    <td width="46"><a href="#"><img src="images/login_09.gif" name="Image1" width="46" height="35" border="0" id="Image1" onMouseOver="MM_swapImage('Image1','','images/login_09_1.gif',1)" onMouseOut="MM_swapImgRestore()" onclick="login()"></a></td>
+                    <td width="45"><a href="#"><img src="images/login_10.gif" name="Image2" width="45" height="35" border="0" id="Image2" onMouseOver="MM_swapImage('Image2','','images/login_10_1.gif',1)" onMouseOut="MM_swapImgRestore()" onclick="reset()"></a></td>
+                    <td width="33"><img src="images/login_11.gif" width="33" height="35"></td>
+                  </tr>
+                </table></td>
+              </tr>
+            </table></td>
+            <td width="407" background="images/login_07.gif">
+				<div id="loginBtn"></div>
+			</td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="160" background="images/login_12.gif">
+			<div id="resetBtn"></div>
+		</td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td bgcolor="#02609c">&nbsp;</td>
+  </tr>
+</table>
+</body>
 </html>
+<script>
+var loginMask,userName,pwd;
+Ext.onReady(function() {
+    Ext.tip.QuickTipManager.init();
+    loginMask=new Ext.LoadMask(Ext.getBody(),{msg:'正在登录，请稍后...'});
+    
+    //用户名文本框
+    userName=new Ext.form.TextField({
+		renderTo:'user',
+		name:'userName',
+		allowBlank:false,
+		value:'admin',
+		listeners:{
+			specialkey:function(field,e){
+				if(e.getKey()==13){
+					loginBtn.fireEvent('click',loginBtn);
+				}
+			}
+		}
+    });
+    
+    //密码文本框
+    pwd=new Ext.form.TextField({
+		renderTo:'pwd',
+		name:'password',
+		inputType:'password',
+		allowBlank:false,
+		value:'admin',
+		listeners:{
+			specialkey:function(field,e){
+				if(e.getKey()==13){
+					loginBtn.fireEvent('click',loginBtn);
+				}
+			}
+		}
+    });
+    
+
+    
+});
+
+function login(){
+	var params={
+			userName:userName.getValue(),
+			password:pwd.getValue()
+		};
+		
+		if(params.userName==''){
+			//MsgTip.msg('请输入用户名','');
+			userName.focus();
+			return;
+		}
+		
+		if(params.password==''){
+			//MsgTip.msg('请输入用户名','');
+			pwd.focus();
+			return;
+		}
+		loginMask.show();
+		
+		Ext.Ajax.request({
+			url : 'staff_login.action',
+			method : 'POST',
+			customer:'自定义属性',
+			params : params,
+//			callback:function(options,success,response){
+//				var msg=['请求是否成功：',success,"\n",
+//				'服务器返回值：',response.responseText,
+//				'本地自定义属性：',options.customer];
+//				alert(msg.join(''));
+//			},
+			success : function(response,o) {
+				// 处理返回信息
+				var result=Ext.JSON.decode(response.responseText);
+				if (result.success) {
+					window.top.location = result.msg;
+				} else {
+					top.Ext.Msg.show({title:'提示', msg:'用户名或密码错误！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+					//隐藏mask
+					loginMask.hide();
+				}
+			},
+			failure : function() {
+				//隐藏mask
+				loginMask.hide();
+				//显示错误信息
+				Ext.example.msg('登录失败','网络故障');
+			}
+		});
+	}
+
+function reset(){
+	userName.setValue('admin');
+	pwd.setValue('admin');
+}
+</script>

@@ -22,7 +22,8 @@ Ext.onReady(function() {
 	var update=true;
     var drop=true;
     var importExcel=true;
-    var exportExcel=true; 
+    var exportExcel=true;
+    var commit=true;
 
     if(roleName=='部门经理'||roleName=='人力部经理'||roleName=='人力部员工'){
 	    exportExcel=false;
@@ -32,6 +33,7 @@ Ext.onReady(function() {
 	    drop=false;
 	    importExcel=false;
 	    exportExcel=false;
+	    commit=false;
     }
 	   
 	// 定义部门数据类型，用于下拉列表
@@ -584,6 +586,7 @@ Ext.onReady(function() {
 				}],
 				buttons : [{
 					text : '提交',
+					hidden:commit,
 					handler:submitForm
 				}, {
 					text : '取消',

@@ -10,6 +10,7 @@ Ext.onReady(function() {
     		{name:'departmentName'},
     		{name:'createTime',type: 'date', dateFormat:'Y-m-d'},
     		{name:'managerId'},
+    		{name:'managerName'},
     		{name:'totalStaff'},
     		{name:'description'}
 		]
@@ -139,7 +140,7 @@ Ext.onReady(function() {
     //定义部门信息表
      var deptGrid=Ext.create('Ext.grid.Panel',{
      	title:'部门列表',
-		width:'40%',
+		width:'45%',
 		height:'100%',
 //		border:false,
 		bodyStyle:'border-width:1 1 1 0',
@@ -164,13 +165,14 @@ Ext.onReady(function() {
 		},
 		columns: [
             Ext.create('Ext.grid.RowNumberer'),
-            {text: "部门编号", flex: 0.2, sortable: true, dataIndex: 'departmentId'},
-            {text: "部门名称", flex: 0.2, sortable: true,dataIndex: 'departmentName'},
-            {text: "部门经理", flex: 0.2, sortable: true, dataIndex: 'managerNo'},
-            {text: "总员工数",flex: 0.2, sortable: true, dataIndex: 'totalStaff'},
+            {text: "部门编号", flex: 0.3, sortable: true, dataIndex: 'departmentId'},
+            {text: "部门名称", flex: 0.3, sortable: true,dataIndex: 'departmentName'},
+            {text: "部门经理编号", flex: 0.3, sortable: true, dataIndex: 'managerId',hidden:true},
+            {text: "部门经理", flex: 0.3, sortable: true, dataIndex: 'managerName'},
+            {text: "总员工数",flex: 0.3, sortable: true, dataIndex: 'totalStaff'},
             {
         		text: "成立时间", 
-        		flex: 0.3,
+        		flex: 0.4,
         		sortable: true, 
         		renderer: Ext.util.Format.dateRenderer('Y-m-d'), 
         		dataIndex: 'createTime'
@@ -221,7 +223,7 @@ Ext.onReady(function() {
     });
     //定义员工信息表
     var staffGrid=Ext.create('Ext.grid.Panel',{
-		width:'59.9%',
+		width:'54.9%',
 		height:document.body.clientHeight,
 		border:false,
 		layout:'fit',

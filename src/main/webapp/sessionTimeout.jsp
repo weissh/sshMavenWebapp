@@ -37,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<div id ="sessionOut">
 		您长时间未操作系统，为确保您的资料及数据信息安全，
-		系统自动超时退出，请重新<a href="<%=basePath%>login.jsp">登录</a>系统！
+		系统自动超时退出，请重新<a href="<%=basePath%>login.html">登录</a>系统！
 		
 	</div>
 	

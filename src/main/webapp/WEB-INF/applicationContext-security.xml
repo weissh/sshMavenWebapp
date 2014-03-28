@@ -13,12 +13,12 @@
     <http pattern="/**/*.gif" security="none"/>
     <http pattern="/**/*.css" security="none"/>
     <http pattern="/**/*.js" security="none"/>
-    <http pattern="/login.jsp" security="none"/>
+    <http pattern="/login.html" security="none"/>
 	<http auto-config="true" access-denied-page="/accessDenied.jsp">
 		<!-- 登录页面和忘记密码页面不过滤  -->
-		<intercept-url pattern="/login.jsp"/>
+		<intercept-url pattern="/login.html"/>
 	
-		<form-login login-page="/login.jsp"
+		<form-login login-page="/login.html"
 			authentication-failure-url="/login.jsp?error=true"
 			default-target-url="/index.jsp" />
 
