@@ -13,6 +13,7 @@ Ext.require([
 	Ext.onReady(function(){
     Ext.QuickTips.init();
 
+    
     //定义员工数据类型，作为下拉列表框
     Ext.define('staffForSelector', {
         extend: 'Ext.data.Model',
@@ -284,7 +285,7 @@ Ext.require([
             	}}
             },{xtype:'textfield',readOnly:true,width:100,id:"allCout"},'-','->',
             {xtype:'button',text:'新建',iconCls: 'cost_add',handler : addCostInfo},
-            {xtype:'button',text:'修改',iconCls: 'cost_edit',handler :editCostInfo},
+            {xtype:'button',text:'修改',id:"editt",iconCls: 'cost_edit',handler :editCostInfo},
             {xtype:'filefield',buttonOnly: true,buttonText:'导入',buttonConfig:{iconCls:'file_in'}},
 			{xtype:'button',text:'导出',iconCls: 'file_export',handler:exportCostInfo}]			        
     
@@ -362,19 +363,15 @@ Ext.require([
         renderTo: Ext.getBody()
     });
 	grid.addListener('itemdblclick', editCostInfo, this);
-	
-//	 //双击GRID的方法
-// 	function click() {  	
-//		var sm = grid.getSelectionModel();
-//		var record = sm.getSelection();
-//		//top.Ext.Msg.alert('错误', '请先选择要编辑的数据行！');
-//		form.form.reset();
-//    	form.isAdd=false;
-//    	win.setTitle('修改费用支出');
-//    	win.show();
-//		form.getForm().loadRecord(record[0]);
-//	 }
-
+	grid.addListener('itemclick', enableupdate, this);
+    function enableupdate(){
+    					var record=grid.getSelectionModel().getSelection();   	
+			    		var day=record[0].get('recordDate');
+				    	var date= new Date();  	
+						if (((date-day)/86400000)>1){
+							 Ext.getCmp("editt").setDisabled(true);} 
+						else{Ext.getCmp("editt").setDisabled(false);} 
+					 }			 
 	//新增、修改个人费用表单
 	var form = top.Ext.create('Ext.form.Panel', {
 		labelWidth : 100,
@@ -506,6 +503,7 @@ Ext.require([
 		}],
 		buttons:[{
 			text:'提交',
+			name:"commit1",
 			handler:submitForm
 			},{
 				text:'取消',
@@ -535,16 +533,48 @@ Ext.require([
     };
     
 	//修改费用支出 
-	function editCostInfo() {
-    	var record=grid.getSelectionModel().getSelection();
-		if (record.length==1) {
+	function editCostInfo(){
+		var record=grid.getSelectionModel().getSelection();   
+		var date= new Date(); 
+	    if (record.length==1){
+	    	var day=record[0].get('recordDate');
 			form.form.reset();
-	    	form.isAdd=false;
-	    	win.setTitle('修改费用支出');
-	    	win.show();
+			form.isAdd=false;
+			win.setTitle('修改费用支出');
+			win.show();
 			form.getForm().loadRecord(record[0]);
+			if (((date-day)/86400000)>1){
+			form.getForm().findField('executeDate').setReadOnly(true);
+			form.getForm().findField('payWay').setReadOnly(true);
+			form.getForm().findField('currency').setReadOnly(true);
+			form.getForm().findField('money').setReadOnly(true);
+			form.getForm().findField('costCountry').setReadOnly(true);
+			form.getForm().findField('costProvince').setReadOnly(true);
+			form.getForm().findField('costAddress').setReadOnly(true);
+			form.getForm().findField('costUnitName').setReadOnly(true);
+			form.getForm().findField('costContactName').setReadOnly(true);
+			form.getForm().findField('costContactPosition').setReadOnly(true);
+			form.getForm().findField('costContactPhone').setReadOnly(true);
+			form.getForm().findField('costContactEmail').setReadOnly(true);
+			form.getForm().findField('usage1').setReadOnly(true);
+			form.getForm().findField('description1').setReadOnly(true);} 
+			else{
+			form.getForm().findField('executeDate').setReadOnly(false);
+			form.getForm().findField('payWay').setReadOnly(false);
+			form.getForm().findField('currency').setReadOnly(false);
+			form.getForm().findField('money').setReadOnly(false);
+			form.getForm().findField('costCountry').setReadOnly(false);
+			form.getForm().findField('costProvince').setReadOnly(false);
+			form.getForm().findField('costAddress').setReadOnly(false);
+			form.getForm().findField('costUnitName').setReadOnly(false);
+			form.getForm().findField('costContactName').setReadOnly(false);
+			form.getForm().findField('costContactPosition').setReadOnly(false);
+			form.getForm().findField('costContactPhone').setReadOnly(false);
+			form.getForm().findField('costContactEmail').setReadOnly(false);
+			form.getForm().findField('usage1').setReadOnly(false);
+			form.getForm().findField('description1').setReadOnly(false);}
 		} else {
-			top.Ext.Msg.show({title:'错误', msg:'请仅选择一条记录进行编辑！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+		top.Ext.Msg.show({title:'错误', msg:'请仅选择一条记录进行编辑！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
 		}
 	};
 	
@@ -567,22 +597,30 @@ Ext.require([
 	    			}
 	    		});
 	    	}else{
-	    		form.form.submit({
-		    		waitMsg:'正在提交数据，请稍后...',
-					waitTitle:'提示',
-					url:'cost_update.action',
-					method:'POST',
-					success:function(form,action){
-						win.hide();
-						updateGrid(action.result.msg);
-						top.Ext.Msg.show({title:'提示', msg:'修改费用成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
-					},
-					failure:function(form,action){
-						top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
-					}
-	    		});
+	    		var record=grid.getSelectionModel().getSelection();   	
+	    		var day=record[0].get('recordDate');
+		    	var date= new Date();  	
+				if ((date-day)/86400000>1){			
+						top.Ext.Msg.show({title:'提示', msg:'修改超时，不允许修改！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+					}else{
+		    			form.form.submit({
+			    		waitMsg:'正在提交数据，请稍后...',
+						waitTitle:'提示',
+						url:'cost_update.action',
+						method:'POST',
+						success:function(form,action){
+							win.hide();
+							updateGrid(action.result.msg);
+							top.Ext.Msg.show({title:'提示', msg:'修改费用成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+						},
+						    failure:function(form,action){
+							top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+						    }
+						
+		    		   });
+	    		   }
 	    	}
-    	}else{alert('验证不通过');}
+    	}else{alert('验证不通过！');}
     };
     
     //更新grid
