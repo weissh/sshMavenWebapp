@@ -510,7 +510,7 @@ public class CostAction extends BaseAction{
 			 * findByPage方法的参数是（当前页码,每页记录数），所以需先通过start和limit计算得出请求的当前页码
 			 */
 			costs=this.costService.findByPage(page,limit, sql.toString());
-			total=this.costService.getTotalRows();
+			total=this.costService.getTotalRows(sql.toString());
 		}
 		List<CostModel> costModels;
 		if(costs.size()>0){
