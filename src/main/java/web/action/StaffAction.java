@@ -181,7 +181,7 @@ public class StaffAction extends BaseAction{
 	public void setPhotoImgFileName(String photoImgFileName) {
 		this.photoImgFileName = photoImgFileName;
 	}
-	public String getStaffName() {
+	public String getStaffName(){
 		return staffName;
 	}
 	public void setStaffName(String staffName) {
@@ -571,7 +571,7 @@ public class StaffAction extends BaseAction{
 		return null;
 	}
 	
-	public String getAllStaffByRole(){
+	public String getAllStaffByRole() throws UnsupportedEncodingException{
 		List<Staff> staffs=new ArrayList<Staff>();
 		int page=start/limit+1;
 		int total = 0;
@@ -580,15 +580,13 @@ public class StaffAction extends BaseAction{
 		Role role=staff.getRole();
 		String roleName=role.getRoleName().trim();
 		
-		
-		
 		if(query!=null){
 			StringBuffer buffer=new StringBuffer("from Staff where 1=1");
 			if(departmentId!=0){
 				buffer.append(" and Department_DepartmentID="+departmentId);
 			}
 			if(staffName!=null&&!staffName.equals("")){
-				buffer.append(" and StaffName="+staffName);
+				buffer.append(" and staffName = "+"'"+new String(staffName.getBytes("ISO8859-1"),"utf-8")+"'");
 			}
 			staffs=this.staffService.findByPage(page, limit, buffer.toString());
 			total=staffs.size();
