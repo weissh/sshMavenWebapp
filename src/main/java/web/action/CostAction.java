@@ -471,7 +471,7 @@ public class CostAction extends BaseAction{
 				}
 			}
 		}
-		
+		sql.append("order by recordDate desc");
 		costs=this.costService.findByPage(page,limit, sql.toString());
 		total=this.costService.getTotalRows(sql.toString());
 		List<CostModel> costModels;
@@ -502,6 +502,7 @@ public class CostAction extends BaseAction{
 				sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
 				+end+"'");
 			}
+			sql.append("order by recordDate desc");
 			costs=this.costService.findByPage(page, limit, sql.toString());			
 			System.out.println(sql.toString());
 			total=this.costService.getTotalRows(sql.toString());
@@ -509,6 +510,7 @@ public class CostAction extends BaseAction{
 			/**
 			 * findByPage方法的参数是（当前页码,每页记录数），所以需先通过start和limit计算得出请求的当前页码
 			 */
+			sql.append("order by recordDate desc");
 			costs=this.costService.findByPage(page,limit, sql.toString());
 			total=this.costService.getTotalRows(sql.toString());
 		}
