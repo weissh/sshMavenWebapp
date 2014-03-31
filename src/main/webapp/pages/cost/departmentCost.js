@@ -653,19 +653,20 @@ Ext.require([
     	win.show();
     };
     
-    //修改用户
+    //修改费用
     function editCostInfo(){
-    	var record=grid.getSelectionModel().getSelection();
+    	var record=grid.getSelectionModel().getSelection();   
 		if (record.length==1) {
-			form.form.reset();
-	    	form.isAdd=false;
-	    	form.getForm().findField('staffId').setReadOnly(true);
-	    	win.setTitle('修改费用支出');
-	    	win.show();
-			form.getForm().loadRecord(record[0]);
+			    form.form.reset();
+		    	form.isAdd=false;
+		    	form.getForm().findField('staffId').setReadOnly(true);
+		    	win.setTitle('修改费用支出');
+		    	win.show();
+				form.getForm().loadRecord(record[0]);
 		} else {
 			top.Ext.Msg.show({title:'错误', msg:'请仅选择一条记录进行编辑！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
 		}
+
     };
     
     
@@ -735,13 +736,16 @@ Ext.require([
 	    			success:function(form,action){
     				win.hide();
 					updateGrid(action.result.msg);
-    				top.Ext.Msg.show({title:'提示', msg:'新增日志成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+    				top.Ext.Msg.show({title:'提示', msg:'新增费用成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
     			},
 	    			failure:function(form,action){
     				top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
     			}
 	    		});
 	    	}else{
+	    		var record=grid.getSelectionModel().getSelection();   	
+		    	var date= new Date();  	
+				if (record.length==1) {}
 	    		form.form.submit({
 		    		waitMsg:'正在提交数据，请稍后...',
 					waitTitle:'提示',
@@ -750,7 +754,7 @@ Ext.require([
 					success:function(form,action){
 					win.hide();
 					updateGrid(action.result.msg);
-					top.Ext.Msg.show({title:'提示', msg:'修改日志成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+					top.Ext.Msg.show({title:'提示', msg:'修改费用成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
 				},
 				failure:function(form,action){
 					top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
