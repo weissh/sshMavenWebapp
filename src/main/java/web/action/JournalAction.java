@@ -350,7 +350,6 @@ public class JournalAction extends BaseAction {
 					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 					String start = df.format(startDate);
 					String end = df.format(endDate);
-					System.out.println(start);
 					sql.append(" and executeDate>='" + start + "'"
 							+ " and executeDate<='" + end + "'");
 				}
@@ -394,6 +393,8 @@ public class JournalAction extends BaseAction {
 				}
 			}
 		}
+		sql.append(" order by RecordDate desc");
+		System.out.println(sql);
 		journals = this.journalService.findByPage(page, limit,
 				sql.toString());
 		total = this.journalService.getTotalRows(sql.toString());
@@ -425,17 +426,11 @@ public class JournalAction extends BaseAction {
 				sql.append(" and executeDate>='" + start + "'"
 						+ " and executeDate<='" + end + "'");
 			}
-			journals = this.journalService.findByPage(page, limit,
-					sql.toString());
-			total = this.journalService.getTotalRows(sql.toString());
-		} else {
-			/**
-			 * findByPage方法的参数是（当前页码,每页记录数），所以需先通过start和limit计算得出请求的当前页码
-			 */
-			journals = this.journalService.findByPage(page, limit,
-					sql.toString());
-			total = this.journalService.getTotalRows(sql.toString());
 		}
+		sql.append(" order by RecordDate desc");
+		journals = this.journalService.findByPage(page, limit,
+					sql.toString());
+		total = this.journalService.getTotalRows(sql.toString());
 		List<JournalModel> journalModels;
 		if (journals.size() > 0) {
 			journalModels = JournalModel.toJournalModels(journals);
@@ -545,8 +540,10 @@ public class JournalAction extends BaseAction {
 				journals.add(journal);
 			}
 		}
+		List<JournalModel> journalmodels=new ArrayList<JournalModel>();
+		journalmodels=JournalModel.toJournalModels(journals);
 		Vector<String> head = JournalUI.getHead();
-		List<Vector<String>> dataList = JournalUI.getDataList(journals);
+		List<Vector<String>> dataList = JournalUI.getDataList(journalmodels);
 		String downLoadPath = ServletActionContext.getServletContext()
 				.getRealPath("/") + "excel\\";
 		String fileName = ExcelUtil.createFileName("Journal") + ".xls";
@@ -604,8 +601,10 @@ public class JournalAction extends BaseAction {
 				journals.add(journal);
 			}
 		}
+		List<JournalModel> journalmodels=new ArrayList<JournalModel>();
+		journalmodels=JournalModel.toJournalModels(journals);
 		Vector<String> head = JournalUI.getHead();
-		List<Vector<String>> dataList = JournalUI.getDataList(journals);
+		List<Vector<String>> dataList = JournalUI.getDataList(journalmodels);
 		String downLoadPath = ServletActionContext.getServletContext()
 				.getRealPath("/") + "excel\\";
 		String fileName = ExcelUtil.createFileName("Journal") + ".xls";
