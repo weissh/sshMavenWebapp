@@ -111,6 +111,14 @@ Ext.define("Ext.locale.zh_CN.picker.Date", {
     }
 });
 
+//重写时间选择器的提示（英文-->中文）
+Ext.define('Ext.locale.zh_CN.form.field.Time', {
+    override:'Ext.form.field.Time',
+    minText : "结束时间必须在 {0} 之后",
+    maxText : "开始时间必须在 {0} 之前",
+    invalidText : "{0} 不是有效时间"
+});
+
 Ext.define("Ext.locale.zh_CN.picker.Month", {
     override: "Ext.picker.Month",
     okText: "确定",

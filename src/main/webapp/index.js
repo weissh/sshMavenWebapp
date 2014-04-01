@@ -65,7 +65,7 @@ Ext.onReady(function() {
         contentEl:'center',
         id:'mainContent',
         margins: '0 5 5 0',
-        bodyStyle:'background:#dfe9f5',
+        bodyStyle:'background:#dfe9f5'
     });
     var viewport = Ext.create('Ext.Viewport', {
         id: 'border-example',

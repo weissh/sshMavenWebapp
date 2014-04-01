@@ -2,7 +2,13 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-String staffName=session.getAttribute("staffName").toString();
+String staffName="";
+Object object=session.getAttribute("staffName");
+if(object!=null){
+	staffName=session.getAttribute("staffName").toString();
+}else{
+	response.sendRedirect("login.html");
+}
 
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">

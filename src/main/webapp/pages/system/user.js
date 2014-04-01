@@ -166,9 +166,11 @@ Ext.onReady(function(){
         fieldLabel:30,
         fields:['id','name'],
         data:[
-	        {'id':'单轨制','name':'单轨制'},
-	        {'id':'双轨制','name':'双轨制'},
-	        {'id':'分支制学制','name':'分支制学制'}
+//	        {'id':'单轨制','name':'单轨制'},
+//	        {'id':'双轨制','name':'双轨制'},
+//	        {'id':'分支制学制','name':'分支制学制'}
+	        {'id':'三年','name':'三年'},
+	        {'id':'四年','name':'四年'}
         ]
     });
     
@@ -606,7 +608,14 @@ Ext.onReady(function(){
                 		format:'Y-m-d',
                 		margins:'0 4 0 0',
                 		value:'2012-12-12',
-                		allowBlank: false
+                		allowBlank: false,
+                		listeners:{
+                			select:function(m,d){
+                				var date=new Date();
+                				var age=date.getYear()-d.getYear();
+                				form.getForm().findField('age').setValue(age);
+                			}
+                		}
             		}
                 ]
             },{
@@ -616,7 +625,7 @@ Ext.onReady(function(){
                     xtype:'textfield'
                 },
                 items: [
-                    {width:'33%',fieldLabel: '年龄',name: 'age',value:12,allowBlank: false},
+                    {width:'33%',fieldLabel: '年龄',name: 'age',readOnly:true,allowBlank: false},
                     {width:'33%',fieldLabel: '民族',name: 'nationality',value:'123',allowBlank: false}, 
                     {
                     	width:'33%',
@@ -650,7 +659,7 @@ Ext.onReady(function(){
                     	allowBlank: false
                 	},
                     {width:'33%',fieldLabel: '籍贯',name: 'nativePlace',value:'123',allowBlank: false},
-                    {width:'33%',fieldLabel: '身份证号',name: 'idNo',margins:'0 4 0 0',value:'123',allowBlank: false}
+                    {width:'33%',fieldLabel: '身份证号',name: 'idNo',regex:/(^\d{17}([0-9]|[x,X])$)/,regexText:'请输入正确的身份证号码,18位最后一位可能是数字也可能是x',margins:'0 4 0 0',allowBlank: false}
                 ]
             },{
                 defaults: {
@@ -726,7 +735,7 @@ Ext.onReady(function(){
                     	valueField:'id',
                     	displayField: 'name',
                     	margins:'0 3 0 0',
-                    	value:'单轨制',
+                    	value:'三年制',
                     	allowBlank: false
                 	}
                 ]
@@ -751,7 +760,7 @@ Ext.onReady(function(){
                     anchor: '100%'
                 },
                 items: [
-                    {width:'33%',fieldLabel: '手机号',name: 'phone',value:'123',allowBlank: false}, 
+                    {width:'33%',fieldLabel: '手机号',name: 'phone',regex:/^1[\d]{10}$/,regexText:'手机号码必须是1开头的,后面跟10位数字结尾',value:'123',allowBlank: false}, 
                     {width:'33%',fieldLabel: '现居住地',name: 'currentAddress',value:'123',allowBlank: false}, 
                     {width:'33%',fieldLabel: '紧急联系人',name: 'urgentContact',margins:'0 4 0 0',value:'123',allowBlank: false}
                 ]
@@ -763,8 +772,8 @@ Ext.onReady(function(){
                 },
                 items: [
                     {width:'33%',fieldLabel: '邮箱',name: 'email',value:'123',allowBlank: false},
-                    {width:'33%',fieldLabel: '邮编',name: 'zipCode',value:'123',allowBlank: false},
-                    {width:'33%',fieldLabel: '紧急电话',name: 'ucPhone',margins:'0 4 0 0',value:'123',allowBlank: false}
+                    {width:'33%',fieldLabel: '邮编',name: 'zipCode',regex:/^[1-9]{1}(\d){5}$/,regexText:'请输入正确的邮政编码',value:'123',allowBlank: false},
+                    {width:'33%',fieldLabel: '紧急电话',name: 'ucPhone',regex:/^1[\d]{10}$/,regexText:'手机号码必须是1开头的,后面跟10位数字结尾',margins:'0 4 0 0',value:'123',allowBlank: false}
                 ]
             }]
         }],

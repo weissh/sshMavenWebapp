@@ -13,7 +13,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css">
 	<link rel="stylesheet" type="text/css" href="extjs/common.css">
-	<script type="text/javascript" charset="utf-8" src="extjs/ext-all-debug.js"></script>
+	<script type="text/javascript" charset="utf-8" src="extjs/ext-all.js"></script>
 	<script type="text/javascript" src="extjs/ext-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="pages/system/user.js"></script>
 
