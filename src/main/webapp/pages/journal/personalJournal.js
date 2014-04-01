@@ -118,7 +118,7 @@ Ext.onReady(function() {
 	Ext.define('journal',{
 		extend: 'Ext.data.Model',
 		fields: [
-		    {name:'workId',type:'string'},
+		    {name:'workId',type:'int'},
             {name:'recordDate',type:'date',dateFormat:'Y-m-d'},
             {name:'staffId',type:'int'},
             {name:'staffName',type:'string'},
@@ -144,7 +144,6 @@ Ext.onReady(function() {
 	 var journalStore = Ext.create('Ext.data.Store', {
         model: 'journal',
         pageSize:20,
-        remoteSort:true,
         proxy:{
         	type:'ajax',
         	url:'jour_getAllPer.action',
@@ -311,8 +310,7 @@ Ext.onReady(function() {
 					maxValue : new Date(),
 					mode : 'local',
 					format : 'Y-m-d',
-					name:'executeDate',
-					value:'2014-02-01'
+					name:'executeDate'
 				}, {
 					xtype : 'combo',
 					fieldLabel : '工作方式',
@@ -320,13 +318,11 @@ Ext.onReady(function() {
 					displayField : 'name',
 					store : operatemode,
 					typeAhead : true,
-					name:'operateMode',
-					value:1
+					name:'operateMode'
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '单位名称',
-					name:'unitName',
-					value:'一个单位'
+					name:'unitName'
 				},  {
 					xtype : 'combo',
 					fieldLabel : '国家',
@@ -360,8 +356,7 @@ Ext.onReady(function() {
 				},{
 					xtype : 'textfield',
 					fieldLabel : '详细地址',
-					name:'address',
-					value:'朝阳区'
+					name:'address'
 				}, {
 					xtype : 'combo',
 					fieldLabel : '客户/经销商',
@@ -369,8 +364,7 @@ Ext.onReady(function() {
 					displayField : 'name',
 					store : contactobject,
 					typeAhead : true,
-					name:'contactObject',
-					value:1
+					name:'contactObject'
 				}, {
 					xtype : 'combo',
 					fieldLabel : '重要级别',
@@ -378,8 +372,7 @@ Ext.onReady(function() {
 					displayField : 'name',
 					store : level,
 					typeAhead : true,
-					name:'level',
-					value:1
+					name:'level'
 				}, {
 					xtype : 'combo',
 					fieldLabel : '联系途径',
@@ -387,52 +380,56 @@ Ext.onReady(function() {
 					displayField : 'name',
 					store : contactway,
 					typeAhead : true,
-					name:'contactWay',
-					value:1
+					name:'contactWay'
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人姓名',
-					name:'contactName',
-					value:'吴大大'
+					name:'contactName'
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人职务',
-					name:'contactPosition',
-					value:'副总经理'
+					name:'contactPosition'
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人电话',
-					name:'contactPhone',
-					value:'13098319911'
+					name:'contactPhone'
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人邮箱',
-					// vtype : 'email',
-					name:'contactEmail',
-					value:'33@123.com'
+					vtype : 'email',
+					name:'contactEmail'
 				}, {
 					xtype : 'timefield',
 					fieldLabel : '开始时间',
 					pickerMaxBeight : 80,
-					increment : 60,
+					increment : 30,
 					format : 'G:i:s',
 					name:'startTime',
-					value:'7:00:00'
+					listeners : {
+						blur : function(tf) {
+							var starttime=tf.getRawValue();
+							form.getForm().findField('endTime').setMinValue(starttime);
+						}
+					}
 				}, {
 					xtype : 'timefield',
 					fieldLabel : '结束时间',
 					pickerMaxBeight : 80,
-					increment : 60,
+					increment : 30,
 					format : 'G:i:s',
 					name:'endTime',
-					value:'9:00:00'
+					listeners : {
+						blur : function(tf) {
+							var endtime=tf.getRawValue();
+							form.getForm().findField('startTime').setMaxValue(endtime);
+						}
+					}
 				}, {
 					xtype : 'textarea',
 					fieldLabel : '工作（商谈）主要内容及结果（200字以内）',
 					preventScrollbars : true,
 					width : 250,
-					name:'workContent',
-					value:'A big deal!'
+					name:'workContent'
 				}],
 				buttons : [{
 					text : '提交',
@@ -460,7 +457,6 @@ Ext.onReady(function() {
     function addJournal(){   	
     	form.form.reset();
     	form.isAdd=true;
-    	//form.getForm().findField('staffId').setReadOnly(false);
     	win.setTitle('新建日志');
     	win.show();
     };
@@ -474,7 +470,6 @@ Ext.onReady(function() {
 			if(recorddate-today==0){
 				form.form.reset();
 	    	form.isAdd=false;
-	    	//form.getForm().findField('staffId').setReadOnly(true);
 	    	win.setTitle('修改日志');
 	    	win.show();
 			form.getForm().loadRecord(record[0]);	
