@@ -16,8 +16,9 @@ Ext.onReady(function() {
 	var importExcel = true;
 	var exportExcel = true;
 	var commit = true;
+	var formtitle = '查看日志';
 
-	if (roleName == '部门经理' || roleName == '人力部经理' || roleName == '人力部员工') {
+	if (roleName == '部门经理' || roleName == '人力部经理' || roleName == '人力部员工'|| roleName == '总经理') {
 		exportExcel = false;
 	} else {
 		add = false;
@@ -26,6 +27,7 @@ Ext.onReady(function() {
 		importExcel = false;
 		exportExcel = false;
 		commit = false;
+		formtitle = '修改日志';
 	}
 
 	// 定义部门数据类型，用于下拉列表
@@ -786,99 +788,118 @@ Ext.onReady(function() {
 				}, {
 					xtype : 'combo',
 					fieldLabel : '工作方式',
-					valueField : 'name',
+					valueField:'name',
 					displayField : 'name',
 					store : operatemode,
 					typeAhead : true,
-					name : 'operateMode'
+					name:'operateMode',
+					maxLength:10
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '单位名称',
-					name : 'unitName'
-				}, {
+					name:'unitName'	,			
+					maxLength:45 
+				},  {
 					xtype : 'combo',
 					fieldLabel : '国家',
-					valueField : 'name',
+					valueField:'name',
 					displayField : 'name',
 					store : country,
 					typeAhead : true,
-					name : 'country',
-					listeners : {
-						select : function(combo, record, index) {
-							// 清除省市下拉框的现存值
-							var provinceField = form.getForm()
-									.findField('province');
-							provinceField.setValue('');
-							newProvince.removeAll();
-							// 获取当前选择的国家代码，然后在province过滤出所有属于这个国家的省
-							var codeHead = record[0].get('id');
-							if (codeHead == 'CN') {
-								newProvince.add(province.getRange());
-							}
-						}
-					}
+					name:'country',
+					maxLength:45,
+					listeners:{        
+                        select : function(combo, record, index){   
+                        // 清除省市下拉框的现存值
+                        var provinceField = form.getForm().findField('province');   
+                        provinceField.setValue('');
+                        newProvince.removeAll();
+                        // 获取当前选择的国家代码，然后在province过滤出所有属于这个国家的省
+                        var codeHead = record[0].get('id'); 
+                        if(codeHead=='CN'){                      	
+                            newProvince.add(province.getRange()); 
+                        }
+                    }}
 				}, {
 					xtype : 'combo',
 					fieldLabel : '省市',
-					valueField : 'name',
+					valueField:'name',
 					displayField : 'name',
 					store : newProvince,
 					typeAhead : true,
 					blankText : '国外省份请自行填写',
-					name : 'province',
-					mode : 'local'
-				}, {
+					name:'province',
+					mode:'local',
+					maxLength:20
+				},{
 					xtype : 'textfield',
 					fieldLabel : '详细地址',
-					name : 'address'
+					name:'address',			
+					maxLength:100 
 				}, {
 					xtype : 'combo',
 					fieldLabel : '客户/经销商',
-					valueField : 'name',
+					valueField:'name',
 					displayField : 'name',
 					store : contactobject,
 					typeAhead : true,
-					name : 'contactObject'
+					name:'contactObject',
+					editable: false,
+					maxLength:10
 				}, {
 					xtype : 'combo',
 					fieldLabel : '重要级别',
-					valueField : 'name',
+					valueField:'name',
 					displayField : 'name',
 					store : level,
 					typeAhead : true,
-					name : 'level'
+					name:'level',
+					editable: false,
+					maxLength:10
 				}, {
 					xtype : 'combo',
 					fieldLabel : '联系途径',
-					valueField : 'name',
+					valueField:'name',
 					displayField : 'name',
 					store : contactway,
 					typeAhead : true,
-					name : 'contactWay'
+					name:'contactWay',
+					maxLength:10
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人姓名',
-					name : 'contactName'
+					name:'contactName',			
+					maxLength:10
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人职务',
-					name : 'contactPosition'
+					name:'contactPosition',			
+					maxLength:10 
 				}, {
-					xtype : 'textfield',
+					xtype : 'numberfield',
 					fieldLabel : '联系人电话',
-					name : 'contactPhone'
+					name:'contactPhone',
+					hideTrigger: true,
+					maxValue:20000000000,
+					minValue:1,
+					maxText:'请输入正确的电话号码',
+					minText:'请输入正确的电话号码',
+					nanText:'请输入正确的电话号码',
+					maxLength:11
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人邮箱',
 					vtype : 'email',
-					name : 'contactEmail'
+					name:'contactEmail',			
+					maxLength:20
 				}, {
 					xtype : 'timefield',
 					fieldLabel : '开始时间',
 					pickerMaxBeight : 80,
 					increment : 30,
 					format : 'G:i:s',
-					name : 'startTime',
+					name:'startTime',
+					maxLength:8,
 					listeners : {
 						blur : function(tf) {
 							var starttime=tf.getRawValue();
@@ -891,7 +912,8 @@ Ext.onReady(function() {
 					pickerMaxBeight : 80,
 					increment : 30,
 					format : 'G:i:s',
-					name : 'endTime',
+					name:'endTime',
+					maxLength:8,
 					listeners : {
 						blur : function(tf) {
 							var endtime=tf.getRawValue();
@@ -903,7 +925,8 @@ Ext.onReady(function() {
 					fieldLabel : '工作（商谈）主要内容及结果（200字以内）',
 					preventScrollbars : true,
 					width : 250,
-					name : 'workContent'
+					name:'workContent',
+					maxLength:200 
 				}],
 		buttons : [{
 					text : '提交',
@@ -945,7 +968,7 @@ Ext.onReady(function() {
 			form.form.reset();
 			form.isAdd = false;
 			form.getForm().findField('staffId').setReadOnly(true);
-			win.setTitle('修改日志');
+			win.setTitle(formtitle);
 			win.show();
 			form.getForm().loadRecord(record[0]);
 		} else {
@@ -1054,7 +1077,7 @@ Ext.onReady(function() {
 							failure : function(form, action) {
 								top.Ext.Msg.show({
 											title : '提示',
-											msg : action.result.msg,
+											msg : '新增日志失败，所填内容有误。',
 											icon : Ext.Msg.ERROR,
 											buttons : Ext.Msg.OK
 										});
@@ -1079,7 +1102,7 @@ Ext.onReady(function() {
 							failure : function(form, action) {
 								top.Ext.Msg.show({
 											title : '提示',
-											msg : action.result.msg,
+											msg : '修改日志失败，所填内容有误。',
 											icon : Ext.Msg.ERROR,
 											buttons : Ext.Msg.OK
 										});
@@ -1087,7 +1110,7 @@ Ext.onReady(function() {
 						});
 			}
 		} else {
-			alert('验证不通过');
+			alert('验证不通过。请按提示正确填写表单，不可出现红色下划线。');
 		}
 	};
 

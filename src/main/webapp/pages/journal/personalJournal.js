@@ -16,7 +16,7 @@ Ext.require([
 Ext.onReady(function() {
 	
 	Ext.tip.QuickTipManager.init();
-	     
+		     
     var country=new Ext.data.Store({
         fields:['id','name'],
         data:[
@@ -234,7 +234,7 @@ Ext.onReady(function() {
 			
 			}},'-','->',
 			{xtype:'button',text:'新建',iconCls: 'journal_add',handler : addJournal},
-			{xtype:'button',text:'修改',iconCls: 'journal_edit',handler : editJournal},
+			{xtype:'button',text:'修改',iconCls: 'journal_edit',id:"editt",handler : editJournal},
 			{xtype:'filefield',buttonOnly: true,buttonText:'导入',buttonConfig:{iconCls:'file_in'}},
 			{xtype:'button',text:'导出',iconCls:'file_export',handler:exportJournal}]
     
@@ -282,8 +282,21 @@ Ext.onReady(function() {
             displayInfo: true
         }),
         renderTo: Ext.getBody()
-	}) 
-	
+	});
+	// 双击进行修改
+    grid.addListener('itemdblclick', editJournal, this);
+    // 单击进行判断是否可以修改
+    grid.addListener('itemclick', enableupdate, this);
+    function enableupdate(){
+//    	var record=grid.getSelectionModel().getSelection();   	
+//    	var date=record[0].get('recordDate');
+//		var today= Ext.Date.clearTime(new Date());
+    	var judge=judgeJournal();
+		if (judge){
+			Ext.getCmp("editt").setDisabled(false);} 
+		else{Ext.getCmp("editt").setDisabled(true);} 
+	}	
+
     
 	var form = new top.Ext.FormPanel({
 				width : '100%',
@@ -318,11 +331,13 @@ Ext.onReady(function() {
 					displayField : 'name',
 					store : operatemode,
 					typeAhead : true,
-					name:'operateMode'
+					name:'operateMode',
+					maxLength:10
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '单位名称',
-					name:'unitName'
+					name:'unitName'	,			
+					maxLength:45 
 				},  {
 					xtype : 'combo',
 					fieldLabel : '国家',
@@ -331,6 +346,7 @@ Ext.onReady(function() {
 					store : country,
 					typeAhead : true,
 					name:'country',
+					maxLength:45,
 					listeners:{        
                         select : function(combo, record, index){   
                         // 清除省市下拉框的现存值
@@ -352,11 +368,13 @@ Ext.onReady(function() {
 					typeAhead : true,
 					blankText : '国外省份请自行填写',
 					name:'province',
-					mode:'local'
+					mode:'local',
+					maxLength:20
 				},{
 					xtype : 'textfield',
 					fieldLabel : '详细地址',
-					name:'address'
+					name:'address',			
+					maxLength:100 
 				}, {
 					xtype : 'combo',
 					fieldLabel : '客户/经销商',
@@ -364,7 +382,9 @@ Ext.onReady(function() {
 					displayField : 'name',
 					store : contactobject,
 					typeAhead : true,
-					name:'contactObject'
+					name:'contactObject',
+					editable: false,
+					maxLength:10
 				}, {
 					xtype : 'combo',
 					fieldLabel : '重要级别',
@@ -372,7 +392,9 @@ Ext.onReady(function() {
 					displayField : 'name',
 					store : level,
 					typeAhead : true,
-					name:'level'
+					name:'level',
+					editable: false,
+					maxLength:10
 				}, {
 					xtype : 'combo',
 					fieldLabel : '联系途径',
@@ -380,24 +402,35 @@ Ext.onReady(function() {
 					displayField : 'name',
 					store : contactway,
 					typeAhead : true,
-					name:'contactWay'
+					name:'contactWay',
+					maxLength:10
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人姓名',
-					name:'contactName'
+					name:'contactName',			
+					maxLength:10
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人职务',
-					name:'contactPosition'
+					name:'contactPosition',			
+					maxLength:10 
 				}, {
-					xtype : 'textfield',
+					xtype : 'numberfield',
 					fieldLabel : '联系人电话',
-					name:'contactPhone'
+					name:'contactPhone',
+					hideTrigger: true,
+					maxValue:20000000000,
+					minValue:1,
+					maxText:'请输入正确的电话号码',
+					minText:'请输入正确的电话号码',
+					nanText:'请输入正确的电话号码',
+					maxLength:11
 				}, {
 					xtype : 'textfield',
 					fieldLabel : '联系人邮箱',
 					vtype : 'email',
-					name:'contactEmail'
+					name:'contactEmail',			
+					maxLength:20
 				}, {
 					xtype : 'timefield',
 					fieldLabel : '开始时间',
@@ -405,6 +438,7 @@ Ext.onReady(function() {
 					increment : 30,
 					format : 'G:i:s',
 					name:'startTime',
+					maxLength:8,
 					listeners : {
 						blur : function(tf) {
 							var starttime=tf.getRawValue();
@@ -418,6 +452,7 @@ Ext.onReady(function() {
 					increment : 30,
 					format : 'G:i:s',
 					name:'endTime',
+					maxLength:8,
 					listeners : {
 						blur : function(tf) {
 							var endtime=tf.getRawValue();
@@ -429,7 +464,8 @@ Ext.onReady(function() {
 					fieldLabel : '工作（商谈）主要内容及结果（200字以内）',
 					preventScrollbars : true,
 					width : 250,
-					name:'workContent'
+					name:'workContent',
+					maxLength:200 
 				}],
 				buttons : [{
 					text : '提交',
@@ -460,30 +496,37 @@ Ext.onReady(function() {
     	win.setTitle('新建日志');
     	win.show();
     };
-    
+    // 判断所选日志是否是当天提交的日志
+    function judgeJournal(){
+    	var record=grid.getSelectionModel().getSelection();
+    	var recorddate=record[0].get("recordDate");
+		var today=Ext.Date.clearTime(new Date());
+    	return recorddate-today==0;
+    }
     // 修改日志
     function editJournal(){
     	var record=grid.getSelectionModel().getSelection();
 		if (record.length==1) {
-			var recorddate=record[0].get("recordDate");
-			var today=Ext.Date.clearTime(new Date());
-			if(recorddate-today==0){
-				form.form.reset();
-	    	form.isAdd=false;
-	    	win.setTitle('修改日志');
-	    	win.show();
+			var judge=judgeJournal();
+			form.form.reset();
+	    	form.isAdd=false;	    	
 			form.getForm().loadRecord(record[0]);	
-			}else{
-				top.Ext.Msg.show({title:'操作失败', msg:'只能对当天添加的记录进行修改！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
-			}
-								
+			if(judge){//当天的日志，设置只读为false
+				win.setTitle('修改日志');
+				form.getForm().getFields().each(function(field) {	        
+		        field.setReadOnly(false);  
+	            })
+			}else{//非当天的日志，设置只读为true
+				win.setTitle('查看日志');
+				form.getForm().getFields().each(function(field) {		        
+		        field.setReadOnly(true);  
+	            })
+			}		
+	    	win.show();
 		} else {
 			top.Ext.Msg.show({title:'错误', msg:'请仅选择一条记录进行编辑！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
 		}
     };
-    
-    // 双击进行修改
-    grid.addListener('itemdblclick', editJournal, this);
     
     // 删除日志
     function deleteJournal(){
@@ -553,11 +596,13 @@ Ext.onReady(function() {
     				top.Ext.Msg.show({title:'提示', msg:'新增日志成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
     			},
     			failure:function(form,action){
-    				top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+    				top.Ext.Msg.show({title:'提示', msg:'新增日志失败，所填内容有误。',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
     			}
     		});
-    	}else{
-    		form.form.submit({
+    	}else{			
+    		var judge=judgeJournal();	
+			if (judge){
+			    form.form.submit({
 	    		waitMsg:'正在提交数据，请稍后...',
 				waitTitle:'提示',
 				url:'jour_update.action',
@@ -568,11 +613,13 @@ Ext.onReady(function() {
 					top.Ext.Msg.show({title:'提示', msg:'修改日志成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
 				},
 				failure:function(form,action){
-					top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
-				}
-    		});
+					top.Ext.Msg.show({title:'提示', msg:'修改日志失败，所填内容有误。',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+				}})							
+				}else{
+				top.Ext.Msg.show({title:'提示', msg:'不可以修改非当天提交的日志！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+				}    		
     	}
-    	}else{alert('验证不通过');}
+    	}else{alert('验证不通过。请按提示正确填写表单，不可出现红色下划线。');}
     };
     
     function updateGrid(workId){
