@@ -282,6 +282,7 @@ public class CostAction extends BaseAction{
 	 * -----------------------------------------------------------------
 	 * 2014-2-10    caiwenming      v1.0.0         create
 	 */
+	//新增部门费用
 	public String addCost() {
 		Staff staff = this.staffService.find(staffId);
 		if (staff == null) {
@@ -294,7 +295,7 @@ public class CostAction extends BaseAction{
 		}
 		return null;
 	}
-	
+	//新增个人费用
 	public String addCostPer() {
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		Staff staff = (Staff) session.getAttribute("staff");
@@ -319,6 +320,7 @@ public class CostAction extends BaseAction{
 	 * -----------------------------------------------------------------
 	 * 2014-2-10    caiwenming      v1.0.0         create
 	 */
+	//更新费用
 	public String updateCost(){
 		if(costId==0){
 			this.printString(false, "获取参数错误！");
@@ -363,6 +365,7 @@ public class CostAction extends BaseAction{
 	 * -----------------------------------------------------------------
 	 * 2014-2-10    caiwenming      v1.0.0         create
 	 */
+	//删除费用
 	public String deleteCost(){
 		String[] ids=this.costIds.split(",");
 		ArrayList<Cost> costs=new ArrayList<Cost>();
@@ -395,6 +398,7 @@ public class CostAction extends BaseAction{
 	 * -----------------------------------------------------------------
 	 * 2014-2-10    caiwenming      v1.0.0         create
 	 */
+	//获取所有费用列表
 	public String getAllCost(){
 		int page=start/limit+1;
 		List<Cost> costs = new ArrayList<Cost>();
@@ -437,7 +441,7 @@ public class CostAction extends BaseAction{
 			
 		}
 		//如果是管理员或者财务部员工或者财务部经理
-		if(roleName.equals("管理员")||roleName.equals("财务部员工")||roleName.equals("财务部经理"))
+		if(roleName.equals("管理员")||roleName.equals("总经理")||roleName.equals("财务部员工")||roleName.equals("财务部经理"))
 		{
 			sql=new StringBuffer("from Cost where 1=1");
 			if(query!=null)
@@ -471,7 +475,7 @@ public class CostAction extends BaseAction{
 				}
 			}
 		}
-		
+		sql.append("order by recordDate desc");
 		costs=this.costService.findByPage(page,limit, sql.toString());
 		total=this.costService.getTotalRows(sql.toString());
 		List<CostModel> costModels;
@@ -485,6 +489,7 @@ public class CostAction extends BaseAction{
 		this.printList(start, limit, total, costModels,jsonConfig);
 		return null;
 	}
+	//获取个人费用列表
 	public String getAllCostPer(){
 		int page=start/limit+1;
 		List<Cost> costs = null;
@@ -502,6 +507,7 @@ public class CostAction extends BaseAction{
 				sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
 				+end+"'");
 			}
+			sql.append("order by recordDate desc");
 			costs=this.costService.findByPage(page, limit, sql.toString());			
 			System.out.println(sql.toString());
 			total=this.costService.getTotalRows(sql.toString());
@@ -509,6 +515,7 @@ public class CostAction extends BaseAction{
 			/**
 			 * findByPage方法的参数是（当前页码,每页记录数），所以需先通过start和limit计算得出请求的当前页码
 			 */
+			sql.append("order by recordDate desc");
 			costs=this.costService.findByPage(page,limit, sql.toString());
 			total=this.costService.getTotalRows(sql.toString());
 		}
@@ -567,7 +574,7 @@ public class CostAction extends BaseAction{
 		
 		if(costIds.equals("")){
 			StringBuffer sql=null;
-			if(roleName.equals("管理员")||roleName.equals("财务部员工")||roleName.equals("财务部经理"))
+			if(roleName.equals("管理员")||roleName.equals("总经理")||roleName.equals("财务部员工")||roleName.equals("财务部经理"))
 			{costs = this.costService.findAll();}
 			else if(roleName.equals("部门经理")){
 				Integer departmentid=staff.getDepartment().getDepartmentId();	
@@ -616,7 +623,7 @@ public class CostAction extends BaseAction{
 		this.excelStream=ServletActionContext.getServletContext().getResourceAsStream("excel/"+fileName);
 	}
 	
-	
+	//计算个人费用
 	public String CountPer(){
 		List<Cost> costs = null;
 		HttpSession session = ServletActionContext.getRequest().getSession();
@@ -645,6 +652,7 @@ public class CostAction extends BaseAction{
 		this.printString(count+"");
 		return null;
 	}
+	//计算部门费用
 	public String CountDep(){
 		List<Cost> costs = new ArrayList<Cost>();
 		HttpSession session = ServletActionContext.getRequest().getSession();
@@ -684,7 +692,7 @@ public class CostAction extends BaseAction{
 			}
 		}
 		//如果是管理员或者财务部员工或者财务部经理
-		if(roleName.equals("管理员")||roleName.equals("财务部员工")||roleName.equals("财务部经理")){
+		if(roleName.equals("管理员")||roleName.equals("总经理")||roleName.equals("财务部员工")||roleName.equals("财务部经理")){
 			sql=new StringBuffer("from Cost where 1=1");
 			if(query!=null)
 			{
