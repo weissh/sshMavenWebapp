@@ -11,12 +11,11 @@ import pojos.Staff;
 import web.ui.model.CostModel;
 
 public class CostDepUI {
-	private static String[] columnMethods = new String[]{"getCostId","getRecordDate","getStaff","getExecuteDate","getPayWay","getCurrency","getMoney","getCostUnitName","getCostCountry","getCostProvince","getCostAddress","getCostContactName","getCostContactPosition","getCostContactPhone","getCostContactEmail","getUsage1","getDescription1"};
+	private static String[] columnMethods = new String[]{"getRecordDate","getStaffId","getStaffName","getExecuteDate","getPayWay","getCurrency","getMoney","getCostUnitName","getCostCountry","getCostProvince","getCostAddress","getCostContactName","getCostContactPosition","getCostContactPhone","getCostContactEmail","getUsage1","getDescription1"};
 
 	
 	public static Vector<String> getHead(){
-		Vector<String> head=new Vector<String>();
-		head.add("记录编号");
+		Vector<String> head=new Vector<String>();		
 		head.add("记录时间");
 		head.add("员工编号");
 		head.add("员工姓名");
