@@ -23,7 +23,7 @@ Ext.require([
 
     if(roleName=='部门经理'||roleName=='财务部经理'||roleName=='财务部员工'|| roleName == '总经理'){
 	    exportExcel=false;
-    }else{
+    }else if(roleName=='管理员'){
     	add=false;
 	    update=false;
 	    drop=false;
