@@ -21,7 +21,7 @@ Ext.require([
     var exportExcel=true;
     var commit=true;
 
-    if(roleName=='部门经理'||roleName=='财务部经理'||roleName=='财务部员工'){
+    if(roleName=='部门经理'||roleName=='财务部经理'||roleName=='财务部员工'|| roleName == '总经理'){
 	    exportExcel=false;
     }else{
     	add=false;
@@ -528,7 +528,8 @@ Ext.require([
 			store:payWay,
 			valueField : 'name',
 			displayField : 'name',
-       	    allowBlank: false
+       	    allowBlank: false,
+       	    maxLength:10
 		},{
 		   fieldLabel : '币种',
 		   hiddenName : 'currency',
@@ -540,7 +541,8 @@ Ext.require([
 		   typeAhead : true,
 		   triggerAction : 'all',
 		   selectOnFocus : true,
-		   allowBlank : false
+		   allowBlank : false,
+       	    maxLength:10
 		},{
 			fieldLabel : '支出金额',
 			name : 'money',
@@ -553,6 +555,7 @@ Ext.require([
 			store : costCountry,
 			typeAhead : true,
 			name : 'costCountry',
+			maxLength:45,
 			listeners:{        
 		        select : function(combo, record, index){
 			        // 清除省市下拉框的现存值
@@ -574,34 +577,46 @@ Ext.require([
 			store : newProvince,
 			typeAhead : true,
 			blankText : '国外省份请自行填写',
-			name:'costProvince'
+			name:'costProvince',
+			maxLength:20
 		},{
 		    xtype : 'textarea',
 			fieldLabel : '详细地址',
 			name : 'costAddress',				
-			allowBlank : false
+			allowBlank : false,
+			maxLength:100
 		},{
 			fieldLabel : '相关单位名称',
 			name : 'costUnitName',
-			allowBlank : false
+			allowBlank : false,
+			maxLength:100
 		},{
 			fieldLabel : '联系人姓名',
 			name : 'costContactName',
-			allowBlank : false
+			allowBlank : false,
+			maxLength:10
 		},{
 			fieldLabel : '联系人职务',
 			name : 'costContactPosition',					
-			allowBlank : false
+			allowBlank : false,
+			maxLength:10
 		},{
 			fieldLabel : '联系人电话',
 			name : 'costContactPhone',
-			allowBlank : false
+			hideTrigger: true,
+			maxValue:20000000000,
+			minValue:1,
+			maxText:'请输入正确的电话号码',
+			minText:'请输入正确的电话号码',
+			nanText:'请输入正确的电话号码',
+			maxLength:11
 		},{
 			fieldLabel : '联系人邮箱',
 			vtype:'email',
 			vtext:'不是有效的邮箱地址',
 			name : 'costContactEmail',					
-			allowBlank : false
+			allowBlank : false,
+			maxLength:20
 		},{
 			xtype : 'combo',
 			hiddenName : 'usage1',
@@ -614,12 +629,14 @@ Ext.require([
 			mode : 'local',
 			triggerAction : 'all',
 			selectOnFocus : true,
-			allowBlank : false
+			allowBlank : false,
+			maxLength:20
 		},{ 
 			xtype : 'textarea',
 			fieldLabel : '描述',
 			name : 'description1',
-			allowBlank : false
+			allowBlank : false,
+			maxLength:500
 		}],
 		buttons:[{
 			text:'提交',
@@ -757,11 +774,13 @@ Ext.require([
 					top.Ext.Msg.show({title:'提示', msg:'修改费用成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
 				},
 				failure:function(form,action){
-					top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+					top.Ext.Msg.show({title:'提示',msg : '修改费用失败，所填内容有误。',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
 				}
 	    		});
 	    	}
-    	}else{alert('验证不通过');}
+    	}else {
+			alert('验证不通过。请按提示正确填写表单，不可出现红色下划线。');
+		}
     };
     
     //更新grid
@@ -824,17 +843,4 @@ Ext.require([
     		}
 		});
     }
-    
-//    //用于渲染grid中的与form中下拉列表框对应的值，使其显示的是name字段而不是id字段
-//    function getText(record){
-//    	var text="";
-//		if(record==null){
-//			text=value;
-//		}else{
-//			text=record.data['name'];
-//		}
-//		return text;
-//    };
-    
-    
 });

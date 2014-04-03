@@ -165,7 +165,6 @@ Ext.require([
         	}
         }
     });
-    
     //费用表格数据源载入，默认为第一页前20条记录，当点击下一页（第二页）时参数自动改变为{start:20,limit:20}，store的pagesize为20时
 	personalCostStore.load({url:'cost_getAllper.action',params:{start:0,limit:20}});
 
@@ -407,7 +406,8 @@ Ext.require([
 			valueField : 'name',
 			displayField : 'name',
 			mode : 'local',
-			allowBlank: false
+			allowBlank: false,
+       	    maxLength:10
 		 },{
 			xtype : 'combo',
 			hiddenName : 'currency',
@@ -420,7 +420,8 @@ Ext.require([
 			mode : 'local',
 			triggerAction : 'all',
 			selectOnFocus : true,
-			allowBlank : false
+			allowBlank : false,
+       	    maxLength:10
 		},{
 			fieldLabel : '支出金额',
 			name : 'money',
@@ -433,6 +434,7 @@ Ext.require([
 			store : costCountry,
 			typeAhead : true,
 			name : 'costCountry',
+			maxLength:45,
 			listeners:{        
 		        select : function(combo, record, index){   
 		        // 清除省市下拉框的现存值
@@ -454,34 +456,46 @@ Ext.require([
 			store : newProvince,
 			typeAhead : true,
 			name:'costProvince',
-			mode:'local'
+			mode:'local',
+			maxLength:20
 		},{
 			xtype : 'textarea',
 			fieldLabel : '详细地址',
 			name : 'costAddress',
-			allowBlank : false
+			allowBlank : false,
+			maxLength:100
 		},{
 			fieldLabel : '相关单位名称',
 			name : 'costUnitName',
-			allowBlank : false
+			allowBlank : false,
+			maxLength:100
 		},{
 			fieldLabel : '联系人姓名',
 			name : 'costContactName',
-			allowBlank : false
+			allowBlank : false,
+			maxLength:10
 		},{
 			fieldLabel : '联系人职务',
 			name : 'costContactPosition',
-			allowBlank : false
+			allowBlank : false,
+			maxLength:10
 		},{
 			fieldLabel : '联系人电话',
 			name : 'costContactPhone',
-			allowBlank : false
+			hideTrigger: true,
+			maxValue:20000000000,
+			minValue:1,
+			maxText:'请输入正确的电话号码',
+			minText:'请输入正确的电话号码',
+			nanText:'请输入正确的电话号码',
+			maxLength:11
 		},{
 			fieldLabel : '联系人邮箱',
 			vtype:'email',
 			vtext:'不是有效的邮箱地址',
 			name : 'costContactEmail',
-			allowBlank : false
+			allowBlank : false,
+			maxLength:20
 		},{
 			xtype : 'combo',
 			hiddenName : 'usage1',
@@ -494,12 +508,14 @@ Ext.require([
 			mode : 'local',
 			triggerAction : 'all',
 			selectOnFocus : true,
-			allowBlank : false
+			allowBlank : false,
+			maxLength:20
 		},{
 			xtype : 'textarea',
 			fieldLabel : '描述',
 			name : 'description1',
-			allowBlank : false
+			allowBlank : false,
+			maxLength:500
 		}],
 		buttons:[{
 			text:'提交',
@@ -614,13 +630,13 @@ Ext.require([
 							top.Ext.Msg.show({title:'提示', msg:'修改费用成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
 						},
 						    failure:function(form,action){
-							top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+							top.Ext.Msg.show({title:'提示', msg:'修改费用失败，所填内容有误。',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
 						    }
 						
 		    		   });
-	    		   }
+	    		   } 
 	    	}
-    	}else{alert('验证不通过！');}
+    	}else{alert('验证不通过！请按提示正确填写表单，不可出现红色下划线。');}
     };
     
     //更新grid
