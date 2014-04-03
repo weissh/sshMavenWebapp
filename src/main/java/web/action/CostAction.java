@@ -35,7 +35,9 @@ import service.DepartmentService;
 import service.StaffService;
 import web.ui.excel.CostDepUI;
 import web.ui.excel.DepartmentUI;
+import web.ui.excel.JournalUI;
 import web.ui.model.CostModel;
+import web.ui.model.JournalModel;
 
 import common.ExcelUtil;
 import common.ObjectJsonValueProcessor;
@@ -550,8 +552,10 @@ public class CostAction extends BaseAction{
 					costs.add(cost);
 				}
 			}
-			Vector<String> head=CostDepUI.getHead();
-			List<Vector<String>> dataList=CostDepUI.getDataList(costs);
+			List<CostModel> costmodels=new ArrayList<CostModel>();
+			costmodels=CostModel.toCostModels(costs);
+			Vector<String> head = JournalUI.getHead();
+			List<Vector<String>> dataList=CostDepUI.getDataList(costmodels);
 			String downLoadPath =ServletActionContext.getServletContext().getRealPath("/")+"excel\\";
 			String fileName=ExcelUtil.createFileName("Cost")+".xls";
 			if(ExcelUtil.printExcel(head, dataList, downLoadPath+fileName)){
@@ -603,8 +607,10 @@ public class CostAction extends BaseAction{
 				costs.add(cost);
 			}
 		}
+		List<CostModel> costModels=new ArrayList<CostModel>();
+		costModels=CostModel.toCostModels(costs);
 		Vector<String> head=CostDepUI.getHead();
-		List<Vector<String>> dataList=CostDepUI.getDataList(costs);
+		List<Vector<String>> dataList=CostDepUI.getDataList(costModels);
 		String downLoadPath =ServletActionContext.getServletContext().getRealPath("/")+"excel\\";
 		String fileName=ExcelUtil.createFileName("Cost")+".xls";
 		if(ExcelUtil.printExcel(head, dataList, downLoadPath+fileName)){

@@ -1,11 +1,14 @@
 package web.ui.excel;
 
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
 import pojos.Cost;
 import pojos.Staff;
+import web.ui.model.CostModel;
 
 public class CostDepUI {
 	private static String[] columnMethods = new String[]{"getCostId","getRecordDate","getStaff","getExecuteDate","getPayWay","getCurrency","getMoney","getCostUnitName","getCostCountry","getCostProvince","getCostAddress","getCostContactName","getCostContactPosition","getCostContactPhone","getCostContactEmail","getUsage1","getDescription1"};
@@ -34,29 +37,38 @@ public class CostDepUI {
 		return head;
 	}
 	
-	public static List<Vector<String>> getDataList(List<Cost> costs) throws Exception{
+	public static List<Vector<String>> getDataList(List<CostModel> costs) throws Exception{
 		List<Vector<String>> dataList=new Vector<Vector<String>>();
 		for(int i=0;i<costs.size();i++){
-			Cost cost =costs.get(i);
+			CostModel cost =costs.get(i);
 			Vector<String> oneRow=new Vector<String>();
 			/** 利用反射机制循环获取数据 */
 			for(int j=0;j<columnMethods.length;j++){
 				Method method;
 				String value;
 				Object object;
-				if(j==2)
+				if(j==0||j==3){
 				{
 					method =cost.getClass().getMethod(columnMethods[j]);
 					object=method.invoke(cost);
-					Staff staff= (Staff) object;
-					String StaffId=staff.getStaffId()+"";
-					String StaffName=staff.getStaffName();
-					oneRow.add(StaffId);
-					oneRow.add(StaffName);
+					Date date=(Date) object;
+					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+					String datestring = df.format(date);
+					if(object==null){
+						value="";
+					}else {
+						value=datestring;
+					}
+					oneRow.add(value);
+//					Staff staff= (Staff) object;
+//					String StaffId=staff.getStaffId()+"";
+//					String StaffName=staff.getStaffName();
+//					oneRow.add(StaffId);
+//					oneRow.add(StaffName); 
 //					sonConfig jsonConfig =new JsonConfig();
 //					jsonConfig.registerJsonValueProcessor(Staff.class, new ObjectJsonValueProcessor(new String[]{"staffId","staffName"}, Staff.class));
 //						
-				}
+				}}
 				else{
 					method =cost.getClass().getMethod(columnMethods[j]);
 					object=method.invoke(cost);	
