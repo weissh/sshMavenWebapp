@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import pojos.Department;
 import pojos.Journal;
+import pojos.Staff;
 
 public class JournalModel {
 
@@ -156,11 +158,21 @@ public class JournalModel {
 		this.workContent = workContent;
 	}
 	
-	public void toJournalModel(Journal journal){
+	public JournalModel(){
+		
+	}
+	
+	public JournalModel(Journal journal){
 		this.workId = journal.getWorkId();
-		this.staffId = journal.getStaff().getStaffId();
-		this.departmentId = journal.getStaff().getDepartment().getDepartmentId();
-		this.staffName = journal.getStaff().getStaffName();
+		Staff staff=journal.getStaff();
+		if(staff!=null){
+			this.staffId=staff.getStaffId();	
+			this.staffName=staff.getStaffName();
+			Department department=staff.getDepartment();
+			if(department!=null){
+				this.departmentId=department.getDepartmentId();
+			}
+		}
 		this.executeDate = journal.getExecuteDate();
 		this.recordDate = journal.getRecordDate();
 		this.operateMode = journal.getOperateMode();
@@ -179,15 +191,41 @@ public class JournalModel {
 		this.endTime = journal.getEndTime();
 		this.workContent = journal.getWorkContent();
 	}
-	public static List<JournalModel> toJournalModels(List<Journal> Journals)
+	
+//	public void toJournalModel(Journal journal){
+//		this.workId = journal.getWorkId();
+//		this.staffId = journal.getStaff().getStaffId();
+//		this.departmentId = journal.getStaff().getDepartment().getDepartmentId();
+//		this.staffName = journal.getStaff().getStaffName();
+//		this.executeDate = journal.getExecuteDate();
+//		this.recordDate = journal.getRecordDate();
+//		this.operateMode = journal.getOperateMode();
+//		this.unitName = journal.getUnitName();
+//		this.country = journal.getCountry();
+//		this.province = journal.getProvince();
+//		this.address = journal.getAddress();;
+//		this.contactObject = journal.getContactObject();
+//		this.level = journal.getLevel();
+//		this.contactWay = journal.getContactWay();
+//		this.contactName = journal.getContactName();
+//		this.contactPosition = journal.getContactPosition();
+//		this.contactPhone = journal.getContactPhone();
+//		this.contactEmail = journal.getContactEmail();
+//		this.startTime = journal.getStartTime();
+//		this.endTime = journal.getEndTime();
+//		this.workContent = journal.getWorkContent();
+//	}
+	
+	public static List<JournalModel> toJournalModels(List<Journal> journals)
 	{
 		List<JournalModel> JournalModels=new ArrayList<JournalModel>();
-		JournalModel JournalModel;
-		for(int i=0;i<Journals.size();i++)
+//		JournalModel JournalModel;
+		for(int i=0;i<journals.size();i++)
 		{
-			JournalModel=new JournalModel();
-			JournalModel.toJournalModel(Journals.get(i));
-			JournalModels.add(JournalModel);
+			JournalModel journalModel=new JournalModel(journals.get(i));
+//			JournalModel=new JournalModel();
+//			JournalModel.toJournalModel(Journals.get(i));
+			JournalModels.add(journalModel);
 		}
 		return JournalModels;
 	}

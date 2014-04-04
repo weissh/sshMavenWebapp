@@ -73,7 +73,7 @@ public class DepartmentModel {
 		this.description = description;
 	}
 	
-	public void toDepartmentModel(Department department){
+	public DepartmentModel(Department department){
 		this.departmentId=department.getDepartmentId();
 		this.departmentName = department.getDepartmentName();
 		this.createTime=department.getCreateTime();
@@ -83,12 +83,23 @@ public class DepartmentModel {
 		this.description = department.getDescription();
 	}
 	
+//	public void toDepartmentModel(Department department){
+//		this.departmentId=department.getDepartmentId();
+//		this.departmentName = department.getDepartmentName();
+//		this.createTime=department.getCreateTime();
+//		this.managerId = department.getManagerId();
+//		this.managerName=department.getManagerName();
+//		this.totalStaff = department.getTotalStaff();
+//		this.description = department.getDescription();
+//	}
+	
 	public static List<DepartmentModel> toDepartmentModels(List<Department> departments){
 		List<DepartmentModel> departmentModels=new ArrayList<DepartmentModel>();
-		DepartmentModel departmentModel;
+//		DepartmentModel departmentModel;
 		for(int i=0;i<departments.size();i++){
-			departmentModel =new DepartmentModel();
-			departmentModel.toDepartmentModel(departments.get(i));
+			DepartmentModel departmentModel=new DepartmentModel(departments.get(i));
+//			departmentModel =new DepartmentModel();
+//			departmentModel.toDepartmentModel(departments.get(i));
 			departmentModels.add(departmentModel);
 		}
 		return departmentModels;

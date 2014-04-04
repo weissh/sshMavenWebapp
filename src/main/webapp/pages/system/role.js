@@ -2,15 +2,15 @@ Ext.onReady(function(){
 	
 	Ext.QuickTips.init();
 
-	//定义部门数据类型，用于下拉列表
-	Ext.define('role', {
-        extend: 'Ext.data.Model',
-        fields:[
-        	{name:'roleId',type:'int'},
-        	{name:'roleName'},
-        	{name:'roleDesc'}
-    	]
-	});
+//	//定义部门数据类型，用于下拉列表
+//	Ext.define('role', {
+//        extend: 'Ext.data.Model',
+//        fields:[
+//        	{name:'roleId',type:'int'},
+//        	{name:'roleName'},
+//        	{name:'roleDesc'}
+//    	]
+//	});
 	
 	//定义部门数据源，作为下拉列表的数据源
     var roleStore=new Ext.data.Store({

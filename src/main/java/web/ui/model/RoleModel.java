@@ -42,18 +42,25 @@ public class RoleModel {
 		this.roleDesc = roleDesc;
 	}
 	
-	public void toRoleModel(Role role){
+	public RoleModel(Role role){
 		this.roleId=role.getRoleId();
 		this.roleName=role.getRoleName();
 		this.roleDesc=role.getRoleDesc();
 	}
 	
+//	public void toRoleModel(Role role){
+//		this.roleId=role.getRoleId();
+//		this.roleName=role.getRoleName();
+//		this.roleDesc=role.getRoleDesc();
+//	}
+	
 	public static List<RoleModel> toRoleModels(List<Role> roles){
 		List<RoleModel> roleModels=new ArrayList<RoleModel>();
-		RoleModel roleModel;
+//		RoleModel roleModel;
 		for(int i=0;i<roles.size();i++){
-			roleModel=new RoleModel();
-			roleModel.toRoleModel(roles.get(i));
+			RoleModel roleModel=new RoleModel(roles.get(i));
+//			roleModel=new RoleModel();
+//			roleModel.toRoleModel(roles.get(i));
 			roleModels.add(roleModel);
 		}
 		return roleModels;

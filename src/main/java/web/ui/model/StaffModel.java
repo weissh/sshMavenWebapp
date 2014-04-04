@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import pojos.Department;
+import pojos.Role;
 import pojos.Staff;
 
 public class StaffModel {
@@ -261,12 +263,22 @@ public class StaffModel {
 		this.staffDesc = staffDesc;
 	}
 	
-	public void toStaffModel(Staff staff){
+	public StaffModel(){
+		
+	}
+	
+	public StaffModel(Staff staff){
 		this.staffId=staff.getStaffId();
-		this.departmentId = staff.getDepartment().getDepartmentId();
-		this.departmentName=staff.getDepartment().getDepartmentName();
-		this.roleId=staff.getRole().getRoleId();
-		this.roleName=staff.getRole().getRoleName();
+		Department department=staff.getDepartment();
+		if(department!=null){
+			this.departmentId = department.getDepartmentId();
+			this.departmentName=department.getDepartmentName();
+		}
+		Role role=staff.getRole();
+		if(role!=null){
+			this.roleId=role.getRoleId();
+			this.roleName=role.getRoleName();
+		}
 		this.photo=staff.getPhoto();
 		this.staffName = staff.getStaffName();
 		this.entryTime = staff.getEntryTime();
@@ -298,12 +310,50 @@ public class StaffModel {
 		this.staffDesc=staff.getStaffDesc();
 	}
 	
+//	public void toStaffModel(Staff staff){
+//		this.staffId=staff.getStaffId();
+//		this.departmentId = staff.getDepartment().getDepartmentId();
+//		this.departmentName=staff.getDepartment().getDepartmentName();
+//		this.roleId=staff.getRole().getRoleId();
+//		this.roleName=staff.getRole().getRoleName();
+//		this.photo=staff.getPhoto();
+//		this.staffName = staff.getStaffName();
+//		this.entryTime = staff.getEntryTime();
+//		this.position = staff.getPosition();
+//		this.phone = staff.getPhone();
+//		this.email = staff.getEmail();
+//		this.urgentContact = staff.getUrgentContact();
+//		this.ucPhone = staff.getUcPhone();
+//		this.gender = staff.getGender();
+//		this.nationality = staff.getNationality();
+//		this.politicalStatus = staff.getPoliticalStatus();
+//		this.age=staff.getAge();
+//		this.birthday = staff.getBirthday();
+//		this.maritalStatus = staff.getMaritalStatus();
+//		this.idNo = staff.getIdNo();
+//		this.passportNo = staff.getPassportNo();
+//		this.nativePlace = staff.getNativePlace();
+//		this.domicilePlace = staff.getDomicilePlace();
+//		this.dateOfRecruitment=staff.getDateOfRecruitment();
+//		this.currentAddress = staff.getCurrentAddress();
+//		this.zipCode = staff.getZipCode();
+//		this.graduateSchool = staff.getGraduateSchool();
+//		this.hightestEdu = staff.getHightestEdu();
+//		this.hightestDegree = staff.getHightestDegree();
+//		this.major = staff.getMajor();
+//		this.schoolSystem = staff.getSchoolSystem();
+//		this.userName=staff.getUserName();
+//		this.password = staff.getPassword();
+//		this.staffDesc=staff.getStaffDesc();
+//	}
+	
 	public static List<StaffModel> toStaffModels(List<Staff> staffs){
 		List<StaffModel> staffModels=new ArrayList<StaffModel>();
-		StaffModel staffModel;
+//		StaffModel staffModel;
 		for(int i=0;i<staffs.size();i++){
-			staffModel=new StaffModel();
-			staffModel.toStaffModel(staffs.get(i));
+//			staffModel=new StaffModel();
+//			staffModel.toStaffModel(staffs.get(i));
+			StaffModel staffModel=new StaffModel(staffs.get(i));
 			staffModels.add(staffModel);
 		}
 		return staffModels;

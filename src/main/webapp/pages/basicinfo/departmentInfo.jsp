@@ -15,6 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="extjs/common.css">
 	<script type="text/javascript" charset="utf-8" src="extjs/ext-all-debug.js"></script>
 	<script type="text/javascript" src="extjs/ext-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="extjs/common.js"></script>
 	<script type="text/javascript" charset="utf-8" src="pages/basicinfo/departmentInfo.js"></script>
 
   </head>

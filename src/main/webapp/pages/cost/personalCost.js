@@ -14,14 +14,14 @@ Ext.require([
     Ext.QuickTips.init();
 
     
-    //定义员工数据类型，作为下拉列表框
-    Ext.define('staffForSelector', {
-        extend: 'Ext.data.Model',
-        fields:[
-        	{name:'staffId'},
-        	{name:'staffName'}
-    	]
-	});
+//    //定义员工数据类型，作为下拉列表框
+//    Ext.define('staffForSelector', {
+//        extend: 'Ext.data.Model',
+//        fields:[
+//        	{name:'staffId'},
+//        	{name:'staffName'}
+//    	]
+//	});
 	
  	//定义支出方式数据源
     var payWay=new Ext.data.Store({
@@ -125,34 +125,34 @@ Ext.require([
         ]
     });
 
-    Ext.define('personalCost', {
-        extend: 'Ext.data.Model',
-        fields: [
-       	    {name: 'costId', type: 'int'},
-            {name: 'recordDate', type: 'date', dateFormat: 'Y-m-d'},
-            {name: 'staffId', type: 'int'},
-            {name: 'staffName',type:'string'},
-            {name: 'executeDate', type: 'date', dateFormat: 'Y-m-d'},
-            {name: 'payWay',type:'string'},
-            {name: 'currency',type:'string'},
-            {name: 'money',type: 'float'},
-			{name: 'costCountry',type:'string'},
-			{name: 'costProvince',type:'string'},
-			{name: 'costAddress',type:'string'},
-			{name: 'costUnitName',type:'string'},
-			{name: 'costContactName',type:'string'},
-			{name: 'costContactPosition',type:'string'},
-			{name: 'costContactPhone',type:'string'},
-			{name: 'costContactEmail',type:'string'},
-			{name: 'usage1',type:'string'},
-			{name: 'description1',type:'string'},
-			{name: 'departmentId',type:'int'}
-         ]
-    });
+//    Ext.define('personalCost', {
+//        extend: 'Ext.data.Model',
+//        fields: [
+//       	    {name: 'costId', type: 'int'},
+//            {name: 'recordDate', type: 'date', dateFormat: 'Y-m-d'},
+//            {name: 'staffId', type: 'int'},
+//            {name: 'staffName',type:'string'},
+//            {name: 'executeDate', type: 'date', dateFormat: 'Y-m-d'},
+//            {name: 'payWay',type:'string'},
+//            {name: 'currency',type:'string'},
+//            {name: 'money',type: 'float'},
+//			{name: 'costCountry',type:'string'},
+//			{name: 'costProvince',type:'string'},
+//			{name: 'costAddress',type:'string'},
+//			{name: 'costUnitName',type:'string'},
+//			{name: 'costContactName',type:'string'},
+//			{name: 'costContactPosition',type:'string'},
+//			{name: 'costContactPhone',type:'string'},
+//			{name: 'costContactEmail',type:'string'},
+//			{name: 'usage1',type:'string'},
+//			{name: 'description1',type:'string'},
+//			{name: 'departmentId',type:'int'}
+//         ]
+//    });
 
      //定义费用数据源，作为表格数据源
     var personalCostStore = Ext.create('Ext.data.Store', {
-        model: 'personalCost',
+        model: 'cost',
         pageSize:20,
         proxy:{
         	type:'ajax',
@@ -669,7 +669,7 @@ Ext.require([
     			usage1:values['usage1'],
     			description1:values['description1']
     			
-    		},'personalCost');
+    		},'cost');
     		personalCostStore.add(rec);
     	}
     	personalCostStore.reload();

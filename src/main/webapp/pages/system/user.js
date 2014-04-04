@@ -12,14 +12,14 @@ Ext.require([
 Ext.onReady(function(){
     Ext.QuickTips.init();
     
-    //定义部门数据类型，用于下拉列表
-	Ext.define('deptForSelector', {
-        extend: 'Ext.data.Model',
-        fields:[
-        	{name:'departmentId'},
-        	{name:'departmentName'}
-    	]
-	});
+//    //定义部门数据类型，用于下拉列表
+//	Ext.define('deptForSelector', {
+//        extend: 'Ext.data.Model',
+//        fields:[
+//        	{name:'departmentId'},
+//        	{name:'departmentName'}
+//    	]
+//	});
 	
 	//定义部门数据源，作为下拉列表的数据源
     var dept=new Ext.data.Store({
@@ -45,14 +45,14 @@ Ext.onReady(function(){
         }
     });
     
-    //定义员工数据类型，作为下拉列表框
-    Ext.define('staffForSelector', {
-        extend: 'Ext.data.Model',
-        fields:[
-        	{name:'staffId'},
-        	{name:'staffName'}
-    	]
-	});
+//    //定义员工数据类型，作为下拉列表框
+//    Ext.define('staffForSelector', {
+//        extend: 'Ext.data.Model',
+//        fields:[
+//        	{name:'staffId'},
+//        	{name:'staffName'}
+//    	]
+//	});
 	
 	//定义员工数据源，作为下拉列表的数据源
     var staff=new Ext.data.Store({
@@ -79,14 +79,14 @@ Ext.onReady(function(){
     });
     
     
-    //定义员工数据类型，作为下拉列表框
-    Ext.define('roleForSelector', {
-        extend: 'Ext.data.Model',
-        fields:[
-        	{name:'roleId'},
-        	{name:'roleName'}
-    	]
-	});
+//    //定义员工数据类型，作为下拉列表框
+//    Ext.define('roleForSelector', {
+//        extend: 'Ext.data.Model',
+//        fields:[
+//        	{name:'roleId'},
+//        	{name:'roleName'}
+//    	]
+//	});
 	
     //定义角色数据源，作为下拉列表的数据源
     var role=new Ext.data.Store({
@@ -263,46 +263,46 @@ Ext.onReady(function(){
         ]
     });
     
-    //定义员工数据类型
-    Ext.define('staff', {
-        extend: 'Ext.data.Model',
-        fields: [
-            {name: 'staffId', type: 'int'},
-            {name: 'photoImg'},
-            {name: 'photo'},
-            {name: 'staffName'},
-            {name: 'departmentId', type: 'int'},
-            {name: 'departmentName'},
-            {name: 'position'},
-            {name: 'entryTime', type: 'date', dateFormat: 'Y-m-d'},
-            {name: 'phone'},
-            {name: 'roleId', type: 'int'},
-            {name: 'roleName'},
-            {name: 'userName'},
-            {name: 'password'},
-            {name: 'gender'},
-            {name: 'age', type: 'int'},
-            {name: 'birthday', type: 'date', dateFormat: 'Y-m-d'},
-            {name: 'nationality'},
-            {name: 'politicalStatus'},
-            {name: 'maritalStatus'},
-            {name: 'nativePlace'},
-            {name: 'idNo'},
-            {name: 'passportNo'},
-            {name: 'domicilePlace'},
-            {name: 'dateOfRecruitment', type: 'date', dateFormat: 'Y-m-d'},
-            {name: 'hightestEdu'},
-            {name: 'hightestDegree'},
-            {name: 'graduateSchool'},
-            {name: 'major'},
-            {name: 'schoolSystem'},
-            {name: 'currentAddress'},
-            {name: 'urgentContact'},
-            {name: 'email'},
-            {name: 'zipCode'},
-            {name: 'ucPhone'}
-         ]
-    });
+//    //定义员工数据类型
+//    Ext.define('staff', {
+//        extend: 'Ext.data.Model',
+//        fields: [
+//            {name: 'staffId', type: 'int'},
+//            {name: 'photoImg'},
+//            {name: 'photo'},
+//            {name: 'staffName'},
+//            {name: 'departmentId', type: 'int'},
+//            {name: 'departmentName'},
+//            {name: 'position'},
+//            {name: 'entryTime', type: 'date', dateFormat: 'Y-m-d'},
+//            {name: 'phone'},
+//            {name: 'roleId', type: 'int'},
+//            {name: 'roleName'},
+//            {name: 'userName'},
+//            {name: 'password'},
+//            {name: 'gender'},
+//            {name: 'age', type: 'int'},
+//            {name: 'birthday', type: 'date', dateFormat: 'Y-m-d'},
+//            {name: 'nationality'},
+//            {name: 'politicalStatus'},
+//            {name: 'maritalStatus'},
+//            {name: 'nativePlace'},
+//            {name: 'idNo'},
+//            {name: 'passportNo'},
+//            {name: 'domicilePlace'},
+//            {name: 'dateOfRecruitment', type: 'date', dateFormat: 'Y-m-d'},
+//            {name: 'hightestEdu'},
+//            {name: 'hightestDegree'},
+//            {name: 'graduateSchool'},
+//            {name: 'major'},
+//            {name: 'schoolSystem'},
+//            {name: 'currentAddress'},
+//            {name: 'urgentContact'},
+//            {name: 'email'},
+//            {name: 'zipCode'},
+//            {name: 'ucPhone'}
+//         ]
+//    });
 
     //定义员工数据源，作为表格数据源
     var staffStore = Ext.create('Ext.data.Store', {

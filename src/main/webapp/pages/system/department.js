@@ -107,19 +107,19 @@ Ext.onReady(function () {
         }];
     }
 
-    //定义部门数据类型
-    Ext.define('department',{
-    	extend: 'Ext.data.Model',
-    	fields:[
-    		{name:'departmentId',type:'int'},
-    		{name:'departmentName'},
-    		{name:'createTime',type: 'date', dateFormat:'Y-m-d'},
-    		{name:'managerId'},
-    		{name:'managerName'},
-    		{name:'totalStaff'},
-    		{name:'description'}
-		]
-    });
+//    //定义部门数据类型
+//    Ext.define('department',{
+//    	extend: 'Ext.data.Model',
+//    	fields:[
+//    		{name:'departmentId',type:'int'},
+//    		{name:'departmentName'},
+//    		{name:'createTime',type: 'date', dateFormat:'Y-m-d'},
+//    		{name:'managerId'},
+//    		{name:'managerName'},
+//    		{name:'totalStaff'},
+//    		{name:'description'}
+//		]
+//    });
     
     //定义部门数据源，充当页面表格的数据来源
     var departmentStore = Ext.create('Ext.data.Store', {

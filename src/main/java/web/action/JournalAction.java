@@ -1,32 +1,26 @@
 package web.action;
 
 import java.io.InputStream;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.Vector;
 
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JsonConfig;
+
 import org.apache.struts2.ServletActionContext;
 
-import common.ExcelUtil;
-import common.ObjectJsonValueProcessor;
-
-import pojos.Department;
 import pojos.Journal;
 import pojos.Staff;
 import service.JournalService;
 import service.StaffService;
 import web.ui.excel.JournalUI;
-import web.ui.model.CostModel;
 import web.ui.model.JournalModel;
-import net.sf.json.JsonConfig;
-import net.sf.json.util.PropertyFilter;
+
+import common.ExcelUtil;
 
 public class JournalAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
@@ -324,7 +318,7 @@ public class JournalAction extends BaseAction {
 		int total;
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		Staff tempStaff = (Staff) session.getAttribute("staff");
-		int tempStaffId = tempStaff.getStaffId();
+//		int tempStaffId = tempStaff.getStaffId();
 		String roleName = tempStaff.getRole().getRoleName();
 		StringBuffer sql = null;
 
@@ -562,7 +556,7 @@ public class JournalAction extends BaseAction {
 	public String exportJourDept() throws Exception {
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		Staff tempStaff = (Staff) session.getAttribute("staff");
-		int tempStaffId = tempStaff.getStaffId();
+//		int tempStaffId = tempStaff.getStaffId();
 		String roleName = tempStaff.getRole().getRoleName();
 		List<Journal> journals = new ArrayList<Journal>();
 

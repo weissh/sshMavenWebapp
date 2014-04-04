@@ -7,8 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
-import pojos.Journal;
-import pojos.Staff;
 import web.ui.model.JournalModel;
 
 public class JournalUI {

@@ -691,8 +691,8 @@ public class StaffAction extends BaseAction{
 		HttpSession session=ServletActionContext.getRequest().getSession();
 		Staff staff =(Staff)session.getAttribute("staff");
 		Staff currentStaff=this.staffService.find(staff.getStaffId());
-		StaffModel staffModel=new StaffModel();
-		staffModel.toStaffModel(currentStaff);
+		StaffModel staffModel=new StaffModel(currentStaff);
+//		staffModel.toStaffModel(currentStaff);
 		JsonConfig jsonConfig=new JsonConfig();
 		//改变所有Date字段的形式为"yyyy--MM--dd"
 		jsonConfig.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd"));
