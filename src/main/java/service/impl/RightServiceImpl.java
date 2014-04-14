@@ -61,7 +61,6 @@ public class RightServiceImpl extends GenericServiceImpl<Right> implements
 			menu.getChildren().clear();
 			for (Right right : rightList) {
 				int rightId=right.getId();
-				System.out.println(rightId);
 				for(Right right2:menuTemp.getChildren()){
 					if(right2.getId()==rightId){
 						menu.getChildren().add(right);

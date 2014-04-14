@@ -403,7 +403,7 @@ Ext.require([
             {xtype:'button',text:'新建',iconCls: 'cost_add',handler : addCostInfo,hidden:add},
             {xtype:'button',text:'修改',iconCls: 'cost_edit',handler :editCostInfo,hidden:update},
 			{xtype:'button',text:'删除',iconCls: 'cost_delete',handler:deleteCostInfo,hidden:drop},
-            {xtype:'filefield',buttonOnly: true,buttonText:'导入',buttonConfig:{iconCls:'file_in'},hidden:importExcel},
+            {xtype:'filefield',buttonOnly: true,buttonText:'导入',buttonConfig:{iconCls:'file_in'},hidden:true},
 			{xtype:'button',text:'导出',iconCls: 'file_export',handler:exportCostInfo,hidden:exportExcel}]
     
     });
@@ -715,7 +715,7 @@ Ext.require([
     	var msgTip=top.Ext.MessageBox.show({
     		title:'提示',
     		width:250,
-    		msg:'正在删除员工信息，请稍后...'
+    		msg:'正在删费用工信息，请稍后...'
     	});
     	Ext.Ajax.request({
     		url:'cost_delete.action',
@@ -733,9 +733,9 @@ Ext.require([
     						grid.getView().refresh();
     					}
     				}
-    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+    				top.Ext.Msg.show({title:'提示', msg:'删除费用信息成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
     			}else{
-    				top.Ext.Msg.show({title:'提示', msg:'删除用户信息失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+    				top.Ext.Msg.show({title:'提示', msg:'删除费用信息失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
     			}
     		}
     	});

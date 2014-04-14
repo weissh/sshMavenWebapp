@@ -15,6 +15,8 @@
 package web.ui.excel;
 
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -23,7 +25,7 @@ import pojos.Department;
 public class DepartmentUI {
 	/** 需要导出的字段的get方法名，需与pojo中的一致 */
 	private static String[] columnMethods = new String[] { "getDepartmentId",
-			"getDepartmentName", "getManagerId", "getTotalStaff",
+			"getDepartmentName", "getManagerName", "getTotalStaff",
 			"getCreateTime", "getDescription" };
 
 	/**
@@ -85,7 +87,13 @@ public class DepartmentUI {
 				if (object == null) {
 					value = "";
 				} else {
-					value = object.toString();
+					if(object instanceof Date){
+						Date date=(Date) object;
+						SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+						value=format.format(date);
+					}else{
+						value = object.toString();
+					}
 				}
 				oneRow.add(value);
 			}

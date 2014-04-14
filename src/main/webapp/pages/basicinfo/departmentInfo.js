@@ -1,20 +1,7 @@
 Ext.onReady(function() {
 	
 	Ext.QuickTips.init();
-	
-//    //定义部门数据类型
-//    Ext.define('department',{
-//    	extend: 'Ext.data.Model',
-//    	fields:[
-//    		{name: 'departmentId', type: 'int'},
-//    		{name:'departmentName'},
-//    		{name:'createTime',type: 'date', dateFormat:'Y-m-d'},
-//    		{name:'managerId'},
-//    		{name:'managerName'},
-//    		{name:'totalStaff'},
-//    		{name:'description'}
-//		]
-//    });
+
     //定义部门数据源，充当页面表格的数据来源
     var dept = Ext.create('Ext.data.Store', {
         model: 'department',
@@ -32,46 +19,6 @@ Ext.onReady(function() {
     });
 //	dept.load({url:'dept_getAllByRole.action',params:{start:0,limit:20}});
     
-//	//定义员工数据类型
-//    Ext.define('staff', {
-//        extend: 'Ext.data.Model',
-//        fields: [
-//            {name: 'staffId', type: 'int'},
-//            {name: 'photo'},
-//            {name: 'photoImg'},
-//            {name: 'staffName'},
-//            //mapping 用于获取嵌套json中的摸个属性
-//            {name: 'departmentId', type: 'int'},
-//            {name: 'departmentName'},
-//            {name: 'position'},
-//            {name: 'entryTime', type: 'date', dateFormat: 'Y-m-d'},
-//            {name: 'phone'},
-//            {name: 'roleId', type: 'int'},
-//            {name: 'roleName'},
-//            {name: 'password'},
-//            {name: 'gender'},
-//            {name: 'age', type: 'int'},
-//            {name: 'birthday', type: 'date', dateFormat: 'Y-m-d'},
-//            {name: 'nationality'},
-//            {name: 'politicalStatus'},
-//            {name: 'maritalStatus'},
-//            {name: 'nativePlace'},
-//            {name: 'idNo'},
-//            {name: 'passportNo'},
-//            {name: 'domicilePlace'},
-//            {name: 'dateOfRecruitment', type: 'date', dateFormat: 'Y-m-d'},
-//            {name: 'hightestEdu'},
-//            {name: 'hightestDegree'},
-//            {name: 'graduateSchool'},
-//            {name: 'major'},
-//            {name: 'schoolSystem'},
-//            {name: 'currentAddress'},
-//            {name: 'urgentContact'},
-//            {name: 'email'},
-//            {name: 'zipCode'},
-//            {name: 'ucPhone'}
-//         ]
-//    });
     
 	//定义员工数据源，作为表格数据源
     var staffStore = Ext.create('Ext.data.Store', {

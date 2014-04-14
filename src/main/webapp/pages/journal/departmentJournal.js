@@ -18,9 +18,9 @@ Ext.onReady(function() {
 	var commit = true;
 	var formtitle = '查看日志';
 
-	if (roleName == '部门经理' || roleName == '人力部经理' || roleName == '人力部员工'|| roleName == '总经理') {
+	if (roleName == '部门经理' || roleName == '行政人事部经理' || roleName == '行政人事员工'|| roleName == '总经理') {
 		exportExcel = false;
-	} else {
+	} else if(roleName == '管理员') {
 		add = false;
 		update = false;
 		drop = false;
@@ -555,7 +555,7 @@ Ext.onReady(function() {
 							buttonConfig : {
 								iconCls : 'file_in'
 							},
-							hidden : importExcel
+							hidden:true
 						}, {
 							xtype : 'button',
 							text : '导出',

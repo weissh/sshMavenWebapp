@@ -15,6 +15,8 @@
 package web.ui.excel;
 
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -52,7 +54,7 @@ public class StaffUI {
 		head.add("员工编号");
 		head.add("员工姓名");
 		head.add("部门名称");
-		head.add("部门名称");
+		head.add("角色名称");
 		head.add("入职时间");
 		head.add("职位");
 		head.add("手机号码");
@@ -60,7 +62,7 @@ public class StaffUI {
 		head.add("紧急联系人");
 		head.add("紧急联系人手机");
 		head.add("性别");
-		head.add("国籍");
+		head.add("民族");
 		head.add("政治面貌");
 		head.add("年龄");
 		head.add("出生日期");
@@ -115,7 +117,13 @@ public class StaffUI {
 				if (object == null) {
 					value = "";
 				} else {
-					value = object.toString();
+					if(object instanceof Date){
+						Date date=(Date) object;
+						SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+						value=format.format(date);
+					}else{
+						value = object.toString();
+					}
 				}
 				oneRow.add(value);
 			}

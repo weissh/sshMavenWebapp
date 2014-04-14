@@ -426,7 +426,6 @@ public class CostAction extends BaseAction{
 					SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 					String start=df.format(startDate);
 					String end=df.format(endDate);
-					System.out.println(start);
 					sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
 					+end+"'");
 				}
@@ -447,7 +446,6 @@ public class CostAction extends BaseAction{
 					SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 					String start=df.format(startDate);
 					String end=df.format(endDate);
-					System.out.println(start);
 					sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
 					+end+"'");
 				}
@@ -500,13 +498,11 @@ public class CostAction extends BaseAction{
 				SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 				String start=df.format(startDate);
 				String end=df.format(endDate);
-				System.out.println(start);
 				sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
 				+end+"'");
 			}
 			sql.append("order by recordDate desc");
 			costs=this.costService.findByPage(page, limit, sql.toString());			
-			System.out.println(sql.toString());
 			total=this.costService.getTotalRows(sql.toString());
 		}else{
 			/**
@@ -555,7 +551,6 @@ public class CostAction extends BaseAction{
 			String fileName=ExcelUtil.createFileName("Cost")+".xls";
 			if(ExcelUtil.printExcel(head, dataList, downLoadPath+fileName)){
 				download(fileName);
-				//System.out.println(ServletActionContext.getServletContext().getRealPath("excel/Department201402131756458884286.xls"));
 				return "success";
 			}else {
 				this.printString(false, "");
@@ -610,7 +605,6 @@ public class CostAction extends BaseAction{
 		String fileName=ExcelUtil.createFileName("Cost")+".xls";
 		if(ExcelUtil.printExcel(head, dataList, downLoadPath+fileName)){
 			download(fileName);
-			//System.out.println(ServletActionContext.getServletContext().getRealPath("excel/Department201402131756458884286.xls"));
 			return "success";
 		}else {
 			this.printString(false, "");
@@ -637,7 +631,6 @@ public class CostAction extends BaseAction{
 				SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 				String start=df.format(startDate);
 				String end=df.format(endDate);
-				System.out.println(start);
 				sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
 				+end+"'");
 			}
@@ -683,7 +676,6 @@ public class CostAction extends BaseAction{
 					SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 					String start=df.format(startDate);
 					String end=df.format(endDate);
-					System.out.println(start);
 					sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
 					+end+"'");
 				}
@@ -701,7 +693,6 @@ public class CostAction extends BaseAction{
 					SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 					String start=df.format(startDate);
 					String end=df.format(endDate);
-					System.out.println(start);
 					sql.append(" and executeDate>='"+start+"'"+" and executeDate<='"
 					+end+"'");
 				}

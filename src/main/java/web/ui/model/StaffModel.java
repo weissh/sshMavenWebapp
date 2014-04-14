@@ -290,7 +290,8 @@ public class StaffModel {
 		this.gender = staff.getGender();
 		this.nationality = staff.getNationality();
 		this.politicalStatus = staff.getPoliticalStatus();
-		this.age=staff.getAge();
+		Integer age=staff.getAge();
+		this.age=(age!=null)?age:0;
 		this.birthday = staff.getBirthday();
 		this.maritalStatus = staff.getMaritalStatus();
 		this.idNo = staff.getIdNo();

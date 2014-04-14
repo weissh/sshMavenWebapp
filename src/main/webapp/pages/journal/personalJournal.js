@@ -235,7 +235,7 @@ Ext.onReady(function() {
 			}},'-','->',
 			{xtype:'button',text:'新建',iconCls: 'journal_add',handler : addJournal},
 			{xtype:'button',text:'修改',iconCls: 'journal_edit',id:"editt",handler : editJournal},
-			{xtype:'filefield',buttonOnly: true,buttonText:'导入',buttonConfig:{iconCls:'file_in'}},
+			{xtype:'filefield',buttonOnly: true,buttonText:'导入',buttonConfig:{iconCls:'file_in'},hidden:true},
 			{xtype:'button',text:'导出',iconCls:'file_export',handler:exportJournal}]
     
     });

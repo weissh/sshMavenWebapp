@@ -98,7 +98,6 @@ public class StaffServiceImpl extends GenericServiceImpl<Staff> implements Staff
 			menu.getChildren().clear();
 			for (Right right : rightList) {
 				int rightId=right.getId();
-				System.out.println(rightId);
 				for(Right right2:menuTemp.getChildren()){
 					if(right2.getId()==rightId){
 						menu.getChildren().add(right);
@@ -127,8 +126,11 @@ public boolean deleteStaff(String staffIds) {
 	String[] ids=staffIds.split(",");
 	HttpSession session=ServletActionContext.getRequest().getSession();
 	Staff staffTemp=(Staff) session.getAttribute("staff");
-	if(staffIds.contains(staffTemp.getStaffId().toString())){
-		return false;
+	String id=staffTemp.getStaffId()+"";
+	for(String str:ids){
+		if(id.equals(str)){
+			return false;
+		}
 	}
 	ArrayList<Staff> staffs=new ArrayList<Staff>();
 	/**遍历id数组，查找相应记录并add到ArrayList中 */

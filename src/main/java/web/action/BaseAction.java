@@ -156,7 +156,6 @@ public class BaseAction extends ActionSupport implements Serializable {
 		jsonConfig.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd"));
 		if(list!=null&&list.size()>0){
 			jsonArray=JSONArray.fromObject(list,jsonConfig);
-			System.out.println(jsonArray.toString());
 		}
 		String jsonString ="{start:"+start+",limit:"+limit+",totalProperty:"+total+",infoList:"+jsonArray.toString()+"}";
 		try{
@@ -194,7 +193,6 @@ public class BaseAction extends ActionSupport implements Serializable {
 		jsonConfig.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor("yyyy-MM-dd"));
 		if(list!=null&&list.size()>0){
 			jsonArray=JSONArray.fromObject(list,jsonConfig);
-			System.out.println(jsonArray.toString());
 		}
 		String jsonString ="{start:"+start+",limit:"+limit+",totalProperty:"+total+",infoList:"+jsonArray.toString()+"}";
 		try{
@@ -208,14 +206,11 @@ public class BaseAction extends ActionSupport implements Serializable {
 	public void printList(List<?> list,JsonConfig jsonConfig){
 		this.getResponse().setContentType("text/html;charset=UTF-8");
 		this.getResponse().setCharacterEncoding("UTF-8");
-//		String jsonString=JSON.toJSONString(list, true);
-//		String jsonString=data;
 		JSONArray jsonArray=new JSONArray();
 		//改变所有Date字段的形式为"yyyy--MM--dd"
 		jsonConfig.registerJsonValueProcessor(Date.class, new ObjectJsonValueProcessor("yyyy-MM-dd"));
 		if(list!=null&&list.size()>0){
 			jsonArray=JSONArray.fromObject(list,jsonConfig);
-			System.out.println(jsonArray.toString());
 		}
 		String jsonString =jsonArray.toString();
 		try{

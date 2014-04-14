@@ -354,15 +354,14 @@ public class JournalAction extends BaseAction {
 
 		}
 		// 如果是管理员或者财务部员工或者财务部经理
-		if (roleName.equals("管理员") || roleName.equals("人力部员工")
-				|| roleName.equals("人力部经理")) {
+		if (roleName.equals("管理员") || roleName.equals("行政人事员工")
+				|| roleName.equals("行政人事部经理")) {
 			sql = new StringBuffer("from Journal where 1=1");
 			if (query != null) {
 				if (startDate != null && endDate != null) {
 					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 					String start = df.format(startDate);
 					String end = df.format(endDate);
-					System.out.println(start);
 					sql.append(" and executeDate>='" + start + "'"
 							+ " and executeDate<='" + end + "'");
 				}
@@ -388,7 +387,6 @@ public class JournalAction extends BaseAction {
 			}
 		}
 		sql.append(" order by RecordDate desc");
-		System.out.println(sql);
 		journals = this.journalService.findByPage(page, limit,
 				sql.toString());
 		total = this.journalService.getTotalRows(sql.toString());
@@ -543,7 +541,6 @@ public class JournalAction extends BaseAction {
 		String fileName = ExcelUtil.createFileName("Journal") + ".xls";
 		if (ExcelUtil.printExcel(head, dataList, downLoadPath + fileName)) {
 			download(fileName);
-			// System.out.println(ServletActionContext.getServletContext().getRealPath("excel/Department201402131756458884286.xls"));
 			return "success";
 		} else {
 			this.printString(false, "");
@@ -562,8 +559,8 @@ public class JournalAction extends BaseAction {
 
 		if (workIds.equals("")) {
 			StringBuffer sql = null;
-			if (roleName.equals("管理员") || roleName.equals("人力部员工")
-					|| roleName.equals("人力部经理")) {
+			if (roleName.equals("管理员") || roleName.equals("行政人事员工")
+					|| roleName.equals("行政人事部经理")) {
 				journals = this.journalService.findAll();
 			} else if (roleName.equals("部门经理")) {
 				int departmentid = tempStaff.getDepartment().getDepartmentId();
@@ -604,7 +601,6 @@ public class JournalAction extends BaseAction {
 		String fileName = ExcelUtil.createFileName("Journal") + ".xls";
 		if (ExcelUtil.printExcel(head, dataList, downLoadPath + fileName)) {
 			download(fileName);
-			// System.out.println(ServletActionContext.getServletContext().getRealPath("excel/Department201402131756458884286.xls"));
 			return "success";
 		} else {
 			this.printString(false, "");

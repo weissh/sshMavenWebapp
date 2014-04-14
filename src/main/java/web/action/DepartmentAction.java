@@ -8,9 +8,6 @@ import java.util.Vector;
 
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JsonConfig;
-import net.sf.json.util.PropertyFilter;
-
 import org.apache.struts2.ServletActionContext;
 
 import pojos.Department;
@@ -18,6 +15,7 @@ import pojos.Role;
 import pojos.Staff;
 import service.DepartmentService;
 import web.ui.excel.DepartmentUI;
+import web.ui.model.DepartmentModel;
 
 import common.ExcelUtil;
 
@@ -270,7 +268,6 @@ public class DepartmentAction extends BaseAction {
 				sql.append(" and DepartmentID="+departmentId);
 			}
 			departments=this.departmentService.findByPage(page, limit, sql.toString());
-			System.out.println(sql.toString());
 			total=departments.size();
 
 		}else{
@@ -280,21 +277,12 @@ public class DepartmentAction extends BaseAction {
 			departments = this.departmentService.findByPage(page,limit);
 			total=this.departmentService.getTotalRows();
 		}
-		JsonConfig jsonConfig =new JsonConfig();
-		/** 结果转换成json对象是避免出现hibernate死循环，过滤掉引起死循环的字段，保留有用字段 */
-		//jsonConfig.registerJsonValueProcessor(Department.class, new ObjectJsonValueProcessor(new String[]{"departmentId"}, Department.class));
-		/** 同样是为了避免出现hibernate死循环，过滤掉引起死循环的整个对象，不需要任何字段 */
-		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
-			@Override
-			public boolean apply(Object arg0, String arg1, Object arg2) {
-				if(arg1.equals("staffs")){
-					return true;
-				}else{
-					return false;
-				}
-			}
-		});
-		this.printList(start, limit, total, departments, jsonConfig);
+		List<DepartmentModel> departmentModels=new ArrayList<DepartmentModel>();
+		for(Department department:departments){
+			DepartmentModel departmentModel=new DepartmentModel(department);
+			departmentModels.add(departmentModel);
+		}
+		this.printList(start, limit, total, departmentModels);
 		return null;
 	}
 	
@@ -310,25 +298,16 @@ public class DepartmentAction extends BaseAction {
 			Department department=this.departmentService.find(staff.getDepartment().getDepartmentId());
 			departments.add(department);
 			total=1;
-		}else if (roleName.equals("管理员")||roleName.equals("人事经理")||roleName.equals("总经理")) {
+		}else if (roleName.equals("管理员")||roleName.equals("行政人事部经理")||roleName.equals("总经理")) {
 			departments=this.departmentService.findByPage(page, limit);
 			total=this.departmentService.getTotalRows();
 		}
-		JsonConfig jsonConfig =new JsonConfig();
-		/** 结果转换成json对象是避免出现hibernate死循环，过滤掉引起死循环的字段，保留有用字段 */
-		//jsonConfig.registerJsonValueProcessor(Department.class, new ObjectJsonValueProcessor(new String[]{"departmentId"}, Department.class));
-		/** 同样是为了避免出现hibernate死循环，过滤掉引起死循环的整个对象，不需要任何字段 */
-		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
-			@Override
-			public boolean apply(Object arg0, String arg1, Object arg2) {
-				if(arg1.equals("staffs")){
-					return true;
-				}else{
-					return false;
-				}
-			}
-		});
-		this.printList(start, limit, total, departments, jsonConfig);
+		List<DepartmentModel> departmentModels=new ArrayList<DepartmentModel>();
+		for(Department department:departments){
+			DepartmentModel departmentModel=new DepartmentModel(department);
+			departmentModels.add(departmentModel);
+		}
+		this.printList(start, limit, total, departmentModels);
 		return null;
 	}
 	
@@ -370,21 +349,12 @@ public String getDeptForSelector(){
 		 sql="select new Department(dept.departmentId,dept.departmentName) from Department dept where DepartmentID ="+departId;
 		}
 		departments=this.departmentService.findBysql(sql);
-		JsonConfig jsonConfig =new JsonConfig();
-		/** 结果转换成json对象是避免出现hibernate死循环，过滤掉引起死循环的字段，保留有用字段 */
-		//jsonConfig.registerJsonValueProcessor(Department.class, new ObjectJsonValueProcessor(new String[]{"departmentId"}, Department.class));
-		/** 同样是为了避免出现hibernate死循环，过滤掉引起死循环的整个对象，不需要任何字段 */
-		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
-			@Override
-			public boolean apply(Object arg0, String arg1, Object arg2) {
-				if(arg1.equals("staffs")){
-					return true;
-				}else{
-					return false;
-				}
-			}
-		});
-		this.printList(0, 0, 0, departments,jsonConfig);
+		List<DepartmentModel> departmentModels=new ArrayList<DepartmentModel>();
+		for(Department department:departments){
+			DepartmentModel departmentModel=new DepartmentModel(department);
+			departmentModels.add(departmentModel);
+		}
+		this.printList(0,0,0, departmentModels);
 		return null;
 	}
 	
@@ -405,7 +375,6 @@ public String getDeptForSelector(){
 	 * 2014-2-12    caiwenming      v1.0.0         create
 	 */
 	public String exportDept() throws Exception{
-		System.out.println(departmentIds);
 		List<Department> departments= new ArrayList<Department>();
 		if(departmentIds.equals("")){
 			departments = this.departmentService.findAll();
@@ -425,7 +394,6 @@ public String getDeptForSelector(){
 		String fileName=ExcelUtil.createFileName("部门信息")+".xls";
 		if(ExcelUtil.printExcel(head, dataList, downLoadPath+fileName)){
 			download(fileName);
-			//System.out.println(ServletActionContext.getServletContext().getRealPath("excel/Department201402131756458884286.xls"));
 			return "success";
 		}else {
 			this.printString(false, "");

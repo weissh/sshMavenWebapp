@@ -442,7 +442,7 @@ public class StaffAction extends BaseAction{
 			return ;
 		}
 		/** 文件重命名为"staff_+staffId+后缀"的形式 */
-		photo="staff_"+staffName+photoImgFileName.substring(photoImgFileName.lastIndexOf("."));
+		photo="staff_"+userName+photoImgFileName.substring(photoImgFileName.lastIndexOf("."));
 		FileOutputStream fos=new FileOutputStream(getPhotoSavePath()+photo);
 		FileInputStream fis=new FileInputStream(photoImg);
 		byte[] b =new byte[512];
@@ -557,7 +557,6 @@ public class StaffAction extends BaseAction{
 				sql.append(" and Role_RoleID="+roleId);
 			}
 			staffs=this.staffService.findByPage(page, limit, sql.toString());
-			System.out.println(sql.toString());
 			total=staffs.size();
 		}else{
 			/**
@@ -595,7 +594,7 @@ public class StaffAction extends BaseAction{
 				String sql="from Staff where Department_DepartmentID="+staff.getDepartment().getDepartmentId();
 				staffs=this.staffService.findByPage(page, limit, sql);
 				total=staffs.size();
-			}else if (roleName.equals("管理员")||roleName.equals("人事经理")||roleName.equals("总经理")) {
+			}else if (roleName.equals("管理员")||roleName.equals("行政人事部经理")||roleName.equals("总经理")) {
 				staffs=this.staffService.findByPage(page, limit);
 				total=this.staffService.getTotalRows();
 			}
@@ -710,7 +709,6 @@ public class StaffAction extends BaseAction{
 	}
 	
 	public String exportStaff() throws Exception{
-		System.out.println(staffIds);
 		List<Staff> staffs=new ArrayList<Staff>();
 		if(staffIds.equals("")){
 			staffs=this.staffService.findAll();

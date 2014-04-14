@@ -12,15 +12,7 @@ Ext.require([
 Ext.onReady(function(){
     Ext.QuickTips.init();
     
-//    //定义部门数据类型，用于下拉列表
-//	Ext.define('deptForSelector', {
-//        extend: 'Ext.data.Model',
-//        fields:[
-//        	{name:'departmentId'},
-//        	{name:'departmentName'}
-//    	]
-//	});
-	
+
 	//定义部门数据源，作为下拉列表的数据源
     var dept=new Ext.data.Store({
     	model:deptForSelector,
@@ -45,15 +37,6 @@ Ext.onReady(function(){
         }
     });
     
-//    //定义员工数据类型，作为下拉列表框
-//    Ext.define('staffForSelector', {
-//        extend: 'Ext.data.Model',
-//        fields:[
-//        	{name:'staffId'},
-//        	{name:'staffName'}
-//    	]
-//	});
-	
 	//定义员工数据源，作为下拉列表的数据源
     var staff=new Ext.data.Store({
         model:staffForSelector,
@@ -77,17 +60,7 @@ Ext.onReady(function(){
         	}
         }
     });
-    
-    
-//    //定义员工数据类型，作为下拉列表框
-//    Ext.define('roleForSelector', {
-//        extend: 'Ext.data.Model',
-//        fields:[
-//        	{name:'roleId'},
-//        	{name:'roleName'}
-//    	]
-//	});
-	
+    	
     //定义角色数据源，作为下拉列表的数据源
     var role=new Ext.data.Store({
         model:roleForSelector,
@@ -262,47 +235,6 @@ Ext.onReady(function(){
 	        {'id':'女','name':'女'}
         ]
     });
-    
-//    //定义员工数据类型
-//    Ext.define('staff', {
-//        extend: 'Ext.data.Model',
-//        fields: [
-//            {name: 'staffId', type: 'int'},
-//            {name: 'photoImg'},
-//            {name: 'photo'},
-//            {name: 'staffName'},
-//            {name: 'departmentId', type: 'int'},
-//            {name: 'departmentName'},
-//            {name: 'position'},
-//            {name: 'entryTime', type: 'date', dateFormat: 'Y-m-d'},
-//            {name: 'phone'},
-//            {name: 'roleId', type: 'int'},
-//            {name: 'roleName'},
-//            {name: 'userName'},
-//            {name: 'password'},
-//            {name: 'gender'},
-//            {name: 'age', type: 'int'},
-//            {name: 'birthday', type: 'date', dateFormat: 'Y-m-d'},
-//            {name: 'nationality'},
-//            {name: 'politicalStatus'},
-//            {name: 'maritalStatus'},
-//            {name: 'nativePlace'},
-//            {name: 'idNo'},
-//            {name: 'passportNo'},
-//            {name: 'domicilePlace'},
-//            {name: 'dateOfRecruitment', type: 'date', dateFormat: 'Y-m-d'},
-//            {name: 'hightestEdu'},
-//            {name: 'hightestDegree'},
-//            {name: 'graduateSchool'},
-//            {name: 'major'},
-//            {name: 'schoolSystem'},
-//            {name: 'currentAddress'},
-//            {name: 'urgentContact'},
-//            {name: 'email'},
-//            {name: 'zipCode'},
-//            {name: 'ucPhone'}
-//         ]
-//    });
 
     //定义员工数据源，作为表格数据源
     var staffStore = Ext.create('Ext.data.Store', {
@@ -421,71 +353,38 @@ Ext.onReady(function(){
         tbar:[formForTbar],
         columns: [
             Ext.create('Ext.grid.RowNumberer'),
-        	{text: "员工编号", width: 120, sortable: true,dataIndex: 'staffId'},
-            {text: "用户名", width: 120, sortable: true,dataIndex: 'userName'},
-            {text: "姓名", flex: 1, sortable: true, dataIndex: 'staffName'},
+        	{text: "员工编号", width: 60, sortable: true,dataIndex: 'staffId'},
+            {text: "用户名", width: 80, sortable: true,dataIndex: 'userName'},
+            {text: "姓名", width: 100, sortable: true, dataIndex: 'staffName'},
             {text: "照片路径", width: 120, sortable: true,dataIndex: 'photo',hidden:true},
             {text: "部门编号", width: 120, sortable: true,dataIndex: 'departmentId',hidden:true},
             {
             	text: "部门", 
-            	width: 120, 
+            	width: 100, 
             	sortable: true, 
             	dataIndex: 'departmentName'
-//            	renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-//            		var index=dept.find('departmentId',value);
-//            		var record=dept.getAt(index);
-//            		var text="";
-//            		if(record==null){
-//            			text=value;
-//            		}else{
-//            			text=record.data['departmentName'];
-//            		}
-//            		return text;
-//            	}
         	},
             {
             	text: "职务",
-            	width: 120, 
+            	width: 100, 
             	sortable: true, 
-            	dataIndex: 'position',
-            	renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-            		var index=position.find('id',value);
-            		var record=position.getAt(index);
-            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-            	}
+            	dataIndex: 'position'
         	},
-            {text: "入职时间", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('Y-m-d'), dataIndex: 'entryTime'},
-            {text: "联系电话", width: 120, sortable: true, dataIndex: 'phone'},
+            {text: "入职时间", width: 100, sortable: true, renderer: Ext.util.Format.dateRenderer('Y-m-d'), dataIndex: 'entryTime'},
+            {text: "联系电话", width: 100, sortable: true, dataIndex: 'phone'},
             {text: "角色编号", width: 120, sortable: true, dataIndex: 'roleId',hidden:true},
             {
             	text: "角色", 
-            	width: 120, 
+            	width: 100, 
             	sortable: true, 
             	dataIndex: 'roleName'
-//            	renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-//            		var index=role.find('roleId',value);
-//            		var record=role.getAt(index);
-//            		var text="";
-//            		if(record==null){
-//            			text=value;
-//            		}else{
-//            			text=record.data['roleName'];
-//            		}
-//            		return text;
-//            	}
         	},
-            {text: "密码", width: 120, sortable: true, dataIndex: 'password'},
-            {text: "姓名", width: 120, sortable: true, dataIndex: '',hidden:true},
+            {text: "密码", flex:2, sortable: true, dataIndex: 'password'},
             {
             	text: "性别", 
             	width: 120, 
             	sortable: true, 
             	dataIndex: 'gender',
-            	renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-            		var index=gender.find('id',value);
-            		var record=gender.getAt(index);
-            		return getText(record);
-            	},
             	hidden:true
         	},
             {text: "年龄", width: 120, sortable: true, dataIndex: 'age',hidden:true},
@@ -494,22 +393,12 @@ Ext.onReady(function(){
             width: 120, 
             sortable: true, 
             dataIndex: 'nationality',
-            renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-            		var index=nationalities.find('id',value);
-            		var record=nationalities.getAt(index);
-            		return getText(record);
-            	},
             hidden:true},
             {
             	text: "政治面貌", 
             	width: 120, 
             	sortable: true, 
             	dataIndex: 'politicalStatus',
-            	renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-            		var index=politicalStatus.find('id',value);
-            		var record=politicalStatus.getAt(index);
-            		return getText(record);
-            	},
             	hidden:true},
             {text: "婚姻状况", width: 120, sortable: true, dataIndex: 'maritalStatus',hidden:true},
             {text: "籍贯", width: 120, sortable: true, dataIndex: 'nativePlace',hidden:true},
@@ -534,12 +423,6 @@ Ext.onReady(function(){
             store: staffStore,
             displayInfo: true
         }),
-//        listeners: {
-//            'selectionchange': function(view, records) {
-//                grid.down('#removeEmployee').setDisabled(!records.length);
-//                alert(1);
-//            }
-//        },
         renderTo: Ext.getBody()
     });
     grid.addListener('itemdblclick', editStaffInfo, this);
@@ -629,7 +512,7 @@ Ext.onReady(function(){
                     xtype:'textfield'
                 },
                 items: [
-                    {xtype: 'datefield',width:'33%',fieldLabel: '入职时间',name: 'entryTime',format : 'Y-m-d',value:'2011-12-12',allowBlank: false},
+                    {xtype: 'datefield',width:'33%',fieldLabel: '入职时间',name: 'entryTime',format : 'Y-m-d',value:'2011-12-12',allowBlank: true},
                     {
                     	width:'33%',
                     	fieldLabel: '角色',
@@ -699,7 +582,7 @@ Ext.onReady(function(){
                     xtype:'textfield'
                 },
                 items: [
-	                    {width:'33%',fieldLabel: '年龄',name: 'age',readOnly:true,allowBlank: false},
+	                    {width:'33%',fieldLabel: '年龄',name: 'age',readOnly:true,allowBlank: true},
 	                    {width:'33%',
 	                    fieldLabel: '民族',
 	                    xtype: 'combo',
@@ -708,7 +591,7 @@ Ext.onReady(function(){
                     	valueField:'id',
                     	displayField:'name',
 	                    value:'汉族',
-	                    allowBlank: false
+	                    allowBlank: true
 	                    }, 
 	                    {
                     	width:'33%',
@@ -751,8 +634,8 @@ Ext.onReady(function(){
                     xtype:'textfield'
                 },
                 items: [
-                    {width:'49%',fieldLabel: '护照号',name: 'passportNo',value:'123',allowBlank: false},
-                    {width:'50%',fieldLabel: '户口地址',name: 'domicilePlace',margins:'0 4 5 0',value:'123',allowBlank: false}
+                    {width:'49%',fieldLabel: '护照号',name: 'passportNo',value:'123',allowBlank: true},
+                    {width:'50%',fieldLabel: '户口地址',name: 'domicilePlace',margins:'0 4 5 0',value:'123',allowBlank: true}
                 ]
             }]
         },{
@@ -775,7 +658,7 @@ Ext.onReady(function(){
                     anchor: '100%'
                 },
                 items: [
-                    {xtype: 'datefield',width:'33%',fieldLabel: '参加工作时间',name: 'dateOfRecruitment',format:'Y-m-d',value:'2012-12-12',allowBlank: false}, 
+                    {xtype: 'datefield',width:'33%',fieldLabel: '参加工作时间',name: 'dateOfRecruitment',format:'Y-m-d',value:'2012-12-12',allowBlank: true}, 
                     {
                     	width:'33%',
                     	fieldLabel: '最高学历',
@@ -797,7 +680,7 @@ Ext.onReady(function(){
                     	displayField: 'name',
                     	margins:'0 4 0 0',
                     	value:'学士学位',
-                    	allowBlank: false
+                    	allowBlank: true
                 	}
                 ]
             },{
@@ -808,7 +691,7 @@ Ext.onReady(function(){
                 },
                 items: [
                     {width:'33%',fieldLabel: '毕业院校',name: 'graduateSchool',value:'123',allowBlank: false},
-                    {width:'33%',fieldLabel: '专业',name: 'major',value:'123',allowBlank: false}, 
+                    {width:'33%',fieldLabel: '专业',name: 'major',value:'123',allowBlank: true}, 
                     {
                     	width:'33%',
                     	fieldLabel: '学制',
@@ -819,7 +702,7 @@ Ext.onReady(function(){
                     	displayField: 'name',
                     	margins:'0 3 0 0',
                     	value:'三年制',
-                    	allowBlank: false
+                    	allowBlank: true
                 	}
                 ]
             }]
@@ -854,8 +737,8 @@ Ext.onReady(function(){
                     anchor: '100%'
                 },
                 items: [
-                    {width:'33%',fieldLabel: '邮箱',name: 'email',value:'123',allowBlank: false},
-                    {width:'33%',fieldLabel: '邮编',name: 'zipCode',regex:/^[1-9]{1}(\d){5}$/,regexText:'请输入正确的邮政编码',value:'123',allowBlank: false},
+                    {width:'33%',fieldLabel: '邮箱',name: 'email',value:'123',allowBlank: true},
+                    {width:'33%',fieldLabel: '邮编',name: 'zipCode',regex:/^[1-9]{1}(\d){5}$/,regexText:'请输入正确的邮政编码',value:'123',allowBlank: true},
                     {width:'33%',fieldLabel: '紧急电话',name: 'ucPhone',regex:/^1[\d]{10}$/,regexText:'手机号码必须是1开头的,后面跟10位数字结尾',margins:'0 4 0 0',value:'123',allowBlank: false}
                 ]
             }]

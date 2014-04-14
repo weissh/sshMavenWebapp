@@ -99,12 +99,25 @@ public class ExcelUtil {
 //			excelStream=new ByteArrayInputStream(buf, 0, buf.length);
 //			arrayOutputStream.close();
 			
-			File file =new File(fileName);
+			final File file =new File(fileName);
 			try{
 				OutputStream outputStream =new FileOutputStream(file);
 				/** 写入File */
 				hssfWorkbook.write(outputStream);
 				outputStream.close();
+				/** 过一段时间自动删除文件 */
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						try{
+							Thread.sleep(10000);
+						}catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						file.delete();
+					}
+				}).start();
 			}catch (Exception e) {
 				e.printStackTrace();
 				return false;

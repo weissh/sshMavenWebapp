@@ -285,7 +285,7 @@ Ext.require([
             },{xtype:'textfield',readOnly:true,width:100,id:"allCout"},'-','->',
             {xtype:'button',text:'新建',iconCls: 'cost_add',handler : addCostInfo},
             {xtype:'button',text:'修改',id:"editt",iconCls: 'cost_edit',handler :editCostInfo},
-            {xtype:'filefield',buttonOnly: true,buttonText:'导入',buttonConfig:{iconCls:'file_in'}},
+            {xtype:'filefield',buttonOnly: true,buttonText:'导入',buttonConfig:{iconCls:'file_in'},hidden:true},
 			{xtype:'button',text:'导出',iconCls: 'file_export',handler:exportCostInfo}]			        
     
     });
