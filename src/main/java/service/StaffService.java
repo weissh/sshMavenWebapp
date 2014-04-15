@@ -1,5 +1,6 @@
 package service;
 
+import pojos.Department;
 import pojos.Staff;
 
 public interface StaffService extends GenericService<Staff>{
@@ -13,4 +14,6 @@ public interface StaffService extends GenericService<Staff>{
 	public boolean deleteStaff(String staffIds);
 	
 	public boolean modifyPassword(int staffId,String password);
+	
+	public void update(int source,Department department);
 }

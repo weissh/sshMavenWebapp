@@ -43,47 +43,7 @@ Ext.onReady(function() {
    
 	
 	dept.load();
-	//staff.load();
 	
-	
-//            listeners:{
-//            	select:function(combo,record,index){
-//            		Ext.getCmp('staffCombo').reset();
-//            		staff.load({
-//            			url:'staff_getForSelector.action',
-//            			params:{departmentId:combo.value}
-//            		});
-////            		staffStore.load({url:'staff_getAll.action',params:{start:0,limit:20}});
-//            	}
-//            }
-//			},{
-//				xtype:'button',
-//				text:'查询',
-//				iconCls:'search',listeners:{
-//            	click:function(){
-////            		var departmentId=pe.getForm().findField('deptCombo').getValue();
-//            		var departmentId=dr.getForm().findField('deptCombo').getValue();
-//            		dept_store.on('beforeload',function(store,options){
-//            			var new_params={departmentId:departmentId,query:'true'};
-//            			Ext.apply(dept_store.proxy.extraParams,new_params);
-//            		});
-//            		dept_store.reload();
-//            	}
-//            }
-////				,listeners:{
-////            	click:function(){
-////            		var departmentId=dr.getForm().findField('deptCombo').getValue();
-////            		dept_store.on('beforeload',function(store,options){
-////            			var new_params={departmentId:departmentId,query:'true'};
-////            			Ext.apply(dept_store.proxy.extraParams,new_params);
-////            		});
-////            		dept_store.reload();
-////            	}
-////            }
-//			}]
-//		}]
-    
-//    });
     //定义部门信息表
      var deptGrid=Ext.create('Ext.grid.Panel',{
      	title:'部门列表',

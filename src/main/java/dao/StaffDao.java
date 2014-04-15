@@ -2,6 +2,7 @@ package dao;
 
 import java.util.List;
 
+import pojos.Department;
 import pojos.Staff;
 
 public interface StaffDao extends GenericDao<Staff>{
@@ -11,4 +12,6 @@ public interface StaffDao extends GenericDao<Staff>{
 	public Staff loginStaff(String userName);
 	
 	public List<Staff> findByUserName(String userName);
+	
+	public void update(int source,Department department);
 }

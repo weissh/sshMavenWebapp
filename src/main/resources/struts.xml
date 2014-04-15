@@ -22,6 +22,9 @@
 		<action name="dept_getAllByRole" method="getAllDeptByRole" class="departmentAction" >
 			<result name="success" type="json"/>
 		</action>
+		<action name="dept_manageStaff" method="manageStaff" class="departmentAction" >
+			<result name="success" type="json"/>
+		</action>
 		<action name="dept_getForSelector" method="getDeptForSelector" class="departmentAction" >
 			<result name="success" type="json"/>
 		</action>

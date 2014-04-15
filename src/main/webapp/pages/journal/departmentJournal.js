@@ -30,16 +30,6 @@ Ext.onReady(function() {
 		formtitle = '修改日志';
 	}
 
-//	// 定义部门数据类型，用于下拉列表
-//	Ext.define('deptForSelector', {
-//				extend : 'Ext.data.Model',
-//				fields : [{
-//							name : 'departmentId'
-//						}, {
-//							name : 'departmentName'
-//						}]
-//			})
-
 	// 定义部门数据源，作为下拉列表的数据源
 	var deptStore = new Ext.data.Store({
 				model : deptForSelector,
@@ -62,16 +52,6 @@ Ext.onReady(function() {
 					}
 				}
 			});
-
-//	// 定义员工数据类型，作为下拉列表框
-//	Ext.define('staffForSelector', {
-//				extend : 'Ext.data.Model',
-//				fields : [{
-//							name : 'staffId'
-//						}, {
-//							name : 'staffName'
-//						}]
-//			});
 
 	// 定义员工数据源，作为下拉列表的数据源
 	var staffStore = new Ext.data.Store({
@@ -309,73 +289,6 @@ Ext.onReady(function() {
 						}]
 			});
 
-//	// 定义表格的填充模型journal
-//	Ext.define('journal', {
-//				extend : 'Ext.data.Model',
-//				fields : [{
-//							name : 'workId',
-//							type : 'int'
-//						}, {
-//							name : 'recordDate',
-//							type : 'date',
-//							dateFormat : 'Y-m-d'
-//						}, {
-//							name : 'staffId',
-//							type : 'int'
-//						}, {
-//							name : 'staffName',
-//							type : 'string'
-//						}, {
-//							name : 'executeDate',
-//							type : 'date',
-//							dateFormat : 'Y-m-d'
-//						}, {
-//							name : 'operateMode',
-//							type : 'string'
-//						}, {
-//							name : 'unitName',
-//							type : 'string'
-//						}, {
-//							name : 'country',
-//							type : 'string'
-//						}, {
-//							name : 'province',
-//							type : 'string'
-//						}, {
-//							name : 'address',
-//							type : 'string'
-//						}, {
-//							name : 'contactObject',
-//							type : 'string'
-//						}, {
-//							name : 'level',
-//							type : 'string'
-//						}, {
-//							name : 'contactWay',
-//							type : 'string'
-//						}, {
-//							name : 'contactName',
-//							type : 'string'
-//						}, {
-//							name : 'contactPosition',
-//							type : 'string'
-//						}, {
-//							name : 'contactPhone',
-//							type : 'string'
-//						}, {
-//							name : 'contactEmail',
-//							type : 'string'
-//						}, {
-//							name : 'startTime',
-//							type : 'string'
-//						}, {
-//							name : 'endTime',
-//							type : 'string'
-//						}, {
-//							name : 'workContent',
-//							type : 'string'
-//						}]
-//			})
 	// 定义表格的填充数据
 	var journalStore = Ext.create('Ext.data.Store', {
 				model : 'journal',

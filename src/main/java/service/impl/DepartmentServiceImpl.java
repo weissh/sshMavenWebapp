@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import pojos.Department;
 import service.DepartmentService;
 import dao.DepartmentDao;
+import dao.StaffDao;
 
 public class DepartmentServiceImpl extends GenericServiceImpl<Department> implements DepartmentService{
 	//必须要有该属性，并且与applicationContext.xml中的配置相对应
 	private DepartmentDao departmentDao;
+	private StaffDao staffDao;
 
 	public DepartmentDao getDepartmentDao() {
 		return departmentDao;
@@ -16,6 +18,14 @@ public class DepartmentServiceImpl extends GenericServiceImpl<Department> implem
 
 	public void setDepartmentDao(DepartmentDao departmentDao) {
 		this.departmentDao = departmentDao;
+	}
+
+	public StaffDao getStaffDao() {
+		return staffDao;
+	}
+
+	public void setStaffDao(StaffDao staffDao) {
+		this.staffDao = staffDao;
 	}
 
 	@Override
@@ -27,8 +37,6 @@ public class DepartmentServiceImpl extends GenericServiceImpl<Department> implem
 		/**遍历id，并实例化类型，在add到List */
 		for(int i=0;i<str.length;i++){
 			Department department = this.departmentDao.find(Integer.parseInt(str[i]));
-//			/** 因为Department与其他实体类不存在多对一的关系，即数据表中没有外键，所有新建对象只许设置id即可 */
-//			department.setDepartmentId(Integer.parseInt(str[i]));
 			if(department.getStaffs().size()>0){
 				if(i==0){
 					name+=department.getDepartmentName();
@@ -44,5 +52,10 @@ public class DepartmentServiceImpl extends GenericServiceImpl<Department> implem
 		}
 		return name;
 	}
-	
+
+	@Override
+	public void manageStaff(int source, int target) {
+		Department department =this.departmentDao.find(target);
+		this.staffDao.update(source, department);
+	}
 }

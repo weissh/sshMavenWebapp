@@ -1,16 +1,6 @@
 Ext.onReady(function(){
 	
 	Ext.QuickTips.init();
-
-//	//定义部门数据类型，用于下拉列表
-//	Ext.define('role', {
-//        extend: 'Ext.data.Model',
-//        fields:[
-//        	{name:'roleId',type:'int'},
-//        	{name:'roleName'},
-//        	{name:'roleDesc'}
-//    	]
-//	});
 	
 	//定义部门数据源，作为下拉列表的数据源
     var roleStore=new Ext.data.Store({
@@ -106,21 +96,6 @@ Ext.onReady(function(){
 			handler:function(){
 				win.close();
 			}
-//			function(){
-//				var form1   = this.up('form').getForm(),
-//                    encode = Ext.String.htmlEncode,
-//                    s      = '';
-//
-//                if (form1.isValid()) {
-//                    Ext.iterate(form1.getValues(), function(key, value) {
-//                        value = encode(value);
-//                        
-//                        s += Ext.util.Format.format("{0} = {1}<br />", key, value);
-//                    }, this);
-//
-//                    top.Ext.Msg.alert('Form Values', s);
-//                }
-//			}
 		}]
 	});
 	
@@ -141,9 +116,6 @@ Ext.onReady(function(){
 	//增加角色
 	function addRoleInfo(){
 		form.form.reset();
-//		form.getForm().findField('roleId').setReadOnly (false);
-//		form.getForm().findField('roleName').setReadOnly (false);
-//		form.getForm().findField('roleDesc').setReadOnly (false);
 		form.isAdd=true;
 		win.setTitle('新增角色');
 		win.show();

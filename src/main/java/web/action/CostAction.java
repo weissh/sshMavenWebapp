@@ -562,7 +562,7 @@ public class CostAction extends BaseAction{
 	public String exportCostDept() throws Exception{
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		Staff staff = (Staff) session.getAttribute("staff");
-		Integer staf = staff.getStaffId();
+//		Integer staf = staff.getStaffId();
 		String roleName=staff.getRole().getRoleName();
 		List<Cost> costs= new ArrayList<Cost>();
 		

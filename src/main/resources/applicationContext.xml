@@ -160,6 +160,7 @@
 	<bean id="departmentService" class="service.impl.DepartmentServiceImpl">
 		<property name="genericDao" ref="departmentDao"/>
 		<property name="departmentDao" ref="departmentDao"/>
+		<property name="staffDao" ref="staffDao"/>
 	</bean>
 	
 	<!-- 配置staffService -->

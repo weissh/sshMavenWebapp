@@ -15,111 +15,6 @@ Ext.onReady(function () {
     
     Ext.tip.QuickTipManager.init();
     
-//    ===============================================================================
-//    var add=true;
-//	  var update=true;
-//    var drop=true;
-//    var manage=true;
-//    var exportExcel=true; 
-//
-//    if(roleName=='部门经理'||roleName=='管理员'){
-//	    var add=false;
-//	    var update=false;
-//	    var drop=false;
-//	    var manage=false;
-//	    var exportExcel=false;
-//    }else{
-//    	var exportExcel=false;
-//    }
-    
-    //创建员工移动选择器
-    function createDockedItems(fieldId) {
-        return [{
-            xtype: 'toolbar',
-            dock: 'top',
-            items: {
-                text: '选项',
-                menu: [{
-                    text: '取值',
-                    handler: function () {
-                        var value = Ext.getCmp(fieldId).getValue();
-                        Ext.Msg.alert('Value is a split array', value.join(', '));
-                    }
-                }, {
-                    text: '设值(2,3)',
-                    handler: function () {
-                        Ext.getCmp(fieldId).setValue(['2', '3']);
-                    }
-                }, {
-                    text: '切换可用',
-                    checked: true,
-                    checkHandler: function (item, checked) {
-                        Ext.getCmp(fieldId).setDisabled(!checked);
-                    }
-                }, {
-                    text: '切换分隔符',
-                    checked: true,
-                    checkHandler: function (item, checked) {
-                        var field = Ext.getCmp(fieldId);
-                        if (checked) {
-                            field.delimiter = ',';
-                            Ext.Msg.alert('Delimiter Changed', 'The delimiter is now set to <b>","</b>. Click Save to ' +
-                                          'see that values are now submitted as a single parameter separated by the delimiter.');
-                        } else {
-                            field.delimiter = null;
-                            Ext.Msg.alert('Delimiter Changed', 'The delimiter is now set to <b>null</b>. Click Save to ' +
-                                          'see that values are now submitted as separate parameters.');
-                        }
-                    }
-                }]
-            }
-        }, {
-            xtype: 'toolbar',
-            dock: 'bottom',
-            ui: 'footer',
-            defaults: {
-                minWidth: 75
-            },
-            items: ['->', {
-                text: '清除',
-                handler: function () {
-                    var field = Ext.getCmp(fieldId);
-                    if (!field.disabled) {
-                        field.clearValue();
-                    }
-                }
-            }, {
-                text: '重置',
-                handler: function () {
-                    Ext.getCmp(fieldId).up('form').getForm().reset();
-                }
-            }, {
-                text: '保存',
-                handler: function () {
-                    var form = Ext.getCmp(fieldId).up('form').getForm();
-                    form.getValues(true);
-                    if (form.isValid()) {
-                        Ext.Msg.alert('Submitted Values', 'The following will be sent to the server: <br />' +
-                            form.getValues(true));
-                    }
-                }
-            }]
-        }];
-    }
-
-//    //定义部门数据类型
-//    Ext.define('department',{
-//    	extend: 'Ext.data.Model',
-//    	fields:[
-//    		{name:'departmentId',type:'int'},
-//    		{name:'departmentName'},
-//    		{name:'createTime',type: 'date', dateFormat:'Y-m-d'},
-//    		{name:'managerId'},
-//    		{name:'managerName'},
-//    		{name:'totalStaff'},
-//    		{name:'description'}
-//		]
-//    });
     
     //定义部门数据源，充当页面表格的数据来源
     var departmentStore = Ext.create('Ext.data.Store', {
@@ -187,72 +82,8 @@ Ext.onReady(function () {
     });
     grid.addListener('itemdblclick', editDepartmentInfo, this);
     
-    var ds = Ext.create('Ext.data.ArrayStore', {
-        fields: ['value', 'text'],
-        proxy: {
-            type: 'ajax',
-            url: 'Numbers',
-            reader: 'array'
-        },
-        autoLoad: true,
-        sortInfo: {
-            field: 'value',
-            direction: 'ASC'
-        }
-    });
-    Ext.ux.ajax.SimManager.init({
-        delay: 300,
-        defaultSimlet: null
-    }).register({
-        'Numbers': {
-            data: [ ['1', '小闫'], ['2', '小祖'], ['3', '小蔡'], ['4', '小宋'], ['5', '小吴'],
-                    ['6', '小袁'], ['7', '小王'], ['8', '小李'], ['9', '小刘']],
-            stype: 'json'
-        }
-    });
-    var isForm = Ext.widget('form', {
-        width: 600,
-		bodyStyle: 'background:#dfe9f5',
-        border: false,
-        height: 350,
-        //renderTo: Ext.getBody(),
-        layout: 'fit',
-        items: [{
-            xtype: 'itemselector',
-            name: 'itemselector',
-            margin:'-1 -1 0 0',
-            id: 'itemselector-field',
-            anchor: '100%',
-            border:0,
-            fieldLabel: 'ItemSelector',
-            imagePath: 'ux/images/',
-            store: ds,
-            displayField: 'text',
-            valueField: 'value',
-            value: ['3', '4', '6'],
-            allowBlank: false,
-            msgTarget: 'side',
-            fromTitle: '源部门',
-            toTitle: '目标部门'
-        }],
-        dockedItems: createDockedItems('itemselector-field')
-    });
-
-    var wind =new Ext.create('Ext.Window', {
-        width: 610,
-        height: 400,
-        layout:'fit',
-        closeable:true,
-        closeAction:'hide',
-        constrain:true,
-        title: 'multiselect',
-        items: isForm,
-        modal:true
-
-    });
-    
     //创建新增、修改部门表单
-	var form = top.Ext.create('Ext.form.Panel', {
+	var form = Ext.create('Ext.form.Panel', {
         width:'100%',
         height:'100%',
         bodyPadding: 10,
@@ -310,6 +141,81 @@ Ext.onReady(function () {
 		}]
     });
     
+    var manageStaff=Ext.create('Ext.form.Panel',{
+    	width:'100%',
+    	height:'100%',
+    	bodyPadding:10,
+    	border:false,
+    	bodyStyle:'background:#dfe9f5',
+    	defaults:{
+    		labelWidth:60,
+    		anchor:'100%',
+    		msgTarget:'qtip',
+    		allowBlank:false
+    	},
+    	items:[{
+    		xtype:'combo',
+    		fieldLabel:'源部门',
+    		name:'sourceDept',
+    		store:departmentStore,
+    		displayField:'departmentName',
+    		valueField:'departmentId',
+    		listeners:{
+    			select:function(combo,record,index){
+    				var target=manageStaff.getForm().findField('targetDept').value;
+//    				alert(record[0].data.departmentId);
+    				var source=record[0].get('departmentId');
+    				if(source!=target){
+    					Ext.getCmp('btn').setDisabled(false);
+    				}else{
+    					Ext.getCmp('btn').setDisabled(true);
+    				}
+    			}
+    		}
+    	},{
+    		xtype:'combo',
+    		fieldLabel:'目标部门',
+    		name:'targetDept',
+    		store:departmentStore,
+    		displayField:'departmentName',
+    		valueField:'departmentId',
+    		listeners:{
+    			select:function(combo,record,index){
+    				var source=manageStaff.getForm().findField('sourceDept').value;
+//    				alert(record[0].data.departmentId);
+    				var target=record[0].get('departmentId');
+    				if(source!=target){
+    					Ext.getCmp('btn').setDisabled(false);
+    				}else{
+    					Ext.getCmp('btn').setDisabled(true);
+    				}
+    			}
+    		}
+    	}],
+    	buttons:[{
+			text:'提交',
+			id:'btn',
+			disabled:true,
+			handler:manage
+		},{
+			text:'取消',
+			handler:function(){
+				wind.close();
+			}
+		}]
+    });
+    
+    var wind = new Ext.Window({
+    	layout : 'fit',
+    	title:'员工管理',
+		width :350,
+		height : 130,
+		closeAction:'hide',
+		constrainHeader:true,
+		plain : true,
+		modal : true,
+		items : manageStaff
+    });
     //新增、修改部门的弹出框
     var win = new top.Ext.Window({
     	layout : 'fit',
@@ -321,14 +227,6 @@ Ext.onReady(function () {
 		modal : true,
 		items : form
     });
-    
-    //员工管理
-    function userManagement(){
-    	isForm.form.reset();
-    	isForm.isAdd=true;
-    	wind.setTitle('员工管理');
-    	wind.show();
-    };
     
 	//增加新部门
     function addDepartmentInfo(){
@@ -463,6 +361,29 @@ Ext.onReady(function () {
     	}
     }
 
+    //员工管理
+    function userManagement(){
+    	wind.show();
+    };
+    
+    function manage(){
+    	if(manageStaff.form.isValid()){
+    		manageStaff.form.submit({
+    			waitMsg:'正在提交，请稍后',
+    			waitTitle:'提示',
+    			url:'dept_manageStaff.action',
+    			method:'POST',
+    			success:function(form,action){
+    				wind.hide(),
+    				top.Ext.Msg.show({title:'提示', msg:'移动员工成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+				},
+				failure:function(form,action){
+					top.Ext.Msg.show({title:'提示', msg:action.result.msg,icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+				}
+    		});
+    	}
+    }
+    
     //导出部门信息到excel
     function exportDeartmentInfo(){
     	var records=grid.getSelectionModel().getSelection();

@@ -67,6 +67,8 @@ public class DepartmentAction extends BaseAction {
 	private String query;
 	private int start;
 	private int limit;
+	private int sourceDept;
+	private int targetDept;
 
 	/** 前端表单所有字段的get和set方法  */
 	public String getDepartmentIds() {
@@ -143,6 +145,18 @@ public class DepartmentAction extends BaseAction {
 	}
 	public void setLimit(int limit) {
 		this.limit = limit;
+	}
+	public int getSourceDept() {
+		return sourceDept;
+	}
+	public void setSourceDept(int sourceDept) {
+		this.sourceDept = sourceDept;
+	}
+	public int getTargetDept() {
+		return targetDept;
+	}
+	public void setTargetDept(int targetDept) {
+		this.targetDept = targetDept;
 	}
 	public String getQuery() {
 		return query;
@@ -311,6 +325,11 @@ public class DepartmentAction extends BaseAction {
 		return null;
 	}
 	
+	public String manageStaff(){
+		this.departmentService.manageStaff(sourceDept, targetDept);
+		this.printString(true, "");
+		return null;
+	}
 	/**
 	 *
 	 * @Description:仅获得部门的departmentId和departmentName属性，并以json返回:作为前端部门下拉列表的值

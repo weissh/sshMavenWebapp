@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
+import pojos.Department;
 import pojos.Right;
 import pojos.Role;
 import pojos.Staff;
@@ -19,16 +20,6 @@ import dao.RightDao;
 import dao.StaffDao;
 
 public class StaffServiceImpl extends GenericServiceImpl<Staff> implements StaffService{
-
-//	private StaffService staffService;
-//	
-//	public StaffService getStaffService() {
-//		return staffService;
-//	}
-//
-//	public void setStaffService(StaffService staffService) {
-//		this.staffService = staffService;
-//	}
 
 	private StaffDao staffDao;
 	private RightDao rightDao;
@@ -121,33 +112,38 @@ public class StaffServiceImpl extends GenericServiceImpl<Staff> implements Staff
 		return treeStore;
 	}
 
-@Override
-public boolean deleteStaff(String staffIds) {
-	String[] ids=staffIds.split(",");
-	HttpSession session=ServletActionContext.getRequest().getSession();
-	Staff staffTemp=(Staff) session.getAttribute("staff");
-	String id=staffTemp.getStaffId()+"";
-	for(String str:ids){
-		if(id.equals(str)){
-			return false;
+	@Override
+	public boolean deleteStaff(String staffIds) {
+		String[] ids=staffIds.split(",");
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		Staff staffTemp=(Staff) session.getAttribute("staff");
+		String id=staffTemp.getStaffId()+"";
+		for(String str:ids){
+			if(id.equals(str)){
+				return false;
+			}
 		}
+		ArrayList<Staff> staffs=new ArrayList<Staff>();
+		/**遍历id数组，查找相应记录并add到ArrayList中 */
+		for(int i=0;i<ids.length;i++){
+			Staff staff = this.staffDao.find(Integer.parseInt(ids[i]));
+			staffs.add(staff);
+		}
+		this.staffDao.removeAll(staffs);
+		return true;
 	}
-	ArrayList<Staff> staffs=new ArrayList<Staff>();
-	/**遍历id数组，查找相应记录并add到ArrayList中 */
-	for(int i=0;i<ids.length;i++){
-		Staff staff = this.staffDao.find(Integer.parseInt(ids[i]));
-		staffs.add(staff);
+	
+	@Override
+	public boolean modifyPassword(int staffId, String password) {
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		Staff staff=(Staff)session.getAttribute("staff");
+		staff.setPassword(password);
+		this.staffDao.update(staff);
+		return true;
 	}
-	this.staffDao.removeAll(staffs);
-	return true;
-}
-
-@Override
-public boolean modifyPassword(int staffId, String password) {
-	HttpSession session = ServletActionContext.getRequest().getSession();
-	Staff staff=(Staff)session.getAttribute("staff");
-	staff.setPassword(password);
-	this.staffDao.update(staff);
-	return true;
-}
+	
+	@Override
+	public void update(int source, Department department) {
+		this.staffDao.update(source, department);
+	}
 }

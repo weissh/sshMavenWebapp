@@ -79,16 +79,6 @@ Ext.onReady(function() {
 								}
 							});
                     	}
-//	                    	this.up('form').getForm().loadRecord(Ext.create('Password', {
-//		                        'oldPwd'    : '12345678'
-//		                    }));
-//                        Ext.iterate(form.getValues(), function(key, value) {
-//                            value = encode(value);
-//                            
-//                            s += Ext.util.Format.format("{0} = {1}<br />", key, value);
-//                        }, this);
-//
-//                        Ext.Msg.alert('Form Values', s);
                     }
                     form.findField('newPwd_1').reset();
                     form.findField('newPwd_2').reset();

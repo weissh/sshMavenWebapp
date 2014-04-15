@@ -114,32 +114,7 @@ Ext.onReady(function() {
         ]
     });
     
-//    // 定义表格的填充模型journal
-//	Ext.define('journal',{
-//		extend: 'Ext.data.Model',
-//		fields: [
-//		    {name:'workId',type:'int'},
-//            {name:'recordDate',type:'date',dateFormat:'Y-m-d'},
-//            {name:'staffId',type:'int'},
-//            {name:'staffName',type:'string'},
-//	        {name:'executeDate',type:'date',dateFormat:'Y-m-d'},
-//	        {name:'operateMode',type:'string'},
-//	        {name:'unitName',type:'string'},
-//	        {name:'country',type:'string'},
-//	        {name:'province',type:'string'},
-//	        {name:'address',type:'string'},
-//	        {name:'contactObject',type:'string'},
-//	        {name:'level',type:'string'},
-//	        {name:'contactWay',type:'string'},
-//	        {name:'contactName',type:'string'},
-//	        {name:'contactPosition',type:'string'},
-//	        {name:'contactPhone',type:'string'},
-//	        {name:'contactEmail',type:'string'},
-//	        {name:'startTime',type:'string'},
-//	        {name:'endTime',type:'string'},
-//	        {name:'workContent',type:'string'}		
-//         ]
-//	})
+
 	// 定义表格的填充数据
 	 var journalStore = Ext.create('Ext.data.Store', {
         model: 'journal',
@@ -288,9 +263,6 @@ Ext.onReady(function() {
     // 单击进行判断是否可以修改
     grid.addListener('itemclick', enableupdate, this);
     function enableupdate(){
-//    	var record=grid.getSelectionModel().getSelection();   	
-//    	var date=record[0].get('recordDate');
-//		var today= Ext.Date.clearTime(new Date());
     	var judge=judgeJournal();
 		if (judge){
 			Ext.getCmp("editt").setDisabled(false);} 

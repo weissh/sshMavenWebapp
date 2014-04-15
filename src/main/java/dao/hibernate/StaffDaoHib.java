@@ -2,6 +2,11 @@ package dao.hibernate;
 
 import java.util.List;
 
+import org.hibernate.ScrollableResults;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import pojos.Department;
 import pojos.Staff;
 import dao.StaffDao;
 
@@ -41,5 +46,26 @@ public class StaffDaoHib extends GenericDaoHib<Staff> implements StaffDao{
 			return staffs;
 		}
 		return null;
+	}
+
+	@Override
+	public void update(int source, Department department) {
+		Session session=getSession();
+		Transaction transaction=session.beginTransaction();
+		ScrollableResults staffs=session.createQuery("from Staff where Department_DepartmentID="+source).scroll();
+		int count=0;
+		while(staffs.next()){
+			Staff staff=(Staff) staffs.get(0);
+			staff.setDepartment(department);
+			if(count%10==0){
+				session.flush();
+				session.clear();
+				transaction.commit();
+				transaction=session.beginTransaction();
+			}
+			count++;
+		}
+		transaction.commit();
+		session.close();
 	}
 }

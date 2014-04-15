@@ -13,16 +13,6 @@ Ext.require([
 	Ext.onReady(function(){
     Ext.QuickTips.init();
 
-    
-//    //定义员工数据类型，作为下拉列表框
-//    Ext.define('staffForSelector', {
-//        extend: 'Ext.data.Model',
-//        fields:[
-//        	{name:'staffId'},
-//        	{name:'staffName'}
-//    	]
-//	});
-	
  	//定义支出方式数据源
     var payWay=new Ext.data.Store({
     	autoLoad: true,
@@ -124,31 +114,6 @@ Ext.require([
 	        {'id':'4','name':'其它'}
         ]
     });
-
-//    Ext.define('personalCost', {
-//        extend: 'Ext.data.Model',
-//        fields: [
-//       	    {name: 'costId', type: 'int'},
-//            {name: 'recordDate', type: 'date', dateFormat: 'Y-m-d'},
-//            {name: 'staffId', type: 'int'},
-//            {name: 'staffName',type:'string'},
-//            {name: 'executeDate', type: 'date', dateFormat: 'Y-m-d'},
-//            {name: 'payWay',type:'string'},
-//            {name: 'currency',type:'string'},
-//            {name: 'money',type: 'float'},
-//			{name: 'costCountry',type:'string'},
-//			{name: 'costProvince',type:'string'},
-//			{name: 'costAddress',type:'string'},
-//			{name: 'costUnitName',type:'string'},
-//			{name: 'costContactName',type:'string'},
-//			{name: 'costContactPosition',type:'string'},
-//			{name: 'costContactPhone',type:'string'},
-//			{name: 'costContactEmail',type:'string'},
-//			{name: 'usage1',type:'string'},
-//			{name: 'description1',type:'string'},
-//			{name: 'departmentId',type:'int'}
-//         ]
-//    });
 
      //定义费用数据源，作为表格数据源
     var personalCostStore = Ext.create('Ext.data.Store', {
@@ -259,11 +224,6 @@ Ext.require([
 					success : function(response,o) {
 						// 处理返回信息
 						var result=Ext.JSON.decode(response.responseText);
-//						if (result.success) {
-//							window.top.location = result.msg;
-//						} else {
-//							top.Ext.Msg.show({title:'提示', msg:'用户名或密码错误！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});							
-//						}
 						
 						Ext.getCmp("allCout").setValue(result);
 					},
@@ -272,15 +232,7 @@ Ext.require([
 						Ext.example.msg('登录失败','网络故障');
 					}
 				});
-            		//console.info(grid.getStore().getAt(0).getData());
-            		//alert(personalCostStore.getCount());
-//            		var cout=0;
-//            		for(var i=0;i<grid.getStore().getCount();i++)
-//            		{
-//            			if(parseInt(grid.getStore().getAt(i).getData().currency)==1)
-//						cout+=parseInt(grid.getStore().getAt(i).getData().money);
-//            		}
-//            		Ext.getCmp("allCout").setValue(cout);
+
             	}}
             },{xtype:'textfield',readOnly:true,width:100,id:"allCout"},'-','->',
             {xtype:'button',text:'新建',iconCls: 'cost_add',handler : addCostInfo},
@@ -310,48 +262,18 @@ Ext.require([
             {text: "记录编号", width: 120, sortable: true, dataIndex: 'costId',hidden:true},
             {text: "记录时间", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('Y-m-d'),dataIndex: 'recordDate'},
             {text: "支出日期", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('Y-m-d'), dataIndex: 'executeDate'},
-            {text: "支出方式", width: 120, sortable: true, dataIndex: 'payWay'
-//            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-//            		var index=payWay.find('id',value);
-//            		var record=payWay.getAt(index);
-//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-//            	}
-            	},
-            {text: "币种", width: 120, sortable: true, dataIndex: 'currency'
-//            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-//            		var index=currency.find('id',value);
-//            		var record=currency.getAt(index);
-//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-//            	}
-            	},
+            {text: "支出方式", width: 120, sortable: true, dataIndex: 'payWay'},
+            {text: "币种", width: 120, sortable: true, dataIndex: 'currency'},
             {text: "支出金额", width: 120, sortable: true,format: '$0,0', dataIndex: 'money'},
-			{text: "国家", width: 120, sortable: true, dataIndex: 'costCountry'
-//            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-//            		var index=costCountry.find('id',value);
-//            		var record=costCountry.getAt(index);
-//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-//            	}
-            	},
-			{text: "省市", width: 120, sortable: true, dataIndex: 'costProvince',hidden:true
-//            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-//            		var index=costProvince.find('id',value);
-//            		var record=costProvince.getAt(index);
-//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-//            	}
-            	},
+			{text: "国家", width: 120, sortable: true, dataIndex: 'costCountry'},
+			{text: "省市", width: 120, sortable: true, dataIndex: 'costProvince',hidden:true},
 			{text: "详细地址", width: 120, sortable: true, dataIndex: 'costAddress',hidden:true},
 			{text: "相关单位名称", width: 120, sortable: true, dataIndex: 'costUnitName'},
 			{text: "联系人姓名", width: 120, sortable: true, dataIndex: 'costContactName'},
 			{text: "联系人职务", width: 120, sortable: true, dataIndex: 'costContactPosition',hidden:true},
 			{text: "联系人电话", width: 120, sortable: true, dataIndex: 'costContactPhone',hidden:true},
 			{text: "联系人邮箱", width: 120, sortable: true, dataIndex: 'costContactEmail',hidden:true},
-			{text: "用途", width: 120, sortable: true, dataIndex: 'usage1',hidden:true
-//            		renderer:function(value){//根据当前单元格的值，调用相应的store，并显示displayField；
-//                   		var index=usage1.find('id',value);
-//            		var record=usage1.getAt(index);
-//            		return getText(record);//当combo的数据源为本地时，才能调用getText方法，并且数据源store只能有两个字段（id、name）
-//            	}
-            	},
+			{text: "用途", width: 120, sortable: true, dataIndex: 'usage1',hidden:true},
 			{text: "描述", flex:1, sortable: true, dataIndex: 'description1'}
         ], 
         bbar:new Ext.PagingToolbar({
