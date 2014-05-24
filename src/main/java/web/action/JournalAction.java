@@ -318,7 +318,6 @@ public class JournalAction extends BaseAction {
 		int total;
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		Staff tempStaff = (Staff) session.getAttribute("staff");
-//		int tempStaffId = tempStaff.getStaffId();
 		String roleName = tempStaff.getRole().getRoleName();
 		StringBuffer sql = null;
 
@@ -355,7 +354,7 @@ public class JournalAction extends BaseAction {
 		}
 		// 如果是管理员或者财务部员工或者财务部经理
 		if (roleName.equals("管理员") || roleName.equals("行政人事员工")
-				|| roleName.equals("行政人事部经理")) {
+				|| roleName.equals("行政人事部经理")||roleName.equals("总经理")) {
 			sql = new StringBuffer("from Journal where 1=1");
 			if (query != null) {
 				if (startDate != null && endDate != null) {
