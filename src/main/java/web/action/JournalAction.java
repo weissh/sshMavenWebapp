@@ -66,7 +66,10 @@ public class JournalAction extends BaseAction {
 		this.fileName = fileName;
 	}
 
-	/** 前端表单的所有字段，以及get和set方法 */
+	/** 
+	 * 普通员工
+	 * 前端表单的所有字段，以及get和set方法 
+	 * */
 	private int workId;
 	private String workIds;
 	private int staffId;
@@ -95,6 +98,8 @@ public class JournalAction extends BaseAction {
 	private String endTime;
 	private String workContent;
 
+	
+	
 	public int getWorkId() {
 		return workId;
 	}
@@ -311,6 +316,7 @@ public class JournalAction extends BaseAction {
 		this.workContent = workContent;
 	}
 
+	
 	// 获取日志信息列表
 	public String getAllJour() {
 		int page = start / limit + 1;
@@ -613,4 +619,5 @@ public class JournalAction extends BaseAction {
 		this.excelStream = ServletActionContext.getServletContext()
 				.getResourceAsStream("excel/" + fileName);
 	}
+
 }

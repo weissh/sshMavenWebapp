@@ -113,31 +113,6 @@
     });
 
 	
-//	//定义费用数据类型
-//    Ext.define('departmentCost', {
-//        extend: 'Ext.data.Model',
-//        fields: [
-//        	{name: 'costId', type: 'int'},
-//            {name: 'recordDate', type: 'date', dateFormat: 'Y-m-d'},
-//            {name: 'staffId', type: 'int'},
-//            {name: 'staffName',type:'string'},
-//            {name: 'executeDate', type: 'date', dateFormat: 'Y-m-d'},
-//            {name: 'payWay',type:'string'},
-//            {name: 'currency',type:'string'},
-//            {name: 'money',type: 'float'},
-//			{name: 'costCountry',type:'string'},
-//			{name: 'costProvince',type:'string'},
-//			{name: 'costAddress',type:'string'},
-//			{name: 'costUnitName',type:'string'},
-//			{name: 'costContactName',type:'string'},
-//			{name: 'costContactPosition',type:'string'},
-//			{name: 'costContactPhone',type:'string'},
-//			{name: 'costContactEmail',type:'string'},
-//			{name: 'usage1',type:'string'},
-//			{name: 'description1',type:'string'}		
-//         ]
-//    });
-    
     Ext.define('cost', {
         extend: 'Ext.data.Model',
         fields: [
@@ -190,6 +165,34 @@
 	        {name:'workContent',type:'string'}		
          ]
 	})
+
+    // 定义表格的填充模型report
+    Ext.define('report',{
+        extend: 'Ext.data.Model',
+        fields: [
+            {name:'reportId',type:'int'},
+            {name:'staffId',type:'int'},
+            {name:'staffName',type:'string'},
+            {name:'departmentId',type:'int'},
+            {name:'departmentName'},
+            {name:'visitDate',type:'date',dateFormat:'Y-m-d'},
+            {name:'visitPlace',type:'string'},
+            {name:'visitAim',type:'string'},
+            {name:'projectNo',type:'int'},
+            {name:'recordDate',type:'date',dateFormat:'Y-m-d'},
+            {name:'customer',type:'string'},
+            {name:'phone',type:'int'},
+            {name:'email',type:'string'},
+            {name:'company',type:'string'},
+            {name:'ticket',type:'int'},
+            {name:'accommodation',type:'int'},
+            {name:'transportation',type:'int'},
+            {name:'meals',type:'int'},
+            {name:'subsidy',type:'int'},
+            {name:'sum',type:'int'},
+            {name:'number',type:'int'}
+         ]
+    })
 	
      //定义部门数据类型
     Ext.define('department',{

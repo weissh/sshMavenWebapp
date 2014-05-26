@@ -126,5 +126,11 @@
             </key>
             <one-to-many class="pojos.Journal" />
         </set>
+        <set name="reports" inverse="true">
+            <key>
+                <column name="Staff_StaffID" not-null="true" />
+            </key>
+            <one-to-many class="pojos.VisitReport" />
+        </set>
     </class>
 </hibernate-mapping>

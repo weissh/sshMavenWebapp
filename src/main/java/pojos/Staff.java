@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javassist.expr.NewArray;
+
 /**
  * Staff entity. @author MyEclipse Persistence Tools
  */
@@ -48,7 +50,8 @@ public class Staff implements java.io.Serializable {
 //	private Set<Role> roles = new HashSet<Role>(0);
 	private Role role;
 	private Set<Journal> journals = new HashSet<Journal>(0);
-
+	private Set<VisitReport> reports = new HashSet<VisitReport>(0);
+ 
 	// Constructors
 
 	/** default constructor */
@@ -471,6 +474,14 @@ public class Staff implements java.io.Serializable {
 
 	public void setJournals(Set<Journal> journals) {
 		this.journals = journals;
+	}
+
+	public Set<VisitReport> getReports() {
+		return reports;
+	}
+
+	public void setReports(Set<VisitReport> reports) {
+		this.reports = reports;
 	}
 
 }

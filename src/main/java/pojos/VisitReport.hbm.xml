@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="pojos.VisitReport" table="visitreport" catalog="byjx">
+        <id name="reportId" type="java.lang.Integer">
+            <column name="ReportID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="staff" class="pojos.Staff" fetch="select">
+            <column name="Staff_StaffID" not-null="true" />
+        </many-to-one>
+        <property name="visitDate" type="java.util.Date">
+            <column name="VisitDate" length="10" />
+        </property>
+        <property name="visitPlace" type="java.lang.String">
+            <column name="VisitPlace" length="500" />
+        </property>
+        <property name="visitAim" type="java.lang.String">
+            <column name="VisitAim" length="500" />
+        </property>
+        <property name="projectNo" type="java.lang.Integer">
+            <column name="ProjectNo" length="11" />
+        </property>
+        <property name="recordDate" type="java.util.Date">
+            <column name="RecordDate" length="10" />
+        </property>
+        <property name="customer" type="java.lang.String">
+            <column name="Customer" length="50" />
+        </property>
+        <property name="phone" type="java.lang.Integer">
+            <column name="Phone" length="20" />
+        </property>
+        <property name="email" type="java.lang.String">
+            <column name="Email" length="100" />
+        </property>
+        <property name="company" type="java.lang.String">
+            <column name="Company" length="200" />
+        </property>
+        <property name="ticket" type="java.lang.Integer">
+            <column name="Ticket" length="8" />
+        </property>
+        <property name="accommodation" type="java.lang.Integer">
+            <column name="Accommodation" length="8" />
+        </property>
+        <property name="transportation" type="java.lang.Integer">
+            <column name="Transportation" length="8" />
+        </property>
+        <property name="meals" type="java.lang.Integer">
+            <column name="Meals" length="8" />
+        </property>
+        <property name="subsidy" type="java.lang.Integer">
+            <column name="Subsidy" length="8" />
+        </property>
+        <property name="sum" type="java.lang.Integer">
+            <column name="Sum" length="8" />
+        </property>
+        <property name="number" type="java.lang.Integer">
+            <column name="Number" length="8" />
+        </property>
+    </class>
+</hibernate-mapping>

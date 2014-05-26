@@ -202,34 +202,6 @@ Ext.onReady(function () {
             allowBlank:false,
             blankText:'不允许为空'
         },
-//        	{
-//        	xtype:'combo',
-//        	fieldLabel : '优先等级',
-//			name : 'priority',
-//        	store:priority,
-//        	valueField:'id',
-//        	displayField:'name',
-//            allowBlank:false,
-//            blankText:'不允许为空'
-//        },{
-//        	xtype:'combo',
-//        	fieldLabel : '是否可用',
-//			name : 'enabled',
-//        	store:enabled,
-//        	valueField:'id',
-//        	displayField:'name',
-//            allowBlank:false,
-//            blankText:'不允许为空'
-//        },{
-//        	xtype:'combo',
-//        	fieldLabel : '是否超级',
-//			name : 'isSuper',
-//        	store:isSuper,
-//        	valueField:'id',
-//        	displayField:'name',
-//            allowBlank:false,
-//            blankText:'不允许为空'
-//        },
         {
         	xtype : 'textarea',
 			fieldLabel : '资源描述',

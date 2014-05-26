@@ -78,6 +78,7 @@
  				<value>pojos/Role.hbm.xml</value>
  				<value>pojos/Resource.hbm.xml</value>
  				<value>pojos/Right.hbm.xml</value>
+ 				<value>pojos/VisitReport.hbm.xml</value>
 			</list>
 		</property>
 		<property name="eventListeners">
@@ -152,6 +153,11 @@
 	<bean id="resourceDao" class="dao.hibernate.ResourceDaoHib ">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
+	
+	<!-- 配置visitReportDaoHib -->
+	<bean id="visitReportDao" class="dao.hibernate.VisitReportDaoHib ">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
 	<!-- 配置所有的**DaoHib 作者：cai ——end -->
 	
 	
@@ -199,6 +205,12 @@
 		<property name="genericDao" ref="resourceDao"/>
 		<property name="resourceDao" ref="resourceDao"/>
 	</bean>
+	
+	<!-- 配置visitReportService -->
+	<bean id="visitReportService" class="service.impl.VisitReportServiceImpl">
+		<property name="genericDao" ref="visitReportDao"/>
+		<property name="visitReportDao" ref="visitReportDao"/>
+	</bean>
 	<!-- 配置所有的**Service 作者：cai ——end -->
 	
 	
@@ -235,6 +247,11 @@
 	<!-- 配置resourceServiceDaoProxy -->
 	<bean id="resourceServiceDaoProxy" parent="transactionBase">
 		<property name="target" ref="resourceService"/>
+	</bean>
+	
+	<!-- 配置visitReportServiceDaoProxy -->
+	<bean id="visitReportServiceDaoProxy" parent="transactionBase">
+		<property name="target" ref="visitReportService"/>
 	</bean>
 	<!-- 配置所有的**ServiceDaoProxy 作者：cai ——end -->
 	
@@ -279,6 +296,12 @@
 	<bean id="resourceAction" class="web.action.ResourceAction" scope="prototype">
 		<property name="resourceService" ref="resourceServiceDaoProxy"/>
 		<property name="rightService" ref="rightServiceDaoProxy"/>
+	</bean>
+	
+	<!-- 配置visitReportAction -->
+	<bean id="visitReportAction" class="web.action.VisitReportAction" scope="prototype">
+		<property name="visitReportService" ref="visitReportServiceDaoProxy"/>
+		<property name="staffService" ref="staffServiceDaoProxy"/>
 	</bean>
 	<!-- 配置所有的**Action 作者：cai ——end -->
 	
