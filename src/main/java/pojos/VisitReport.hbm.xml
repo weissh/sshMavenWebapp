@@ -28,7 +28,7 @@
         <property name="customer" type="java.lang.String">
             <column name="Customer" length="50" />
         </property>
-        <property name="phone" type="java.lang.Integer">
+        <property name="phone" type="java.lang.String">
             <column name="Phone" length="20" />
         </property>
         <property name="email" type="java.lang.String">
@@ -57,6 +57,30 @@
         </property>
         <property name="number" type="java.lang.Integer">
             <column name="Number" length="8" />
+        </property>
+        <property name="desc1" type="java.lang.String">
+            <column name="Desc1" length="1000" />
+        </property>
+        <property name="abstract1" type="java.lang.String">
+            <column name="Abstract1" length="1000" />
+        </property>
+        <property name="desc2" type="java.lang.String">
+            <column name="Desc2" length="1000" />
+        </property>
+        <property name="abstract2" type="java.lang.String">
+            <column name="Abstract2" length="1000" />
+        </property>
+        <property name="desc3" type="java.lang.String">
+            <column name="Desc3" length="1000" />
+        </property>
+        <property name="abstract3" type="java.lang.String">
+            <column name="Abstract3" length="1000" />
+        </property>
+        <property name="desc4" type="java.lang.String">
+            <column name="Desc4" length="1000" />
+        </property>
+        <property name="abstract4" type="java.lang.String">
+            <column name="Abstract4" length="1000" />
         </property>
     </class>
 </hibernate-mapping>

@@ -18,4 +18,5 @@ import pojos.VisitReport;
 
 public interface VisitReportService extends GenericService<VisitReport>{
 
+	public int saveByManager(Integer staffId, VisitReport report);
 }

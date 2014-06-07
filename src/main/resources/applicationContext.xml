@@ -210,6 +210,7 @@
 	<bean id="visitReportService" class="service.impl.VisitReportServiceImpl">
 		<property name="genericDao" ref="visitReportDao"/>
 		<property name="visitReportDao" ref="visitReportDao"/>
+		<property name="staffDao" ref="staffDao"/>
 	</bean>
 	<!-- 配置所有的**Service 作者：cai ——end -->
 	

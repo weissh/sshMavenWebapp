@@ -1,6 +1,8 @@
 package web.action;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +24,8 @@ import common.ExcelUtil;
 public class DepartmentAction extends BaseAction {
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
 	/** 获取department服务、以及get和set方法  */
 	private DepartmentService departmentService;
@@ -57,20 +61,22 @@ public class DepartmentAction extends BaseAction {
 
 	/** 获取前端表单所有字段  */
 	private String departmentIds;
-	private int departmentId;
-	private int managerId;
+	private Integer departmentId;
+	private Integer managerId;
 	private String managerName;
-	private int totalStaff;
+	private Integer totalStaff;
 	private String departmentName;
 	private Date createTime;
 	private String description;
 	private String query;
-	private int start;
-	private int limit;
-	private int sourceDept;
-	private int targetDept;
+	private Integer start;
+	private Integer limit;
+	private Integer sourceDept;
+	private Integer targetDept;
 
 	/** 前端表单所有字段的get和set方法  */
+	
+	
 	public String getDepartmentIds() {
 		return departmentIds;
 	}
@@ -78,20 +84,20 @@ public class DepartmentAction extends BaseAction {
 	public void setDepartmentIds(String departmentIds) {
 		this.departmentIds = departmentIds;
 	}
-	
-	public int getDepartmentId() {
+
+	public Integer getDepartmentId() {
 		return departmentId;
 	}
 
-	public void setDepartmentId(int departmentId) {
+	public void setDepartmentId(Integer departmentId) {
 		this.departmentId = departmentId;
 	}
 
-	public int getManagerId() {
+	public Integer getManagerId() {
 		return managerId;
 	}
 
-	public void setManagerId(int managerId) {
+	public void setManagerId(Integer managerId) {
 		this.managerId = managerId;
 	}
 
@@ -103,11 +109,11 @@ public class DepartmentAction extends BaseAction {
 		this.managerName = managerName;
 	}
 
-	public int getTotalStaff() {
+	public Integer getTotalStaff() {
 		return totalStaff;
 	}
 
-	public void setTotalStaff(int totalStaff) {
+	public void setTotalStaff(Integer totalStaff) {
 		this.totalStaff = totalStaff;
 	}
 
@@ -123,8 +129,8 @@ public class DepartmentAction extends BaseAction {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+	public void setCreateTime(String createTime) throws ParseException {
+		this.createTime = df.parse(createTime);
 	}
 
 	public String getDescription() {
@@ -134,37 +140,47 @@ public class DepartmentAction extends BaseAction {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getStart() {
-		return start;
-	}
-	public void setStart(int start) {
-		this.start = start;
-	}
-	public int getLimit() {
-		return limit;
-	}
-	public void setLimit(int limit) {
-		this.limit = limit;
-	}
-	public int getSourceDept() {
-		return sourceDept;
-	}
-	public void setSourceDept(int sourceDept) {
-		this.sourceDept = sourceDept;
-	}
-	public int getTargetDept() {
-		return targetDept;
-	}
-	public void setTargetDept(int targetDept) {
-		this.targetDept = targetDept;
-	}
+
 	public String getQuery() {
 		return query;
 	}
+
 	public void setQuery(String query) {
 		this.query = query;
 	}
-	
+
+	public Integer getStart() {
+		return start;
+	}
+
+	public void setStart(Integer start) {
+		this.start = start;
+	}
+
+	public Integer getLimit() {
+		return limit;
+	}
+
+	public void setLimit(Integer limit) {
+		this.limit = limit;
+	}
+
+	public Integer getSourceDept() {
+		return sourceDept;
+	}
+
+	public void setSourceDept(Integer sourceDept) {
+		this.sourceDept = sourceDept;
+	}
+
+	public Integer getTargetDept() {
+		return targetDept;
+	}
+
+	public void setTargetDept(Integer targetDept) {
+		this.targetDept = targetDept;
+	}
+
 	/**
 	 *
 	 * @Description:新增部门

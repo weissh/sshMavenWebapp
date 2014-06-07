@@ -14,6 +14,7 @@
  */
 package web.action;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,6 +41,8 @@ import common.ExcelUtil;
 public class CostAction extends BaseAction{
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
 	/** 获取对费用进行增、改、查操作所需要的服务 */
 	private DepartmentService departmentService;
@@ -47,12 +50,12 @@ public class CostAction extends BaseAction{
 	private CostService costService;
 	
 	/**前端表单的所有字段 */
-	private int departmentId;
-	private int costId;
+	private Integer departmentId;
+	private Integer costId;
 	private String costIds;
 	private Integer staffId;
-	private int start;
-	private int limit;
+	private Integer start;
+	private Integer limit;
 	private String query;
 	private Date startDate;
 	private Date endDate;
@@ -60,7 +63,7 @@ public class CostAction extends BaseAction{
 	private Date executeDate;
 	private String payWay;
 	private String currency;
-	private float money;
+	private Float money;
 	private String costCountry;	
 	private String costProvince;	
 	private String costAddress;	
@@ -115,22 +118,24 @@ public class CostAction extends BaseAction{
 	
 	/**前端表单所有字段的get和set方法 */
 
-	public int getDepartmentId() {
+	
+	public Integer getDepartmentId() {
 		return departmentId;
 	}
-
-	public void setDepartmentId(int departmentId) {
+	public void setDepartmentId(Integer departmentId) {
 		this.departmentId = departmentId;
 	}
-	
+	public Integer getCostId() {
+		return costId;
+	}
+	public void setCostId(Integer costId) {
+		this.costId = costId;
+	}
 	public String getCostIds() {
 		return costIds;
 	}
-	public int getCostId() {
-		return costId;
-	}
-	public void setCostId(int costId) {
-		this.costId = costId;
+	public void setCostIds(String costIds) {
+		this.costIds = costIds;
 	}
 	public Integer getStaffId() {
 		return staffId;
@@ -138,26 +143,16 @@ public class CostAction extends BaseAction{
 	public void setStaffId(Integer staffId) {
 		this.staffId = staffId;
 	}
-	public String getCostProvince() {
-		return costProvince;
-	}
-	public void setCostProvince(String costProvince) {
-		this.costProvince = costProvince;
-	}
-	public void setCostIds(String costIds) {
-		this.costIds = costIds;
-	}
-
-	public int getStart() {
+	public Integer getStart() {
 		return start;
 	}
-	public void setStart(int start) {
+	public void setStart(Integer start) {
 		this.start = start;
 	}
-	public int getLimit() {
+	public Integer getLimit() {
 		return limit;
 	}
-	public void setLimit(int limit) {
+	public void setLimit(Integer limit) {
 		this.limit = limit;
 	}
 	public String getQuery() {
@@ -169,26 +164,20 @@ public class CostAction extends BaseAction{
 	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setStartDate(String startDate) throws ParseException {
+		this.startDate = df.parse(startDate);
 	}
 	public Date getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setEndDate(String endDate) throws ParseException {
+		this.endDate = df.parse(endDate);
 	}
-//	public Date getRecordDate() {
-//		return recordDate;
-//	}
-//	public void setRecordDate(Date recordDate) {
-//		this.recordDate = recordDate;
-//	}
 	public Date getExecuteDate() {
 		return executeDate;
 	}
-	public void setExecuteDate(Date executeDate) {
-		this.executeDate = executeDate;
+	public void setExecuteDate(String executeDate) throws ParseException {
+		this.executeDate = df.parse(executeDate);
 	}
 	public String getPayWay() {
 		return payWay;
@@ -205,7 +194,7 @@ public class CostAction extends BaseAction{
 	public float getMoney() {
 		return money;
 	}
-	public void setMoney(float money) {
+	public void setMoney(Float money) {
 		this.money = money;
 	}
 	public String getCostCountry() {
@@ -214,7 +203,12 @@ public class CostAction extends BaseAction{
 	public void setCostCountry(String costCountry) {
 		this.costCountry = costCountry;
 	}
-
+	public String getCostProvince() {
+		return costProvince;
+	}
+	public void setCostProvince(String costProvince) {
+		this.costProvince = costProvince;
+	}
 	public String getCostAddress() {
 		return costAddress;
 	}
@@ -234,7 +228,7 @@ public class CostAction extends BaseAction{
 		this.costContactName = costContactName;
 	}
 	public String getCostContactPosition() {
-		return costContactPosition;  
+		return costContactPosition;
 	}
 	public void setCostContactPosition(String costContactPosition) {
 		this.costContactPosition = costContactPosition;

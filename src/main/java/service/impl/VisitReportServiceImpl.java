@@ -14,13 +14,16 @@
  */
 package service.impl;
 
+import dao.StaffDao;
 import dao.VisitReportDao;
+import pojos.Staff;
 import pojos.VisitReport;
 import service.VisitReportService;
 
 public class VisitReportServiceImpl extends GenericServiceImpl<VisitReport> implements VisitReportService{
 
 	private VisitReportDao visitReportDao;
+	private StaffDao staffDao;
 
 	public VisitReportDao getVisitReportDao() {
 		return visitReportDao;
@@ -28,6 +31,22 @@ public class VisitReportServiceImpl extends GenericServiceImpl<VisitReport> impl
 
 	public void setVisitReportDao(VisitReportDao visitReportDao) {
 		this.visitReportDao = visitReportDao;
+	}
+
+	public StaffDao getStaffDao() {
+		return staffDao;
+	}
+
+	public void setStaffDao(StaffDao staffDao) {
+		this.staffDao = staffDao;
+	}
+
+	@Override
+	public int saveByManager(Integer staffId, VisitReport report) {
+		Staff staff = this.staffDao.find(staffId);
+		report.setStaff(staff);
+		int reportId = visitReportDao.save(report);
+		return reportId;
 	}
 
 }

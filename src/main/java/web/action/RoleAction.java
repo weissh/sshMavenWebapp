@@ -24,7 +24,7 @@ import service.RoleService;
 
 public class RoleAction extends BaseAction{
 	private RoleService roleService;
-	private int roleId;
+	private Integer roleId;
 	private String roleIds;
 	private String roleName;
 	private String roleDesc;
@@ -42,7 +42,7 @@ public class RoleAction extends BaseAction{
 		return roleId;
 	}
 
-	public void setRoleId(int roleId) {
+	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
 	}
 

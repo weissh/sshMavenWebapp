@@ -19,6 +19,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +49,8 @@ import common.ExcelUtil;
 public class StaffAction extends BaseAction{
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
 	/** 获取对员工进行增、改、查操作所需要的服务 */
 	private StaffService staffService;
@@ -56,24 +60,24 @@ public class StaffAction extends BaseAction{
 	
 	/**前端表单的所有字段 */
 	private String staffIds;
-	private int staffId;
-	private int start;
-	private int limit;
+	private Integer staffId;
+	private Integer start;
+	private Integer limit;
 	private String query;
 	private String photo;
 	private String photoPath;
 	private File photoImg;
 	private String photoImgFileName;
 	private String staffName;
-	private int departmentId;
+	private Integer departmentId;
 	private Date entryTime;
 	private String position;
 	private String phone;
-	private int roleId;
+	private Integer roleId;
 	private String userName;
 	private String password;
 	private String gender;
-	private int age;
+	private Integer age;
 	private Date birthday;
 	private String nationality;
 	private String politicalStatus;
@@ -126,6 +130,7 @@ public class StaffAction extends BaseAction{
 	public void setRightService(RightService rightService) {
 		this.rightService = rightService;
 	}
+	
 	/**前端表单所有字段的get和set方法 */
 	public String getStaffIds() {
 		return staffIds;
@@ -133,22 +138,22 @@ public class StaffAction extends BaseAction{
 	public void setStaffIds(String staffIds) {
 		this.staffIds = staffIds;
 	}
-	public int getStaffId() {
+	public Integer getStaffId() {
 		return staffId;
 	}
-	public void setStaffId(int staffId) {
+	public void setStaffId(Integer staffId) {
 		this.staffId = staffId;
 	}
-	public int getStart() {
+	public Integer getStart() {
 		return start;
 	}
-	public void setStart(int start) {
+	public void setStart(Integer start) {
 		this.start = start;
 	}
-	public int getLimit() {
+	public Integer getLimit() {
 		return limit;
 	}
-	public void setLimit(int limit) {
+	public void setLimit(Integer limit) {
 		this.limit = limit;
 	}
 	public String getQuery() {
@@ -181,23 +186,23 @@ public class StaffAction extends BaseAction{
 	public void setPhotoImgFileName(String photoImgFileName) {
 		this.photoImgFileName = photoImgFileName;
 	}
-	public String getStaffName(){
+	public String getStaffName() {
 		return staffName;
 	}
 	public void setStaffName(String staffName) {
 		this.staffName = staffName;
 	}
-	public int getDepartmentId() {
+	public Integer getDepartmentId() {
 		return departmentId;
 	}
-	public void setDepartmentId(int departmentId) {
+	public void setDepartmentId(Integer departmentId) {
 		this.departmentId = departmentId;
 	}
 	public Date getEntryTime() {
 		return entryTime;
 	}
-	public void setEntryTime(Date entryTime) {
-		this.entryTime = entryTime;
+	public void setEntryTime(String entryTime) throws ParseException {
+		this.entryTime = df.parse(entryTime);
 	}
 	public String getPosition() {
 		return position;
@@ -211,10 +216,10 @@ public class StaffAction extends BaseAction{
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public int getRoleId() {
+	public Integer getRoleId() {
 		return roleId;
 	}
-	public void setRoleId(int roleId) {
+	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
 	}
 	public String getUserName() {
@@ -235,17 +240,17 @@ public class StaffAction extends BaseAction{
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public int getAge() {
+	public Integer getAge() {
 		return age;
 	}
-	public void setAge(int age) {
+	public void setAge(Integer age) {
 		this.age = age;
 	}
 	public Date getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
+	public void setBirthday(String birthday) throws ParseException {
+		this.birthday = df.parse(birthday);
 	}
 	public String getNationality() {
 		return nationality;
@@ -292,8 +297,8 @@ public class StaffAction extends BaseAction{
 	public Date getDateOfRecruitment() {
 		return dateOfRecruitment;
 	}
-	public void setDateOfRecruitment(Date dateOfRecruitment) {
-		this.dateOfRecruitment = dateOfRecruitment;
+	public void setDateOfRecruitment(String dateOfRecruitment) throws ParseException {
+		this.dateOfRecruitment = df.parse(dateOfRecruitment);
 	}
 	public String getHightestEdu() {
 		return hightestEdu;
@@ -356,6 +361,7 @@ public class StaffAction extends BaseAction{
 		this.zipCode = zipCode;
 	}
 	
+	
 	public InputStream getExcelStream() {
 		return ServletActionContext.getServletContext().getResourceAsStream("excel/"+this.fileName);
 	}
@@ -408,16 +414,15 @@ public class StaffAction extends BaseAction{
 	 */
 	public String addStaff() throws Exception{
 		Department department =this.departmentService.find(departmentId);
-		if((department.getManagerId()!=null&&department.getManagerId()!=0)&&position.equals("部门经理")){
-			this.printString(false, "该部门已存在部门经理！");
-		}else{
-			Role role =this.roleService.find(roleId);
-			Staff staff=new Staff(department, null, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password, null, role, null);
-			savePhoto(staff);
-			int staffId=this.staffService.save(staff);
-			this.printString(true, staffId+"");
-		}
-		
+//		if((department.getManagerId()!=null&&department.getManagerId()!=0)&&position.equals("部门经理")){
+//			this.printString(false, "该部门已存在部门经理！");
+//		}else{
+		Role role =this.roleService.find(roleId);
+		Staff staff=new Staff(department, null, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password, null, role, null);
+		savePhoto(staff);
+		int staffId=this.staffService.save(staff);
+		this.printString(true, staffId+"");
+//		}
 		return null;
 	}
 	
@@ -477,20 +482,20 @@ public class StaffAction extends BaseAction{
 	 */
 	public String updateStaff() throws Exception{
 		Department department =this.departmentService.find(departmentId);
-		if(department.getManagerId()!=null&&department.getManagerId()!=staffId&&department.getManagerId()!=0&&position.equals("部门经理")){
-			this.printString(false, "该部门已存在部门经理！");
-		}else{
-			Role role =this.roleService.find(roleId);
-			Staff staff=new Staff(department, photoPath,staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password);
-			staff.setStaffId(staffId);
-			if(photoImg!=null){
-				savePhoto(staff);
-			}
-			staff.setRole(role);
-			/**将对象从瞬时状态改成脱管状态（merge），之后再更新（update）*/
-			this.staffService.update(staff);
-			this.printString(true, staffId+"");
+//		if(department.getManagerId()!=null&&department.getManagerId()!=staffId&&department.getManagerId()!=0&&position.equals("部门经理")){
+//			this.printString(false, "该部门已存在部门经理！");
+//		}else{
+		Role role =this.roleService.find(roleId);
+		Staff staff=new Staff(department, photoPath,staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password);
+		staff.setStaffId(staffId);
+		if(photoImg!=null){
+			savePhoto(staff);
 		}
+		staff.setRole(role);
+		/**将对象从瞬时状态改成脱管状态（merge），之后再更新（update）*/
+		this.staffService.update(staff);
+		this.printString(true, staffId+"");
+//		}
 		return null;
 	}
 	
@@ -636,7 +641,7 @@ public class StaffAction extends BaseAction{
 		int departId=depart.getDepartmentId();
 		pojos.Role role= staff.getRole();
 		String rol = role.getRoleName();
-		if (departmentId==0) {
+		if (departmentId==null || departmentId == 0) {
 			if(rol.equals("管理员")){
 				staffs=this.staffService.findAll();
 				}

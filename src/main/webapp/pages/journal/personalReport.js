@@ -18,12 +18,12 @@ Ext.onReady(function() {
 	Ext.tip.QuickTipManager.init();  
 
 	// 定义表格的填充数据
-	 var reportStore = Ext.create('Ext.data.Store', {
+	var reportStore = Ext.create('Ext.data.Store', {
         model: 'report',
         pageSize:20,
         proxy:{
         	type:'ajax',
-        	url:'jour_getAllReport.action',
+        	url:'report_getAllPer.action',
         	reader:{
         		type:'json',
         		root:'infoList',
@@ -33,7 +33,7 @@ Ext.onReady(function() {
         }
     });
     // 日志表格数据源载入，默认为第一页前20条记录，当点击下一页（第二页）时参数自动改变为{start:20,limit:20}，store的pagesize为20时
-    // reportStore.load({url:'jour_getAllReport.action',params:{start:0,limit:20}});
+    reportStore.load({url:'report_getAllPer.action',params:{start:0,limit:20}});
 
     // 添加日期控件的验证，保证结束日期在开始时期之后
     Ext.apply(Ext.form.field.VTypes, {
@@ -111,7 +111,7 @@ Ext.onReady(function() {
 			
 			}},'-','->',
 			{xtype:'button',text:'新建',iconCls: 'journal_add',handler : addreport},
-			{xtype:'button',text:'修改',iconCls: 'journal_edit',id:"editt",handler : editreport},
+			{xtype:'button',text:'修改',iconCls: 'journal_edit',id:"edit",handler : editreport},
 			{xtype:'filefield',buttonOnly: true,buttonText:'导入',buttonConfig:{iconCls:'file_in'},hidden:true},
 			{xtype:'button',text:'导出',iconCls:'file_export',handler:exportreport}]
     
@@ -152,7 +152,15 @@ Ext.onReady(function() {
             {text: "餐费", width: 70, sortable: true, align:'center', dataIndex: 'meals'},
             {text: "差补", width: 70, sortable: true, align:'center', dataIndex: 'subsidy'},
             {text: "总计", width: 70, sortable: true, align:'center', dataIndex: 'sum'},
-            {text: "人数", width: 70, sortable: true, align:'center', dataIndex: 'number'}
+            {text: "人数", width: 70, sortable: true, align:'center', dataIndex: 'number'},
+            {width: 70, sortable: true, align:'center', dataIndex: 'desc1', hidden: true},
+            {width: 70, sortable: true, align:'center', dataIndex: 'abstract1', hidden :true},
+            {width: 70, sortable: true, align:'center', dataIndex: 'desc2', hidden: true},
+            {width: 70, sortable: true, align:'center', dataIndex: 'abstract2', hidden :true},
+            {width: 70, sortable: true, align:'center', dataIndex: 'desc3', hidden: true},
+            {width: 70, sortable: true, align:'center', dataIndex: 'abstract3', hidden :true},
+            {width: 70, sortable: true, align:'center', dataIndex: 'desc4', hidden: true},
+            {width: 70, sortable: true, align:'center', dataIndex: 'abstract4', hidden :true},
         ],
 		bbar:new Ext.PagingToolbar({
         	pageSize:20,
@@ -168,378 +176,322 @@ Ext.onReady(function() {
     function enableupdate(){
     	var judge=judgereport();
 		if (judge){
-			Ext.getCmp("editt").setDisabled(false);} 
-		else{Ext.getCmp("editt").setDisabled(true);} 
+			Ext.getCmp("edit").setDisabled(false);} 
+		else{Ext.getCmp("edit").setDisabled(true);} 
 	}	
 
     
 	var form = new top.Ext.FormPanel({
-				width : '100%',
-				height : '100%',
-				overflowY:'auto',
-				bodyStyle: 'background:#dfe9f5',
-				bodyPadding : 10,
-				border : false,
-				defaults : {
-					anchor: '100%',
-					allowBlank : true,
-					blankText : '不允许为空',
-					msgTarget : 'qtip',
-					labelWidth : 80
-				},
-				items : [{
-					xtype:'textfield',
-					name:'reportId',
-					allowBlank : true,
-					hidden:'true'
-				},{
-		            xtype: 'fieldset',
-		            title: '基本信息',
-		            collapsible: false,
-		            defaults: {
-		                border: false,
-		                bodyStyle: 'background:#dfe9f5',
-		                layout: {
-		                    type: 'hbox',
-		                    defaultMargins: {top: 0, right: 5, bottom: 5, left: 0}
-		                }
-		            },
-		            items: [{
-		                defaults: {
-		                    labelWidth:64,
-		                    anchor: '100%',
-		                    xtype:'textfield'
-		                },
-		                items: [{
-		                	width:'50%',
-							xtype : 'textfield',
-							fieldLabel : '项目编号',
-							name:'projectNo'
-						}, {
-		                	width:'50%',
-							xtype : 'datefield',
-							fieldLabel : '填表日期',
-							maxValue : new Date(),
-							mode : 'local',
-							format : 'Y-m-d',
-							name:'recordDate'
-						}]
-			            },{
-		                defaults: {
-		                    labelWidth:64,
-		                    anchor: '100%',
-		                    xtype:'textfield'
-		                },
-		                items: [{
-		                	width:'32%',
-							xtype : 'datefield',
-							fieldLabel : '出差日期',
-							maxValue : new Date(),
-							mode : 'local',
-							format : 'Y-m-d',
-							name:'visitDate'
-						}, {
-		                	width:'68%',
-							xtype : 'textfield',
-							fieldLabel : '出差地点',
-							name:'visitPlace'
-						}]
-		            },{
-		                defaults: {
-		                    labelWidth:64,
-		                    anchor: '100%',
-		                    xtype:'textfield'
-		                },
-		                items: [{
-		                	width:'100%',
-							xtype : 'textfield',
-							fieldLabel : '出差目的',
-							name:'visitAim'
-						}]
-		            },{
-		                defaults: {
-		                    labelWidth:64,
-		                    anchor: '100%',
-		                    xtype:'textfield'
-		                },
-		                items: [ {
-		                	width:'33%',
-							xtype : 'textfield',
-							fieldLabel : '对方联系',
-							name:'customer'
-						}, {
-		                	width:'33%',
-							xtype : 'textfield',
-							fieldLabel : '电话',
-							name:'phone'
-						}, {
-		                	width:'34%',
-							xtype : 'textfield',
-							fieldLabel : '邮箱',
-							name:'email'
-						}]
-		            },{
-		                defaults: {
-		                    labelWidth:64,
-		                    anchor: '100%',
-		                    xtype:'textfield'
-		                },
-		                items: [ {
-		                	width:'33%',
-							xtype : 'textfield',
-							fieldLabel : '报告人',
-							name:'staffName'
-						}, {
-		                	width:'33%',
-							xtype : 'textfield',
-							fieldLabel : '部门',
-							name:'departmentName'
-						}, {
-		                	width:'34%',
-							xtype : 'textfield',
-							fieldLabel : '同行人',
-							name:'company'
-						}]
-		            }]
-		        }, {
-		            xtype: 'fieldset',
-		            title: '出访内容',
-		            collapsible: false,
-		            defaults: {
-		                border: false,
-		                bodyStyle: 'background:#dfe9f5',
-		                layout: {
-		                    type: 'hbox',
-		                    defaultMargins: {top: 0, right: 5, bottom: 5, left: 0}
-		                }
-		            },
-		            items: [{
-		                items: [{
-		                	width:'5%',
-							xtype : 'text',
-							text : '编号',
-							height : 18,
-							style: {
-								align :'center'
-							}
-						},{
-		                	width:'30%',
-							xtype : 'text',
-							text : '处理事项简述',
-							height : 18,
-							style: {
-								align :'center'
-							}
-						},{
-		                	width:'65%',
-							xtype : 'text',
-							text : '总结摘要',
-							height : 18
-						}]
-		            },{
-		                items: [{
-		                	width:'5%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'30%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'65%',
-							xtype : 'textarea',
-							height :50
-						}]
-		            },{
-		                items: [{
-		                	width:'5%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'30%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'65%',
-							xtype : 'textarea',
-							height :50
-						}]
-		            },{
-		                items: [{
-		                	width:'5%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'30%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'65%',
-							xtype : 'textarea',
-							height :50
-						}]
-		            },{
-		                items: [{
-		                	width:'5%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'30%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'65%',
-							xtype : 'textarea',
-							height :50
-						}]
-		            },{
-		                items: [{
-		                	width:'5%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'30%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'65%',
-							xtype : 'textarea',
-							height :50
-						}]
-		            },{
-		                items: [{
-		                	width:'5%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'30%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'65%',
-							xtype : 'textarea',
-							height :50
-						}]
-		            },{
-		                items: [{
-		                	width:'5%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'30%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'65%',
-							xtype : 'textarea',
-							height :50
-						}]
-		            },{
-		                items: [{
-		                	width:'5%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'30%',
-							xtype : 'textarea',
-							height :50
-						},{
-		                	width:'65%',
-							xtype : 'textarea',
-							height :50
-						}]
-		            },{
-		                defaults: {
-		                    labelWidth:64,
-		                    anchor: '100%'
-		                },
-		                items: [{
-		                	width:'100%',
-							xtype : 'htmleditor',
-							fieldLabel : '项目编号',
-							name:'projectNo'
-						}]
-		            }]
-		        }, {
-		            xtype: 'fieldset',
-		            title: '出差费用',
-		            collapsible: false,
-		            defaults: {
-		                border: false,
-		                bodyStyle: 'background:#dfe9f5',
-		                layout: {
-		                    type: 'hbox',
-		                    defaultMargins: {top: 0, right: 5, bottom: 5, left: 0}
-		                }
-		            },
-		            items: [{
-		                defaults: {
-		                    labelWidth:64,
-		                    anchor: '100%',
-		                    xtype:'textfield'
-		                },
-		                items: [{
-		                	width:'33%',
-							xtype : 'textfield',
-							fieldLabel : '车\机票',
-							name:'ticket'
-						}, {
-		                	width:'33%',
-							xtype : 'textfield',
-							fieldLabel : '住宿',
-							name:'accommodation'
-						}, {
-		                	width:'34%',
-							xtype : 'textfield',
-							fieldLabel : '当地交通',
-							name:'transportation'
-						}]
-		            },{
-		                defaults: {
-		                    labelWidth:64,
-		                    anchor: '100%',
-		                    xtype:'textfield'
-		                },
-		                items: [{
-		                	width:'33%',
-							xtype : 'textfield',
-							fieldLabel : '餐费',
-							name:'meals'
-						}, {
-		                	width:'33%',
-							xtype : 'textfield',
-							fieldLabel : '补贴',
-							name:'subsidy'
-						}, {
-		                	width:'34%',
-							xtype : 'textfield',
-							fieldLabel : '人数',
-							name:'number'
-						}]
-		            },{
-		                defaults: {
-		                    labelWidth:64,
-		                    anchor: '100%',
-		                    xtype:'textfield'
-		                },
-		                items: [{
-		                	width:'100%',
-							xtype : 'textfield',
-							fieldLabel : '总计',
-							name:'sum'
-						}]
-		            }]
-		        }],
-				buttons : [{
-					text : '提交',
-					handler:submitForm
+		width : '100%',
+		height : '100%',
+		overflowY:'auto',
+		bodyStyle: 'background:#dfe9f5',
+		bodyPadding : 10,
+		border : false,
+		defaults : {
+			anchor: '100%',
+			allowBlank : true,
+			blankText : '不允许为空',
+			msgTarget : 'qtip',
+			labelWidth : 80
+		},
+		items : [{
+			xtype:'textfield',
+			name:'reportId',
+			value: 0,
+			allowBlank : true,
+			hidden:'true'
+		},{
+            xtype: 'fieldset',
+            title: '基本信息',
+            collapsible: false,
+            defaults: {
+                border: false,
+                bodyStyle: 'background:#dfe9f5',
+                layout: {
+                    type: 'hbox',
+                    defaultMargins: {top: 0, right: 5, bottom: 5, left: 0}
+                }
+            },
+            items: [{
+                defaults: {
+                    labelWidth:64,
+                    anchor: '100%'
+                },
+                items: [{
+                	width:'50%',
+					xtype : 'textfield',
+					fieldLabel : '项目编号',
+					name:'projectNo'
 				}, {
-					text : '取消',
-					handler : function() {
-						win.close();
-					}
+                	width:'50%',
+					xtype : 'datefield',
+					fieldLabel : '填表日期',
+					MaxValue : new Date(),
+					value :new Date(),
+					mode : 'local',
+					format : 'Y-m-d',
+					name:'recordDate'
 				}]
-			});
+	            },{
+                defaults: {
+                    labelWidth:64,
+                    anchor: '100%'
+                },
+                items: [{
+                	width:'32%',
+					xtype : 'datefield',
+					fieldLabel : '出差日期',
+					MaxValue : new Date(),
+					mode : 'local',
+					// allowBlank : false,
+					format : 'Y-m-d',
+					name:'visitDate'
+				}, {
+                	width:'68%',
+					xtype : 'textfield',
+					fieldLabel : '出差地点',
+					name:'visitPlace'
+				}]
+            },{
+                defaults: {
+                    labelWidth:64,
+                    anchor: '100%'
+                },
+                items: [{
+                	width:'100%',
+					xtype : 'textfield',
+					fieldLabel : '出差目的',
+					name:'visitAim'
+				}]
+            },{
+                defaults: {
+                    labelWidth:64,
+                    anchor: '100%'
+                },
+                items: [ {
+                	width:'33%',
+					xtype : 'textfield',
+					fieldLabel : '对方联系',
+					name:'customer'
+				}, {
+                	width:'33%',
+					xtype : 'textfield',
+					fieldLabel : '电话',
+					name:'phone'
+				}, {
+                	width:'34%',
+					xtype : 'textfield',
+					fieldLabel : '邮箱',
+					name:'email'
+				}]
+            },{
+                defaults: {
+                    labelWidth:64,
+                    anchor: '100%'
+                },
+                items: [ {
+                	width:'100%',
+					xtype : 'textfield',
+					fieldLabel : '同行人',
+					name:'company'
+				}]
+            }]
+        }, {
+            xtype: 'fieldset',
+            title: '出访内容',
+            collapsible: false,
+            defaults: {
+                border: false,
+                bodyStyle: 'background:#dfe9f5',
+                layout: {
+                    type: 'hbox',
+                    defaultMargins: {top: 0, right: 5, bottom: 5, left: 0}
+                }
+            },
+            items: [{
+                items: [{
+                	width:'5%',
+					xtype : 'text',
+					text : '编号',
+					height : 18
+				},{
+                	width:'30%',
+					xtype : 'text',
+					text : '处理事项简述',
+					height : 18
+				},{
+                	width:'65%',
+					xtype : 'text',
+					text : '总结摘要',
+					height : 18
+				}]
+            },{
+                items: [{
+                	width:'5%',
+					xtype : 'textarea',
+					value :"\n  1",
+					height :50
+				},{
+                	width:'30%',
+					xtype : 'textarea',
+					name : 'desc1',
+					height :50
+				},{
+                	width:'65%',
+					xtype : 'textarea',
+					name : 'abstract1',
+					height :50
+				}]
+            },{
+                items: [{
+                	width:'5%',
+					xtype : 'textarea',
+					value :"\n  2",
+					height :50
+				},{
+                	width:'30%',
+					xtype : 'textarea',
+					name : 'desc2',
+					height :50
+				},{
+                	width:'65%',
+					xtype : 'textarea',
+					name : 'abstract2',
+					height :50
+				}]
+            },{
+                items: [{
+                	width:'5%',
+					xtype : 'textarea',
+					value :"\n  3",
+					height :50
+				},{
+                	width:'30%',
+					xtype : 'textarea',
+					name :'desc3',
+					height :50
+				},{
+                	width:'65%',
+					xtype : 'textarea',
+					name : 'abstract3',
+					height :50
+				}]
+            },{
+                items: [{
+                	width:'5%',
+					xtype : 'textarea',
+					value :"\n  4",
+					height :50
+				},{
+                	width:'30%',
+					xtype : 'textarea',
+					name : 'desc4',
+					height :50
+				},{
+                	width:'65%',
+					xtype : 'textarea',
+					name : 'abstract4',
+					height :50
+				}]
+            }]
+        }, {
+            xtype: 'fieldset',
+            title: '出差费用',
+            collapsible: false,
+            defaults: {
+                border: false,
+                bodyStyle: 'background:#dfe9f5',
+                layout: {
+                    type: 'hbox',
+                    defaultMargins: {top: 0, right: 5, bottom: 5, left: 0}
+                }
+            },
+            items: [{
+                defaults: {
+                    labelWidth:64,
+                    anchor: '100%'
+                },
+                items: [{
+                	width:'33%',
+					xtype : 'textfield',
+					fieldLabel : '车\机票',
+					name:'ticket'
+				}, {
+                	width:'33%',
+					xtype : 'textfield',
+					fieldLabel : '住宿',
+					name:'accommodation'
+				}, {
+                	width:'34%',
+					xtype : 'textfield',
+					fieldLabel : '当地交通',
+					name:'transportation'
+				}]
+            },{
+                defaults: {
+                    labelWidth:64,
+                    anchor: '100%'
+                },
+                items: [{
+                	width:'33%',
+					xtype : 'textfield',
+					fieldLabel : '餐费',
+					name:'meals'
+				}, {
+                	width:'33%',
+					xtype : 'textfield',
+					fieldLabel : '补贴',
+					name:'subsidy'
+				}, {
+                	width:'34%',
+					xtype : 'textfield',
+					fieldLabel : '人数',
+					name:'number'
+				}]
+            },{
+                defaults: {
+                    labelWidth:64,
+                    anchor: '100%',
+                    xtype:'textfield'
+                },
+                items: [{
+                	width:'100%',
+					xtype : 'textfield',
+					fieldLabel : '总计',
+					name:'sum',
+                    listeners : {
+                        focus : function(tf) {
+                            var total = 0;
+                            var tic = form.getForm().findField('ticket').getValue();
+                            var acc = form.getForm().findField('accommodation').getValue();
+                            var tra = form.getForm().findField('transportation').getValue();
+                            var mea = form.getForm().findField('meals').getValue();
+                            var sub = form.getForm().findField('subsidy').getValue();
+                            var num = form.getForm().findField('number').getValue();
+                            var t1 = (tic=="")?0:parseInt(tic);
+                            var t2 = (acc=="")?0:parseInt(acc);
+                            var t3 = (tra=="")?0:parseInt(tra);
+                            var t4 = (mea=="")?0:parseInt(mea);
+                            var t5 = (sub=="")?0:parseInt(sub);
+                            var i = (num=="")?0:parseInt(num);
+                            total = t1 + t2 + t3 + t4 + t5;
+                            tf.setValue((total * i));
+                        }
+                    }
+				}]
+            }]
+        }],
+		buttons : [{
+			text : '提交',
+			handler:submitForm
+		}, {
+			text : '取消',
+			handler : function() {
+				win.close();
+			}
+		}]
+	});
 			
 	var win = new top.Ext.Window({
     	layout : 'fit',
@@ -575,12 +527,12 @@ Ext.onReady(function() {
 	    	form.isAdd=false;	    	
 			form.getForm().loadRecord(record[0]);	
 			if(judge){//当天的日志，设置只读为false
-				win.setTitle('修改日志');
+				win.setTitle('修改访问报告');
 				form.getForm().getFields().each(function(field) {	        
 		        field.setReadOnly(false);  
 	            })
 			}else{//非当天的日志，设置只读为true
-				win.setTitle('查看日志');
+				win.setTitle('查看访问报告');
 				form.getForm().getFields().each(function(field) {		        
 		        field.setReadOnly(true);  
 	            })
@@ -591,75 +543,21 @@ Ext.onReady(function() {
 		}
     };
     
-    // 删除日志
-    function deletereport(){
-    	var records=grid.getSelectionModel().getSelection();
-    	if(records.length==0){
-    		top.Ext.Msg.show({title:'错误', msg:'请至少选择一条记录进行删除！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
-    		return;
-    	}
-    	Ext.Msg.confirm('提示','您确定要删除所选日志吗？',function(btnID){
-    		if(btnID=='yes'){
-    			deleteJRecords(records)
-    		}
-    	});
-    };
-    
-    // 执行删除操作
-    function deleteJRecords(records){
-    	var reportIds="";
-    	for(var i=0;i<records.length;i++){
-    		var id=records[i].get('reportId');
-    		if(i==0){
-    			reportIds+=id;
-    		}else{
-    			reportIds=reportIds+','+id;
-    		}
-    	}
-    	var msgTip =top.Ext.Msg.show({
-    		title:'提示',
-    		width:250,
-    		msg:'正在删除部门信息，请稍等...'
-    	});
-    	Ext.Ajax.request({
-    		url:'jour_delete.action',
-    		params:{reportIds:reportIds},
-    		method:'POST',
-    		success:function(response,options){
-    			msgTip.hide();
-    			var result=Ext.JSON.decode(response.responseText);
-    			if(result.success){
-			    	for(var i=0;i<records.length;i++){
-			    		var index=reportStore.find('reportId',records[i].get('reportId'));
-			    		if(index!=-1){
-			    			var rec=reportStore.getAt(index);
-			    			reportStore.remove(rec);
-			    			grid.getView().refresh();
-			    		}
-			    	}
-    				top.Ext.Msg.show({title:'提示', msg:'删除日志信息成功！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
-    			}else{
-    				top.Ext.Msg.show({title:'提示', msg:'删除日志信息失败！',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
-    			}
-    		}
-    	});
-    };
-    
     function submitForm(){
     	if(form.form.isValid()){
     	if(form.isAdd){
     		form.form.submit({
 	    		waitMsg:'正在提交数据，请稍后...',
 				waitTitle:'提示',
-				url:'jour_addPer.action',
+				url:'report_addPer.action',
 				method:'POST',
     			success:function(form,action){
     				win.hide();
 					updateGrid(action.result.msg);
-    				top.Ext.Msg.show({title:'提示', msg:'新增日志成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+    				top.Ext.Msg.show({title:'提示', msg:'新增访问报告成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
     			},
     			failure:function(form,action){
-    				top.Ext.Msg.show({title:'提示', msg:'新增日志失败，所填内容有误。',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+    				top.Ext.Msg.show({title:'提示', msg:'新增访问报告失败，所填内容有误。',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
     			}
     		});
     	}else{			
@@ -668,19 +566,19 @@ Ext.onReady(function() {
 			    form.form.submit({
 	    		waitMsg:'正在提交数据，请稍后...',
 				waitTitle:'提示',
-				url:'jour_update.action',
+				url:'report_update.action',
 				method:'POST',
 				success:function(form,action){
 					win.hide();
 					updateGrid(action.result.msg);
-					top.Ext.Msg.show({title:'提示', msg:'修改日志成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+					top.Ext.Msg.show({title:'提示', msg:'修改访问报告成功',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
 				},
 				failure:function(form,action){
-					top.Ext.Msg.show({title:'提示', msg:'修改日志失败，所填内容有误。',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
+					top.Ext.Msg.show({title:'提示', msg:'修改访问报告失败，所填内容有误。',icon:Ext.Msg.ERROR,buttons:Ext.Msg.OK});
 				}})							
-				}else{
-				top.Ext.Msg.show({title:'提示', msg:'不可以修改非当天提交的日志！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
-				}    		
+			}else{
+				top.Ext.Msg.show({title:'提示', msg:'不可以修改非当天提交的访问报告！',icon:Ext.Msg.INFO,buttons:Ext.Msg.OK});
+			}    		
     	}
     	}else{alert('验证不通过。请按提示正确填写表单，不可出现红色下划线。');}
     };
@@ -717,7 +615,15 @@ Ext.onReady(function() {
 	            meals:values['meals'],
 	            subsidy:values['subsidy'],
 	            sum:values['sum'],
-	            number:values['number']
+	            number:values['number'],
+	            desc1:values['desc1'],
+	            abstract1:values['abstract1'],
+	            desc2:values['desc2'],
+	            abstract2:values['abstract2'],
+	            desc3:values['desc3'],
+	            abstract3:values['abstract3'],
+	            desc4:values['desc4'],
+	            abstract4:values['abstract4']
     		},'report');
     		reportStore.add(rec);
     	}
@@ -741,9 +647,9 @@ Ext.onReady(function() {
     	var msg;
     	var reportIds="";
     	if(records.length==0){
-    		msg="您确定要导出所有工作日志吗？";
+    		msg="您确定要导出所有访问报告吗？";
     	}else{
-    		msg="您确定要导出所选的工作日志吗？";
+    		msg="您确定要导出所选的访问报告吗？";
 	    	for(var i=0;i<records.length;i++){
 	    		var id=records[i].get('reportId');
 	    		if(i==0){
@@ -755,7 +661,7 @@ Ext.onReady(function() {
     	}
     	top.Ext.Msg.confirm('提示',msg,function(btnID){
     		if(btnID=='yes'){
-    			window.location.href='byjx/jour_exportPer.action?reportIds='+reportIds;
+    			window.location.href='byjx/report_exportPer.action?reportIds='+reportIds;
     		}
 		});
     }

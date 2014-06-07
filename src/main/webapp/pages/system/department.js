@@ -217,7 +217,7 @@ Ext.onReady(function () {
 		items : manageStaff
     });
     //新增、修改部门的弹出框
-    var win = new top.Ext.Window({
+    var win = new Ext.Window({
     	layout : 'fit',
 		width :350,
 		height : 230,

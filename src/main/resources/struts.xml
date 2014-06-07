@@ -192,7 +192,7 @@
 	</package>
 	<!-- smz_end -->
 	
-	<package name="VisitReport" extends="json-default" >
+	<package name="visitReport" extends="json-default" >
 		<action name="report_add" method="addReport" class="visitReportAction" >
 		<result name="success" type="json"/>
 		</action>
@@ -210,6 +210,22 @@
 		</action>
 		<action name="report_getAllPer" method="getAllReportPer" class="visitReportAction" >
 		<result name="success" type="json"/>
+		</action>
+		<action name="report_exportPer" method="exportReportPer" class="visitReportAction" >
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">excelStream</param>
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+		<action name="report_export" method="exportReport" class="visitReportAction" >
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">excelStream</param>
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				<param name="bufferSize">1024</param>
+			</result>
 		</action>
 	</package>
 	

@@ -190,7 +190,15 @@
             {name:'meals',type:'int'},
             {name:'subsidy',type:'int'},
             {name:'sum',type:'int'},
-            {name:'number',type:'int'}
+            {name:'number',type:'int'},
+            {name:'desc1',type:'string'},
+            {name:'abstract1',type:'string'},
+            {name:'desc2',type:'string'},
+            {name:'abstract2',type:'string'},
+            {name:'desc3',type:'string'},
+            {name:'abstract3',type:'string'},
+            {name:'desc4',type:'string'},
+            {name:'abstract4',type:'string'}
          ]
     })
 	
