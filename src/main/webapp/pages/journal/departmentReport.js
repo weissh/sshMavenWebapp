@@ -872,7 +872,7 @@ Ext.onReady(function() {
     };
     
     //导出日志到excel
-    function exportreport(){
+    function exportReport(){
     	var records=grid.getSelectionModel().getSelection();
     	var msg;
     	var reportIds="";
