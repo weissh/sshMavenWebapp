@@ -25,8 +25,8 @@ public class DepartmentModel {
 	private Integer departmentId;
 	private String departmentName;
 	private Date createTime;
-	private Integer managerId;
-	private String managerName;
+//	private Integer managerId;
+//	private String managerName;
 	private Integer totalStaff;
 	private String description;
 	
@@ -48,18 +48,6 @@ public class DepartmentModel {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	public Integer getManagerId() {
-		return managerId;
-	}
-	public void setManagerId(Integer managerId) {
-		this.managerId = managerId;
-	}
-	public String getManagerName() {
-		return managerName;
-	}
-	public void setManagerName(String managerName) {
-		this.managerName = managerName;
-	}
 	public Integer getTotalStaff() {
 		return totalStaff;
 	}
@@ -77,8 +65,6 @@ public class DepartmentModel {
 		this.departmentId=department.getDepartmentId();
 		this.departmentName = department.getDepartmentName();
 		this.createTime=department.getCreateTime();
-		this.managerId = department.getManagerId();
-		this.managerName=department.getManagerName();
 		this.totalStaff = department.getTotalStaff();
 		this.description = department.getDescription();
 	}

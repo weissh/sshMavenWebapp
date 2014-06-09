@@ -417,6 +417,14 @@ public class StaffAction extends BaseAction{
 //		if((department.getManagerId()!=null&&department.getManagerId()!=0)&&position.equals("部门经理")){
 //			this.printString(false, "该部门已存在部门经理！");
 //		}else{
+//		if(department.getManagerA() != null && department.getManagerA() != "" && position.equals("部门经理A")){
+//			this.printString(false, "该部门已存在部门经理A！");
+//			return null;
+//		}
+//		if(department.getManagerB() != null && department.getManagerB() != "" && position.equals("部门经理B")){
+//			this.printString(false, "该部门已存在部门经理B！");
+//			return null;
+//		}
 		Role role =this.roleService.find(roleId);
 		Staff staff=new Staff(department, null, staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password, null, role, null);
 		savePhoto(staff);
@@ -485,6 +493,14 @@ public class StaffAction extends BaseAction{
 //		if(department.getManagerId()!=null&&department.getManagerId()!=staffId&&department.getManagerId()!=0&&position.equals("部门经理")){
 //			this.printString(false, "该部门已存在部门经理！");
 //		}else{
+//		if(department.getManagerA() != null && department.getManagerA() != "" && position.equals("部门经理A")){
+//			this.printString(false, "该部门已存在部门经理A！");
+//			return null;
+//		}
+//		if(department.getManagerB() != null && department.getManagerB() != "" && position.equals("部门经理B")){
+//			this.printString(false, "该部门已存在部门经理B！");
+//			return null;
+//		}
 		Role role =this.roleService.find(roleId);
 		Staff staff=new Staff(department, photoPath,staffName, entryTime, position, phone, email, urgentContact, ucPhone, gender, nationality, politicalStatus, age, birthday, maritalStatus, idNo, passportNo, nativePlace, domicilePlace, dateOfRecruitment, currentAddress, zipCode, graduateSchool, hightestEdu, hightestDegree, major, schoolSystem, userName, password);
 		staff.setStaffId(staffId);

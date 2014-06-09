@@ -17,8 +17,10 @@ public class Department implements java.io.Serializable {
 	private Integer departmentId;
 	private String departmentName;
 	private Date createTime;
-	private Integer managerId;
-	private String managerName;
+//	private Integer managerId;
+//	private String managerName;
+//	private String managerA;
+//	private String managerB;
 	private Integer totalStaff;
 	private String description;
 	private Set<Staff> staffs = new HashSet<Staff>(0);
@@ -43,11 +45,10 @@ public class Department implements java.io.Serializable {
 	}
 	
 	/** full constructor */
-	public Department(String departmentName, Date createTime, Integer managerId,
+	public Department(String departmentName, Date createTime,
 			Integer totalStaff, String description, Set<Staff> staffs) {
 		this.departmentName = departmentName;
 		this.createTime=createTime;
-		this.managerId = managerId;
 		this.totalStaff = totalStaff;
 		this.description = description;
 		this.staffs = staffs;
@@ -77,22 +78,6 @@ public class Department implements java.io.Serializable {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
-	}
-
-	public Integer getManagerId() {
-		return this.managerId;
-	}
-
-	public String getManagerName() {
-		return managerName;
-	}
-
-	public void setManagerName(String managerName) {
-		this.managerName = managerName;
-	}
-
-	public void setManagerId(Integer managerId) {
-		this.managerId = managerId;
 	}
 
 	public Integer getTotalStaff() {

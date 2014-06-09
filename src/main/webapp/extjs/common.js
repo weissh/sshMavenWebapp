@@ -36,8 +36,6 @@
 			{name: 'departmentId', type: 'int'},
 			{name:'departmentName'},
 			{name:'createTime',type: 'date', dateFormat:'Y-m-d'},
-			{name:'managerId'},
-			{name:'managerName'},
 			{name:'totalStaff'},
 			{name:'description'}
 		]

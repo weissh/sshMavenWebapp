@@ -25,7 +25,7 @@ import pojos.Department;
 public class DepartmentUI {
 	/** 需要导出的字段的get方法名，需与pojo中的一致 */
 	private static String[] columnMethods = new String[] { "getDepartmentId",
-			"getDepartmentName", "getManagerName", "getTotalStaff",
+			"getDepartmentName", "getTotalStaff",
 			"getCreateTime", "getDescription" };
 
 	/**
@@ -47,7 +47,6 @@ public class DepartmentUI {
 		Vector<String> head = new Vector<String>();
 		head.add("部门编号");
 		head.add("部门名称");
-		head.add("部门经理");
 		head.add("部门人数");
 		head.add("成立时间");
 		head.add("部门描述");

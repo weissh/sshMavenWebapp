@@ -60,8 +60,6 @@ Ext.onReady(function () {
             Ext.create('Ext.grid.RowNumberer'),
             {text: "部门编号", flex: 0.2, sortable: true, dataIndex: 'departmentId'},
             {text: "部门名称", flex: 0.2, sortable: true,dataIndex: 'departmentName'},
-            {text: "部门经理工号", flex: 0.2, sortable: true, dataIndex: 'managerId',hidden:true},
-            {text: "部门经理", flex: 0.2, sortable: true, dataIndex: 'managerName'},
             {text: "总员工数",flex: 0.2, sortable: true, dataIndex: 'totalStaff'},
             {
         		text: "成立时间", 
@@ -102,14 +100,6 @@ Ext.onReady(function () {
         	xtype:'textfield',
         	hidden:true,
         	name:'totalStaff'
-        },{
-        	xtype:'textfield',
-        	hidden:true,
-        	name:'managerId'
-        },{
-        	xtype:'textfield',
-        	hidden:true,
-        	name:'managerName'
         },{
         	xtype:'textfield',
         	fieldLabel : '部门名称',
