@@ -263,7 +263,7 @@ Ext.onReady(function() {
 		height:'100%',
 		border:false,
 		layout:'fit',
-		store:reportStore,
+		// store:reportStore,
 		selModel:{selType:'checkboxmodel'},
 		viewConfig:{
 			forceFit:true
@@ -292,18 +292,18 @@ Ext.onReady(function() {
             {text: "差补", width: 70, sortable: true, align:'center', dataIndex: 'subsidy'},
             {text: "总计", width: 70, sortable: true, align:'center', dataIndex: 'sum'},
             {text: "人数", width: 70, sortable: true, align:'center', dataIndex: 'number'},
-            {width: 70, sortable: true, align:'center', dataIndex: 'desc1', hidden: true},
-            {width: 70, sortable: true, align:'center', dataIndex: 'abstract1', hidden :true},
-            {width: 70, sortable: true, align:'center', dataIndex: 'desc2', hidden: true},
-            {width: 70, sortable: true, align:'center', dataIndex: 'abstract2', hidden :true},
-            {width: 70, sortable: true, align:'center', dataIndex: 'desc3', hidden: true},
-            {width: 70, sortable: true, align:'center', dataIndex: 'abstract3', hidden :true},
-            {width: 70, sortable: true, align:'center', dataIndex: 'desc4', hidden: true},
-            {width: 70, sortable: true, align:'center', dataIndex: 'abstract4', hidden :true},
+            {text: "描述1", width: 70, sortable: true, align:'center', dataIndex: 'desc1', hidden: true},
+            {text: "摘要1", width: 70, sortable: true, align:'center', dataIndex: 'abstract1', hidden :true},
+            {text: "描述2", width: 70, sortable: true, align:'center', dataIndex: 'desc2', hidden: true},
+            {text: "摘要2", width: 70, sortable: true, align:'center', dataIndex: 'abstract2', hidden :true},
+            {text: "描述3", width: 70, sortable: true, align:'center', dataIndex: 'desc3', hidden: true},
+            {text: "摘要3", width: 70, sortable: true, align:'center', dataIndex: 'abstract3', hidden :true},
+            {text: "描述4", width: 70, sortable: true, align:'center', dataIndex: 'desc4', hidden: true},
+            {text: "摘要4", width: 70, sortable: true, align:'center', dataIndex: 'abstract4', hidden :true}
         ],
 		bbar:new Ext.PagingToolbar({
         	pageSize:20,
-            store: reportStore,
+            // store: reportStore,
             displayInfo: true
         }),
         renderTo: Ext.getBody()
